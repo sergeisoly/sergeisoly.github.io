@@ -1,0 +1,28 @@
+---
+title: "Research"
+description: "Research and writing by Sergei Solovev."
+body-classes: personal-home personal-page
+listing:
+  id: recent-writing
+  contents: posts
+  sort: "date desc"
+  date-format: "D MMM YYYY"
+  template: _writing-list.ejs.md
+  template-params:
+    limit: 3
+    home: true
+---
+
+::: {.featured-work}
+## [Editing and repairing language models](/interesearch/)
+
+Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.
+
+::: {.study-links}
+[Selective language editing](/interesearch/selective-editing/explainer.html) ·
+[Repair transfer](/interesearch/repair-transfer/explainer.html)
+:::
+:::
+
+::: {#recent-writing}
+:::

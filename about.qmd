@@ -1,0 +1,9 @@
+---
+title: "About"
+description: "About Sergei Solovev and contact information."
+body-classes: personal-page
+---
+
+I'm interested in different types of research. I consider myself a Buddhist. I have a chinchilla.
+
+[sergeisoly@gmail.com](mailto:sergeisoly@gmail.com) · [LinkedIn](https://www.linkedin.com/in/sergeisoly) · [GitHub](https://github.com/sergeisoly)

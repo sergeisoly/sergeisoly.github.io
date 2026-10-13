@@ -1,0 +1,35 @@
+---
+title: "Research"
+description: "Studies of language-model behaviour, with visual explanations, papers, and reproducible code."
+body-classes: personal-page
+---
+
+## Editing and repairing language models
+
+[Project overview](/interesearch/)
+
+::: {.research-entry}
+### Selective language editing
+
+I compare weight edits aimed at weakening one language while sparing a close relative. In Goodfire’s small model, selected subcomponent edits caused less damage to the related language than learned updates and neuron edits calibrated to the same target effect on validation text. The learned updates preserved English predictions better.
+
+[Visual guide](/interesearch/selective-editing/explainer.html){.primary-link}
+
+::: {.resource-links}
+[Paper](/interesearch/selective-editing/) · [PDF](/interesearch/selective-editing/index.pdf) ·
+[Study guide on GitHub](https://github.com/sergeisoly/interesearch/blob/main/papers/guides/selective-editing.md)
+:::
+:::
+
+::: {.research-entry}
+### Repair transfer
+
+I test ways to reuse an earlier repair on two fine-tunes trained independently from the same base model on samples from the same data distribution. Using the repair as an initialization removed more Dutch damage than fresh fitting when data and steps were limited, while fresh fitting nearly caught up at the full budget. Rescaling the repair's fixed directions left more Dutch damage.
+
+[Visual guide](/interesearch/repair-transfer/explainer.html){.primary-link}
+
+::: {.resource-links}
+[Paper](/interesearch/repair-transfer/) · [PDF](/interesearch/repair-transfer/index.pdf) ·
+[Study guide on GitHub](https://github.com/sergeisoly/interesearch/blob/main/papers/guides/repair-transfer.md)
+:::
+:::

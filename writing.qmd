@@ -1,0 +1,15 @@
+---
+title: "Writing"
+description: "Essays, notes, and observations by Sergei Solovev."
+listing:
+  id: all-writing
+  contents: posts
+  sort: "date desc"
+  template: _writing-list.ejs.md
+  feed: true
+  date-format: "D MMM YYYY"
+body-classes: personal-page
+---
+
+::: {#all-writing}
+:::

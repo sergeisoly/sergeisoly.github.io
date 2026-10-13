@@ -1,0 +1,44 @@
+project:
+  type: website
+  output-dir: _site
+  post-render: python3 scripts/prune-empty-drafts.py
+  resources:
+    - robots.txt
+  render:
+    - index.qmd
+    - research.qmd
+    - writing.qmd
+    - about.qmd
+    - "posts/**/index.qmd"
+
+website:
+  title: Sergei Solovev
+  favicon: favicon.svg
+  image: social-card.png
+  open-graph: true
+  twitter-card: true
+  site-url: https://sergeisoly.github.io/
+  description: "Research and writing by Sergei Solovev."
+  navbar:
+    collapse-below: sm
+    left:
+      - href: research.qmd
+        text: Research
+      - href: writing.qmd
+        text: Writing
+      - href: about.qmd
+        text: About
+  page-footer:
+    right:
+      - text: RSS
+        href: writing.xml
+
+format:
+  html:
+    theme: cosmo
+    html-math-method: plain
+    css: styles.css
+    toc: false
+
+execute:
+  eval: false
