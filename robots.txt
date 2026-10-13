@@ -1,0 +1,2 @@
+Sitemap: https://sergeisoly.github.io/sitemap.xml
+Sitemap: https://sergeisoly.github.io/interesearch/sitemap.xml

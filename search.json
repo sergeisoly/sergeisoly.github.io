@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I’m interested in different types of research. I consider myself a Buddhist. I have a chinchilla.\nsergeisoly@gmail.com · LinkedIn · GitHub"
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "Research",
+    "section": "",
+    "text": "Project overview\n\n\nI compare weight edits aimed at weakening one language while sparing a close relative. In Goodfire’s small model, selected subcomponent edits caused less damage to the related language than learned updates and neuron edits calibrated to the same target effect on validation text. The learned updates preserved English predictions better.\nVisual guide\n\nPaper · PDF · Study guide on GitHub\n\n\n\n\nI test ways to reuse an earlier repair on two fine-tunes trained independently from the same base model on samples from the same data distribution. Using the repair as an initialization removed more Dutch damage than fresh fitting when data and steps were limited, while fresh fitting nearly caught up at the full budget. Rescaling the repair’s fixed directions left more Dutch damage.\nVisual guide\n\nPaper · PDF · Study guide on GitHub"
+  },
+  {
+    "objectID": "research.html#editing-and-repairing-language-models",
+    "href": "research.html#editing-and-repairing-language-models",
+    "title": "Research",
+    "section": "",
+    "text": "Project overview\n\n\nI compare weight edits aimed at weakening one language while sparing a close relative. In Goodfire’s small model, selected subcomponent edits caused less damage to the related language than learned updates and neuron edits calibrated to the same target effect on validation text. The learned updates preserved English predictions better.\nVisual guide\n\nPaper · PDF · Study guide on GitHub\n\n\n\n\nI test ways to reuse an earlier repair on two fine-tunes trained independently from the same base model on samples from the same data distribution. Using the repair as an initialization removed more Dutch damage than fresh fitting when data and steps were limited, while fresh fitting nearly caught up at the full budget. Rescaling the repair’s fixed directions left more Dutch damage.\nVisual guide\n\nPaper · PDF · Study guide on GitHub"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Research",
+    "section": "",
+    "text": "Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\nSelective language editing · Repair transfer"
+  },
+  {
+    "objectID": "index.html#editing-and-repairing-language-models",
+    "href": "index.html#editing-and-repairing-language-models",
+    "title": "Research",
+    "section": "",
+    "text": "Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\nSelective language editing · Repair transfer"
+  },
+  {
+    "objectID": "writing.html",
+    "href": "writing.html",
+    "title": "Writing",
+    "section": "",
+    "text": "No posts yet.\n\nNo matching items"
+  }
+]
