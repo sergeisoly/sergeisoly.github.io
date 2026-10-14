@@ -11,14 +11,14 @@
     "href": "research.html",
     "title": "Research",
     "section": "",
-    "text": "Project overview\n\n\nI compare weight edits aimed at weakening one language while sparing a close relative. In Goodfire’s small model, selected subcomponent edits caused less damage to the related language than learned updates and neuron edits calibrated to the same target effect on validation text. The learned updates preserved English predictions better.\nVisual guide\n\nPaper · PDF · Study guide on GitHub\n\n\n\n\nI test ways to reuse an earlier repair on two fine-tunes trained independently from the same base model on samples from the same data distribution. Using the repair as an initialization removed more Dutch damage than fresh fitting when data and steps were limited, while fresh fitting nearly caught up at the full budget. Rescaling the repair’s fixed directions left more Dutch damage.\nVisual guide\n\nPaper · PDF · Study guide on GitHub"
+    "text": "The work presented here is my attempt to understand interpretability and model editing methods more deeply. By building on recent advances and trying to find something new, I also learn what others have done before me. For me, the best way to learn is through practice.\nAlthough these studies are written in the form of research papers, I’m not yet confident that I can call them rigorous scientific work. I’m sharing them in the hope that they may be useful to someone besides me."
   },
   {
-    "objectID": "research.html#editing-and-repairing-language-models",
-    "href": "research.html#editing-and-repairing-language-models",
+    "objectID": "research.html#some-studies-of-language-model-weight-edits",
+    "href": "research.html#some-studies-of-language-model-weight-edits",
     "title": "Research",
     "section": "",
-    "text": "Project overview\n\n\nI compare weight edits aimed at weakening one language while sparing a close relative. In Goodfire’s small model, selected subcomponent edits caused less damage to the related language than learned updates and neuron edits calibrated to the same target effect on validation text. The learned updates preserved English predictions better.\nVisual guide\n\nPaper · PDF · Study guide on GitHub\n\n\n\n\nI test ways to reuse an earlier repair on two fine-tunes trained independently from the same base model on samples from the same data distribution. Using the repair as an initialization removed more Dutch damage than fresh fitting when data and steps were limited, while fresh fitting nearly caught up at the full budget. Rescaling the repair’s fixed directions left more Dutch damage.\nVisual guide\n\nPaper · PDF · Study guide on GitHub"
+    "text": "The work presented here is my attempt to understand interpretability and model editing methods more deeply. By building on recent advances and trying to find something new, I also learn what others have done before me. For me, the best way to learn is through practice.\nAlthough these studies are written in the form of research papers, I’m not yet confident that I can call them rigorous scientific work. I’m sharing them in the hope that they may be useful to someone besides me."
   },
   {
     "objectID": "index.html",
@@ -28,8 +28,8 @@
     "text": "Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\nSelective language editing · Repair transfer"
   },
   {
-    "objectID": "index.html#editing-and-repairing-language-models",
-    "href": "index.html#editing-and-repairing-language-models",
+    "objectID": "index.html#some-studies-of-language-model-weight-edits",
+    "href": "index.html#some-studies-of-language-model-weight-edits",
     "title": "Research",
     "section": "",
     "text": "Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\nSelective language editing · Repair transfer"

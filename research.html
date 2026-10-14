@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Studies of language-model behaviour, with visual explanations, papers, and reproducible code.">
+<meta name="description" content="Studies of language-model behaviour, with short summaries, papers, and reproducible code.">
 
 <title>Research – Sergei Solovev</title>
 <style>
@@ -80,13 +80,13 @@ ul.task-list li input[type="checkbox"] {
 
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Research – Sergei Solovev">
-<meta property="og:description" content="Studies of language-model behaviour, with visual explanations, papers, and reproducible code.">
+<meta property="og:description" content="Studies of language-model behaviour, with short summaries, papers, and reproducible code.">
 <meta property="og:image" content="https://sergeisoly.github.io/social-card.png">
 <meta property="og:site_name" content="Sergei Solovev">
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
 <meta name="twitter:title" content="Research – Sergei Solovev">
-<meta name="twitter:description" content="Studies of language-model behaviour, with visual explanations, papers, and reproducible code.">
+<meta name="twitter:description" content="Studies of language-model behaviour, with short summaries, papers, and reproducible code.">
 <meta name="twitter:image" content="https://sergeisoly.github.io/social-card.png">
 <meta name="twitter:image-height" content="630">
 <meta name="twitter:image-width" content="1200">
@@ -144,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Studies of language-model behaviour, with visual explanations, papers, and reproducible code.
+    Studies of language-model behaviour, with short summaries, papers, and reproducible code.
   </div>
 </div>
 
@@ -161,28 +161,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="editing-and-repairing-language-models" class="level2">
-<h2 class="anchored" data-anchor-id="editing-and-repairing-language-models">Editing and repairing language models</h2>
-<p><a href="./interesearch/">Project overview</a></p>
-<section id="selective-language-editing" class="level3 research-entry">
-<h3 class="anchored" data-anchor-id="selective-language-editing">Selective language editing</h3>
-<p>I compare weight edits aimed at weakening one language while sparing a close relative. In Goodfire’s small model, selected subcomponent edits caused less damage to the related language than learned updates and neuron edits calibrated to the same target effect on validation text. The learned updates preserved English predictions better.</p>
-<p><a href="./interesearch/selective-editing/explainer.html" class="primary-link">Visual guide</a></p>
-<div class="resource-links">
-<p><a href="./interesearch/selective-editing/">Paper</a> · <a href="./interesearch/selective-editing/index.pdf">PDF</a> · <a href="https://github.com/sergeisoly/interesearch/blob/main/papers/guides/selective-editing.md">Study guide on GitHub</a></p>
-</div>
-</section>
-<section id="repair-transfer" class="level3 research-entry">
-<h3 class="anchored" data-anchor-id="repair-transfer">Repair transfer</h3>
-<p>I test ways to reuse an earlier repair on two fine-tunes trained independently from the same base model on samples from the same data distribution. Using the repair as an initialization removed more Dutch damage than fresh fitting when data and steps were limited, while fresh fitting nearly caught up at the full budget. Rescaling the repair’s fixed directions left more Dutch damage.</p>
-<p><a href="./interesearch/repair-transfer/explainer.html" class="primary-link">Visual guide</a></p>
-<div class="resource-links">
-<p><a href="./interesearch/repair-transfer/">Paper</a> · <a href="./interesearch/repair-transfer/index.pdf">PDF</a> · <a href="https://github.com/sergeisoly/interesearch/blob/main/papers/guides/repair-transfer.md">Study guide on GitHub</a></p>
-</div>
+<section id="some-studies-of-language-model-weight-edits" class="level2 research-entry">
+<h2 class="anchored" data-anchor-id="some-studies-of-language-model-weight-edits"><a href="./interesearch/">Some Studies of Language Model Weight Edits</a></h2>
+<p>The work presented here is my attempt to understand interpretability and model editing methods more deeply. By building on recent advances and trying to find something new, I also learn what others have done before me. For me, the best way to learn is through practice.</p>
+<p>Although these studies are written in the form of research papers, I’m not yet confident that I can call them rigorous scientific work. I’m sharing them in the hope that they may be useful to someone besides me.</p>
 </section>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
