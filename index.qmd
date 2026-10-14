@@ -14,7 +14,7 @@ listing:
 ---
 
 ::: {.featured-work}
-## [Editing and repairing language models](/interesearch/)
+## [Some Studies of Language Model Weight Edits](/interesearch/)
 
 Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.
 

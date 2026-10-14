@@ -11,7 +11,7 @@ Site address: `https://sergeisoly.github.io/`.
 - `about.qmd`: the author's chosen personal introduction and contact links.
 - `posts/<slug>/index.qmd`: one entry, with any supporting images beside it.
 
-The separate `interesearch` repository owns the code, exported measurements, papers, PDFs, and visual guides.
+The separate `interesearch` repository owns the code, exported measurements, papers, PDFs, and short summaries.
 This site links to `/interesearch/`; it does not copy paper sources or run experiments. Future research
 projects can have their own repositories and appear in the same Research catalogue.
 
@@ -60,7 +60,7 @@ a published entry. `writing.xml` is the RSS feed. Add filters or topic pages onl
 ## Add a research project
 
 Add a section to `research.qmd`: the question, a short description, and direct links to available formats.
-Update the selected work on `index.qmd` if appropriate. A reader should be able to open the visual guide,
+Update the selected work on `index.qmd` if appropriate. A reader should be able to open the short summary,
 paper, or code directly without first visiting a project overview. Keep full results with their project.
 
 ## Hosting
