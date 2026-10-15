@@ -6,7 +6,7 @@ Site address: `https://sergeisoly.github.io/`.
 ## Structure
 
 - `index.qmd`: selected research with two direct study links; the latest three entries appear when posts are published.
-- `research.qmd`: an expandable research catalogue with direct links to each study's formats.
+- `research.qmd`: research catalogue entries with a project description and a link to each project's overview.
 - `writing.qmd`: all essays, notes, and observations in reverse chronological order.
 - `about.qmd`: the author's chosen personal introduction and contact links.
 - `posts/<slug>/index.qmd`: one entry, with any supporting images beside it.
@@ -59,9 +59,9 @@ a published entry. `writing.xml` is the RSS feed. Add filters or topic pages onl
 
 ## Add a research project
 
-Add a section to `research.qmd`: the question, a short description, and direct links to available formats.
-Update the selected work on `index.qmd` if appropriate. A reader should be able to open the short summary,
-paper, or code directly without first visiting a project overview. Keep full results with their project.
+Add a section to `research.qmd` with the question, a short description, and a link to the project overview.
+Update the selected work on `index.qmd` if appropriate. Keep study-specific format links with the project
+overview; Home may link directly to featured summaries. Keep full results with their project.
 
 ## Hosting
 
