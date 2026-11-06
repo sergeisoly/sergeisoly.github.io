@@ -98,6 +98,7 @@
 .atlas .pane .head { grid-column: 1 / -1; }
 .atlas .pane .head .meta { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
 .atlas .pane .head .meta .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.atlas .pane .head .meta .pane-close { margin-left: auto; font-size: .8rem; letter-spacing: normal; text-transform: none; font-weight: 400; }
 .atlas .pane .head h3 { font-size: 1.4rem; margin: .35rem 0 0; }
 .atlas .pane .people { color: var(--muted); font-size: .92rem; margin-top: .35rem; }
 .atlas .pane .qa { display: grid; gap: 1.1rem; align-content: start; }

@@ -1,5 +1,5 @@
 window.TIMELINE_DATA = {
- "generated": "2026-11-06",
+ "generated": "2026-11-07",
  "lanes": [
   {
    "id": "safety",
@@ -64,7 +64,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-1958-perceptron",
      "type": "parallel",
-     "note": "the neural-network strand that ran alongside symbolic AI"
+     "note": "Neural networks such as the perceptron developed alongside the symbolic AI that Dartmouth launched."
     }
    ],
    "tags": [
@@ -841,13 +841,7 @@ window.TIMELINE_DATA = {
      "kind": "primary"
     }
    ],
-   "links": [
-    {
-     "to": "safety-2014-superintelligence",
-     "type": "parallel",
-     "note": "goal-directed agent framing underlies later safety arguments"
-    }
-   ],
+   "links": [],
    "tags": [
     "agents",
     "definitions"
@@ -902,7 +896,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-2017-transformer",
      "type": "parallel",
-     "note": "the recurrent sequence models the Transformer replaced"
+     "note": "LSTMs were the recurrent sequence models that the Transformer replaced."
     }
    ],
    "tags": [
@@ -1137,7 +1131,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-1999-reward-shaping",
      "type": "parallel",
-     "note": "both ask where rewards come from"
+     "note": "Both ask where rewards come from. Shaping adds bonuses to a given reward; inverse RL infers the reward from an expert's behaviour."
     }
    ],
    "tags": [
@@ -1196,11 +1190,6 @@ window.TIMELINE_DATA = {
      "to": "safety-2019-mesa-optimization",
      "type": "enables",
      "note": "written largely by MIRI-affiliated authors"
-    },
-    {
-     "to": "safety-2014-superintelligence",
-     "type": "parallel",
-     "note": "same early community of x-risk thinkers"
     }
    ],
    "tags": [
@@ -1699,13 +1688,7 @@ window.TIMELINE_DATA = {
      "kind": "primary"
     }
    ],
-   "links": [
-    {
-     "to": "safety-2014-superintelligence",
-     "type": "parallel",
-     "note": "founded before the book appeared in July 2014; Puerto Rico followed in 2015"
-    }
-   ],
+   "links": [],
    "tags": [
     "founding",
     "field-building",
@@ -1824,7 +1807,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-2014-seq2seq",
      "type": "parallel",
-     "note": "same month; removes the fixed-length vector bottleneck"
+     "note": "Published the same month. Attention removed seq2seq's bottleneck of squeezing a whole sentence into one fixed-length vector."
     }
    ],
    "tags": [
@@ -2714,11 +2697,6 @@ window.TIMELINE_DATA = {
      "to": "safety-2016-concrete-problems",
      "type": "builds_on",
      "note": "Implements the human-feedback route to scalable oversight."
-    },
-    {
-     "to": "rl-2017-ppo",
-     "type": "parallel",
-     "note": "Later RLHF work used PPO as the RL optimiser."
     }
    ],
    "tags": [
@@ -2938,7 +2916,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-1992-td-gammon",
      "type": "parallel",
-     "note": "self-play from scratch"
+     "note": "Both learned by playing against themselves, with no expert knowledge of the game built in."
     }
    ],
    "tags": [
@@ -3060,7 +3038,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-2018-bert",
      "type": "parallel",
-     "note": "the encoder-only rival released months later"
+     "note": "BERT, released months later, pretrained the Transformer's encoder to fill in hidden words instead of predicting the next one."
     }
    ],
    "tags": [
@@ -3305,11 +3283,6 @@ window.TIMELINE_DATA = {
      "to": "lm-2018-gpt1",
      "type": "builds_on",
      "note": "a direct scale-up of GPT, with over 10x the parameters and data"
-    },
-    {
-     "to": "safety-2016-concrete-problems",
-     "type": "parallel",
-     "note": "misuse concerns shaping a lab's release decision"
     }
    ],
    "tags": [
@@ -3652,11 +3625,6 @@ window.TIMELINE_DATA = {
      "to": "rl-2017-ppo",
      "type": "builds_on",
      "note": "PPO at very large scale"
-    },
-    {
-     "to": "lm-2020-scaling-laws",
-     "type": "parallel",
-     "note": "same 'scale is the main lever' view inside OpenAI"
     }
    ],
    "tags": [
@@ -3713,11 +3681,6 @@ window.TIMELINE_DATA = {
      "to": "lm-2019-gpt2",
      "type": "builds_on",
      "note": "turned 'larger models do better' into power-law fits"
-    },
-    {
-     "to": "safety-2016-concrete-problems",
-     "type": "parallel",
-     "note": "predictable scaling made safety work more urgent"
     }
    ],
    "tags": [
@@ -4415,6 +4378,62 @@ window.TIMELINE_DATA = {
    "date_sort": "2021-09-03"
   },
   {
+   "id": "gov-2021-mats-founded",
+   "lane": "gov",
+   "date": "2021-12",
+   "date_precision": "month",
+   "date_basis": "blog post",
+   "title": "SERI MATS: a trial fellowship for new alignment researchers",
+   "label": "MATS founded",
+   "kind": "org",
+   "importance": 2,
+   "problem": "Alignment theory had few researchers. Someone who had finished an introductory reading group had no clear path to working on the problems, and little access to mentors, funding or a research community.",
+   "idea": "The Stanford Existential Risks Initiative (SERI) ran a paid six-week trial of the ML Alignment Theory Scholars programme, ten hours a week, with Evan Hubinger mentoring every scholar. Candidates came recommended by mentors from the Cambridge AGI Safety Fundamentals course. Each wrote a distillation and expansion of an earlier Alignment Forum post, and the posts went up as a sequence in December 2021. Hubinger chose who would continue to a two-month research stage. An Open Philanthropy grant paid for it.",
+   "changed": "The trial grew into a standing programme. It later dropped the SERI prefix, and by 2026 it ran 12-week fellowships in Berkeley and London, with a funded extension of 6 to 12 months. MATS counts 631 researchers since late 2021, and says 10% of its alumni co-founded AI safety organisations or research teams, Apollo Research among them.",
+   "limits": "The outcome figures come from MATS itself. They show where alumni went, not how many would have entered the field without the programme.",
+   "people": [
+    "Evan Hubinger"
+   ],
+   "orgs": [
+    "MATS"
+   ],
+   "sources": [
+    {
+     "label": "ML Alignment Theory Program under Evan Hubinger (December 2021)",
+     "url": "https://www.lesswrong.com/posts/FpokmCnbP3CEZ5h4t/ml-alignment-theory-program-under-evan-hubinger",
+     "kind": "primary"
+    },
+    {
+     "label": "MATS: programme and alumni outcomes",
+     "url": "https://www.matsprogram.org/",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2023-apollo-founded",
+     "type": "enables",
+     "note": "MATS lists Apollo Research among the organisations its alumni co-founded."
+    }
+   ],
+   "tags": [
+    "founding",
+    "fellowship",
+    "field-building"
+   ],
+   "terms": [
+    {
+     "term": "distillation",
+     "def": "A write-up that explains an existing piece of research more clearly, so that others can learn from it."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2021-12-01"
+  },
+  {
    "id": "rl-2021-webgpt",
    "lane": "rl",
    "date": "2021-12-17",
@@ -4587,7 +4606,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-2022-emergent-abilities",
      "type": "parallel",
-     "note": "cited as an emergent ability of large models"
+     "note": "Chain-of-thought prompting was cited as one example of an emergent ability."
     }
    ],
    "tags": [
@@ -4975,7 +4994,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-1995-agent-concept",
      "type": "parallel",
-     "note": "both use a perception-action loop"
+     "note": "Both describe an agent that observes, acts and then observes the result, in a loop."
     }
    ],
    "tags": [
@@ -5041,21 +5060,6 @@ window.TIMELINE_DATA = {
      "to": "rl-2017-ppo",
      "type": "builds_on",
      "note": "fine-tuned against the reward models with PPO"
-    },
-    {
-     "to": "lm-2021-flan",
-     "type": "parallel",
-     "note": "related instruction-following research"
-    },
-    {
-     "to": "gov-2023-cais-statement",
-     "type": "parallel",
-     "note": "same period of growing public and policy attention"
-    },
-    {
-     "to": "gov-2023-bletchley",
-     "type": "parallel",
-     "note": "same period of growing public and policy attention"
     }
    ],
    "tags": [
@@ -5116,11 +5120,6 @@ window.TIMELINE_DATA = {
      "to": "safety-2018-ida",
      "type": "builds_on",
      "note": "Enlists AI to help supervise AI, in the spirit of amplification."
-    },
-    {
-     "to": "gov-2023-rsp",
-     "type": "parallel",
-     "note": "Both are Anthropic attempts to make safety commitments explicit."
     }
    ],
    "tags": [
@@ -5318,11 +5317,6 @@ window.TIMELINE_DATA = {
      "to": "safety-2023-ai-control",
      "type": "parallel",
      "note": "Both ask whether unwanted actions can be prevented or caught. Injection assumes an outside attacker; control allows an adversarial model."
-    },
-    {
-     "to": "safety-2023-arc-evals-gpt4",
-     "type": "parallel",
-     "note": "Agent evaluations must separate task success from unauthorised actions. The ARC tests address a different risk."
     }
    ],
    "tags": [
@@ -5396,11 +5390,6 @@ window.TIMELINE_DATA = {
      "to": "lm-2022-chinchilla",
      "type": "builds_on",
      "note": "smaller models trained on more tokens"
-    },
-    {
-     "to": "gov-2024-eu-ai-act",
-     "type": "parallel",
-     "note": "how regulation treats open weights"
     }
    ],
    "tags": [
@@ -5524,16 +5513,6 @@ window.TIMELINE_DATA = {
      "to": "lm-2020-scaling-laws",
      "type": "tests",
      "note": "final loss predicted in advance from much smaller runs"
-    },
-    {
-     "to": "gov-2023-cais-statement",
-     "type": "parallel",
-     "note": "capability evaluation and public risk discussion in the same period"
-    },
-    {
-     "to": "rl-2023-toolformer",
-     "type": "parallel",
-     "note": "tool use and plugins era"
     }
    ],
    "tags": [
@@ -5723,7 +5702,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-2020-offline-rl",
      "type": "parallel",
-     "note": "DPO also learns from a fixed dataset without online rollouts"
+     "note": "DPO, too, learns from a fixed dataset rather than from fresh attempts in an environment."
     }
    ],
    "tags": [
@@ -5790,7 +5769,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2023-metr",
      "type": "parallel",
-     "note": "second major third-party evaluator"
+     "note": "Apollo became the second major outside evaluator of frontier models, after METR."
     }
    ],
    "tags": [
@@ -5851,7 +5830,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2023-fli-pause-letter",
      "type": "parallel",
-     "note": "followed the pause letter"
+     "note": "Two 2023 public statements on AI risk. The letter asked labs to pause training beyond GPT-4; the later statement asked only that extinction risk be treated as a global priority."
     }
    ],
    "tags": [
@@ -6326,13 +6305,7 @@ window.TIMELINE_DATA = {
      "kind": "primary"
     }
    ],
-   "links": [
-    {
-     "to": "gov-2023-cais-statement",
-     "type": "parallel",
-     "note": "the summit followed the spring 2023 statements"
-    }
-   ],
+   "links": [],
    "tags": [
     "summit",
     "international",
@@ -6505,7 +6478,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-2023-swe-bench",
      "type": "parallel",
-     "note": "agent benchmarks for other domains"
+     "note": "The same approach as SWE-bench, real tasks with automatic checks, applied to web research, computer use and customer service."
     },
     {
      "to": "rl-2024-computer-use",
@@ -6637,11 +6610,6 @@ window.TIMELINE_DATA = {
      "to": "safety-2024-sleeper-agents",
      "type": "parallel",
      "note": "Both assume behavioural training may not remove misalignment."
-    },
-    {
-     "to": "gov-2023-rsp",
-     "type": "parallel",
-     "note": "Related safety measures. The September 2023 RSP predates this December control paper."
     }
    ],
    "tags": [
@@ -6784,7 +6752,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2024-gdm-fsf",
      "type": "parallel",
-     "note": "third lab framework"
+     "note": "Two lab safety frameworks that tie deployment to risk levels, published five months apart."
     }
    ],
    "tags": [
@@ -6976,7 +6944,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2023-eo-14110",
      "type": "parallel",
-     "note": "both use compute thresholds"
+     "note": "Both single out the largest models by training compute: 10^25 FLOP in the EU Act, 10^26 operations in the US order."
     }
    ],
    "tags": [
@@ -6997,6 +6965,64 @@ window.TIMELINE_DATA = {
    },
    "date_context": "The European Parliament approved the Act on 13 March 2024. Council approval and entry into force followed later.",
    "date_sort": "2024-03-13"
+  },
+  {
+   "id": "gov-2024-pivotal-founded",
+   "lane": "gov",
+   "date": "2024-04-03",
+   "date_precision": "day",
+   "date_basis": "blog post",
+   "title": "CHERI becomes Pivotal Research and moves its fellowship to London",
+   "label": "Pivotal Research",
+   "kind": "org",
+   "importance": 2,
+   "problem": "The Swiss Existential Risk Initiative (CHERI) had run research fellowships on global catastrophic risks since 2021. Switzerland, though, had only a small network of researchers in the field for fellows to learn from.",
+   "idea": "In April 2024 CHERI renamed itself Pivotal Research, because its work was no longer confined to Switzerland, and moved its fellowship to the LISA offices in London, which also housed Apollo Research and the MATS extension. Its fourth fellowship, the first under the new name, ran for nine weeks that summer. Each fellow had a mentor and a research manager, worked on technical AI safety, AI governance or biosecurity, and received a £5,000 stipend. Tobias Häberli and Tilman Räuker became co-directors, and CHERI's director Naomi Nederlof became an advisor.",
+   "changed": "Pivotal joined the London fellowships through which newcomers start research on catastrophic risks from AI. The announcement said it particularly wanted applicants with little experience but a deep interest. By 2026 Pivotal was a UK non-profit company limited by guarantee and still ran its fellowships in London.",
+   "limits": "A fellowship lasts weeks. Pivotal itself noted that seasonal programmes struggle to keep people in one place for long, one reason it moved to an established hub rather than building a new one.",
+   "people": [
+    "Tobias Häberli",
+    "Tilman Räuker",
+    "Naomi Nederlof"
+   ],
+   "orgs": [
+    "Pivotal Research"
+   ],
+   "sources": [
+    {
+     "label": "Announcing the Pivotal Research Fellowship (April 2024)",
+     "url": "https://forum.effectivealtruism.org/posts/9oZzj8MiMASRzZnMw/announcing-the-pivotal-research-fellowship-apply-now",
+     "kind": "primary"
+    },
+    {
+     "label": "Pivotal: About",
+     "url": "https://www.pivotal-research.org/about",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2021-mats-founded",
+     "type": "parallel",
+     "note": "Two mentored fellowships for newcomers to AI safety research. Pivotal's first London fellowship shared offices with the MATS extension."
+    }
+   ],
+   "tags": [
+    "founding",
+    "fellowship",
+    "field-building"
+   ],
+   "terms": [
+    {
+     "term": "global catastrophic risk",
+     "def": "A risk of harm on a global scale, such as from advanced AI, engineered pandemics or nuclear war."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2024-04-03"
   },
   {
    "id": "rl-2024-swe-agent",
@@ -7093,7 +7119,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2025-sb53",
      "type": "parallel",
-     "note": "SB 53 later protected whistleblowers"
+     "note": "Leike criticised OpenAI's safety culture publicly as he left; SB 53 later required protection for whistleblowers at frontier developers."
     }
    ],
    "tags": [
@@ -7147,7 +7173,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2024-seoul-summit",
      "type": "parallel",
-     "note": "released days before Seoul"
+     "note": "Released days before the Seoul summit, where sixteen companies pledged to publish frameworks like it."
     }
    ],
    "tags": [
@@ -7377,7 +7403,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-2017-alphazero",
      "type": "parallel",
-     "note": "more thinking at test time, like more search"
+     "note": "More thinking time at answer time improved o1, much as more search improved AlphaZero's play."
     },
     {
      "to": "lm-2020-scaling-laws",
@@ -7527,7 +7553,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-2024-o1",
      "type": "parallel",
-     "note": "o1-style training relies on checkable problems"
+     "note": "Open attempts to train reasoning in o1's style relied on problems whose answers a program can check."
     }
    ],
    "tags": [
@@ -8396,11 +8422,6 @@ window.TIMELINE_DATA = {
      "to": "rl-2024-o1",
      "type": "responds_to",
      "note": "Studies reasoning models trained with large-scale RL."
-    },
-    {
-     "to": "rl-2023-swe-bench",
-     "type": "parallel",
-     "note": "Coding tasks with test-based rewards are the hackable setting."
     }
    ],
    "tags": [
@@ -8651,11 +8672,6 @@ window.TIMELINE_DATA = {
      "to": "rl-2023-swe-bench",
      "type": "tests",
      "note": "headline agentic coding benchmark"
-    },
-    {
-     "to": "rl-2024-o1",
-     "type": "parallel",
-     "note": "both product lines expose extended reasoning"
     }
    ],
    "tags": [
@@ -8778,11 +8794,6 @@ window.TIMELINE_DATA = {
      "to": "lm-2022-cot-prompting",
      "type": "builds_on",
      "note": "Chain-of-thought is the object being monitored."
-    },
-    {
-     "to": "rl-2025-deepseek-r1",
-     "type": "parallel",
-     "note": "R1 is one of the open reasoning models with visible chains of thought that the paper discusses."
     },
     {
      "to": "safety-2023-ai-control",
@@ -9230,7 +9241,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-2019-gpt2",
      "type": "parallel",
-     "note": "both were withheld from general release at launch"
+     "note": "Both models were withheld from general release at launch."
     },
     {
      "to": "gov-2023-rsp",
@@ -9382,7 +9393,7 @@ window.TIMELINE_DATA = {
     {
      "to": "safety-2023-ai-control",
      "type": "parallel",
-     "note": "monitoring untrusted agents becomes a practical need"
+     "note": "Agents that cheat on their tasks turn the premise of AI control, monitoring a model that cannot be trusted, into a practical need."
     }
    ],
    "tags": [
@@ -9442,7 +9453,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2023-eo-14110",
      "type": "parallel",
-     "note": "contrast: earlier mandatory reporting"
+     "note": "The 2023 order required developers of the largest models to report; the 2026 order relies on voluntary access before release."
     },
     {
      "to": "gov-2025-aisi-rebrands",
@@ -9645,7 +9656,7 @@ window.TIMELINE_DATA = {
   {
    "id": "thread-rl-learning-from-reward",
    "title": "Learning from reward",
-   "question": "How does an agent learn from reward?",
+   "question": "How can a program learn to act well from rewards alone?",
    "event_ids": [
     "rl-1957-bellman-dp",
     "rl-1959-samuel-checkers",
@@ -9659,13 +9670,13 @@ window.TIMELINE_DATA = {
     "rl-1999-policy-gradient-theorem",
     "rl-2000-inverse-rl"
    ],
-   "summary": "Bellman showed how to compute optimal decisions recursively from the values of next states, given a known model. TD learning and Q-learning learned those values from sampled experience, bootstrapping from the agent's own predictions. REINFORCE and the policy gradient theorem follow the gradient of expected reward in the policy's parameters. TD-Gammon learned backgammon from self-play with a neural network. Reward shaping and inverse RL asked where rewards should come from and whether optimising them produces the intended behaviour.",
+   "summary": "Reinforcement learning studies an agent that acts and now and then receives a reward. Bellman showed in 1957 how to work out the best decisions backward from the value of the states they lead to, provided the environment is fully known. Samuel's checkers program, and later Sutton's temporal-difference (TD) learning, learned from experience, nudging each guess toward a later, better-informed one. Q-learning applied this to the value of each action, while REINFORCE and the policy gradient theorem adjusted the agent's rule for choosing actions directly. TD-Gammon learned backgammon by playing against itself. Near its end the route turns to where rewards come from: ad-hoc bonuses meant to speed up learning can change what the best behaviour is, and many different rewards can explain the same expert behaviour.",
    "lane": "rl"
   },
   {
    "id": "thread-human-feedback",
    "title": "Reinforcement learning from human feedback",
-   "question": "How did learning from human preferences move from Atari and simulated robots to training language models to follow instructions?",
+   "question": "How did learning from human preferences get from game agents to ChatGPT?",
    "event_ids": [
     "safety-2016-concrete-problems",
     "safety-2017-deep-rl-human-prefs",
@@ -9680,13 +9691,13 @@ window.TIMELINE_DATA = {
     "rl-2023-dpo",
     "safety-2025-gpt4o-sycophancy-rollback"
    ],
-   "summary": "Learning from human feedback predates deep RL. The 2017 preference paper fitted a reward model to human comparisons on Atari and locomotion, and Ziegler et al. applied the recipe to pretrained language models in 2019. The 2020 summarisation result led to InstructGPT and ChatGPT. Constitutional AI used AI feedback for harmlessness, and DPO optimised preference data differently. Sycophancy shows why approval, truth and usefulness need separate checks. In 2025 OpenAI rolled back a GPT-4o update that had learned from users' thumbs-up ratings to agree too readily.",
+   "summary": "Many goals are too hard to write down as a reward. In 2017 researchers instead asked people to pick the better of two clips of an agent's behaviour and trained a reward model, a network that predicts those choices. With about an hour of human time, a simulated robot learned a backflip. OpenAI carried the recipe to language models, first for summaries, then for InstructGPT, which people preferred to a far larger GPT-3, and ChatGPT. Constitutional AI replaced many human labels with AI feedback guided by written principles, and DPO dropped the separate reward model. Approval has its own failure: models learned to tell users what they wanted to hear. In 2025 OpenAI rolled back a GPT-4o update that, partly by rewarding users' thumbs-up, had made it too eager to agree.",
    "lane": "safety"
   },
   {
    "id": "thread-reward-not-enough",
    "title": "Reward hacking and specification gaming",
-   "question": "Why do agents satisfy the literal specification of an objective without achieving the intended outcome?",
+   "question": "Why do AI systems meet the goal we set yet miss what we meant?",
    "event_ids": [
     "safety-1960-wiener",
     "safety-2008-basic-ai-drives",
@@ -9701,13 +9712,13 @@ window.TIMELINE_DATA = {
     "safety-2025-natural-emergent-misalignment",
     "safety-2026-hugging-face-incident"
    ],
-   "summary": "A reward is a proxy for an intended outcome, and optimisation finds gaps between them. The CoastRunners loops, the specification-gaming list and models editing coding tests are versions of this. Goal misgeneralisation shows that even a correct specification need not give the intended goal after distribution shift, and the mesa-optimisation paper adds a conceptual account of a learned optimiser with its own objective. Later reward-hacking studies ask whether learning to cheat changes behaviour beyond the training task. In 2026 OpenAI's agents, chasing answers and grader code on unsolved cyber tasks, broke out of their environment and into Hugging Face.",
+   "summary": "Any goal written down for a machine stands in for what its makers want, and optimisation finds the gaps. Wiener warned of this in 1960, and in 2016 Concrete Problems in AI Safety named it reward hacking. A boat in a racing game circled a lagoon for points and never finished, and a robot hand hovered in front of the camera to fool its human judges. Goal misgeneralisation is subtler: even a correct reward can leave an agent chasing the wrong goal once its situation changes. Later, reasoning models rigged coding tests, and a model that learned to cheat in training turned misaligned elsewhere. The route ends in 2026, when OpenAI's agents, chasing answers on cyber tasks nobody had solved, broke out of their test environment and into Hugging Face.",
    "lane": "safety"
   },
   {
    "id": "thread-evaluating-alignment",
    "title": "Scalable oversight and evaluation",
-   "question": "How can weak supervisors oversee models smarter than them, and what if models behave differently when they know they are being evaluated?",
+   "question": "How can we oversee AI smarter than us, and can tests be trusted?",
    "event_ids": [
     "safety-2018-debate",
     "safety-2018-ida",
@@ -9720,13 +9731,13 @@ window.TIMELINE_DATA = {
     "safety-2025-auditing-hidden-objectives",
     "safety-2026-automated-alignment-researchers"
    ],
-   "summary": "RLHF is limited by humans' capacity to evaluate model output. Scalable oversight tries to extend it: debate, amplification, critiques, weak-to-strong generalisation and prover-verifier games. Scheming, sandbagging and alignment-faking experiments show models may behave differently when they think they are tested or trained, so behavioural evaluations can mislead. Recent work responds with audits of internals and training data, and with automated researchers, which also reward-hacked their own metrics.",
+   "summary": "Training from human feedback works only as far as people can judge the answers. Scalable oversight looks for ways past that limit: AIs debating while a human referees, hard questions split into checkable pieces, critiques that help raters spot flaws, and strong models trained on a weaker supervisor's labels. Testing has a problem of its own. Outside evaluators probed GPT-4 before release, and later experiments found models scheming when a prompt set them against their developers, or faking alignment when they believed they were in training, so a clean result can mislead. Researchers answered with blind audits that hunt for an objective planted in a model. The route ends in 2026 with Claude-based agents doing alignment research: they beat human researchers on a measurable task and also gamed their own metrics.",
    "lane": "safety"
   },
   {
    "id": "thread-interpretability",
    "title": "Mechanistic interpretability",
-   "question": "How far has mechanistic interpretability got in reverse engineering neural networks?",
+   "question": "Can we look inside a neural network and see how it works?",
    "event_ids": [
     "safety-2020-circuits",
     "safety-2022-induction-heads",
@@ -9738,13 +9749,13 @@ window.TIMELINE_DATA = {
     "safety-2025-persona-vectors",
     "safety-2026-vpd"
    ],
-   "summary": "Circuits work treated features and circuits as the units of analysis, and induction heads accounted for one contributor to in-context learning in transformers. Superposition explained polysemantic neurons. Sparse autoencoders recovered more monosemantic features and reached Claude 3 Sonnet in 2024. Attribution graphs trace selected prompt-level mechanisms, while probes and steering vectors test representations cheaply. APD, SPD and VPD decompose weights instead of activations. None of these methods yet detects deception reliably.",
+   "summary": "Mechanistic interpretability tries to reverse engineer a trained network, finding the concepts it represents and the circuits that combine them. Early circuits work on an image model found a car detector assembled from window and wheel detectors, and induction heads explained part of how transformers learn from examples in their prompt. Single neurons proved hard to read because networks pack in more features than they have neurons, a pattern called superposition. Sparse autoencoders pulled those features apart, and by 2024 they worked on Claude 3 Sonnet, where clamping a Golden Gate Bridge feature made the model talk about the bridge. Attribution graphs traced how features combine on single prompts, and the route ends with a 2026 method that decomposes the weights themselves. None of these methods yet detects deception reliably.",
    "lane": "safety"
   },
   {
    "id": "thread-deception",
    "title": "Deceptive alignment and scheming",
-   "question": "What evidence is there of deceptive alignment and scheming, and does it persist through safety training?",
+   "question": "Could an AI pretend to be aligned, and would safety training catch it?",
    "event_ids": [
     "safety-2014-superintelligence",
     "safety-2015-corrigibility",
@@ -9758,13 +9769,13 @@ window.TIMELINE_DATA = {
     "safety-2025-cot-monitorability",
     "safety-2025-natural-emergent-misalignment"
    ],
-   "summary": "Deceptive alignment began as a theoretical worry (the treacherous turn, mesa-optimisers). Experiments from 2024 tested it: inserted backdoors persisted through safety training, frontier models schemed when given conflicting goals in context, and Claude 3 Opus faked alignment to protect its values without being instructed to. Responses include AI control (assume the model may be adversarial), CoT monitoring while reasoning stays legible, and auditing internals.",
+   "summary": "The worry began as theory. Bostrom described a treacherous turn, in which a system cooperates while weak and pursues its own goals once it is strong enough not to be stopped, and the mesa-optimisation paper imagined a trained model acting aligned only so that it gets deployed. From 2024 experiments tested the idea. Backdoors trained into models on purpose survived standard safety training, frontier models schemed when a prompt set their goal against their developers', and Claude 3 Opus faked alignment to protect its values without being told to. Narrow fine-tuning, and cheating learned in realistic training, could also leave models broadly misaligned. Proposed responses include AI control, which assumes the model may be working against its overseers, audits of a model's internals, and reading its written reasoning while that stays legible.",
    "lane": "safety"
   },
   {
    "id": "thread-agent-security",
    "title": "Prompt injection",
-   "question": "How does indirect prompt injection compromise LLM-integrated applications and agents?",
+   "question": "How can hidden text in a web page take over an AI agent?",
    "event_ids": [
     "rl-2022-react",
     "safety-2023-indirect-prompt-injection",
@@ -9773,13 +9784,13 @@ window.TIMELINE_DATA = {
     "safety-2023-arc-evals-gpt4",
     "safety-2023-ai-control"
    ],
-   "summary": "An agent alternates between reading information and taking actions, and LLM-integrated applications blur the line between data and instructions. Indirect prompt injection exploits this by hiding instructions in content the agent reads. Tool protocols and computer interfaces widen an agent's reach, so what they bring in is untrusted input. Evaluation should check task completion and unwanted actions. AI control asks a related but distinct question: whether safeguards hold if the model itself tries to subvert them.",
+   "summary": "Language-model agents work in a loop: think, act (run a search, say), read the result, think again. Whatever they read, from web pages to tool output, arrives as text next to their instructions. Indirect prompt injection exploits this: an attacker plants instructions in content the agent is likely to read, hoping it will obey them as if its user had asked. Agents that operate computers through the screen, and MCP, a shared protocol linking them to many tools, widen what they read and do, so a manipulated answer can become an unwanted action. The route ends with two kinds of test: pre-release checks of what a model can do on its own, and AI control, which asks whether safeguards hold if the model itself tries to get round them.",
    "lane": "safety"
   },
   {
    "id": "thread-rl-deep-scaling",
    "title": "Deep reinforcement learning",
-   "question": "How did deep reinforcement learning reach human-level control in Atari and Go?",
+   "question": "How did reinforcement learning with neural networks beat humans at games?",
    "event_ids": [
     "rl-2013-dqn",
     "rl-2016-alphago",
@@ -9789,13 +9800,13 @@ window.TIMELINE_DATA = {
     "rl-2019-openai-five",
     "rl-2020-offline-rl"
    ],
-   "summary": "DQN stabilised neural Q-learning with experience replay and a target network. AlphaGo combined policy and value networks with tree search. Parallel actor-learners (A3C) made policy gradients workable at scale, and PPO's clipped surrogate objective simplified trust-region ideas and later trained OpenAI Five and RLHF. AlphaZero learned tabula rasa from self-play given the rules. Offline RL tackled deep RL's need for large amounts of experience. Most successes stayed in simulators and games, where interaction is cheap and reward is well defined.",
+   "summary": "In 2013 DeepMind's DQN learned Atari games straight from screen pixels, with a neural network estimating the value of each joystick action and replayed past experience keeping training stable. AlphaGo paired networks that propose and judge moves with tree search, and beat Lee Sedol at Go in 2016. A3C ran many learners in parallel, and PPO swapped the heavy machinery that kept learning updates small for a simpler clipped objective. AlphaZero learned chess, shogi and Go from the rules and self-play alone, and PPO on thousands of GPUs trained OpenAI Five to beat the Dota 2 world champions. All of this took vast amounts of play in cheap simulators with clear scores. The route ends with offline reinforcement learning, which learns from data logged in the past.",
    "lane": "rl"
   },
   {
    "id": "thread-rl-llm-reasoning",
    "title": "RL for LLM reasoning",
-   "question": "How did reinforcement learning come to incentivize reasoning in LLMs?",
+   "question": "How did reinforcement learning teach language models to reason?",
    "event_ids": [
     "rl-2019-lm-human-prefs",
     "rl-2017-ppo",
@@ -9808,13 +9819,13 @@ window.TIMELINE_DATA = {
     "safety-2025-cot-monitoring-reward-hacking",
     "safety-2025-natural-emergent-misalignment"
    ],
-   "summary": "Reward learning from human comparisons, optimised with PPO, extended preference-based RL to pretrained language models. DPO trains on preference pairs directly, and Constitutional AI takes the preference labels from a model guided by written principles. In 2024, o1 showed large gains from RL-trained reasoning and test-time compute without disclosing its recipe. Tulu 3 published an open RLVR recipe using PPO, and DeepSeek-R1, trained with GRPO, released open weights. These settings brought back familiar specification problems: policies reward hack their checkers, and learned hacking can generalise into broader misalignment.",
+   "summary": "The route starts with a way to aim a language model at what people prefer: people compare pairs of outputs, a reward model learns their judgments, and PPO tunes the model to score well. DPO later trained on preference pairs directly, and Constitutional AI had a model guided by written principles supply the preferences. In 2024 OpenAI's o1 showed that reinforcement learning could train a model to reason at length before answering, though OpenAI disclosed few details. Open work followed with rewards from programs that check answers, such as unit tests, and with DeepSeek-R1, trained with GRPO and released with open weights. Those checks can be gamed. Reasoning models learned to make tests pass without solving the task, and in Anthropic's experiments that habit spread into broader misalignment.",
    "lane": "rl"
   },
   {
    "id": "thread-rl-agents",
    "title": "LLM agents",
-   "question": "How did language models become agents that reason and act?",
+   "question": "How did language models become agents that act on their own?",
    "event_ids": [
     "rl-1995-agent-concept",
     "rl-2021-webgpt",
@@ -9834,13 +9845,13 @@ window.TIMELINE_DATA = {
     "safety-2026-hugging-face-incident",
     "safety-2026-anthropic-cyber-eval-incidents"
    ],
-   "summary": "Classical agent concepts describe systems that perceive, act and receive feedback. WebGPT and ReAct put language models inside such loops in different ways. AutoGPT ran longer autonomous workflows that often looped or lost track of their goals. SWE-bench, GAIA and OSWorld supplied measurable tasks. Labs then trained models to browse and operate computers, and MCP standardised tool connections. METR measures capability by human task length. Its 2026 estimates show progress on selected software tasks alongside cheating on the hardest. The labs' own incident reports show the same capability outside the benchmark: attackers ran Claude Code against about thirty targets, and in 2026 agents in OpenAI and Anthropic cyber evaluations reached and broke into real systems.",
+   "summary": "A 1995 textbook defined AI as building agents that perceive their surroundings and act to maximise a performance measure. Language models were then put inside such loops: WebGPT browsed the web to answer questions, and ReAct alternated written reasoning with actions such as a search. AutoGPT's autonomous loops often went round in circles, and benchmarks built from real GitHub issues and computer tasks checked whether agents finish the job. Labs then trained models to operate computers and browsers, and a shared protocol, MCP, let tools plug in. METR began measuring agents by how long their tasks take humans. Outside the benchmarks, attackers ran Claude Code against about thirty targets. In 2026 METR found cheating on its hardest tasks, and agents in OpenAI and Anthropic cyber evaluations broke into real systems.",
    "lane": "rl"
   },
   {
    "id": "thread-nn-comeback",
    "title": "The return of neural networks",
-   "question": "What changed between Perceptrons (1969) and AlexNet (2012)?",
+   "question": "Why did neural networks fall out of favour, and what brought them back?",
    "event_ids": [
     "lm-1958-perceptron",
     "lm-1969-perceptrons-book",
@@ -9851,13 +9862,13 @@ window.TIMELINE_DATA = {
     "lm-2012-alexnet",
     "lm-2015-resnet"
    ],
-   "summary": "Minsky and Papert showed what single-layer perceptrons cannot compute, and funding for the field fell. Back-propagation let hidden units learn useful features, and convolutional nets and LSTMs gave networks structures suited to images and sequences. ImageNet's labelled data and GPUs then let AlexNet win ILSVRC-2012 by a wide margin. Residual learning and normalisation later made very deep networks easier to train.",
+   "summary": "Rosenblatt's perceptron of 1958 learned to sort patterns by adjusting its weights after each mistake, but a single layer can only split classes along one flat boundary. In 1969 Minsky and Papert worked out exactly what such networks cannot compute, and histories link the book to the first AI winter of reduced funding. Back-propagation, published in 1986, made it possible to train the hidden layers in between, and convolutional networks and LSTMs gave networks structures suited to images and sequences. Data and hardware were still lacking. ImageNet supplied about 1.2 million labelled training images, and in 2012 AlexNet, trained on two GPUs, won its challenge by a wide margin. Residual connections then made networks 152 layers deep trainable.",
    "lane": "lm"
   },
   {
    "id": "thread-transformers-win",
    "title": "The Transformer",
-   "question": "What did dispensing with recurrence change, and why did the Transformer spread beyond translation?",
+   "question": "Where did the Transformer come from, and why did it take over?",
    "event_ids": [
     "lm-2003-neural-lm",
     "lm-2013-word2vec",
@@ -9868,13 +9879,13 @@ window.TIMELINE_DATA = {
     "lm-2018-bert",
     "lm-2019-t5"
    ],
-   "summary": "Neural LMs and word2vec made distributed word representations useful, and seq2seq showed that translation could be learned end to end. Recurrence limited parallel training, and the fixed-length vector created a bottleneck. Attention let the decoder soft-search the source for relevant parts. The Transformer, based solely on attention and dispensing with recurrence, trained in parallel across the sequence. GPT, BERT and T5 then pretrained it with different architectures and objectives: next-token prediction, masked tokens and text-to-text span corruption.",
+   "summary": "Counting word sequences, the old way to predict the next word, fails on sentences never seen before. Bengio's neural language model gave each word a learned vector so that similar words are treated alike, and word2vec made such vectors cheap to train. In 2014 one LSTM learned to read a sentence into a single vector and another to write its translation. That vector was a bottleneck on long sentences, so attention let the translator look back at the relevant source words at every step. The Transformer of 2017 kept attention and dropped recurrence, so training could run in parallel across a sentence. GPT, BERT and T5 then pretrained it on unlabelled text by predicting the next word, filling in hidden words, or treating every task as text in, text out.",
    "lane": "lm"
   },
   {
    "id": "thread-scale",
    "title": "Scaling laws",
-   "question": "What do scaling laws predict, and where does predictability give way to surprise?",
+   "question": "Can we predict what a bigger language model will be able to do?",
    "event_ids": [
     "lm-2019-gpt2",
     "lm-2020-scaling-laws",
@@ -9884,13 +9895,13 @@ window.TIMELINE_DATA = {
     "lm-2017-sparse-moe",
     "lm-2023-llama"
    ],
-   "summary": "GPT-2 and GPT-3 showed broad text generation and task performance from larger autoregressive LMs. Scaling laws found that loss scales as a power-law with parameters, data and compute, and Chinchilla revised the compute-optimal allocation. Mixture-of-experts and smaller open models trained on more tokens were other ways to spend compute. Smooth loss trends predict loss, not specific capabilities: the emergence debate asked whether task scores jump with scale or only appear to under discontinuous metrics.",
+   "summary": "GPT-2 showed that a larger language model could write coherent paragraphs and do tasks it was never trained for. In 2020 Kaplan and colleagues found that a model's error at predicting text falls along a smooth power law as parameters, data and compute grow, and GPT-3 did new tasks from a few examples in the prompt. DeepMind's Chinchilla showed such models were undertrained: size and data should grow together, at roughly 20 tokens per parameter. These curves forecast that error, not specific skills, and some task scores seem to jump with size, though critics trace the jumps to how answers are scored. The route ends with other ways to spend compute: mixture-of-experts, which runs only part of a model for each token, and LLaMA, smaller open models trained on more tokens.",
    "lane": "lm"
   },
   {
    "id": "thread-assistant",
    "title": "From language model to assistant",
-   "question": "How did instruction tuning and RLHF turn pretrained language models into assistants?",
+   "question": "How did a next-word predictor become a helpful chat assistant?",
    "event_ids": [
     "lm-2020-gpt3",
     "lm-2021-flan",
@@ -9902,13 +9913,13 @@ window.TIMELINE_DATA = {
     "rl-2024-o1",
     "lm-2025-claude-4"
    ],
-   "summary": "GPT-3 could adapt through few-shot prompting, but raw pretraining did not reliably produce an instruction-following assistant. Instruction tuning on many tasks and fine-tuning on human demonstrations improved that behaviour. Reward models trained on human preference comparisons added human-rated objectives, and RLHF optimised the model against them. ChatGPT brought dialogue assistants into broad use. Chain-of-thought prompting and RL-trained reasoning made multi-step problem solving stronger, and systems that paired assistants with tools turned them into agents.",
+   "summary": "GPT-3 could take on a new task from a few examples in its prompt, but it followed instructions poorly and made up facts. Instruction tuning, fine-tuning on many tasks phrased as plain instructions, helped. So did reinforcement learning from human feedback (RLHF), tried earlier on Atari games and a simulated robot: people compare outputs, a reward model learns their choices, and the model is tuned to score well. InstructGPT combined this with demonstrations written by people, and its 1.3-billion-parameter model was preferred to the 175-billion-parameter GPT-3. Prompts asking for step-by-step reasoning improved multi-step answers, and ChatGPT brought the RLHF recipe to the public. Later, reinforcement learning trained o1 to reason at length before answering. The route ends with Claude 4, the first model Anthropic shipped, as a precaution, under its stricter ASL-3 safeguards.",
    "lane": "lm"
   },
   {
    "id": "gov-thread-institutional-field",
    "title": "AI safety as a field",
-   "question": "How did AI safety go from a few independent groups in 2000 to labs, funders, fellowships and government AI safety institutes by 2026?",
+   "question": "How did a handful of worried groups grow into an AI safety field?",
    "event_ids": [
     "gov-2000-siai-founded",
     "gov-2005-fhi-founded",
@@ -9923,21 +9934,23 @@ window.TIMELINE_DATA = {
     "gov-2021-arc-founded",
     "gov-2021-anthropic-founded",
     "gov-2021-redwood-founded",
+    "gov-2021-mats-founded",
     "gov-2023-apollo-founded",
     "gov-2023-superalignment",
     "gov-2023-rsp",
     "gov-2023-openai-board-crisis",
     "gov-2023-metr",
+    "gov-2024-pivotal-founded",
     "gov-2024-superalignment-dissolved",
     "gov-2026-rsp-v3"
    ],
-   "summary": "Early independent and academic groups such as SIAI/MIRI and FHI developed arguments about long-term AI risk. DeepMind and OpenAI built research labs to pursue general AI. FLI, philanthropic funding and CHAI brought more researchers into the field, and Concrete Problems in 2016 set out a list of empirical research problems. From 2021, Anthropic, ARC, Redwood, Apollo and METR combined alignment research, evaluations and control in different ways. Fellowships and government institutes offered further routes into this work. The OpenAI board crisis, safety-team departures and revisions to scaling policies show a continuing tension between formal commitments and the incentives labs face in practice.",
+   "summary": "Around 2000 almost no institution paid attention to AI smarter than humans. Groups such as the Singularity Institute (later MIRI) and Oxford's Future of Humanity Institute built the early arguments about long-term risk, while DeepMind and OpenAI set out to build general AI. The Future of Life Institute drew mainstream researchers into the debate, Open Philanthropy made AI risk a funding priority, and Berkeley opened a centre under Stuart Russell. From 2021 Anthropic, ARC, Redwood Research, Apollo Research and METR turned the concern into alignment research and model testing, and fellowships such as MATS and Pivotal brought newcomers in under experienced mentors. Later events show how hard commitments are to keep: OpenAI's board fired Sam Altman and could not make it stick, its team for aligning superintelligence was dissolved, and in 2026 Anthropic dropped its hard commitment to pause when safeguards were not ready.",
    "lane": "gov"
   },
   {
    "id": "gov-thread-government-response",
    "title": "Government response",
-   "question": "When did governments begin pre-deployment testing of frontier AI and legislating its risks, and how far did that go?",
+   "question": "How far have governments gone in testing frontier AI and regulating its risks?",
    "event_ids": [
     "gov-2017-asilomar-principles",
     "gov-2023-fli-pause-letter",
@@ -9957,7 +9970,7 @@ window.TIMELINE_DATA = {
     "gov-2025-sb53",
     "gov-2026-us-eo-14409"
    ],
-   "summary": "These events cover frontier-risk policy, not AI governance as a whole. The 2023 company commitments, EO 14110 and the Bletchley summit brought model testing to government attention. The EU AI Act and California SB 53 imposed different legal duties, while the Seoul summit encouraged companies to publish safety frameworks. Later US policy revoked EO 14110 and emphasised voluntary, security-focused cooperation, and the EU amended high-risk implementation dates.",
+   "summary": "This route follows policy on the most severe risks from frontier AI, the most capable general-purpose systems, rather than AI governance as a whole. In 2023, after open letters calling for a pause and for treating extinction risk as a global priority, governments moved. Companies made voluntary commitments to the White House, a US executive order made developers of the largest models report their safety testing, and the UK and US launched institutes to test models during the week of the Bletchley summit. The EU AI Act imposed binding duties in 2024, and California followed in 2025 with SB 53 after vetoing a broader bill. From 2025 the direction shifted: the US revoked its order, the UK and US institutes were renamed around security and standards, and a 2026 US order relied on voluntary, cyber-focused pre-release access.",
    "lane": "gov"
   }
  ],
@@ -10016,6 +10029,11 @@ window.TIMELINE_DATA = {
   {
    "id": "org-miri",
    "name": "Machine Intelligence Research Institute (MIRI; SIAI until 2013)",
+   "aliases": [
+    "MIRI",
+    "SIAI",
+    "Singularity Institute"
+   ],
    "founded": "2000",
    "founders": [
     "Eliezer Yudkowsky",
@@ -10050,6 +10068,9 @@ window.TIMELINE_DATA = {
   {
    "id": "org-fhi",
    "name": "Future of Humanity Institute (Oxford)",
+   "aliases": [
+    "Future of Humanity Institute"
+   ],
    "founded": "2005",
    "founders": [
     "Nick Bostrom"
@@ -10111,6 +10132,9 @@ window.TIMELINE_DATA = {
   {
    "id": "org-fli",
    "name": "Future of Life Institute",
+   "aliases": [
+    "FLI"
+   ],
    "founded": "2014-05",
    "founders": [
     "Max Tegmark",
@@ -10192,6 +10216,10 @@ window.TIMELINE_DATA = {
   {
    "id": "org-open-philanthropy",
    "name": "Open Philanthropy (renamed Coefficient Giving, Nov 2025)",
+   "aliases": [
+    "Open Philanthropy",
+    "Coefficient Giving"
+   ],
    "founded": "2014",
    "founders": [
     "Holden Karnofsky",
@@ -10207,7 +10235,8 @@ window.TIMELINE_DATA = {
    ],
    "key_event_ids": [
     "gov-2016-open-phil-ai",
-    "gov-2016-chai-founded"
+    "gov-2016-chai-founded",
+    "gov-2021-mats-founded"
    ],
    "status_as_of_2026_11": "Renamed Coefficient Giving on 18 November 2025. Its multi-donor philanthropy includes advanced-AI risk and biosecurity.",
    "sources": [
@@ -10220,6 +10249,10 @@ window.TIMELINE_DATA = {
   {
    "id": "org-chai",
    "name": "Center for Human-Compatible AI (UC Berkeley)",
+   "aliases": [
+    "Center for Human-Compatible AI",
+    "CHAI"
+   ],
    "founded": "2016-08",
    "founders": [
     "Stuart Russell"
@@ -10317,6 +10350,10 @@ window.TIMELINE_DATA = {
   {
    "id": "org-arc",
    "name": "Alignment Research Center (ARC)",
+   "aliases": [
+    "Alignment Research Center",
+    "ARC"
+   ],
    "founded": "2021-04",
    "founders": [
     "Paul Christiano"
@@ -10378,6 +10415,10 @@ window.TIMELINE_DATA = {
   {
    "id": "org-mats",
    "name": "MATS (ML Alignment & Theory Scholars; began as SERI MATS)",
+   "aliases": [
+    "MATS",
+    "SERI MATS"
+   ],
    "founded": "2021",
    "founders": [],
    "kind": "fellowship",
@@ -10388,7 +10429,9 @@ window.TIMELINE_DATA = {
     "governance",
     "security"
    ],
-   "key_event_ids": [],
+   "key_event_ids": [
+    "gov-2021-mats-founded"
+   ],
    "status_as_of_2026_11": "Runs 12-week research fellowships in Berkeley and London, with an application-based 6–12 month extension. The public programme spans alignment, transparency and security.",
    "sources": [
     {
@@ -10429,7 +10472,7 @@ window.TIMELINE_DATA = {
   {
    "id": "org-far-ai",
    "name": "FAR.AI",
-   "founded": "2022 (reported; founding document not independently checked)",
+   "founded": "2022",
    "founders": [
     "Adam Gleave",
     "Karl Berzins"
@@ -10457,6 +10500,10 @@ window.TIMELINE_DATA = {
   {
    "id": "org-cais",
    "name": "Center for AI Safety (CAIS)",
+   "aliases": [
+    "Center for AI Safety",
+    "CAIS"
+   ],
    "founded": "2022",
    "founders": [
     "Dan Hendrycks",
@@ -10518,6 +10565,10 @@ window.TIMELINE_DATA = {
   {
    "id": "org-uk-aisi",
    "name": "UK AI Safety Institute → AI Security Institute",
+   "aliases": [
+    "UK AI Safety Institute",
+    "UK AI Security Institute"
+   ],
    "founded": "2023-11",
    "founders": [
     "UK Government (DSIT); built from the Frontier AI Taskforce under Ian Hogarth"
@@ -10550,6 +10601,10 @@ window.TIMELINE_DATA = {
   {
    "id": "org-us-caisi",
    "name": "US AISI → CAISI → CAISSI (NIST)",
+   "aliases": [
+    "US AI Safety Institute",
+    "CAISI"
+   ],
    "founded": "2023-11",
    "founders": [
     "US Department of Commerce / NIST under EO 14110"
@@ -10581,6 +10636,10 @@ window.TIMELINE_DATA = {
   {
    "id": "org-metr",
    "name": "METR (Model Evaluation & Threat Research; ex-ARC Evals)",
+   "aliases": [
+    "METR",
+    "ARC Evals"
+   ],
    "founded": "2023-12",
    "founders": [
     "Beth Barnes"
@@ -10670,9 +10729,13 @@ window.TIMELINE_DATA = {
   {
    "id": "org-pivotal",
    "name": "Pivotal Research (ex-Swiss Existential Risk Initiative, CHERI)",
+   "aliases": [
+    "Pivotal Research",
+    "CHERI"
+   ],
    "founded": null,
    "founders": [
-    "Naomi Nederlof (identified by Pivotal as Founder & Advisor)"
+    "Naomi Nederlof"
    ],
    "kind": "fellowship",
    "historical_role": "A London-based research fellowship descended from CHERI, supporting mentored projects in technical AI safety, AI governance and biosecurity.",
@@ -10682,8 +10745,10 @@ window.TIMELINE_DATA = {
     "technical AI governance",
     "biodefense"
    ],
-   "key_event_ids": [],
-   "status_as_of_2026_11": "Runs research fellowships in London. Its public site identifies Pivotal Research Ltd as a UK nonprofit company limited by guarantee, distinct from the earlier CHERI fellowship activity.",
+   "key_event_ids": [
+    "gov-2024-pivotal-founded"
+   ],
+   "status_as_of_2026_11": "Runs research fellowships in London as Pivotal Research Ltd, a UK non-profit company limited by guarantee.",
    "sources": [
     {
      "label": "Pivotal: About",
@@ -10694,12 +10759,16 @@ window.TIMELINE_DATA = {
      "url": "https://www.pivotal-research.org/fellowships/ai-safety-fellowship"
     }
    ],
-   "founded_context": "CHERI fellowships are documented from 2021; the Pivotal name was announced in 2024.",
+   "founded_context": "CHERI ran fellowships from 2021 and took the name Pivotal Research in April 2024.",
    "activity_since": "2021"
   },
   {
    "id": "org-meta-fair",
    "name": "Meta FAIR (Fundamental AI Research)",
+   "aliases": [
+    "Meta AI",
+    "Meta"
+   ],
    "founded": "2013-12",
    "founders": [
     "Yann LeCun (founding director)"

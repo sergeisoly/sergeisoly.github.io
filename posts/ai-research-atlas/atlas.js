@@ -9,8 +9,8 @@
   const $ = (s, r = document) => r.querySelector(s);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const lc = (l) => `var(--${l})`;
-  const REL = { builds_on: "Builds on", responds_to: "Responds to", enables: "Enables", tests: "Tests", critiques: "Critiques", parallel: "Parallel to" };
-  const REL_IN = { builds_on: "Built on by", responds_to: "Answered by", enables: "Enabled by", tests: "Tested by", critiques: "Critiqued by", parallel: "Parallel to" };
+  const REL = { builds_on: "Builds on", responds_to: "Responds to", enables: "Enables", tests: "Tests", critiques: "Critiques", parallel: "Compare with" };
+  const REL_IN = { builds_on: "Built on by", responds_to: "Answered by", enables: "Enabled by", tests: "Tested by", critiques: "Critiqued by", parallel: "Compare with" };
   const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   const byId = new Map(D.events.map((e) => [e.id, e]));
@@ -88,11 +88,21 @@
     return `${d} ${MON[m - 1]} ${y}`;
   }
   const laneTitle = (l) => (laneById.get(l) || { title: l }).title;
+  // How well an organisation name written on a card fits a record: 2 exact, 1 whole words inside it, 0 no match.
+  // Whole-word matching keeps short aliases such as "ARC" out of words like "Research".
+  // The pattern cache lives on the function: orgMatches runs during start-up, before later consts exist.
+  function orgNameFit(text, org) {
+    const s = text.toLowerCase(), names = [org.name, ...(org.aliases || [])].map((n) => n.toLowerCase());
+    if (names.includes(s)) return 2;
+    const cache = orgNameFit.cache || (orgNameFit.cache = new Map());
+    if (!cache.has(org)) cache.set(org, names.map((n) => new RegExp(`(?<![a-z0-9])${n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![a-z0-9])`)));
+    return cache.get(org).some((re) => re.test(s)) ? 1 : 0;
+  }
+  function orgForName(text) { return D.orgs.find((o) => orgNameFit(text, o) === 2) || D.orgs.find((o) => orgNameFit(text, o) === 1); }
   function orgMatches(e, org) {
     if (!org) return true;
     if ((org.key_event_ids || []).includes(e.id)) return true;
-    const names = [org.name, ...(org.aliases || [])].map((n) => n.toLowerCase());
-    return (e.orgs || []).some((o) => { const s = o.toLowerCase(); return names.some((n) => s === n || s.includes(n)); });
+    return (e.orgs || []).some((o) => orgNameFit(o, org) > 0);
   }
   function textMatches(e, q) {
     if (!q) return true;
@@ -571,7 +581,7 @@
     const routes = D.threads.filter((t) => t.event_ids.includes(e.id));
     pane.innerHTML = `<article class="pane">
       <div class="head">
-        <div class="meta eyebrow"><span class="dot" style="background:${lc(e.lane)}"></span>${esc(laneTitle(e.lane))} · <span class="num">${esc(fmtDate(e))}</span>${e.kind ? " · " + esc(e.kind) : ""}</div>
+        <div class="meta eyebrow"><span class="dot" style="background:${lc(e.lane)}"></span>${esc(laneTitle(e.lane))} · <span class="num">${esc(fmtDate(e))}</span>${e.kind ? " · " + esc(e.kind) : ""}<button type="button" class="text-button pane-close" data-act="deselect" title="Close (Esc)" aria-label="Close this event and show the whole map">Close</button></div>
         <h3 tabindex="-1">${esc(e.title)}</h3>
         ${(e.people || []).length || (e.orgs || []).length ? `<div class="people">${(e.people || []).map(personLink).join(", ")}${(e.people || []).length && (e.orgs || []).length ? " · " : ""}${(e.orgs || []).map(orgLink).join(", ")}</div>` : ""}
       </div>
@@ -592,7 +602,7 @@
     renderConnectionDetail(); updateDiagramHints();
   }
   function orgLink(name) {
-    const o = D.orgs.find((x) => orgMatches({ id: "", orgs: [name] }, x)) || [...orgById.values()].find((x) => x.name === name);
+    const o = orgForName(name) || [...orgById.values()].find((x) => x.name === name);
     return o ? `<a href="#${profileHash(`org:${o.id}`)}" data-profile="org:${esc(o.id)}" aria-controls="atlas-profile" aria-expanded="${state.profile === `org:${o.id}`}">${esc(name)}</a>` : esc(name);
   }
 
@@ -640,6 +650,13 @@
     const index = seq.indexOf(fromId);
     const next = index < 0 ? (dir > 0 ? 0 : seq.length - 1) : index + dir;
     if (next >= 0 && next < seq.length) select(seq[next], { ...opts, keepEra: Boolean(state.route) });
+  }
+  // Back to the unselected map: every event lit, no connection arc, no card in the reader column.
+  function clearSelection(focusMap = false) {
+    if (!state.selected) return;
+    state.selected = null;
+    renderMap(); renderPane(); saveHistory();
+    if (focusMap) mapSvg.querySelector('.node[tabindex="0"]')?.focus({ preventScroll: true });
   }
   function reconcileSelection() {
     if (state.selected && !matches().some((e) => e.id === state.selected)) { state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; }
@@ -697,8 +714,11 @@
     mapScroll.addEventListener("pointerdown", (ev) => { if (ev.target.closest(".node, .connection-hit") || ev.pointerType !== "mouse") return; drag = { x: ev.clientX, s: mapScroll.scrollLeft, moved: false }; });
     // A button released outside the window sends no pointerup; end the drag on the next plain move.
     addEventListener("pointermove", (ev) => { if (!drag) return; if (!(ev.buttons & 1)) { drag = null; mapScroll.classList.remove("dragging"); return; } const dx = ev.clientX - drag.x; if (Math.abs(dx) > 3) { drag.moved = true; mapScroll.classList.add("dragging"); } mapScroll.scrollLeft = drag.s - dx; });
-    const endDrag = () => { drag = null; mapScroll.classList.remove("dragging"); };
+    let dragMoved = false;
+    const endDrag = () => { dragMoved = Boolean(drag && drag.moved); drag = null; mapScroll.classList.remove("dragging"); };
     addEventListener("pointerup", endDrag); addEventListener("pointercancel", endDrag);
+    // A click on empty map space (not the end of a drag) clears the selection.
+    mapScroll.addEventListener("click", (ev) => { if (dragMoved) { dragMoved = false; return; } if (!ev.target.closest(".node, .connection-hit, a, button")) clearSelection(); });
     renderMap(); renderPane();
     mapScroll.scrollLeft = layout.X(2010) - 30; updateOverview();
   }
@@ -738,7 +758,7 @@
 
   /* ---------- people & orgs ---------- */
   const KIND_TONE = { lab: "lm", "nonprofit research": "rl", academic: "gov", government: "safety", funder: "grey", fellowship: "grey" };
-  function orgFor(name) { return D.orgs.find((o) => orgMatches({ id: "", orgs: [name] }, o)); }
+  function orgFor(name) { return orgForName(name); }
   const ACADEMIC = /universit|\bmit\b|berkeley|toronto|oxford|alberta|mila|fhi|chai/i, GOVT = /institute.*(nist|security)|caisi|aisi|government|report \(chair\)/i;
   function toneFor(org) {
     const o = orgFor(org);
@@ -1027,6 +1047,7 @@
     else if (d.act === "open-profile-choice") { const picker = $("#atlas-profile-select", mounts.people); if (picker && picker.value) openProfile(picker.value, { trigger: t, dock: "people" }); }
     else if (d.act === "close-profile" || d.act === "return-event") closeProfile();
     else if (d.act === "clear") resetView();
+    else if (d.act === "deselect") clearSelection(true);
     else if (d.act === "locate") {
       scrollMapTo(state.selected, false); updateOverview();
       $(".chart-column", mounts.map).scrollIntoView({ behavior: SMOOTH, block: "start" });
@@ -1049,6 +1070,7 @@
       const profileShown = state.profile && state.tab === (state.profileDock === "timeline" ? "map" : "people");
       if (profileShown) { ev.preventDefault(); closeProfile(); return; }
       if (state.connection && state.tab === "map") { ev.preventDefault(); closeConnection(); return; }
+      if (state.selected && state.tab === "map" && !/INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) { ev.preventDefault(); clearSelection(true); return; }
     }
     const connection = ev.target.closest(".connection-hit");
     if (connection && ["Enter", " "].includes(ev.key)) { ev.preventDefault(); inspectConnection(connection.dataset.connection, connection); return; }
@@ -1058,7 +1080,6 @@
     const node = ev.target.closest(".node"), from = node ? node.dataset.eventId : state.selected || state.focus;
     if (ev.key === "ArrowRight" || ev.key === "ArrowLeft") { ev.preventDefault(); step(ev.key === "ArrowRight" ? 1 : -1, from); }
     if (ev.key === "Home" || ev.key === "End") { const seq = stepSequence(); if (seq.length) { ev.preventDefault(); select(seq[ev.key === "Home" ? 0 : seq.length - 1], { focus: true, keepEra: Boolean(state.route) }); } }
-    if (ev.key === "Escape" && state.selected) { state.selected = null; renderMap(); renderPane(); saveHistory(); const n = mapSvg.querySelector('.node[tabindex="0"]'); if (n) n.focus({ preventScroll: true }); }
   });
 
   mountMap(); renderRoutes(); renderPeople(); renderIndex(); renderGlossary();
