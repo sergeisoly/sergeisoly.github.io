@@ -44,6 +44,10 @@ The browser regressions use an existing Playwright installation and Chrome. Poin
 `ATLAS_SCREENSHOT_DIR` optionally records desktop, mobile and diagram captures.
 Run `node scripts/ai-research-atlas/tests/reference-interactions.cjs` for ten
 additional route, relationship, history, figure and touch scenarios.
+Run `node scripts/ai-research-atlas/tests/reader-journeys.cjs` for ten checks of
+reader-reported problems: visible event and question headings, direct links,
+profile return, map reset and mobile diagram panning. Wide figures scroll inside
+their own viewport, with a cue when needed and a stationary caption.
 
 ## Evidence and compute
 
