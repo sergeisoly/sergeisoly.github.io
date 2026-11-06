@@ -514,7 +514,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Conventional prediction methods learn from the gap between what they predicted and what actually happened, so they cannot update until the outcome is known. Waiting makes them slower to learn, costs more memory and gives noisier estimates.",
-   "idea": "Sutton learned instead from the difference between successive predictions. After each step, the estimated value of the current state moves toward the reward just received plus the discounted value predicted for the next state: V(s) ← V(s) + α[r + γV(s′) − V(s)]. Here s is the current state, s′ the next, r the reward, α the step size and γ the discount factor, which makes later rewards count for less. For example, V(s)=2, r=1, V(s′)=3, γ=0.9 and α=0.1 give V(s)=2.17. Learning a guess from a guess like this is called bootstrapping. A family of methods, TD(λ), spans the range from this one-step update to Monte Carlo methods, which wait for the full sum of rewards.",
+   "idea": "Sutton learned instead from the difference between successive predictions. After each step, the estimated value of the current state moves toward the reward just received plus the discounted value predicted for the next state: \\(V(s) \\leftarrow V(s) + \\alpha\\,[r + \\gamma V(s') - V(s)]\\). Here \\(s\\) is the current state, \\(s'\\) the next, \\(r\\) the reward, \\(\\alpha\\) the step size and \\(\\gamma\\) the discount factor, which makes later rewards count for less. For example, \\(V(s)=2\\), \\(r=1\\), \\(V(s')=3\\), \\(\\gamma=0.9\\) and \\(\\alpha=0.1\\) give \\(V(s)=2.17\\). Learning a guess from a guess like this is called bootstrapping. A family of methods, TD(\\(\\lambda\\)), spans the range from this one-step update to Monte Carlo methods, which wait for the full sum of rewards.",
    "changed": "Temporal-difference (TD) learning let agents learn values as they went, from raw experience and without a model of how the environment works. Q-learning, TD-Gammon, DQN and the critics in actor-critic methods and RLHF all build on it. The TD error, the gap between successive predictions, also became a model of phasic dopamine signals, the brief bursts of dopamine activity in the brain.",
    "limits": "While the estimates are still wrong, targets built from them are biased as well. Combining bootstrapping with off-policy data (experience gathered by a different policy) and function approximation (a model such as a neural network in place of a table) can make learning diverge, a combination known as the 'deadly triad'.",
    "people": [
@@ -550,7 +550,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "temporal-difference (TD) error",
-     "def": "The one-step prediction error δ = r + γV(s′) − V(s): reward r plus discounted next-state value, minus current-state value. γ is the discount factor."
+     "def": "The one-step prediction error \\(\\delta = r + \\gamma V(s') - V(s)\\): reward \\(r\\) plus discounted next-state value, minus current-state value. \\(\\gamma\\) is the discount factor."
     },
     {
      "term": "bootstrapping",
@@ -558,7 +558,7 @@ window.TIMELINE_DATA = {
     },
     {
      "term": "discount factor (gamma)",
-     "def": "The weight γ applied per future step. It is usually 0 ≤ γ < 1 in continuing discounted tasks, and γ=1 can be used in suitable episodic tasks."
+     "def": "The weight \\(\\gamma\\) applied per future step. It is usually \\(0 \\le \\gamma < 1\\) in continuing discounted tasks, and \\(\\gamma = 1\\) can be used in suitable episodic tasks."
     }
    ],
    "verified": {
@@ -638,7 +638,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Knowing how good each state is does not by itself say which action to take. How can an agent learn to act optimally in Markovian domains, where the next state depends only on the current state and action, while it is still exploring?",
-   "idea": "Q-learning learns the quality of each action in each state, written Q(s,a): Q(s,a) ← Q(s,a) + α[r + γ maxₐ′ Q(s′,a′) − Q(s,a)]. Here s and a are the current state and action, s′ the next state, r the reward, α the learning rate and γ the discount factor. Because the update uses the best next action a′, the agent learns about the greedy policy, the one that always picks the highest-valued action, even while exploration makes it act otherwise. Watkins introduced the algorithm in his 1989 thesis. In 1992 Watkins and Dayan proved that it converges to the optimal action values with probability 1, provided every action is tried repeatedly in every state and the values are stored separately, as in a table.",
+   "idea": "Q-learning learns the quality of each action in each state, written \\(Q(s,a)\\): \\(Q(s,a) \\leftarrow Q(s,a) + \\alpha\\,[r + \\gamma \\max_{a'} Q(s',a') - Q(s,a)]\\). Here \\(s\\) and \\(a\\) are the current state and action, \\(s'\\) the next state, \\(r\\) the reward, \\(\\alpha\\) the learning rate and \\(\\gamma\\) the discount factor. Because the update uses the best next action \\(a'\\), the agent learns about the greedy policy, the one that always picks the highest-valued action, even while exploration makes it act otherwise. Watkins introduced the algorithm in his 1989 thesis. In 1992 Watkins and Dayan proved that it converges to the optimal action values with probability 1, provided every action is tried repeatedly in every state and the values are stored separately, as in a table.",
    "changed": "In 2013 DQN combined Q-learning with a convolutional network, the kind of neural network used for images, and with experience replay, which trains on stored past experience. The 2015 Nature version added a target network, a copy that is updated only periodically.",
    "limits": "Watkins and Dayan's convergence proof covers tables only and does not carry over to function approximation, where a model such as a neural network stands in for the table. Taking the maximum over noisy estimates also tends to overestimate values, a problem that Double Q-learning later addressed in part.",
    "people": [
@@ -708,7 +708,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Value-based methods pick the action with the highest estimated value Q. That is awkward when the agent should choose at random, or when actions are continuous quantities rather than a short menu. The alternative is to adjust the policy itself, a rule with tunable parameters, but sampling a random action is not a differentiable step, so ordinary gradient methods cannot pass through it.",
-   "idea": "Williams's REINFORCE follows the gradient of expected reinforcement, estimated from samples: for one decision, ∇θJ = E[(R − b)∇θ log πθ(a|s)], summed over decisions for a trajectory. θ are the policy parameters, πθ(a|s) the probability of action a in state s, R the return (the total reward that followed) and b an action-independent baseline, a reference level to compare against. The ascent step with step size α is θ ← θ + α(R − b)∇θ log πθ(a|s). In words, actions followed by better-than-baseline outcomes become more likely, and those followed by worse outcomes less likely.",
+   "idea": "Williams's REINFORCE follows the gradient of expected reinforcement, estimated from samples: for one decision, \\(\\nabla_\\theta J = \\mathbb{E}[(R - b)\\,\\nabla_\\theta \\log \\pi_\\theta(a \\mid s)]\\), summed over decisions for a trajectory. \\(\\theta\\) are the policy parameters, \\(\\pi_\\theta(a \\mid s)\\) the probability of action \\(a\\) in state \\(s\\), \\(R\\) the return (the total reward that followed) and \\(b\\) an action-independent baseline, a reference level to compare against. The ascent step with step size \\(\\alpha\\) is \\(\\theta \\leftarrow \\theta + \\alpha (R - b)\\,\\nabla_\\theta \\log \\pi_\\theta(a \\mid s)\\). In words, actions followed by better-than-baseline outcomes become more likely, and those followed by worse outcomes less likely.",
    "changed": "The updates in PPO and GRPO descend from this estimator, known as the score-function estimator, weighted by advantages instead of raw returns. When language-model training is cast as RL at the token level, each generated token is an action and the whole answer is a trajectory.",
    "limits": "Whole-episode returns are noisy, so the estimate swings widely from one batch of samples to the next. Making it work well takes many samples, a baseline or a learned critic.",
    "people": [
@@ -756,7 +756,7 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 3,
    "problem": "Could temporal-difference learning master a large, real game if a neural network took the place of a lookup table of values? Gerald Tesauro at IBM tried it on backgammon.",
-   "idea": "Tesauro's multilayer network played backgammon against itself and learned by TD(λ) from how those games turned out. Starting with no backgammon knowledge built in, it reached a fairly strong intermediate level. With hand-crafted features added, and later a shallow search, it played at near-expert level.",
+   "idea": "Tesauro's multilayer network played backgammon against itself and learned by TD(\\(\\lambda\\)) from how those games turned out. Starting with no backgammon knowledge built in, it reached a fairly strong intermediate level. With hand-crafted features added, and later a shallow search, it played at near-expert level.",
    "changed": "TD-Gammon was an early success for self-play and for neural networks as function approximators in reinforcement learning. Its hidden units appeared to discover useful features of the game on their own. AlphaGo Zero later returned to learning from self-play.",
    "limits": "Attempts to repeat the result in chess and Go in the 1990s largely failed. Backgammon suited the method unusually well: the dice provide natural exploration, and position values change smoothly.",
    "people": [
@@ -983,7 +983,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "When reward comes only on rare events, such as finishing a task, learning is slow, so designers add bonuses along the way to guide the agent. Ad-hoc bonuses can change what the best behaviour is. In one case, an agent rewarded for approaching a goal learned to circle near it.",
-   "idea": "Ng, Harada and Russell proposed potential-based shaping. Give every state a score Φ, its potential, and pay a bonus on each move equal to the discounted change in potential: F(s,s′) = γΦ(s′) − Φ(s), where s is the current state, s′ the next and γ the discount factor. In a discounted Markov decision process with a bounded Φ, this leaves the optimal policy unchanged; without further assumptions, other added rewards may not. Tasks that end in terminal states need appropriate handling as well.",
+   "idea": "Ng, Harada and Russell proposed potential-based shaping. Give every state a score \\(\\Phi\\), its potential, and pay a bonus on each move equal to the discounted change in potential: \\(F(s,s') = \\gamma\\Phi(s') - \\Phi(s)\\), where \\(s\\) is the current state, \\(s'\\) the next and \\(\\gamma\\) the discount factor. In a discounted Markov decision process with a bounded \\(\\Phi\\), this leaves the optimal policy unchanged; without further assumptions, other added rewards may not. Tasks that end in terminal states need appropriate handling as well.",
    "changed": "The paper also traced well-known shaping 'bugs', the circling agent among them, to bonuses that were not potential-based.",
    "limits": "Potential-based shaping guarantees only that the optimal policy survives. Choosing a potential that actually helps learning is left to the designer, and so is coping with a base reward that was misspecified in the first place.",
    "people": [
@@ -1078,7 +1078,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "advantage",
-     "def": "A(s,a) = Q(s,a) − V(s): how much better action a is than the policy's average action in state s."
+     "def": "\\(A(s,a) = Q(s,a) - V(s)\\): how much better action \\(a\\) is than the policy's average action in state \\(s\\)."
     }
    ],
    "verified": {
@@ -2794,7 +2794,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Standard policy-gradient methods use each data sample for one update only, and a single update that is too large can collapse the policy. Schulman and colleagues' Trust Region Policy Optimization (TRPO, February 2015) kept each update inside a trust region, a limit on how far the new policy may move from the old one as measured by KL divergence. Enforcing that limit needed heavy second-order machinery based on conjugate gradients.",
-   "idea": "Proximal Policy Optimization (PPO) alternates between sampling data and optimising a clipped surrogate objective: min(ρA, clip(ρ, 1−ε, 1+ε)A). Here ρ is the new policy's probability of the sampled action divided by the old policy's, A an estimated advantage and ε the clipping range. Clipping removes the incentive to push ρ outside [1−ε, 1+ε] in the helpful direction. That allows several passes (epochs) of minibatch updates on each batch of data, though it sets no hard bound on how much the policy or the KL divergence can change.",
+   "idea": "Proximal Policy Optimization (PPO) alternates between sampling data and optimising a clipped surrogate objective: \\(\\min(\\rho A,\\ \\mathrm{clip}(\\rho, 1-\\varepsilon, 1+\\varepsilon)\\,A)\\). Here \\(\\rho\\) is the new policy's probability of the sampled action divided by the old policy's, \\(A\\) an estimated advantage and \\(\\varepsilon\\) the clipping range. Clipping removes the incentive to push \\(\\rho\\) outside \\([1-\\varepsilon, 1+\\varepsilon]\\) in the helpful direction. That allows several passes (epochs) of minibatch updates on each batch of data, though it sets no hard bound on how much the policy or the KL divergence can change.",
    "changed": "PPO trained OpenAI Five and robotics policies. It also supplied the reinforcement-learning step of RLHF for InstructGPT and ChatGPT, usually with a KL penalty that keeps the model close to the supervised model it started from.",
    "limits": "PPO is sensitive to implementation details, and clipping alone does not prevent large policy changes, so some implementations stop updating once the measured KL divergence grows too large. For language models, common RLHF implementations hold four models in memory: the policy, a reference copy, the reward model and the value model.",
    "people": [
@@ -2858,11 +2858,11 @@ window.TIMELINE_DATA = {
     },
     {
      "term": "clipped surrogate objective",
-     "def": "PPO-Clip maximises min(ρA, clip(ρ, 1−ε, 1+ε)A): ρ is the new/old action-probability ratio, A the advantage estimate and ε the clip parameter. This caps the incentive to change, not the policy change itself."
+     "def": "PPO-Clip maximises \\(\\min(\\rho A,\\ \\mathrm{clip}(\\rho, 1-\\varepsilon, 1+\\varepsilon)\\,A)\\): \\(\\rho\\) is the new/old action-probability ratio, \\(A\\) the advantage estimate and \\(\\varepsilon\\) the clip parameter. This caps the incentive to change, not the policy change itself."
     },
     {
      "term": "generalized advantage estimation (GAE)",
-     "def": "An exponentially weighted advantage estimator, analogous to TD(λ), trading bias against variance via λ."
+     "def": "An exponentially weighted advantage estimator, analogous to TD(\\(\\lambda\\)), trading bias against variance via λ."
     }
    ],
    "verified": {
@@ -5667,7 +5667,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Reinforcement learning from human feedback (RLHF) is complex and often unstable. It needs a separately trained reward model, repeated sampling from the policy during training, and four models held in memory at once.",
-   "idea": "Rafailov, Sharma, Mitchell and colleagues at Stanford started from the usual RLHF objective: maximise reward while a KL penalty keeps the policy close to a reference model. For this objective the optimal policy can be written in closed form in terms of the reward. Turned around, the reward can be expressed as β times the log-ratio of the policy's and the reference model's probabilities. Substituting that into the Bradley-Terry model of preferences, which turns a difference in scores into the probability that one response is preferred, gives a simple classification loss on preferred versus rejected responses. The policy is trained directly with this loss, with no reward model and no sampling.",
+   "idea": "Rafailov, Sharma, Mitchell and colleagues at Stanford started from the usual RLHF objective: maximise reward while a KL penalty keeps the policy close to a reference model. For this objective the optimal policy can be written in closed form in terms of the reward. Turned around, the reward can be expressed as \\(\\beta\\) times the log-ratio of the policy's and the reference model's probabilities. Substituting that into the Bradley-Terry model of preferences, which turns a difference in scores into the probability that one response is preferred, gives a simple classification loss on preferred versus rejected responses. The policy is trained directly with this loss, with no reward model and no sampling.",
    "changed": "Open models such as Zephyr, Tulu 2 and many Llama fine-tunes were preference-tuned with DPO, and variants including IPO, KTO and SimPO followed.",
    "limits": "DPO in its original form learns from a fixed set of preference pairs. Its results therefore depend on how well the data covers the cases that matter, on length and style biases in the data, and on distribution shift between the data and the model's own outputs.",
    "people": [
@@ -5716,7 +5716,7 @@ window.TIMELINE_DATA = {
     },
     {
      "term": "implicit reward",
-     "def": "In DPO, β times the log-ratio of the policy's and the reference model's probabilities for a response. It plays the role of the reward without a separate network."
+     "def": "In DPO, \\(\\beta\\) times the log-ratio of the policy's and the reference model's probabilities for a response. It plays the role of the reward without a separate network."
     }
    ],
    "verified": {
@@ -6235,7 +6235,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "The US federal government knew nothing about how 'dual-use foundation models', large general-purpose models that could serve harmful as well as useful ends, were being developed and tested. It had no standards for evaluating them either.",
-   "idea": "President Biden's order used the Defense Production Act to make developers of such models report on their training, on how they secured the model weights and on the results of red-teaming, where testers deliberately try to make a model misbehave. The duty applied above a compute threshold of 10^26 operations, a rough proxy for capability. The order also directed NIST to build evaluation standards.",
+   "idea": "President Biden's order used the Defense Production Act to make developers of such models report on their training, on how they secured the model weights and on the results of red-teaming, where testers deliberately try to make a model misbehave. The duty applied above a compute threshold of \\(10^{26}\\) operations, a rough proxy for capability. The order also directed NIST to build evaluation standards.",
    "changed": "NIST's work under the order led to the US AI Safety Institute. The EU AI Act and later state proposals also used compute thresholds, under different legal regimes.",
    "limits": "An executive order is not a law, and this one was revoked on 20 January 2025. Its reporting requirements were light, and their enforcement was never tested.",
    "people": [
@@ -6440,7 +6440,7 @@ window.TIMELINE_DATA = {
    "kind": "benchmark",
    "importance": 2,
    "problem": "Benchmarks made of fixed questions and answers could not tell whether a model can complete a multi-step task that involves tools, a computer or a human user.",
-   "idea": "GAIA (November 2023) asks questions that are conceptually simple for humans but need web browsing, file handling and tool use, and that have unambiguous answers. OSWorld (April 2024) has 369 tasks in real Ubuntu, Windows and macOS environments, each checked by a script that inspects the result. In tau-bench (June 2024), agents must follow policy rules while serving simulated users in retail and airline settings. Its pass^k score asks whether an agent succeeds on all k repeated attempts at the same task, so it measures reliability.",
+   "idea": "GAIA (November 2023) asks questions that are conceptually simple for humans but need web browsing, file handling and tool use, and that have unambiguous answers. OSWorld (April 2024) has 369 tasks in real Ubuntu, Windows and macOS environments, each checked by a script that inspects the result. In tau-bench (June 2024), agents must follow policy rules while serving simulated users in retail and airline settings. Its pass\\(^k\\) score asks whether an agent succeeds on all \\(k\\) repeated attempts at the same task, so it measures reliability.",
    "changed": "OSWorld became the headline metric for the computer-use capability Claude released in October 2024.",
    "limits": "Simulated users and environments match real deployment only roughly.",
    "people": [
@@ -6493,8 +6493,8 @@ window.TIMELINE_DATA = {
    ],
    "terms": [
     {
-     "term": "pass^k",
-     "def": "The probability that an agent succeeds on all k independent attempts at the same task. It measures reliability instead of best-case ability."
+     "term": "pass\\(^k\\)",
+     "def": "The probability that an agent succeeds on all \\(k\\) independent attempts at the same task. It measures reliability instead of best-case ability."
     }
    ],
    "verified": {
@@ -6914,7 +6914,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "The EU had no law written specifically for AI, either one that set duties according to how risky a system is or one that covered general-purpose models, the kind that can be put to many different tasks.",
-   "idea": "The European Parliament adopted the AI Act on 13 March 2024. The Council approved it on 21 May, and the law entered into force on 1 August 2024. The Act sets duties by level of risk: it bans certain practices, regulates high-risk systems and requires transparency. A chapter added late in the process covers general-purpose AI models, with extra duties for those that pose 'systemic risk', presumed for models trained with more than 10^25 FLOP (floating-point operations).",
+   "idea": "The European Parliament adopted the AI Act on 13 March 2024. The Council approved it on 21 May, and the law entered into force on 1 August 2024. The Act sets duties by level of risk: it bans certain practices, regulates high-risk systems and requires transparency. A chapter added late in the process covers general-purpose AI models, with extra duties for those that pose 'systemic risk', presumed for models trained with more than \\(10^{25}\\) FLOP (floating-point operations).",
    "changed": "Providers of general-purpose models with systemic risk now had binding duties to document their models, evaluate them, manage their risks and report incidents.",
    "limits": "Obligations apply in phases, and the details were left to standards, guidance and codes. In 2026 the AI Omnibus changed the deadlines for high-risk systems.",
    "people": [
@@ -6956,7 +6956,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "GPAI model with systemic risk",
-     "def": "Under the EU AI Act, a general-purpose model with high-impact capabilities (presumed above 10^25 training FLOP) that carries extra evaluation and reporting duties."
+     "def": "Under the EU AI Act, a general-purpose model with high-impact capabilities (presumed above \\(10^{25}\\) training FLOP) that carries extra evaluation and reporting duties."
     }
    ],
    "verified": {

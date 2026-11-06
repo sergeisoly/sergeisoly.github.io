@@ -1,5 +1,5 @@
 /* Paths to Alignment — renders into mount points: <div class="atlas" data-atlas="map|routes|people|index|glossary">.
-   Data: window.TIMELINE_DATA (build_data.py). Diagrams: window.DIAGRAMS (diagrams.js). No dependencies. */
+   Data: window.TIMELINE_DATA (build_data.py). Diagrams: window.DIAGRAMS (diagrams.js). Formulas: MathJax 3 from jsDelivr, loaded by the page; without it they show as plain text. */
 (function () {
   "use strict";
   const D = window.TIMELINE_DATA || {};
@@ -8,6 +8,91 @@
   const NS = "http://www.w3.org/2000/svg";
   const $ = (s, r = document) => r.querySelector(s);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  /* ---------- math ----------
+     Card text and captions write formulas as TeX between \( and \); diagrams carry <g class="tex-slot"> placeholders.
+     MathJax (loaded by the page) typesets both as SVG. Until it is ready, or if it never loads, readable plain text shows. */
+  const mathReady = () => Boolean(window.MathJax && MathJax.tex2svg && MathJax.startup && MathJax.startup.document);
+  const TEX_PLAIN = { alpha: "α", beta: "β", gamma: "γ", delta: "δ", Delta: "Δ", varepsilon: "ε", epsilon: "ε", theta: "θ", lambda: "λ", pi: "π", rho: "ρ", sigma: "σ", Phi: "Φ",
+    nabla: "∇", leftarrow: "←", le: "≤", cdot: "·", mid: "|", succ: "≻", prime: "′", max: "max", min: "min", log: "log", ",": " ", " ": " ", "!": "" };
+  const texPlain = (tex) => tex
+    .replace(/\\(?:mathrm|text|mathbb|operatorname)\{([^{}]*)\}/g, "$1")
+    .replace(/\\([A-Za-z]+|[,! ])/g, (m, w) => TEX_PLAIN[w] ?? w)
+    .replace(/\^\{([^{}]*)\}|\^(\w)/g, (m, a, b) => "^" + (a || b)).replace(/_\{([^{}]*)\}|_(\w)/g, (m, a, b) => a || b)
+    .replace(/'/g, "′").replace(/[{}]/g, "");
+  function texInline(tex) {
+    if (!mathReady()) return `<span class="tex-fallback">${esc(texPlain(tex))}</span>`;
+    try { return MathJax.tex2svg(tex, { display: false }).outerHTML; } catch (err) { return `<span class="tex-fallback">${esc(texPlain(tex))}</span>`; }
+  }
+  // Escaped text with every \(…\) span typeset.
+  const prose = (s) => String(s == null ? "" : s).split(/\\\((.+?)\\\)/s).map((part, i) => (i % 2 ? texInline(part) : esc(part))).join("");
+  // Text for search and plain contexts: TeX spans reduced to readable symbols.
+  const plainText = (s) => String(s == null ? "" : s).replace(/\\\((.+?)\\\)/gs, (m, tex) => texPlain(tex));
+  // Fill diagram placeholders. A slot's TeX is split into runs: words in \text{…} are drawn as SVG text in the
+  // diagram's own font (measured with a canvas), the rest is typeset by MathJax. MathJax sizes its SVG in ex with
+  // 1ex = 0.5em, so ex × 0.5 × font size gives diagram units.
+  const TEX_GAPS = /\\ |\\quad|\\qquad|\\,/g, TEX_GAP_EM = { "\\ ": 0.27, "\\quad": 1, "\\qquad": 2, "\\,": 0.17 };
+  const gapEm = (w) => (w.match(TEX_GAPS) || []).reduce((n, g) => n + TEX_GAP_EM[g], 0);
+  // A relation at the edge of a math run that borders a word (\text{loss} = …) has no left/right atom once the
+  // run is typeset alone, so TeX drops its spacing; an empty {} atom on that side restores it.
+  const TEX_REL = String.raw`(?:=|<|>|\\le|\\ge|\\approx|\\succ|\\prec|\\gets|\\leftarrow|\\to|\\rightarrow)`;
+  const relStart = new RegExp("^" + TEX_REL), relEnd = new RegExp(TEX_REL + "$");
+  function texRuns(tex) {
+    const runs = [], lead = /^(?:\s*(?:\\ |\\quad|\\qquad|\\,))+\s*/, trail = /(?:\s*(?:\\ |\\quad|\\qquad|\\,))+\s*$/;
+    const addMath = (m) => {
+      const a = m.match(lead); if (a) { runs.push({ gap: gapEm(a[0]) }); m = m.slice(a[0].length); }
+      const b = m.match(trail), rest = b ? m.slice(0, b.index) : m;
+      let math = rest.trim();
+      if (relStart.test(math)) math = "{}" + math;
+      if (relEnd.test(math)) math += "{}";
+      if (math) runs.push({ math });
+      if (b && rest.trim()) runs.push({ gap: gapEm(b[0]) });
+    };
+    let last = 0;
+    for (const m of tex.matchAll(/\\text\{([^{}]*)\}/g)) { addMath(tex.slice(last, m.index)); runs.push({ text: m[1] }); last = m.index + m[0].length; }
+    addMath(tex.slice(last));
+    return runs;
+  }
+  const canvasCtx = document.createElement("canvas").getContext("2d");
+  const textWidth = (s, size, family, weight) => { canvasCtx.font = `${weight || 400} ${size}px ${family}`; return canvasCtx.measureText(s).width; };
+  function fillMath(root) {
+    if (!root || !mathReady()) return;
+    root.querySelectorAll("g.tex-slot:not(.typeset)").forEach((g) => {
+      const size = Number(g.dataset.size) || 11, k = size * 0.5, weight = g.dataset.weight || "";
+      const family = g.closest("svg[font-family]")?.getAttribute("font-family") || "sans-serif";
+      let parts;
+      try {
+        parts = texRuns(g.dataset.tex).map((r) => {
+          if (r.gap) return { w: r.gap * size };
+          if (r.text != null) return { text: r.text, w: textWidth(r.text, size, family, weight) };
+          const svg = MathJax.tex2svg(r.math, { display: false }).querySelector("svg");
+          return { svg, w: parseFloat(svg.getAttribute("width")) * k, h: parseFloat(svg.getAttribute("height")) * k, depth: -parseFloat(svg.style.verticalAlign || "0") * k };
+        });
+      } catch (err) { return; }
+      const total = parts.reduce((n, p) => n + p.w, 0), maxW = Number(g.dataset.max) || 440, f = total > maxW ? maxW / total : 1;
+      const anchor = g.dataset.anchor || "middle", y = Number(g.dataset.y), fill = `var(--${g.dataset.tone || "ink-2"})`;
+      let x = Number(g.dataset.x) - (anchor === "middle" ? total * f / 2 : anchor === "end" ? total * f : 0);
+      const label = g.textContent.trim(), nodes = [];
+      for (const p of parts) {
+        if (p.text != null) {
+          const tx = document.createElementNS(NS, "text");
+          tx.setAttribute("x", x.toFixed(1)); tx.setAttribute("y", y); tx.setAttribute("font-size", (size * f).toFixed(2));
+          if (weight) tx.setAttribute("font-weight", weight);
+          tx.setAttribute("style", `fill:${fill};white-space:pre`); tx.textContent = p.text; nodes.push(tx);
+        } else if (p.svg) {
+          const w = p.w * f, h = p.h * f, svg = p.svg;
+          svg.setAttribute("x", x.toFixed(1)); svg.setAttribute("y", (y - h + p.depth * f).toFixed(1));
+          svg.setAttribute("width", w.toFixed(1)); svg.setAttribute("height", h.toFixed(1));
+          svg.setAttribute("style", `width:${w.toFixed(1)}px;height:${h.toFixed(1)}px;min-width:0;max-width:none;display:inline;overflow:visible;color:${fill}`);
+          svg.removeAttribute("role"); svg.removeAttribute("focusable"); nodes.push(svg);
+        }
+        x += p.w * f;
+      }
+      g.replaceChildren(...nodes); g.classList.add("typeset");
+      g.setAttribute("role", "img"); g.setAttribute("aria-label", label);
+      nodes.forEach((n) => n.setAttribute("aria-hidden", "true"));
+    });
+  }
+
   const lc = (l) => `var(--${l})`;
   const REL = { builds_on: "Builds on", responds_to: "Responds to", enables: "Enables", tests: "Tests", critiques: "Critiques", parallel: "Compare with" };
   const REL_IN = { builds_on: "Built on by", responds_to: "Answered by", enables: "Enabled by", tests: "Tested by", critiques: "Critiqued by", parallel: "Compare with" };
@@ -108,8 +193,8 @@
     if (!q) return true;
     const organisations = D.orgs.filter((o) => orgMatches(e, o)).flatMap((o) => [o.name, ...(o.aliases || []), o.historical_role]);
     const researchers = D.people.filter((p) => (p.key_event_ids || []).includes(e.id)).map((p) => p.name);
-    const hay = [e.title, e.label, e.problem, e.idea, e.changed, e.limits, e.date_context,
-      ...(e.people || []), ...(e.orgs || []), ...(e.tags || []), ...(e.terms || []).flatMap((t) => [t.term, t.def]),
+    const hay = [e.title, e.label, plainText(e.problem), plainText(e.idea), plainText(e.changed), plainText(e.limits), e.date_context,
+      ...(e.people || []), ...(e.orgs || []), ...(e.tags || []), ...(e.terms || []).flatMap((t) => [plainText(t.term), plainText(t.def)]),
       ...organisations, ...researchers].filter(Boolean).join(" ").toLowerCase();
     return q.toLowerCase().split(/\s+/).every((w) => hay.includes(w));
   }
@@ -334,8 +419,8 @@
       g.addEventListener("focus", () => { state.focus = e.id; });
       g.addEventListener("click", (ev) => { ev.stopPropagation(); select(e.id); });
       g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(e.id); } });
-      g.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${esc(e.idea || e.problem || "")}</span>`));
-      g.addEventListener("focus", (ev) => { showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${esc(e.idea || e.problem || "")}</span>`); g.setAttribute("aria-describedby", "atlas-preview"); });
+      g.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`));
+      g.addEventListener("focus", (ev) => { showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`); g.setAttribute("aria-describedby", "atlas-preview"); });
       g.addEventListener("blur", hideTip);
       g.addEventListener("mousemove", moveTip);
       g.addEventListener("mouseleave", hideTip);
@@ -589,7 +674,7 @@
     const conns = connectionsFor(e.id).map((c) => ({ ...c, id: c.from === e.id ? c.to : c.from, rel: (c.from === e.id ? REL : REL_IN)[c.type] || c.type })).sort((a, b) => byId.get(a.id).date_sort.localeCompare(byId.get(b.id).date_sort));
     const dg = window.DIAGRAMS && window.DIAGRAMS.forEvent(e);
     // The card reads as a short note: problem, idea, consequence and limits are paragraphs, not labelled sections.
-    const para = (t, cls = "") => t ? `<p${cls ? ` class="${cls}"` : ""}>${esc(t)}</p>` : "";
+    const para = (t, cls = "") => t ? `<p${cls ? ` class="${cls}"` : ""}>${prose(t)}</p>` : "";
     const routes = D.threads.filter((t) => t.event_ids.includes(e.id));
     pane.innerHTML = `<article class="pane">
       <div class="head">
@@ -600,9 +685,9 @@
       <section class="connection-detail" id="atlas-connection-detail" aria-labelledby="atlas-connection-title" hidden></section>
       <div class="qa">
         <div class="prose">${para(e.problem)}${para(e.idea)}</div>
-        ${dg ? `<figure class="diagram"><div class="diagram-viewport" role="group" aria-label="Diagram">${dg.svg}</div><p class="diagram-pan-hint" id="diagram-pan-${esc(e.id)}" hidden>Swipe to see the full diagram →</p><figcaption>${esc(dg.caption)}</figcaption></figure>` : ""}
+        ${dg ? `<figure class="diagram"><div class="diagram-viewport" role="group" aria-label="Diagram">${dg.svg}</div><p class="diagram-pan-hint" id="diagram-pan-${esc(e.id)}" hidden>Swipe to see the full diagram →</p><figcaption>${prose(dg.caption)}</figcaption></figure>` : ""}
         ${e.changed || e.limits ? `<div class="prose">${para(e.changed)}${para(e.limits, "limits")}</div>` : ""}
-        ${(e.terms || []).length ? `<div><div class="eyebrow">Terms</div><dl class="terms">${e.terms.map((t) => `<dt>${esc(t.term)}</dt><dd>${esc(t.def)}</dd>`).join("")}</dl></div>` : ""}
+        ${(e.terms || []).length ? `<div><div class="eyebrow">Terms</div><dl class="terms">${e.terms.map((t) => `<dt>${prose(t.term)}</dt><dd>${prose(t.def)}</dd>`).join("")}</dl></div>` : ""}
       </div>
       <div class="side">
         ${conns.length ? `<div><div class="eyebrow">Connections</div><ul class="conn">${conns.map((c) => { const o = byId.get(c.id); return `<li data-connection-row="${esc(c.key)}"><span class="rel">${esc(c.rel)}</span><span><a href="#${esc(c.id)}" data-ev="${esc(c.id)}">${esc(o.title)}</a> <span class="num" style="color:var(--muted)">${o.date_sort.slice(0, 4)}</span>${c.note ? `<span class="why">${esc(c.note)}</span>` : ""}<button type="button" class="text-button connection-explain" data-explain-connection="${esc(c.key)}" aria-expanded="${state.connection === c.key}" aria-controls="atlas-connection-detail" aria-label="Explain: ${esc(connectionLabel(c))}">Explain this connection</button></span></li>`; }).join("")}</ul></div>` : ""}
@@ -611,7 +696,7 @@
       </div>
       <div class="foot"><span><button type="button" class="text-button" data-nav="-1">← Earlier</button> &nbsp; <button type="button" class="text-button" data-nav="1">Later →</button></span><button type="button" class="text-button" data-act="locate">Show on map ↑</button></div>
     </article>`;
-    renderConnectionDetail(); updateDiagramHints();
+    fillMath(pane); renderConnectionDetail(); updateDiagramHints();
   }
   function orgLink(name) {
     const o = orgForName(name) || [...orgById.values()].find((x) => x.name === name);
@@ -985,8 +1070,8 @@
     const seen = new Map();
     D.events.forEach((e) => (e.terms || []).forEach((t) => { const k = t.term.toLowerCase(); if (!seen.has(k)) seen.set(k, { ...t, ev: e }); }));
     const q = "";
-    const list = [...seen.values()].sort((a, b) => a.term.localeCompare(b.term));
-    m.innerHTML = `<details${q ? " open" : ""}><summary>All terms<span class="eyebrow">${list.length}</span></summary><div class="gloss">${list.map((t) => `<div><b>${esc(t.term)}</b><p>${esc(t.def)} <a href="#${esc(t.ev.id)}" data-ev-reveal="${esc(t.ev.id)}">${esc(t.ev.label)}, ${t.ev.date_sort.slice(0, 4)}</a></p></div>`).join("")}</div></details>`;
+    const list = [...seen.values()].sort((a, b) => plainText(a.term).localeCompare(plainText(b.term)));
+    m.innerHTML = `<details${q ? " open" : ""}><summary>All terms<span class="eyebrow">${list.length}</span></summary><div class="gloss">${list.map((t) => `<div><b>${prose(t.term)}</b><p>${prose(t.def)} <a href="#${esc(t.ev.id)}" data-ev-reveal="${esc(t.ev.id)}">${esc(t.ev.label)}, ${t.ev.date_sort.slice(0, 4)}</a></p></div>`).join("")}</div></details>`;
   }
 
   /* ---------- events ---------- */
@@ -1116,6 +1201,8 @@
   }
   addEventListener("popstate", (ev) => { if (!restoreSnapshot(ev.state && ev.state.atlas)) fromHash(); });
   addEventListener("hashchange", () => { fromHash(); saveHistory(true, true); });
+  // MathJax loads after this script: once it is ready, redraw the parts that show formulas.
+  addEventListener("atlas-math-ready", () => { document.head.appendChild(MathJax.svgStylesheet()); renderPane(); renderGlossary(); });
   setPanel("map");
   restoreSnapshot(history.state && history.state.atlas);
   fromHash(); saveHistory(true, true);

@@ -10,13 +10,21 @@
 <defs><marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--line)"/></marker></defs>${body.replace(/url\(#ah\)/g, `url(#${id})`)}</svg>`;
   };
   const TONE = { "var(--rl)": "rl", "var(--safety)": "safety", "var(--lm)": "lm", "var(--gov)": "gov" };
+  // A TeX formula. atlas.js typesets it with MathJax once that has loaded; until then the plain text shows.
+  const attr = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+  const m = (x, y, tex, plain, o = {}) => {
+    const anchor = o.anchor || "middle", size = o.size || 11, tone = o.tone || "ink-2";
+    return `<g class="tex-slot" data-tex="${attr(tex)}" data-x="${x}" data-y="${y}" data-size="${size}" data-anchor="${anchor}" data-tone="${tone}"${o.max ? ` data-max="${o.max}"` : ""}${o.weight ? ` data-weight="${o.weight}"` : ""}><text x="${x}" y="${y}" text-anchor="${anchor}" font-size="${size}"${o.weight ? ` font-weight="${o.weight}"` : ""} style="fill:var(--${tone})">${plain}</text></g>`;
+  };
+  // Box labels are plain strings or { tex, plain } formulas.
+  const label = (x, y, v, size, tone, extra = "") => typeof v === "object" ? m(x, y, v.tex, v.plain, { size, tone, weight: extra ? 500 : 0 }) : `<text x="${x}" y="${y}" text-anchor="middle" style="fill:var(--${tone})" font-size="${size}"${extra}>${v}</text>`;
   const box = (x, y, w, h, text, c = "", sub = "") => {
     const t = TONE[c] || "grey";
     return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" style="fill:var(--${t}-fill);stroke:var(--${t}-edge)" stroke-width="1"/>
-<text x="${x + w / 2}" y="${y + h / 2 + (sub ? -2 : 4)}" text-anchor="middle" style="fill:var(--ink)" font-size="12" font-weight="500">${text}</text>${sub ? `<text x="${x + w / 2}" y="${y + h / 2 + 12}" text-anchor="middle" style="fill:var(--muted)" font-size="10">${sub}</text>` : ""}`;
+${label(x + w / 2, y + h / 2 + (sub ? -2 : 4), text, 12, "ink", ' font-weight="500"')}${sub ? label(x + w / 2, y + h / 2 + 12, sub, 10, "muted") : ""}`;
   };
   const arrow = (x1, y1, x2, y2, label = "", dy = -5, dashed = false) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:var(--line)" stroke-width="1.4" marker-end="url(#ah)" ${dashed ? 'stroke-dasharray="4 3"' : ""}/>${label ? `<text x="${(x1 + x2) / 2}" y="${(y1 + y2) / 2 + dy}" text-anchor="middle" style="fill:var(--muted)" font-size="10">${label}</text>` : ""}`;
-  const curve = (d, label = "", lx = 0, ly = 0) => `<path d="${d}" fill="none" style="stroke:var(--line)" stroke-width="1.4" marker-end="url(#ah)"/>${label ? `<text x="${lx}" y="${ly}" text-anchor="middle" style="fill:var(--muted)" font-size="10">${label}</text>` : ""}`;
+  const curve = (d, label = "", lx = 0, ly = 0) => `<path d="${d}" fill="none" style="stroke:var(--line)" stroke-width="1.4" marker-end="url(#ah)"/>${typeof label === "object" ? m(lx, ly, label.tex, label.plain, { size: 10, tone: "muted" }) : label ? `<text x="${lx}" y="${ly}" text-anchor="middle" style="fill:var(--muted)" font-size="10">${label}</text>` : ""}`;
   const t = (x, y, s, o = "") => {
     const extraStyle = (o.match(/style="([^"]*)"/) || [])[1] || "";
     return `<text x="${x}" y="${y}" ${o.replace(/style="[^"]*"/, "")} style="fill:var(--ink-2);${extraStyle}">${s}</text>`;
@@ -24,23 +32,23 @@
 
   const D = {
     rlLoop: {
-      caption: "The agent acts and observes a new state and reward. The formula is TD(0) prediction for a fixed policy: V is state value, α the learning rate and γ the discount factor. It is not the Q-learning action-value update.",
-      svg: wrap(`${box(40, 70, 120, 56, "Agent", "var(--rl)", "policy π(a|s)")}${box(300, 70, 120, 56, "Environment", "var(--ink-2)", "dynamics")}
-${curve("M160,82 C220,40 240,40 300,82", "action aₜ", 230, 44)}${curve("M300,108 C240,150 220,150 160,108", "state sₜ₊₁, reward rₜ₊₁", 230, 168)}
-${t(230, 198, "TD(0): V(s) ← V(s) + α [ r + γ V(s′) − V(s) ]", 'text-anchor="middle" font-size="10.5"')}`),
+      caption: "The agent acts and observes a new state and reward. The formula is TD(0) prediction for a fixed policy: \\(V\\) is state value, \\(\\alpha\\) the learning rate and \\(\\gamma\\) the discount factor. It is not the Q-learning action-value update.",
+      svg: wrap(`${box(40, 70, 120, 56, "Agent", "var(--rl)", { tex: "\\text{policy}\\  \\pi(a \\mid s)", plain: "policy π(a|s)" })}${box(300, 70, 120, 56, "Environment", "var(--ink-2)", "dynamics")}
+${curve("M160,82 C220,40 240,40 300,82", { tex: "\\text{action}\\ a_t", plain: "action aₜ" }, 230, 44)}${curve("M300,108 C240,150 220,150 160,108", { tex: "\\text{state}\\ s_{t+1}\\text{, reward}\\ r_{t+1}", plain: "state sₜ₊₁, reward rₜ₊₁" }, 230, 168)}
+${m(230, 198, "\\text{TD(0):}\\quad V(s) \\leftarrow V(s) + \\alpha\\,[\\,r + \\gamma V(s') - V(s)\\,]", "TD(0): V(s) ← V(s) + α [ r + γ V(s′) − V(s) ]", { size: 11.5 })}`),
     },
     qLearning: {
-      caption: "Q-learning updates Q(s,a), the estimated value of taking action a in state s. The target is reward r plus the discounted value of the best estimated next action. α is the learning rate and γ the discount factor; s′ is the next state and a′ ranges over its actions. DQN approximates Q with a neural network.",
-      svg: wrap(`${box(30, 65, 150, 56, "Choose action", "var(--rl)", "e.g. ε-greedy from Q")}${box(290, 65, 140, 56, "Environment", "var(--ink-2)", "state transition")}
+      caption: "Q-learning updates \\(Q(s,a)\\), the estimated value of taking action \\(a\\) in state \\(s\\). The target is reward \\(r\\) plus the discounted value of the best estimated next action. \\(\\alpha\\) is the learning rate and \\(\\gamma\\) the discount factor; \\(s'\\) is the next state and \\(a'\\) ranges over its actions. DQN approximates \\(Q\\) with a neural network.",
+      svg: wrap(`${box(30, 65, 150, 56, "Choose action", "var(--rl)", { tex: "\\text{e.g.}\\ \\varepsilon\\text{-greedy from}\\  Q", plain: "e.g. ε-greedy from Q" })}${box(290, 65, 140, 56, "Environment", "var(--ink-2)", "state transition")}
 ${curve("M180,78 C220,35 250,35 290,78", "action a", 235, 38)}${curve("M290,108 C245,150 220,150 180,108", "next state s′, reward r", 230, 160)}
-${t(230, 192, "Q(s,a) ← Q(s,a) + α [ r + γ maxₐ′ Q(s′,a′) − Q(s,a) ]", 'text-anchor="middle" font-size="10.2"')}`),
+${m(230, 194, "Q(s,a) \\leftarrow Q(s,a) + \\alpha\\,[\\,r + \\gamma \\max_{a'} Q(s',a') - Q(s,a)\\,]", "Q(s,a) ← Q(s,a) + α [ r + γ maxₐ′ Q(s′,a′) − Q(s,a) ]", { size: 11.5 })}`),
     },
     rlhf: {
-      caption: "InstructGPT-style RLHF: imitate demonstrations, fit a reward model to comparisons, then use PPO with a reference KL penalty. Here π is the policy, πSFT its supervised starting point, rRM the learned reward and β the penalty weight. Earlier preference-learning experiments used different starting-model recipes.",
-      svg: wrap(`${box(10, 30, 125, 50, "1 · SFT", "var(--lm)", "imitate human demos")}${box(167, 30, 125, 50, "2 · Reward model", "var(--safety)", "learn from A ≻ B")}${box(324, 30, 125, 50, "3 · RL (PPO)", "var(--rl)", "maximize RM score")}
+      caption: "InstructGPT-style RLHF: imitate demonstrations, fit a reward model to comparisons, then use PPO with a reference KL penalty. Here \\(\\pi\\) is the policy, \\(\\pi_{\\mathrm{SFT}}\\) its supervised starting point, \\(r_{\\mathrm{RM}}\\) the learned reward and \\(\\beta\\) the penalty weight. Earlier preference-learning experiments used different starting-model recipes.",
+      svg: wrap(`${box(10, 30, 125, 50, "1 · SFT", "var(--lm)", "imitate human demos")}${box(167, 30, 125, 50, "2 · Reward model", "var(--safety)", { tex: "\\text{learn from}\\ A \\succ B", plain: "learn from A ≻ B" })}${box(324, 30, 125, 50, "3 · RL (PPO)", "var(--rl)", "maximize RM score")}
 ${arrow(135, 55, 165, 55)}${arrow(292, 55, 322, 55)}
 ${box(167, 125, 125, 46, "Humans compare", "var(--ink-2)", "pairs of outputs")}${arrow(229, 125, 229, 82, "labels", 4)}
-${t(318, 110, "objective:", 'font-size="10"')}${t(318, 126, "r_RM − β·KL(π ‖ π_SFT)", 'font-size="10.5"')}${t(318, 148, "the KL term keeps the policy", 'font-size="10" style="fill:var(--muted)"')}${t(318, 161, "near the SFT model and", 'font-size="10" style="fill:var(--muted)"')}${t(318, 174, "limits reward hacking", 'font-size="10" style="fill:var(--muted)"')}`),
+${t(318, 110, "objective:", 'font-size="10"')}${m(318, 128, "r_{\\mathrm{RM}} - \\beta\\,\\mathrm{KL}(\\pi \\,\\|\\, \\pi_{\\mathrm{SFT}})", "r_RM − β·KL(π ‖ π_SFT)", { size: 11.5, anchor: "start", max: 138 })}${t(318, 148, "the KL term keeps the policy", 'font-size="10" style="fill:var(--muted)"')}${t(318, 161, "near the SFT model and", 'font-size="10" style="fill:var(--muted)"')}${t(318, 174, "limits reward hacking", 'font-size="10" style="fill:var(--muted)"')}`),
     },
     lmPrefs: {
       caption: "Ziegler et al. 2019 fit a reward model to human comparisons of language-model outputs, then optimize the language model with PPO and a reference KL penalty. The experiments compared pretrained, supervised and RL variants; they did not all start from InstructGPT-style demonstration fine-tuning.",
@@ -60,10 +68,10 @@ ${box(60, 130, 140, 46, "AI judge compares", "var(--safety)", "using the constit
 ${t(10, 205, "“Constitution” = short list of natural-language principles", 'font-size="10" style="fill:var(--muted)"')}`),
     },
     attention: {
-      caption: "Self-attention mixes value vectors V using similarities between queries Q and keys K. The mask M controls visibility: a causal token can read only itself and earlier positions. dₖ is the key dimension. During training, known sequence positions can be processed in parallel; autoregressive generation remains sequential.",
+      caption: "Self-attention mixes value vectors \\(V\\) using similarities between queries \\(Q\\) and keys \\(K\\). The mask \\(M\\) controls visibility: a causal token can read only itself and earlier positions. \\(d_k\\) is the key dimension. During training, known sequence positions can be processed in parallel; autoregressive generation remains sequential.",
       svg: wrap(`${["The", "model", "that", "was", "trained", "learns"].map((w, i) => `<rect x="${20 + i * 72}" y="150" width="62" height="28" rx="6" style="fill:var(--surface);stroke:var(--lm)"/><text x="${51 + i * 72}" y="168" text-anchor="middle" style="fill:var(--ink)">${w}</text>`).join("")}
 ${[[0, 0.15], [1, 0.75], [2, 0.2], [3, 0.3], [4, 0.6]].map(([i, w]) => `<path d="M${51 + i * 72},150 Q${(51 + i * 72 + 411) / 2},${40 + i * 6} 411,150" fill="none" style="stroke:var(--lm)" stroke-width="${1 + w * 5}" opacity="${0.25 + w * 0.7}"/>`).join("")}
-${t(230, 25, "softmax(QKᵀ/√dₖ + M)·V", 'text-anchor="middle"')}${t(230, 43, "Illustration: final token “learns” reads its earlier context", 'text-anchor="middle" font-size="10"')}`),
+${m(230, 25, "\\mathrm{softmax}(QK^{\\top}/\\sqrt{d_k} + M)\\,V", "softmax(QKᵀ/√dₖ + M)·V", { size: 11.5 })}${t(230, 43, "Illustration: final token “learns” reads its earlier context", 'text-anchor="middle" font-size="10"')}`),
     },
     superposition: {
       caption: "Superposition: a two-dimensional activation can encode more than two sparse features in different directions, illustrated by a pentagon. The representation trades capacity against interference; the directions need not be orthogonal, and individual neurons may respond to several features.",
@@ -72,20 +80,20 @@ ${[0, 1, 2, 3, 4].map((k) => { const a = -Math.PI / 2 + (k * 2 * Math.PI) / 5; c
 ${t(260, 60, "5 features → 2 dimensions")}${t(260, 82, "works when features are sparse", 'style="fill:var(--muted)"')}${t(260, 120, "dense features → model keeps")}${t(260, 136, "only the most important ones", 'style="fill:var(--muted)"')}`),
     },
     pg: {
-      caption: "A REINFORCE-style update weights the sampled log-probability gradient by return R minus an action-independent baseline b. θ denotes policy parameters, πθ(a|s) the action distribution and α the learning rate. The bars illustrate the direction of an update, not an exact computed optimizer step.",
-      svg: wrap(`${t(75, 22, "π before", 'text-anchor="middle" font-size="10.5"')}${t(225, 22, "advantage R − b", 'text-anchor="middle" font-size="10.5"')}${t(375, 22, "π after", 'text-anchor="middle" font-size="10.5"')}
+      caption: "A REINFORCE-style update weights the sampled log-probability gradient by return \\(R\\) minus an action-independent baseline \\(b\\). \\(\\theta\\) denotes policy parameters, \\(\\pi_\\theta(a \\mid s)\\) the action distribution and \\(\\alpha\\) the learning rate. The bars illustrate the direction of an update, not an exact computed optimizer step.",
+      svg: wrap(`${t(75, 22, "π before", 'text-anchor="middle" font-size="10.5"')}${m(225, 22, "\\text{advantage}\\  R - b", "advantage R − b", { size: 10.5 })}${t(375, 22, "π after", 'text-anchor="middle" font-size="10.5"')}
 ${arrow(118, 18, 168, 18)}${arrow(282, 18, 332, 18)}
 ${[0.33, 0.33, 0.34].map((v, i) => `<rect x="${37 + i * 28}" y="${150 - v * 150}" width="22" height="${v * 150}" rx="2" style="fill:var(--rl-fill);stroke:var(--rl-edge)"/><text x="${48 + i * 28}" y="166" text-anchor="middle" style="fill:var(--muted)" font-size="10">a${i + 1}</text>`).join("")}
 <line x1="180" x2="272" y1="95" y2="95" style="stroke:var(--line-2)"/>${[3, -2, 1].map((v, i) => `<rect x="${187 + i * 28}" y="${v > 0 ? 95 - v * 15 : 95}" width="22" height="${Math.abs(v) * 15}" rx="2" style="fill:var(--${v > 0 ? "rl" : "safety"}-fill);stroke:var(--${v > 0 ? "rl" : "safety"}-edge)"/><text x="${198 + i * 28}" y="${v > 0 ? 88 - v * 15 : 112 - v * 15}" text-anchor="middle" style="fill:var(--ink-2)" font-size="10">${v > 0 ? "+" + v : "−" + -v}</text>`).join("")}
 ${[0.47, 0.18, 0.35].map((v, i) => `<rect x="${337 + i * 28}" y="${150 - v * 150}" width="22" height="${v * 150}" rx="2" style="fill:var(--rl-fill);stroke:var(--rl)"/><text x="${348 + i * 28}" y="166" text-anchor="middle" style="fill:var(--muted)" font-size="10">a${i + 1}</text>`).join("")}
-${t(230, 194, "θ ← θ + α · ∇θ log πθ(a|s) · (R − b)", 'text-anchor="middle" font-size="11"')}`),
+${m(230, 196, "\\theta \\leftarrow \\theta + \\alpha\\, \\nabla_\\theta \\log \\pi_\\theta(a \\mid s)\\,(R - b)", "θ ← θ + α · ∇θ log πθ(a|s) · (R − b)", { size: 12 })}`),
     },
     ppo: {
-      caption: "PPO-Clip uses ratio ρ = πnew(a|s)/πold(a|s), advantage A and clip parameter ε. Its objective caps a sample's incentive for a helpful probability change. It does not enforce a hard bound on the probability ratio or KL divergence; implementations may monitor KL and stop early.",
+      caption: "PPO-Clip uses ratio \\(\\rho = \\pi_{\\mathrm{new}}(a \\mid s)/\\pi_{\\mathrm{old}}(a \\mid s)\\), advantage \\(A\\) and clip parameter \\(\\varepsilon\\). Its objective caps a sample's incentive for a helpful probability change. It does not enforce a hard bound on the probability ratio or KL divergence; implementations may monitor KL and stop early.",
       svg: wrap(`${box(15, 30, 130, 48, "Collect trajectories", "var(--rl)", "under old policy")}${box(165, 30, 130, 48, "Estimate advantage", "var(--lm)", "often with a critic")}${box(315, 30, 130, 48, "Optimize surrogate", "var(--rl)", "several minibatches")}
 ${arrow(145, 54, 163, 54)}${arrow(295, 54, 313, 54)}
-${t(230, 115, "maximize mean[ min(ρA, clip(ρ, 1−ε, 1+ε)A) ]", 'text-anchor="middle" font-size="11"')}
-${t(230, 150, "positive A: incentive plateaus above ρ = 1+ε", 'text-anchor="middle" font-size="10"')}${t(230, 170, "negative A: incentive plateaus below ρ = 1−ε", 'text-anchor="middle" font-size="10"')}${t(230, 196, "Clipping limits incentive, not the actual policy change.", 'text-anchor="middle" font-size="10"')}`),
+${m(230, 117, "\\text{maximize}\\ \\ \\hat{\\mathbb{E}}\\big[\\min\\big(\\rho A,\\ \\mathrm{clip}(\\rho,\\, 1-\\varepsilon,\\, 1+\\varepsilon)\\,A\\big)\\big]", "maximize mean[ min(ρA, clip(ρ, 1−ε, 1+ε)A) ]", { size: 12 })}
+${m(230, 150, "\\text{positive}\\  A\\text{: incentive plateaus above}\\  \\rho = 1+\\varepsilon", "positive A: incentive plateaus above ρ = 1+ε", { size: 10.5 })}${m(230, 170, "\\text{negative}\\  A\\text{: incentive plateaus below}\\  \\rho = 1-\\varepsilon", "negative A: incentive plateaus below ρ = 1−ε", { size: 10.5 })}${t(230, 196, "Clipping limits incentive, not the actual policy change.", 'text-anchor="middle" font-size="10"')}`),
     },
     sae: {
       caption: "A sparse autoencoder represents a dense activation using a larger set of sparsely active features, then reconstructs the activation. These learned features can be easier to interpret than individual neurons, but they are not guaranteed to match the model's underlying units.",
@@ -120,10 +128,10 @@ ${t(140, 200, "weak teacher", 'text-anchor="middle" font-size="10"')}${t(230, 20
 <line x1="360" y1="120" x2="360" y2="40" style="stroke:var(--ink-2)"/><line x1="356" y1="75" x2="364" y2="75" style="stroke:var(--ink-2)"/>${t(368, 82, "PGR = gap", 'font-size="10"')}${t(368, 96, "recovered", 'font-size="10"')}`),
     },
     scaling: {
-      caption: "Scaling-law studies fit test loss as a power-law function of compute, data or parameter count: a straight line on log–log axes. Chinchilla studied how to divide a training budget between model size and data. Its compute-optimal allocation scales both together as the budget grows.",
+      caption: "Scaling-law studies fit test loss \\(L\\) as a power-law function of compute \\(C\\), data or parameter count: a straight line on log–log axes. Chinchilla studied how to divide a training budget between model size and data. Its compute-optimal allocation scales both together as the budget grows.",
       svg: wrap(`<line x1="50" y1="180" x2="440" y2="180" style="stroke:var(--line-2)"/><line x1="50" y1="180" x2="50" y2="20" style="stroke:var(--line-2)"/>
 <line x1="60" y1="35" x2="430" y2="165" style="stroke:var(--lm)" stroke-width="2.5"/>${[0, 1, 2, 3, 4, 5, 6].map((i) => `<circle cx="${80 + i * 55}" cy="${42 + i * 19.3 + (i % 2 ? 4 : -4)}" r="4" style="fill:var(--lm)"/>`).join("")}
-${t(245, 200, "log compute", 'text-anchor="middle" font-size="10"')}${t(12, 100, "log loss", 'font-size="10" transform="rotate(-90 22 100)"')}${t(250, 60, "L(C) ≈ (C₀/C)^α")}${t(250, 78, "predictable loss ≠ predictable abilities", 'font-size="10" style="fill:var(--muted)"')}`),
+${t(245, 200, "log compute", 'text-anchor="middle" font-size="10"')}${t(12, 100, "log loss", 'font-size="10" transform="rotate(-90 22 100)"')}${m(250, 60, "L(C) \\approx (C_0/C)^{\\alpha}", "L(C) ≈ (C₀/C)^α", { anchor: "start", size: 11.5 })}${t(250, 78, "predictable loss ≠ predictable abilities", 'font-size="10" style="fill:var(--muted)"')}`),
     },
     mesa: {
       caption: "Mesa-optimization: the base optimizer (SGD) selects a model for a base objective; if the model is itself an optimizer, its internal mesa-objective may differ. Matching on the training distribution does not settle which goal it learned.",
@@ -152,9 +160,9 @@ ${arrow(135, 61, 168, 61)}${arrow(290, 61, 323, 61)}${curve("M385,89 C385,160 75
 ${arrow(140, 55, 166, 55)}${arrow(293, 55, 318, 55, "reward", -6)}${box(170, 130, 125, 45, "Value model", "var(--lm)", "estimate advantage")}${arrow(295, 146, 365, 82)}${t(20, 199, "Reference KL discourages drift; checks can still be exploited.", 'font-size="10"')}`),
     },
     grpo: {
-      caption: "Original outcome-supervised GRPO samples G answers per prompt. With rewards r₁…rG, advantage Aᵢ = (rᵢ − mean(r))/std(r). It uses a clipped policy ratio and a reference KL term without a learned critic. Equal rewards give no reward-ranking signal and require handling zero variance.",
+      caption: "Original outcome-supervised GRPO samples \\(G\\) answers per prompt. With rewards \\(r_1, \\dots, r_G\\), advantage \\(A_i = (r_i - \\mathrm{mean}(r))/\\mathrm{std}(r)\\). It uses a clipped policy ratio and a reference KL term without a learned critic. Equal rewards give no reward-ranking signal and require handling zero variance.",
       svg: wrap(`${box(15, 28, 140, 50, "Sample G answers", "var(--lm)", "same prompt")}${box(185, 28, 110, 50, "Score answers", "var(--rl)", "task reward")}${box(325, 28, 120, 50, "Policy update", "var(--rl)", "clip ratio + KL")}
-${arrow(155, 53, 183, 53)}${arrow(295, 53, 323, 53)}${t(230, 114, "Aᵢ = (rᵢ − mean(r)) / std(r)", 'text-anchor="middle" font-size="12"')}${t(230, 145, "Using population std: [1, 0, 0, 1] → [1, −1, −1, 1]", 'text-anchor="middle" font-size="10"')}${t(230, 182, "Group baseline replaces a learned value model.", 'text-anchor="middle" font-size="10"')}`),
+${arrow(155, 53, 183, 53)}${arrow(295, 53, 323, 53)}${m(230, 113, "A_i = \\dfrac{r_i - \\mathrm{mean}(r)}{\\mathrm{std}(r)}", "Aᵢ = (rᵢ − mean(r)) / std(r)", { size: 12 })}${t(230, 145, "Using population std: [1, 0, 0, 1] → [1, −1, −1, 1]", 'text-anchor="middle" font-size="10"')}${t(230, 182, "Group baseline replaces a learned value model.", 'text-anchor="middle" font-size="10"')}`),
     },
     toolformer: {
       caption: "Toolformer's training procedure inserts candidate API calls into text, executes them, and keeps calls whose results reduce the prediction loss on later tokens. The model is fine-tuned on those filtered examples. This is self-supervised data construction, not the prompted multi-step ReAct loop.",
@@ -162,10 +170,10 @@ ${arrow(155, 53, 183, 53)}${arrow(295, 53, 323, 53)}${t(230, 114, "Aᵢ = (rᵢ 
 ${arrow(142, 57, 164, 57)}${arrow(296, 57, 318, 57)}${box(160, 140, 140, 48, "Fine-tune model", "var(--lm)", "predict call-augmented text")}${curve("M385,84 C385,140 330,164 302,164")}`),
     },
     dpo: {
-      caption: "DPO trains policy πθ directly from preference pairs relative to a frozen reference πref. x is the prompt, yw the preferred answer, yl the rejected answer, σ the logistic function and β a regularization parameter. It optimizes a preference loss without a separate reward-model training stage or an online RL sampling loop.",
-      svg: wrap(`${box(20, 30, 130, 50, "Preference pair", "var(--ink-2)", "y_w ≻ y_l")}${box(250, 30, 190, 50, "Policy π_θ", "var(--rl)", "vs. frozen π_ref")}${arrow(150, 55, 248, 55)}
-${t(230, 115, "Δ = log[πθ(yw|x)/πref(yw|x)] − log[πθ(yl|x)/πref(yl|x)]", 'text-anchor="middle" font-size="10"')}
-${t(230, 144, "loss = −log σ(βΔ)", 'text-anchor="middle" font-size="12"')}${t(230, 176, "yw: preferred answer · yl: rejected answer · x: prompt", 'text-anchor="middle" font-size="10"')}${t(230, 199, "β sets the scale; πref stays frozen.", 'text-anchor="middle" font-size="10"')}`),
+      caption: "DPO trains policy \\(\\pi_\\theta\\) directly from preference pairs relative to a frozen reference \\(\\pi_{\\mathrm{ref}}\\). \\(x\\) is the prompt, \\(y_w\\) the preferred answer, \\(y_l\\) the rejected answer, \\(\\sigma\\) the logistic function and \\(\\beta\\) a regularization parameter. It optimizes a preference loss without a separate reward-model training stage or an online RL sampling loop.",
+      svg: wrap(`${box(20, 30, 130, 50, "Preference pair", "var(--ink-2)", { tex: "y_w \\succ y_l", plain: "y_w ≻ y_l" })}${box(250, 30, 190, 50, { tex: "\\text{Policy}\\  \\pi_\\theta", plain: "Policy πθ" }, "var(--rl)", { tex: "\\text{vs. frozen}\\  \\pi_{\\mathrm{ref}}", plain: "vs. frozen πref" })}${arrow(150, 55, 248, 55)}
+${m(230, 121, "\\Delta = \\log\\dfrac{\\pi_\\theta(y_w \\mid x)}{\\pi_{\\mathrm{ref}}(y_w \\mid x)} - \\log\\dfrac{\\pi_\\theta(y_l \\mid x)}{\\pi_{\\mathrm{ref}}(y_l \\mid x)}", "Δ = log[πθ(yw|x)/πref(yw|x)] − log[πθ(yl|x)/πref(yl|x)]", { size: 12 })}
+${m(230, 158, "\\text{loss} = -\\log \\sigma(\\beta\\Delta)", "loss = −log σ(βΔ)", { size: 13 })}${m(230, 183, "y_w\\text{: preferred answer}\\ \\ \\cdot\\ \\ y_l\\text{: rejected answer}\\ \\ \\cdot\\ \\ x\\text{: prompt}", "yw: preferred answer · yl: rejected answer · x: prompt", { size: 10.5, tone: "muted" })}${m(230, 203, "\\beta\\ \\text{sets the scale;}\\  \\pi_{\\mathrm{ref}}\\ \\text{stays frozen.}", "β sets the scale; πref stays frozen.", { size: 10.5, tone: "muted" })}`),
     },
     ida: {
       caption: "A human breaks a hard question into smaller questions that copies of the current model can answer. This is amplification. A new model learns to imitate their combined answer through distillation, and the cycle repeats.",

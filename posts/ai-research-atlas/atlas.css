@@ -108,6 +108,11 @@
 .atlas .pane .side { display: grid; gap: 1.3rem; align-content: start; min-width: 0; }
 .atlas figure.diagram { margin: 0; padding: 1rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
 .atlas figure.diagram svg { width: 100%; height: auto; display: block; overflow: visible; }
+/* MathJax formulas (SVG output). Inline ones sit on the text baseline; diagram ones carry their own size. */
+/* width/height auto fall back to the ex sizes MathJax writes on the svg; the selectors outrank the diagram and map rules. */
+.atlas figure.diagram mjx-container > svg, .atlas .map mjx-container > svg { display: inline; width: auto; height: auto; min-width: 0; max-width: none; }
+.atlas mjx-container[jax="SVG"] { white-space: nowrap; }
+.atlas .tex-fallback { white-space: nowrap; }
 .atlas .diagram-viewport { overflow-x: auto; }
 .atlas .diagram-viewport:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .atlas .diagram-pan-hint { color: var(--muted); font-size: .75rem; margin: .4rem 0 0; }

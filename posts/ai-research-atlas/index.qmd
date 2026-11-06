@@ -42,4 +42,13 @@ This atlas traces that history from the 1950s to 2026 through papers, people and
 <script src="data.js"></script>
 <script src="diagrams.js"></script>
 <script src="atlas.js"></script>
+<script>
+// Formulas are TeX typeset by MathJax 3, as in the research papers; SVG output so they also fit inside the diagrams.
+window.MathJax = {
+  tex: { inlineMath: [["\\(", "\\)"]] },
+  svg: { fontCache: "none" },
+  startup: { typeset: false, ready() { MathJax.startup.defaultReady(); MathJax.startup.promise.then(() => dispatchEvent(new Event("atlas-math-ready"))); } },
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
 ```
