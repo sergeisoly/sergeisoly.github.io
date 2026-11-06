@@ -27,6 +27,13 @@ selected profile. Mobile readers switch between the map and reading area. The
 browser suite covers these transitions, history and focus restoration, source
 access, chart bounds and actual-theme layout in 26 scenarios.
 
+Active routes replace the chronological browser with a numbered reading sequence
+and named destinations. Relationship lines and connection rows share hover/focus
+highlighting; selecting either opens the recorded relationship and its note without
+changing the current event. Reciprocal relations retain their separate directions
+and notes. Teaching figures follow the idea they explain and remain separately
+hidden in quiz mode.
+
 Use `quarto preview` to inspect the draft. A release render deliberately omits draft
 posts from the published site. Keep `draft: true` until the author chooses to publish.
 
@@ -35,6 +42,8 @@ The browser regressions use an existing Playwright installation and Chrome. Poin
 `node scripts/ai-research-atlas/tests/navigation.cjs`. Set `PLAYWRIGHT_MODULE` and
 `CHROME_PATH` when those dependencies are outside the normal module/browser paths.
 `ATLAS_SCREENSHOT_DIR` optionally records desktop, mobile and diagram captures.
+Run `node scripts/ai-research-atlas/tests/reference-interactions.cjs` for ten
+additional route, relationship, history, figure and touch scenarios.
 
 ## Evidence and compute
 

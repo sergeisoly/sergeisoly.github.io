@@ -41,8 +41,14 @@
     if (!incoming.has(ln.to)) incoming.set(ln.to, []);
     incoming.get(ln.to).push({ from: e.id, type: ln.type, note: ln.note });
   }));
+  // Keep every directed relation and its note, including reciprocal interpretations.
+  const connections = D.events.flatMap((e) => (e.links || []).map((link, i) => ({ key: `${e.id}:${i}`, from: e.id, to: link.to, type: link.type, note: link.note }))).filter((c) => byId.has(c.to));
+  const connectionByKey = new Map(connections.map((c) => [c.key, c]));
+  const connectionsFor = (id) => connections.filter((c) => c.from === id || c.to === id);
+  const connectionLabel = (c) => `${byId.get(c.from).title} — ${(REL[c.type] || c.type).toLowerCase()} — ${byId.get(c.to).title}`;
 
-  const state = { selected: null, route: null, org: null, query: "", queryInput: "", minImp: 2, zoom: 1, lanes: new Set(D.lanes.map((l) => l.id)), quiz: false, focus: null, era: null, browsePage: 0, profile: null, profileDock: "people", affiliationIndex: null, routeShown: (D.threads[0] || {}).id };
+  const state = { selected: null, connection: null, route: null, org: null, query: "", queryInput: "", minImp: 2, zoom: 1, lanes: new Set(D.lanes.map((l) => l.id)), quiz: false, focus: null, era: null, browsePage: 0, profile: null, profileDock: "people", affiliationIndex: null, routeShown: (D.threads[0] || {}).id };
+  let connectionHover = null, connectionFocus = null, connectionTrigger = null;
   const mounts = {};
   document.querySelectorAll("[data-atlas]").forEach((m) => { m.classList.add("atlas"); mounts[m.dataset.atlas] = m; });
 
@@ -244,11 +250,12 @@
     if (state.selected && pos.has(state.selected)) {
       const s = byId.get(state.selected);
       related.add(s.id);
-      const pairs = [...(s.links || []).map((l) => [s.id, l.to, l.type]), ...(incoming.get(s.id) || []).map((l) => [l.from, s.id, l.type])];
-      const seenPair = new Set();
-      pairs.filter(([a, b]) => { const k = a === s.id ? b : a; if (seenPair.has(k)) return false; seenPair.add(k); return true; }).forEach(([a, b, t]) => {
-        related.add(a); related.add(b);
-        if (pos.has(a) && pos.has(b)) arc(gArc, pos.get(a), pos.get(b), t, a, b);
+      const pairSlots = new Map();
+      connectionsFor(s.id).forEach((c) => {
+        related.add(c.from); related.add(c.to);
+        const other = c.from === s.id ? c.to : c.from, slot = pairSlots.get(other) || 0;
+        pairSlots.set(other, slot + 1);
+        if (pos.has(c.from) && pos.has(c.to)) arc(gArc, pos.get(c.from), pos.get(c.to), c, slot);
       });
     }
     let routeIds = null;
@@ -274,6 +281,7 @@
       el("circle", { r: r + 3.5, class: "ring" }, g);
       el("circle", { r, style: imp === 1 ? `fill:var(--paper);stroke:${lc(e.lane)};stroke-width:1.5` : `fill:${lc(e.lane)}` }, g);
       if (p.label) el("text", { x: r + 5, y: 4 }, g, e.label);
+      else if (state.route && related.has(e.id)) el("text", { x: r + 5, y: 4, class: "connection-label" }, g, e.label);
       g.dataset.eventId = e.id;
       g.addEventListener("focus", () => { state.focus = e.id; });
       g.addEventListener("click", (ev) => { ev.stopPropagation(); select(e.id); });
@@ -284,19 +292,27 @@
       g.addEventListener("mousemove", moveTip);
       g.addEventListener("mouseleave", hideTip);
     }
-    if (routeIds) routeIds.forEach((id, i) => {
+    if (routeIds) routeIds.forEach((id) => {
       const p = pos.get(id);
       const g = el("g", { class: "badge", transform: `translate(${p.x},${p.y - 15})` }, gN);
       el("circle", { r: 7.5 }, g);
-      el("text", { "text-anchor": "middle", y: 3.5 }, g, i + 1);
+      el("text", { "text-anchor": "middle", y: 3.5 }, g, state.route.event_ids.indexOf(id) + 1);
     });
-    renderContext(); renderOverview(); renderEraNav(); renderSearchResults(); updateWorkspaceSticky();
+    renderContext(); renderOverview(); renderEraNav(); renderSearchResults(); updateConnectionAccent(); updateWorkspaceSticky();
     const cnt = $("#atlas-count");
     if (cnt) { const n = state.query ? matches().length : 0; cnt.textContent = !state.query ? "" : n ? `${n} match${n > 1 ? "es" : ""}` : "No matches"; }
   }
 
   let stubCount = {};
-  function arc(g, a, b, type, aId, bId) {
+  function arc(parent, a, b, connection, slot) {
+    const { type, from: aId, to: bId, key } = connection;
+    const outsideRoute = state.route && (!state.route.event_ids.includes(aId) || !state.route.event_ids.includes(bId));
+    const g = el("g", { class: `connection-hit${outsideRoute ? " connection-outside-route" : ""}`, "data-connection": key, tabindex: 0, role: "button", "aria-label": `Explain: ${connectionLabel(connection)}`, "aria-controls": "atlas-connection-detail", "aria-expanded": state.connection === key }, parent);
+    el("title", {}, g, connectionLabel(connection));
+    const draw = (d, cls = "") => {
+      el("path", { d, class: "arc" + (type === "parallel" ? " parallel" : "") + cls }, g);
+      el("path", { d, class: "arc-hit", "aria-hidden": "true" }, g);
+    };
     // Far-apart links become short stubs pointing the way; the pane lists them in full.
     if (Math.abs(b.x - a.x) > 460) {
       const fromSel = layout.pos.get(state.selected) === a ? a : b, other = fromSel === a ? b : a;
@@ -304,18 +320,65 @@
       // fan stubs out above and below the node so their labels never stack
       const k = (stubCount[dir] = (stubCount[dir] || 0) + 1), off = (k % 2 ? -1 : 1) * (14 + Math.floor((k - 1) / 2) * 15);
       const ex = fromSel.x + dir * len, ey = fromSel.y + off;
-      el("path", { d: `M${fromSel.x},${fromSel.y} L${ex},${ey}`, class: "arc stub" + (type === "parallel" ? " parallel" : "") }, g);
-      el("path", { d: `M${ex - dir * 5},${ey - 4} L${ex},${ey} L${ex - dir * 5},${ey + 4}`, class: "arc stub" }, g);
+      draw(`M${fromSel.x},${fromSel.y} L${ex},${ey}`, " stub");
+      // This end mark points towards the offscreen event, not the relation direction.
+      el("path", { d: `M${ex - dir * 4},${ey - 4} L${ex},${ey} L${ex - dir * 4},${ey + 4}`, class: "arc stub stub-direction" }, g);
       const o = byId.get(fromSel === a ? bId : aId);
       if (o) el("text", { x: ex + dir * 5, y: ey + 4, "text-anchor": dir > 0 ? "start" : "end", class: "stub-label" }, g, `${o.label}, ${o.date_sort.slice(0, 4)}`);
       return;
     }
     const mx = (a.x + b.x) / 2;
-    const lift = Math.min(70, Math.abs(b.x - a.x) * 0.22) + 12;
+    const lift = Math.min(70, Math.abs(b.x - a.x) * 0.22) + 12 + slot * 15;
     const my = Math.min(a.y, b.y) - lift;
-    el("path", { d: `M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}`, class: "arc" + (type === "parallel" ? " parallel" : "") }, g);
+    draw(`M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}`);
+    if (type === "parallel") return;
     const ang = Math.atan2(b.y - my, b.x - mx), r = 8;
     el("path", { d: `M${b.x - 6 * Math.cos(ang)},${b.y - 6 * Math.sin(ang)} l${-r * Math.cos(ang - 0.42)},${-r * Math.sin(ang - 0.42)} m${r * Math.cos(ang - 0.42)},${r * Math.sin(ang - 0.42)} l${-r * Math.cos(ang + 0.42)},${-r * Math.sin(ang + 0.42)}`, class: "arc" }, g);
+  }
+
+  function updateConnectionAccent() {
+    const key = connectionHover || connectionFocus || state.connection, c = connectionByKey.get(key);
+    mounts.map?.querySelectorAll(".connection-hit, [data-connection-row]").forEach((n) => {
+      const active = (n.dataset.connection || n.dataset.connectionRow) === key;
+      n.classList.toggle("connection-active", active);
+      n.classList.toggle("connection-muted", Boolean(c) && !active);
+      if (n.classList.contains("connection-hit")) n.setAttribute("aria-expanded", String(n.dataset.connection === state.connection));
+    });
+    mounts.map?.querySelectorAll("[data-explain-connection]").forEach((n) => n.setAttribute("aria-expanded", String(n.dataset.explainConnection === state.connection)));
+    mapSvg?.querySelectorAll(".node").forEach((n) => n.classList.toggle("connection-endpoint", Boolean(c) && [c.from, c.to].includes(n.dataset.eventId)));
+  }
+  function renderConnectionDetail() {
+    const host = $(".connection-detail", mounts.map); if (!host) return;
+    const c = connectionByKey.get(state.connection);
+    const valid = c && [c.from, c.to].includes(state.selected);
+    host.hidden = !valid;
+    if (!valid) { host.innerHTML = ""; host.removeAttribute("data-connection"); updateConnectionAccent(); return; }
+    host.dataset.connection = c.key;
+    const from = byId.get(c.from), to = byId.get(c.to);
+    const pair = connections.filter((other) => other.key !== c.key && ((other.from === c.from && other.to === c.to) || (other.from === c.to && other.to === c.from)));
+    const record = (item) => `<div class="connection-record" data-relation="${esc(item.key)}"><p class="connection-direction"><a href="#${esc(item.from)}" data-ev="${esc(item.from)}">${esc(byId.get(item.from).title)}</a><span class="connection-relation">${esc(REL[item.type] || item.type)}</span><a href="#${esc(item.to)}" data-ev="${esc(item.to)}">${esc(byId.get(item.to).title)}</a></p>${item.note ? `<p class="connection-note">${esc(item.note)}</p>` : '<p class="connection-note">No further note is recorded for this relation.</p>'}</div>`;
+    const sources = [from, to].filter((e) => (e.sources || []).length).map((e) => `<div><span>${esc(e.label)}</span>${e.sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label || s.url)}</a>`).join("")}</div>`).join("");
+    host.innerHTML = `<div class="connection-detail-head"><h4 id="atlas-connection-title" tabindex="-1">Why these events are connected</h4><button type="button" class="text-button" data-act="close-connection" aria-label="Close connection explanation">Close ×</button></div>${record(c)}${pair.length ? `<details class="connection-other"><summary>${pair.length} other recorded relation${pair.length === 1 ? "" : "s"} between these events</summary>${pair.map(record).join("")}</details>` : ""}<p class="connection-method">This is the atlas’s interpretation of the relationship. The sources below describe the individual works.</p>${sources ? `<details class="connection-sources"><summary>Sources for these events</summary>${sources}</details>` : ""}`;
+    updateConnectionAccent(); updateWorkspaceSticky();
+  }
+  function inspectConnection(key, trigger) {
+    if (!connectionByKey.has(key)) return;
+    const c = connectionByKey.get(key); if (![c.from, c.to].includes(state.selected)) return;
+    if (state.connection !== key) { saveHistory(true, true); state.connection = key; saveHistory(); }
+    connectionTrigger = trigger; connectionHover = null; connectionFocus = null; hideTip(); renderConnectionDetail();
+    const host = $(".connection-detail", mounts.map), rect = host.getBoundingClientRect(), inset = workspaceInset();
+    if (rect.top < inset) scrollBy({ top: rect.top - inset, behavior: "auto" });
+    else if (rect.bottom > innerHeight - 16) scrollBy({ top: Math.min(rect.top - inset, rect.bottom - innerHeight + 16), behavior: "auto" });
+    $("#atlas-connection-title", mounts.map)?.focus({ preventScroll: true });
+  }
+  function closeConnection(options = {}) {
+    if (!state.connection) return;
+    const key = state.connection; state.connection = null; connectionHover = null; connectionFocus = null; hideTip(); renderConnectionDetail();
+    if (options.history !== false) saveHistory();
+    if (options.focus !== false) {
+      const trigger = connectionTrigger?.isConnected ? connectionTrigger : [...mounts.map.querySelectorAll("[data-explain-connection]")].find((n) => n.dataset.explainConnection === key);
+      trigger?.focus({ preventScroll: true });
+    }
   }
 
   function renderContext() {
@@ -339,7 +402,20 @@
     const scoped = Boolean(state.query || state.route || state.org);
     const globalCount = D.events.filter((e) => state.lanes.has(e.lane) && lit(e)).length;
     host.dataset.total = list.length; host.dataset.globalTotal = globalCount;
+    if (state.route) { renderRouteStepper(host); return; }
     host.innerHTML = `<div class="browser-heading"><h3 tabindex="-1">${era ? esc(era.title) : "Events across the history"}</h3><span class="num">${list.length} ${scoped ? "matching " : ""}event${list.length === 1 ? "" : "s"}${era ? " in this era" : ""}</span></div>${era && era.summary ? `<details class="era-summary"><summary>About this era</summary><p>${esc(era.summary)}</p></details>` : ""}${state.query && era ? `<p>${globalCount} search match${globalCount === 1 ? "" : "es"} across all eras. <button class="text-button" data-era="all">Show all matches</button></p>` : ""}${list.length ? `<ol>${list.slice(start, start + pageSize).map((e) => `<li${state.selected === e.id ? ' class="current"' : ""}><span class="num result-date">${esc(fmtDate(e))}</span><a href="#${esc(e.id)}" data-ev-card="${esc(e.id)}"${state.selected === e.id ? ' aria-current="true"' : ""}>${esc(e.title)}</a><span class="result-lane" style="color:${lc(e.lane)}">${esc(laneTitle(e.lane))}</span></li>`).join("")}</ol><div class="browser-pages"><button type="button" class="text-button" data-browse-page="${state.browsePage - 1}"${state.browsePage ? "" : " disabled"}>← Previous</button><span class="num">${start + 1}–${Math.min(start + pageSize, list.length)} of ${list.length}</span><button type="button" class="text-button" data-browse-page="${state.browsePage + 1}"${state.browsePage + 1 < pages ? "" : " disabled"}>Next →</button></div>` : `<p>No events ${era ? "in this era " : ""}match the active lanes${scoped ? " and search or scope" : ""}. ${scoped ? '<button type="button" class="text-button" data-act="clear">Reset view</button>' : '<button type="button" class="text-button" data-era="all">Browse all eras</button>'}</p>`}`;
+  }
+
+  function routeAvailable() {
+    return state.route ? state.route.event_ids.filter((id) => { const e = byId.get(id); return e && state.lanes.has(e.lane) && lit(e) && inEra(e); }) : [];
+  }
+  function renderRouteStepper(host) {
+    const t = state.route, ids = t.event_ids, available = routeAvailable(), current = ids.indexOf(state.selected), index = available.indexOf(state.selected);
+    const previous = index > 0 ? available[index - 1] : null, next = index >= 0 ? available[index + 1] : available[0];
+    const control = (id, dir, label) => `<button type="button" class="route-step-control" data-route-step="${dir}"${id ? ` aria-label="${label}: ${esc(byId.get(id).title)}, ${byId.get(id).date_sort.slice(0, 4)}"` : " disabled"}><span>${dir < 0 ? "← " : ""}${label}${dir > 0 ? " →" : ""}</span><strong>${id ? `${esc(byId.get(id).label)} <span class="num">${byId.get(id).date_sort.slice(0, 4)}</span>` : dir < 0 ? "Start of route" : "End of route"}</strong></button>`;
+    host.innerHTML = `<nav class="route-stepper" data-route-id="${esc(t.id)}" aria-label="Active question route"><div class="route-stepper-head"><span class="eyebrow">Follow a question</span><button type="button" class="text-button" data-act="leave-route">Exit route</button></div><h3>${esc(t.question || t.title)}</h3><div class="route-position-row"><span class="route-position num">${current >= 0 ? `Step ${current + 1} of ${ids.length}` : `Choose a step · ${ids.length} in this route`}</span>${available.length < ids.length ? `<span>${available.length} available with these filters</span>` : ""}</div><progress class="route-progress" max="${ids.length}" value="${current + 1}" aria-label="Position in the curated route"></progress><ol class="route-stops" aria-label="Route steps">${ids.map((id, i) => { const e = byId.get(id), active = id === state.selected; return `<li><button type="button" data-route-stop="${esc(id)}"${active ? ' aria-current="step"' : ""}${available.includes(id) ? "" : " disabled"} title="${i + 1}. ${esc(e.label)}, ${e.date_sort.slice(0, 4)}${available.includes(id) ? "" : " · unavailable with these filters"}" aria-label="Step ${i + 1}: ${esc(e.title)}, ${e.date_sort.slice(0, 4)}" style="--stop-color:${lc(e.lane)}"><span class="num">${i + 1}</span></button></li>`; }).join("")}</ol>${current >= 0 ? `<p class="route-step-current"><span class="dot" style="background:${lc(byId.get(state.selected).lane)}"></span>${esc(byId.get(state.selected).label)} <span class="num">${byId.get(state.selected).date_sort.slice(0, 4)}</span></p>` : ""}${!available.length ? '<p class="route-empty">No events in this route match the active lanes, search and era. Adjust the filters or <button type="button" class="text-button" data-era="all">browse all eras</button>.</p>' : `<div class="route-step-controls">${control(previous, -1, "Previous")}${control(next, 1, "Next")}</div>`}<details class="route-stop-list"><summary>All ${ids.length} steps · curated reading order</summary><ol>${ids.map((id, i) => { const e = byId.get(id); return `<li value="${i + 1}"><button type="button" class="text-button" data-route-stop="${esc(id)}"${available.includes(id) ? "" : " disabled"}${id === state.selected ? ' aria-current="step"' : ""}>${esc(e.label)} <span class="num">${e.date_sort.slice(0, 4)}</span></button>${available.includes(id) ? "" : '<span class="route-unavailable">Unavailable with these filters</span>'}</li>`; }).join("")}</ol></details></nav>`;
+    const rail = $(".route-stops", host), active = $(".route-stops [aria-current]", host);
+    if (rail && active) rail.scrollLeft = Math.max(0, active.offsetLeft - rail.offsetLeft - rail.clientWidth / 2 + active.offsetWidth / 2);
   }
 
   function yearAtX(x) {
@@ -407,20 +483,13 @@
     const sr = $(".sr-only", mounts.map); if (sr) sr.textContent = e ? `${e.title}, ${fmtDate(e)}` : "";
     updateChip();
     if (!e) {
+      state.connection = null; connectionHover = null; connectionFocus = null;
       const anchors = D.events.filter((x) => x.importance === 3);
       const pick = ["safety-2017-deep-rl-human-prefs", "safety-2023-ai-control", "lm-2017-transformer"].filter((i) => byId.has(i));
       pane.innerHTML = `<div class="pane-empty"><p>Select any event on the map to read it here: the problem it faced, the idea, what changed afterwards, and what it left unsolved.</p><p>${anchors.length} anchor events are labelled. Some places to start: ${pick.map((i) => `<a href="#${i}" data-ev="${i}">${esc(byId.get(i).title)}</a>`).join(", ")}.</p><div class="start-routes"><span class="eyebrow">Start with a question</span>${["thread-human-feedback", "thread-interpretability", "thread-rl-agents"].map((id) => D.threads.find((t) => t.id === id)).filter(Boolean).map((t) => `<button type="button" class="text-button" data-route="${esc(t.id)}">${esc(t.question || t.title)} →</button>`).join("")}</div></div>`;
       return;
     }
-    const conns = [
-      ...(e.links || []).map((l) => ({ id: l.to, rel: REL[l.type], note: l.note })),
-      ...(incoming.get(e.id) || []).map((l) => ({ id: l.from, rel: REL_IN[l.type], note: l.note })),
-    ].filter((c) => byId.has(c.id)).reduce((acc, c) => {
-      const prev = acc.find((x) => x.id === c.id);
-      if (!prev) acc.push({ ...c });
-      else { if (!prev.rel.includes(c.rel)) prev.rel += " · " + c.rel.toLowerCase(); if (!prev.note) prev.note = c.note; }
-      return acc;
-    }, []).sort((a, b) => byId.get(a.id).date_sort.localeCompare(byId.get(b.id).date_sort));
+    const conns = connectionsFor(e.id).map((c) => ({ ...c, id: c.from === e.id ? c.to : c.from, rel: (c.from === e.id ? REL : REL_IN)[c.type] || c.type })).sort((a, b) => byId.get(a.id).date_sort.localeCompare(byId.get(b.id).date_sort));
     const dg = window.DIAGRAMS && window.DIAGRAMS.forEvent(e);
     const answer = (key, title, html, cls = "") => `<div class="reveal ${cls}">${state.quiz ? `<button type="button" class="reveal-button" aria-expanded="false" aria-controls="answer-${esc(e.id)}-${key}" data-reveal="answer-${esc(e.id)}-${key}">Show ${esc(title.toLowerCase())}</button>` : `<div class="eyebrow">${esc(title)}</div>`}<div class="answer-content" id="answer-${esc(e.id)}-${key}"${state.quiz ? " hidden" : ""}>${html}</div></div>`;
     const block = (cls, h, t) => !t ? "" : cls.includes("reveal") ? answer(h.toLowerCase().replace(/[^a-z]+/g, "-"), h, `<p>${esc(t)}</p>`, cls) : `<div><div class="eyebrow">${h}</div><p>${esc(t)}</p></div>`;
@@ -432,21 +501,23 @@
         ${e.date_context || e.date_basis ? `<p class="date-context">${esc(e.date_context || `Date basis: ${e.date_basis}.`)}</p>` : ""}
         ${(e.people || []).length || (e.orgs || []).length ? `<div class="people">${(e.people || []).map(personLink).join(", ")}${(e.people || []).length && (e.orgs || []).length ? " · " : ""}${(e.orgs || []).map(orgLink).join(", ")}</div>` : ""}
       </div>
+      <section class="connection-detail" id="atlas-connection-detail" aria-labelledby="atlas-connection-title" hidden></section>
       <div class="qa">
         ${block("", "The problem", e.problem)}
         ${block("reveal", "The idea", e.idea)}
+        ${dg ? answer("diagram", "The idea in view", `<figure class="diagram">${dg.svg}<figcaption>${esc(dg.caption)}</figcaption></figure>`, "diagram-answer") : ""}
         ${block("reveal", "What changed", e.changed)}
         ${block("reveal limits", "What it did not solve", e.limits)}
         ${(e.terms || []).length ? `<div><div class="eyebrow">Terms</div><dl class="terms">${e.terms.map((t) => `<dt>${esc(t.term)}</dt><dd>${esc(t.def)}</dd>`).join("")}</dl></div>` : ""}
       </div>
       <div class="side">
-        ${dg ? answer("diagram", "Diagram", `<figure class="diagram">${dg.svg}<figcaption>${esc(dg.caption)}</figcaption></figure>`, "diagram-answer") : ""}
-        ${conns.length ? `<div><div class="eyebrow">Connections</div><ul class="conn">${conns.map((c) => { const o = byId.get(c.id); return `<li><span class="rel">${esc(c.rel)}</span><span><a href="#${esc(c.id)}" data-ev="${esc(c.id)}">${esc(o.title)}</a> <span class="num" style="color:var(--muted)">${o.date_sort.slice(0, 4)}</span>${c.note ? `<span class="why">${esc(c.note)}</span>` : ""}</span></li>`; }).join("")}</ul></div>` : ""}
+        ${conns.length ? `<div><div class="eyebrow">Connections</div><ul class="conn">${conns.map((c) => { const o = byId.get(c.id); return `<li data-connection-row="${esc(c.key)}"><span class="rel">${esc(c.rel)}</span><span><a href="#${esc(c.id)}" data-ev="${esc(c.id)}">${esc(o.title)}</a> <span class="num" style="color:var(--muted)">${o.date_sort.slice(0, 4)}</span>${c.note ? `<span class="why">${esc(c.note)}</span>` : ""}<button type="button" class="text-button connection-explain" data-explain-connection="${esc(c.key)}" aria-expanded="${state.connection === c.key}" aria-controls="atlas-connection-detail" aria-label="Explain: ${esc(connectionLabel(c))}">Explain this connection ↗</button></span></li>`; }).join("")}</ul></div>` : ""}
         ${(e.sources || []).length ? `<div class="reads"><div class="eyebrow">Read next</div>${e.sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label || s.url)}</a>`).join("")}</div>` : ""}
         ${routes.length ? `<div class="reads"><div class="eyebrow">On the routes</div>${routes.map((t) => `<a href="#" data-route="${esc(t.id)}">${esc(t.question || t.title)}</a>`).join("")}</div>` : ""}
       </div>
       <div class="foot"><span><button type="button" class="text-button" data-nav="-1">← Earlier</button> &nbsp; <button type="button" class="text-button" data-nav="1">Later →</button></span><button type="button" class="text-button" data-act="locate">Back to selected event ↑</button><span class="verify">${e.verified && e.verified.date ? "" : "This date is not yet confirmed against a primary source."}</span></div>
     </article>`;
+    renderConnectionDetail();
   }
   function orgLink(name) {
     const o = D.orgs.find((x) => orgMatches({ id: "", orgs: [name] }, x)) || [...orgById.values()].find((x) => x.name === name);
@@ -458,7 +529,7 @@
     return p ? `<a href="#${profileHash(`person:${personId(p)}`)}" data-profile="person:${esc(personId(p))}" aria-controls="atlas-profile" aria-expanded="${state.profile === `person:${personId(p)}`}">${esc(name)}</a>` : esc(name);
   }
   function snapshot() {
-    return { selected: state.selected, route: state.route && state.route.id, org: state.org && state.org.id,
+    return { selected: state.selected, connection: state.connection, route: state.route && state.route.id, org: state.org && state.org.id,
       query: state.query, queryInput: state.queryInput, minImp: state.minImp, zoom: state.zoom, lanes: [...state.lanes], scrollLeft: mapScroll ? mapScroll.scrollLeft : 0, era: state.era, browsePage: state.browsePage, profile: state.profile, profileDock: state.profileDock, affiliationIndex: state.affiliationIndex, quiz: state.quiz, routeShown: state.routeShown };
   }
   function saveHistory(replace = false, preserveUrl = false) {
@@ -469,9 +540,9 @@
     if (!byId.has(id)) return;
     const previous = state.selected;
     if (opts.history !== false) saveHistory(true, true);
-    state.selected = id; state.focus = id;
+    state.selected = id; state.focus = id; state.connection = null; connectionHover = null; connectionFocus = null; connectionTrigger = null;
     const e = byId.get(id);
-    if (!opts.keepEra) state.era = eraForYear(yearOf(e));
+    if (!opts.keepEra && !(state.route && state.route.event_ids.includes(id))) state.era = eraForYear(yearOf(e));
     if (state.era < 0) state.era = null;
     if (state.profile) { state.profile = null; renderProfile(); }
     if (state.route && !state.route.event_ids.includes(id)) state.route = null;
@@ -489,17 +560,17 @@
     else if (opts.reveal) mounts.map.scrollIntoView({ behavior: SMOOTH, block: "start" });
   }
   function step(dir, fromId = state.selected || state.focus, opts = { focus: true }) {
-    const seq = state.route ? state.route.event_ids.filter((id) => layout.pos.has(id) && lit(byId.get(id))) : matches().map((e) => e.id);
+    const seq = state.route ? routeAvailable() : matches().map((e) => e.id);
     if (!seq.length) return;
     const index = seq.indexOf(fromId);
     const next = index < 0 ? (dir > 0 ? 0 : seq.length - 1) : index + dir;
-    if (next >= 0 && next < seq.length) select(seq[next], opts);
+    if (next >= 0 && next < seq.length) select(seq[next], { ...opts, keepEra: Boolean(state.route) });
   }
   function reconcileSelection() {
-    if (state.selected && !matches().some((e) => e.id === state.selected)) { state.selected = null; state.focus = null; }
+    if (state.selected && !matches().some((e) => e.id === state.selected)) { state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; }
   }
   function resetView() {
-    state.selected = null; state.focus = null; state.route = null; state.org = null; state.query = ""; state.queryInput = "";
+    state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; state.route = null; state.org = null; state.query = ""; state.queryInput = "";
     state.era = null; state.browsePage = 0; state.profile = null; renderProfile(); state.minImp = 2; state.zoom = 1; state.lanes = new Set(D.lanes.map((l) => l.id));
     syncControls(); renderMap(); renderPane(); saveHistory();
   }
@@ -552,7 +623,7 @@
     if (window.ResizeObserver) new ResizeObserver(updateWorkspaceSticky).observe($(".chart-column", m));
     // drag to pan
     let drag = null;
-    mapScroll.addEventListener("pointerdown", (ev) => { if (ev.target.closest(".node") || ev.pointerType !== "mouse") return; drag = { x: ev.clientX, s: mapScroll.scrollLeft, moved: false }; });
+    mapScroll.addEventListener("pointerdown", (ev) => { if (ev.target.closest(".node, .connection-hit") || ev.pointerType !== "mouse") return; drag = { x: ev.clientX, s: mapScroll.scrollLeft, moved: false }; });
     addEventListener("pointermove", (ev) => { if (!drag) return; const dx = ev.clientX - drag.x; if (Math.abs(dx) > 3) { drag.moved = true; mapScroll.classList.add("dragging"); } mapScroll.scrollLeft = drag.s - dx; });
     addEventListener("pointerup", () => { if (drag && !drag.moved && state.selected) { /* click on empty map keeps selection */ } drag = null; mapScroll.classList.remove("dragging"); });
     renderMap(); renderPane();
@@ -754,12 +825,20 @@
 
   /* ---------- events ---------- */
   document.addEventListener("click", (ev) => {
-    const t = ev.target.closest("[data-ev],[data-ev-reveal],[data-ev-card],[data-org],[data-route],[data-route-show],[data-lane],[data-nav],[data-zoom],[data-act],[data-reveal],[data-profile],[data-era],[data-browse-page]");
+    const t = ev.target.closest("[data-ev],[data-ev-reveal],[data-ev-card],[data-org],[data-route],[data-route-show],[data-route-stop],[data-route-step],.connection-hit,[data-explain-connection],[data-lane],[data-nav],[data-zoom],[data-act],[data-reveal],[data-profile],[data-era],[data-browse-page]");
     if (!t || !t.closest(".atlas")) return;
     if (t.tagName === "A" && (ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || t.target === "_blank")) return;
     if (t.tagName === "A") ev.preventDefault();
     const d = t.dataset;
-    if (d.profile) openProfile(d.profile, { trigger: t, affiliationIndex: d.affiliation, dock: t.closest('[data-atlas="map"]') ? "timeline" : "people" });
+    if (t.classList.contains("connection-hit") || d.explainConnection) inspectConnection(d.connection || d.explainConnection, t);
+    else if (d.routeStop || d.routeStep) {
+      const available = routeAvailable(), index = available.indexOf(state.selected), next = d.routeStop || available[index < 0 ? 0 : index + Number(d.routeStep)];
+      if (!available.includes(next)) return;
+      select(next, { keepEra: true });
+      const control = d.routeStep ? mounts.map.querySelector(`[data-route-step="${d.routeStep}"]:not(:disabled)`) : [...mounts.map.querySelectorAll(".route-stops [data-route-stop]")].find((n) => n.dataset.routeStop === next);
+      (control || $(".pane h3", mounts.map))?.focus({ preventScroll: true });
+    }
+    else if (d.profile) openProfile(d.profile, { trigger: t, affiliationIndex: d.affiliation, dock: t.closest('[data-atlas="map"]') ? "timeline" : "people" });
     else if (d.era != null) browseEra(d.era === "all" ? null : Number(d.era));
     else if (d.browsePage != null) { state.browsePage = Math.max(0, Number(d.browsePage)); renderSearchResults(); $(".browser-heading h3", mounts.map)?.focus({ preventScroll: true }); saveHistory(true, true); }
     else if (d.ev) select(d.ev, { card: true, dismissProfile: Boolean(t.closest(".profile-panel")) });
@@ -778,18 +857,28 @@
     } else if (d.routeShow) { state.routeShown = d.routeShow; renderRoutes(); }
     else if (d.route) {
       const route = D.threads.find((x) => x.id === d.route); if (!route) return;
-      saveHistory(true, true); state.route = route; state.org = null; state.query = ""; state.queryInput = ""; state.selected = null; state.focus = route.event_ids[0]; state.era = null; state.browsePage = 0; state.profile = null; renderProfile();
+      saveHistory(true, true); state.route = route; state.org = null; state.query = ""; state.queryInput = ""; state.selected = null; state.connection = null; connectionHover = null; connectionFocus = null; state.focus = route.event_ids[0]; state.era = null; state.browsePage = 0; state.profile = null; renderProfile();
       route.event_ids.forEach((id) => { const e = byId.get(id); if (e) state.lanes.add(e.lane); });
-      syncControls(); renderMap(); renderPane(); scrollMapTo(route.event_ids[0], false); updateOverview(); saveHistory();
+      const first = routeAvailable()[0];
+      if (first) select(first, { history: false, keepEra: true });
+      else { syncControls(); renderMap(); renderPane(); }
+      updateOverview(); saveHistory();
       mounts.map.scrollIntoView({ behavior: SMOOTH, block: "start" });
       const firstNode = mapSvg.querySelector('.node[tabindex="0"]'); if (firstNode) firstNode.focus({ preventScroll: true });
+      hideTip();
     } else if (d.org) {
       const org = orgById.get(d.org); if (!org) return;
       saveHistory(true, true); state.org = org; state.route = null; state.query = ""; state.queryInput = ""; state.selected = null; state.era = null; state.browsePage = 0; state.profile = null; renderProfile();
       D.events.filter((e) => orgMatches(e, org)).forEach((e) => state.lanes.add(e.lane));
       syncControls(); renderMap(); renderPane(); const first = matches()[0]; if (first) scrollMapTo(first.id, false); updateOverview(); saveHistory();
       mounts.map.scrollIntoView({ behavior: SMOOTH, block: "start" });
-    } else if (d.act === "open-profile-choice") { const picker = $("#atlas-profile-select", mounts.people); if (picker && picker.value) openProfile(picker.value, { trigger: t, dock: "people" }); }
+    } else if (d.act === "leave-route") {
+      saveHistory(true, true); state.route = null;
+      if (state.selected) state.minImp = Math.min(state.minImp, byId.get(state.selected).importance || 2);
+      syncControls(); renderMap(); renderPane(); saveHistory();
+      $(".pane h3", mounts.map)?.focus({ preventScroll: true });
+    } else if (d.act === "close-connection") closeConnection();
+    else if (d.act === "open-profile-choice") { const picker = $("#atlas-profile-select", mounts.people); if (picker && picker.value) openProfile(picker.value, { trigger: t, dock: "people" }); }
     else if (d.act === "close-profile" || d.act === "return-event") closeProfile();
     else if (d.act === "clear") resetView();
     else if (d.act === "locate") {
@@ -798,12 +887,19 @@
       const node = mapSvg.querySelector(".node.sel"); if (node) node.focus({ preventScroll: true });
     }
   });
+  const connectionControl = (target) => target.closest(".connection-hit, [data-connection-row]");
+  document.addEventListener("pointerover", (ev) => { if (ev.pointerType === "touch") return; const n = connectionControl(ev.target); if (n && !n.contains(ev.relatedTarget)) { connectionHover = n.dataset.connection || n.dataset.connectionRow; hideTip(); updateConnectionAccent(); } });
+  document.addEventListener("pointerout", (ev) => { const n = connectionControl(ev.target); if (n && !n.contains(ev.relatedTarget)) { connectionHover = null; updateConnectionAccent(); } });
+  document.addEventListener("focusin", (ev) => { const n = connectionControl(ev.target); if (n) { connectionFocus = n.dataset.connection || n.dataset.connectionRow; updateConnectionAccent(); } });
+  document.addEventListener("focusout", (ev) => { const n = connectionControl(ev.target); if (n && !n.contains(ev.relatedTarget)) { connectionFocus = null; updateConnectionAccent(); } });
   document.addEventListener("pointerover", (ev) => { if (ev.pointerType === "touch") return; const trigger = ev.target.closest("[data-profile]"); if (trigger && !trigger.contains(ev.relatedTarget)) previewProfile(trigger, ev); });
   document.addEventListener("pointerout", (ev) => { const trigger = ev.target.closest("[data-profile]"); if (trigger && !trigger.contains(ev.relatedTarget)) { hideTip(); trigger.removeAttribute("aria-describedby"); } });
   document.addEventListener("focusin", (ev) => { const trigger = ev.target.closest("[data-profile]"); if (trigger) previewProfile(trigger, ev); });
   document.addEventListener("focusout", (ev) => { const trigger = ev.target.closest("[data-profile]"); if (trigger) { hideTip(); trigger.removeAttribute("aria-describedby"); } });
   document.addEventListener("keydown", (ev) => {
-    if (ev.key === "Escape") { hideTip(); if (state.profile) { ev.preventDefault(); closeProfile(); return; } }
+    if (ev.key === "Escape") { hideTip(); if (state.profile) { ev.preventDefault(); closeProfile(); return; } if (state.connection) { ev.preventDefault(); closeConnection(); return; } }
+    const connection = ev.target.closest(".connection-hit");
+    if (connection && ["Enter", " "].includes(ev.key)) { ev.preventDefault(); inspectConnection(connection.dataset.connection, connection); return; }
     const profileControl = ev.target.closest("[data-profile]");
     if (profileControl && !/^(A|BUTTON)$/.test(profileControl.tagName) && ["Enter", " "].includes(ev.key)) { ev.preventDefault(); profileControl.dispatchEvent(new MouseEvent("click", { bubbles: true })); return; }
     if (!mapScroll || !mapScroll.contains(ev.target) || /INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) return;
@@ -824,6 +920,8 @@
     const saved = ev.state && ev.state.atlas;
     if (!saved) { fromHash(); return; }
     state.selected = byId.has(saved.selected) ? saved.selected : null; state.focus = state.selected;
+    const connection = connectionByKey.get(saved.connection);
+    state.connection = connection && [connection.from, connection.to].includes(state.selected) ? saved.connection : null; connectionHover = null; connectionFocus = null; connectionTrigger = null;
     state.route = D.threads.find((t) => t.id === saved.route) || null; state.org = orgById.get(saved.org) || null;
     state.query = saved.query || ""; state.queryInput = saved.queryInput == null ? state.query : saved.queryInput; state.minImp = saved.minImp || 2; state.zoom = saved.zoom || 1;
     state.lanes = new Set(saved.lanes || D.lanes.map((l) => l.id));

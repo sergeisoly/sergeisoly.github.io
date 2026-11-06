@@ -23,7 +23,7 @@ Browse the [timeline](#the-map), follow a [reading route](#questions-through-the
 
 ## The map
 
-Choose an era or event to read its explanation and follow related work. Earlier decades take less horizontal space than recent years; the overview shows all years on a linear scale.
+Choose an era or event to read its explanation. Select a connection to see how the two works relate, then follow either work. Earlier decades take less horizontal space than recent years; the overview shows all years on a linear scale.
 
 ::: {.column-screen-inset}
 ```{=html}
@@ -33,7 +33,7 @@ Choose an era or event to read its explanation and follow related work. Earlier 
 
 ## Questions through the history
 
-Each route follows a research question across papers. Start with “How does an agent learn from reward?” for RL foundations, or “Where did RLHF come from, and what did each step add?” for the path to assistants. Other routes cover reward failures, oversight, interpretability and deception.
+Each route follows a research question across papers, with numbered stops beside the map. Start with “How does an agent learn from reward?” for RL foundations, or “Where did RLHF come from, and what did each step add?” for the path to assistants. Other routes cover reward failures, oversight, interpretability and deception.
 
 ::: {.column-page}
 ```{=html}
