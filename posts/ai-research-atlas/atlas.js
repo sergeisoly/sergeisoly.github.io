@@ -145,7 +145,6 @@
     const era = D.eras[i], next = D.eras[i + 1];
     return [yearOfStr(era.start), next ? yearOfStr(next.start) : yearOfStr(era.end) + 1];
   }
-  function eraForYear(year) { return D.eras.findIndex((_, i) => { const [a, b] = eraRange(i); return year >= a && year < b; }); }
   const inEra = (e) => state.era == null || (() => { const [a, b] = eraRange(state.era); return yearOf(e) >= a && yearOf(e) < b; })();
   const browseEvents = () => D.events.filter((e) => state.lanes.has(e.lane) && lit(e) && inEra(e));
   function renderEraNav() {
@@ -164,6 +163,13 @@
     } else renderMap();
     if (index != null && layout) { const [a, b] = eraRange(index); mapScroll.scrollLeft = Math.max(0, layout.X(a) - 12); if (layout.X(b) - layout.X(a) < mapScroll.clientWidth) jumpYear((a + b) / 2); }
     updateOverview(); saveHistory();
+  }
+  // Shorten a label with an ellipsis so it stops before the next dot; the full title stays in the tooltip and the card.
+  function fitLabel(label, room, bold) {
+    if (textW(label, 12, bold) <= room) return label;
+    let t = label;
+    while (t.length > 3 && textW(t + "…", 12, bold) > room) t = t.slice(0, -1);
+    return t.length > 3 ? t.trimEnd() + "…" : "";
   }
   function computeLayout() {
     const evs = visible();
@@ -185,12 +191,18 @@
         const x = X(yearOf(e));
         const imp = e.importance || 2;
         const label = e.id === state.selected || (routeIds ? routeIds.has(e.id) : selectedIds ? selectedIds.has(e.id) : (state.query || state.org ? lit(e) : true) && imp >= labelMin);
-        const w = label ? textW(e.label, 12, imp === 3) + 20 : 14;
+        // Rows are packed for the labels the map shows with no card open, so opening or closing a card
+        // never moves a dot or changes the map's height; it only changes which labels are drawn.
+        const reserve = routeIds ? routeIds.has(e.id) : (state.query || state.org ? lit(e) : true) && imp >= labelMin;
+        const w = reserve ? textW(e.label, 12, imp === 3) + 20 : 14;
         let r = rows.findIndex((end) => end < x - 4);
         if (r === -1) { if (rows.length < 9) { r = rows.length; rows.push(0); } else r = rows.indexOf(Math.min(...rows)); }
         rows[r] = x + w;
-        pos.set(e.id, { x, row: r, label });
+        pos.set(e.id, { x, row: r, label, reserve, room: Infinity });
       }
+      // Room before the next dot in the same row, for labels drawn without reserved space (a card's neighbours).
+      const lastInRow = new Map();
+      for (const e of items) { const p = pos.get(e.id), prev = lastInRow.get(p.row); if (prev) prev.room = p.x - prev.x; lastInRow.set(p.row, p); }
       const h = Math.max(rows.length, 3) * ROW + 26;
       lanes.push({ lane, top: y, h });
       items.forEach((e) => { const p = pos.get(e.id); p.y = y + 18 + p.row * ROW; });
@@ -316,7 +328,7 @@
       const r = [0, 3, 4.2, 5.6][imp];
       el("circle", { r: r + 3.5, class: "ring" }, g);
       el("circle", { r, style: imp === 1 ? `fill:var(--paper);stroke:${lc(e.lane)};stroke-width:1.5` : `fill:${lc(e.lane)}` }, g);
-      if (p.label) el("text", { x: r + 5, y: 4 }, g, e.label);
+      if (p.label) { const text = p.reserve ? e.label : fitLabel(e.label, p.room - r - 12, imp === 3); if (text) el("text", { x: r + 5, y: 4 }, g, text); }
       else if (state.route && related.has(e.id)) el("text", { x: r + 5, y: 4, class: "connection-label" }, g, e.label);
       g.dataset.eventId = e.id;
       g.addEventListener("focus", () => { state.focus = e.id; });
@@ -626,8 +638,8 @@
     setPanel("map");
     state.selected = id; state.focus = id; state.connection = null; connectionHover = null; connectionFocus = null; connectionTrigger = null;
     const e = byId.get(id);
-    if (!opts.keepEra && !(state.route && state.route.event_ids.includes(id) && inEra(e))) state.era = eraForYear(yearOf(e));
-    if (state.era < 0) state.era = null;
+    // Opening an event never picks an era by itself; an era the reader chose is dropped only when the event lies outside it.
+    if (!opts.keepEra && state.era != null && !inEra(e)) state.era = null;
     // A timeline profile covers the card; a people-tab profile stays unless the click came from it.
     if (state.profile && (state.profileDock === "timeline" || opts.dismissProfile)) { state.profile = null; state.affiliationIndex = null; renderProfile(); }
     if (state.route && !state.route.event_ids.includes(id)) state.route = null;
