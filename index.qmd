@@ -1,5 +1,5 @@
 ---
-title: "Research"
+title: "Research and posts"
 description: "Research and writing by Sergei Solovev."
 body-classes: personal-home personal-page
 listing:
@@ -13,16 +13,19 @@ listing:
     home: true
 ---
 
-::: {.featured-work}
-## [Some Studies of Language Model Weight Edits](/interesearch/)
+## Recent research
+
+::: {.writing-entry .home-research-entry}
+<!-- Initial project release: interesearch v0.1.0 and gh-pages b1fa056, 14 Oct 2026 (Asia/Yerevan). -->
+<p class="entry-meta"><time datetime="2026-10-14">14 Oct 2026</time></p>
+
+### [Some Studies of Language Model Weight Edits](/interesearch/)
 
 Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.
 
-::: {.study-links}
-[Selective language editing](/interesearch/selective-editing/explainer.html) ·
-[Repair transfer](/interesearch/repair-transfer/explainer.html)
 :::
-:::
+
+[All research](research.qmd){.section-link}
 
 ::: {#recent-writing}
 :::

@@ -7,7 +7,7 @@ project:
   render:
     - index.qmd
     - research.qmd
-    - writing.qmd
+    - posts.qmd
     - about.qmd
     - "posts/**/index.qmd"
 
@@ -24,14 +24,14 @@ website:
     left:
       - href: research.qmd
         text: Research
-      - href: writing.qmd
-        text: Writing
+      - href: posts.qmd
+        text: Posts
       - href: about.qmd
         text: About
   page-footer:
     right:
       - text: RSS
-        href: writing.xml
+        href: posts.xml
 
 format:
   html:

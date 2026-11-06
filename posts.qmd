@@ -1,8 +1,8 @@
 ---
-title: "Writing"
+title: "Posts"
 description: "Essays, notes, and observations by Sergei Solovev."
 listing:
-  id: all-writing
+  id: all-posts
   contents: posts
   sort: "date desc"
   template: _writing-list.ejs.md
@@ -11,5 +11,5 @@ listing:
 body-classes: personal-page
 ---
 
-::: {#all-writing}
+::: {#all-posts}
 :::
