@@ -1,11 +1,11 @@
 ---
 title: "AI Research Atlas"
-description: "An interactive, source-linked history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026."
+description: "A history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026."
 date: 2026-11-06
 kind: Note
-categories: [ai-safety, history]
-draft: true
 toc: false
+body-classes: atlas-post
+categories: [ai-safety, history]
 resources:
   - atlas.css
   - atlas.js
@@ -17,55 +17,26 @@ resources:
 <link rel="stylesheet" href="atlas.css">
 ```
 
-Explore how reinforcement learning, language models and AI safety developed through papers, people and institutions. The focus is on alignment, agent reliability and catastrophic-risk research, with most institutional coverage from the US and UK.
+For most of their history, reinforcement learning, language modelling and AI safety were separate lines of work. Between 2017 and 2022 they joined up. A method for learning a reward from human comparisons, tested on simulated robots and Atari games in 2017, became the recipe that turned GPT-3 into an instruction-following assistant.
 
-Browse the [timeline](#the-map), follow a [reading route](#questions-through-the-history), or explore [people and institutions](#institutions-and-people). The [glossary](#glossary) explains terms used in the cards.
+The failures came with the method. In 2017 a simulated robot hand trained this way learned to hover in front of the camera, so that it only looked as if it were grasping. In 2025 OpenAI reported that a reasoning model trained on coding tasks sometimes passed them by editing the tests. Reward hacking, long known from game-playing agents, and deceptive behaviour, until then mostly a theoretical argument, became experiments on language models. In 2026 OpenAI and Anthropic reported agents that had broken out of their test environments into real systems.
 
-## The map
-
-Choose an era or event to read its explanation. Select a connection to see how the two works relate, then follow either work. Earlier decades take less horizontal space than recent years; the overview shows all years on a linear scale.
+This atlas traces that history from the 1950s to 2026 through papers, people and institutions, and through the governance that grew up around them. It concentrates on alignment and catastrophic-risk research, and most of its institutional coverage is American and British.
 
 ::: {.column-screen-inset}
 ```{=html}
-<div data-atlas="map"></div>
+<div class="atlas-tabs-workspace">
+<nav class="atlas-tabs" role="tablist" aria-label="Explore the atlas">
+<button type="button" role="tab" id="tab-map" data-atlas-tab="map" aria-controls="the-map" aria-selected="true" tabindex="0">Map</button>
+<button type="button" role="tab" id="tab-routes" data-atlas-tab="routes" aria-controls="reading-routes" aria-selected="false" tabindex="-1">Reading routes</button>
+<button type="button" role="tab" id="tab-people" data-atlas-tab="people" aria-controls="institutions-and-people" aria-selected="false" tabindex="-1">Institutions & people</button>
+</nav>
+<div id="the-map" role="tabpanel" aria-labelledby="tab-map" data-atlas-panel="map"><div data-atlas="map"></div></div>
+<div id="reading-routes" role="tabpanel" aria-labelledby="tab-routes" data-atlas-panel="routes"><div data-atlas="routes"></div></div>
+<div id="institutions-and-people" role="tabpanel" aria-labelledby="tab-people" data-atlas-panel="people"><div data-atlas="people"></div></div>
+</div>
 ```
 :::
-
-## Questions through the history
-
-Each route follows a research question across papers, with numbered stops beside the map. Start with “How does an agent learn from reward?” for RL foundations, or “Where did RLHF come from, and what did each step add?” for the path to assistants. Other routes cover reward failures, oversight, interpretability and deception.
-
-::: {.column-page}
-```{=html}
-<div data-atlas="routes"></div>
-```
-:::
-
-## Institutions and people
-
-Hover over a name or affiliation for a short introduction; select it to open a profile. You can also find a person or organisation by name. Overlapping bars can reflect simultaneous roles, and dashed outlines mark uncertain dates.
-
-::: {.column-page}
-```{=html}
-<div data-atlas="people"></div>
-```
-:::
-
-## Glossary
-
-Definitions explain terms as they are used in the cards. Each entry links back to an event that introduces or applies it.
-
-```{=html}
-<div data-atlas="glossary"></div>
-```
-
-## Sources and method
-
-Dates refer to the publication, announcement or event named in each card. Some cards also discuss later work; their date notes explain which milestone anchors them on the timeline. The links between cards describe research dependencies or comparisons. “Parallel” marks a comparison without claiming direct influence.
-
-I compiled the atlas with AI assistance and checked selected claims against primary sources. Some details rely on secondary reporting, and unresolved dates are flagged in the cards. Each study's task, models and limitations matter when interpreting its results.
-
-Compute estimates come from a saved [Epoch AI dataset](https://epoch.ai/data/ai-models), under CC BY 4.0. The step line follows the largest documented training-compute estimate up to each date; the labelled dots are selected examples. The scale is logarithmic. Estimates have uncertainty, and unpublished training details leave gaps in the record. The chart's method panel includes the data, snapshot and calculation details.
 
 ```{=html}
 <script src="data.js"></script>

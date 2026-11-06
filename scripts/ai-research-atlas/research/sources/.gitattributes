@@ -1,2 +1,0 @@
-# Preserve pinned upstream bytes, including whitespace inside CSV fields.
-epoch-*.csv -text -whitespace

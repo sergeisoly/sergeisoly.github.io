@@ -10,8 +10,6 @@ Site address: `https://sergeisoly.github.io/`.
 - `writing.qmd`: all essays, notes, and observations in reverse chronological order.
 - `about.qmd`: the author's chosen personal introduction and contact links.
 - `posts/<slug>/index.qmd`: one entry, with any supporting images beside it.
-- `posts/ai-research-atlas/`: draft interactive research navigator. Its editable data,
-  assets and offline checks live in [scripts/ai-research-atlas](scripts/ai-research-atlas/README.md).
 
 The separate `interesearch` repository owns the code, exported measurements, papers, PDFs, and short summaries.
 This site links to `/interesearch/`; it does not copy paper sources or run experiments. Future research
