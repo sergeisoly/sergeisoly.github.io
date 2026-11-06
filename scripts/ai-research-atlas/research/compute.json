@@ -1,0 +1,530 @@
+{
+ "source": "Epoch AI, Data on AI models (CC BY 4.0)",
+ "source_url": "https://epoch.ai/data/notable_ai_models.csv",
+ "source_page_url": "https://epoch.ai/data/ai-models",
+ "retrieved": "2026-11-06",
+ "cutoff_date": "2026-11-06",
+ "snapshot": {
+  "path": "sources/epoch-notable_ai_models-2026-11-06.csv",
+  "metadata_path": "sources/epoch-notable_ai_models-2026-11-06.meta.json",
+  "sha256": "2a5e2b87fac6a37acecf296168d3fb08f0b70456617841c26816232263da5900",
+  "bytes": 2281009,
+  "row_count": 1092,
+  "upstream_updated": "2026-11-03",
+  "retrieved_at_utc": "2026-11-06T08:33:18Z"
+ },
+ "license": {
+  "id": "CC-BY-4.0",
+  "name": "Creative Commons Attribution 4.0 International",
+  "url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Epoch AI, Data on AI models, https://epoch.ai/data/ai-models, accessed 6 November 2026.",
+  "verified_at_url": "https://epoch.ai/data/ai-models"
+ },
+ "metric": {
+  "source_column": "Training compute (FLOP)",
+  "unit": "FLOP, following Epoch's convention",
+  "description": "Total training compute as recorded by Epoch, including pretrained components; not inference compute, training cost, capability, or safety.",
+  "comparability_note": "Epoch uses operation counts for some early systems and does not normalize arithmetic precision. Training recipes and accounting differ across systems; these estimates are not a homogeneous measurement series.",
+  "documentation_url": "https://epoch.ai/data/ai-models-documentation/estimation"
+ },
+ "points_label": "Curated examples; labels do not define the envelope population",
+ "frontier_label": "Running maximum of documented estimates",
+ "population": {
+  "description": "Every row in the pinned notable_ai_models.csv with a complete valid publication date on or before the cutoff and a positive finite numeric training-compute value.",
+  "source_rows": 1092,
+  "eligible_rows": 543,
+  "eligible_dates": 477,
+  "excluded_rows": 549,
+  "exclusions": {
+   "invalid_date": 0,
+   "after_cutoff": 0,
+   "missing_compute": 549,
+   "nonnumeric_compute": 0,
+   "nonpositive_or_nonfinite_compute": 0
+  },
+  "dates_with_multiple_eligible_rows": 58
+ },
+ "method": {
+  "description": "For each eligible publication date, take the largest training-compute estimate; emit a point only when that daily maximum strictly exceeds every earlier eligible estimate.",
+  "date_policy": "Use Epoch's Publication date as supplied, not training completion or the date a compute estimate became public. No historical as-known-at-the-time inference is made.",
+  "same_date_policy": "Same-day rows are simultaneous: take their maximum before updating the envelope. For exact ties, choose the lexicographically first model name, then the first row in the pinned CSV; this changes only the displayed label, not the maximum.",
+  "equal_compute_policy": "A later estimate equal to the existing maximum does not create another envelope change.",
+  "no_other_filters": "No domain, organization, era, confidence, notability-field, or source Frontier model flag filter is applied; no outliers are removed. Missing compute is not imputed. Duplicate source rows cannot change the maximum.",
+  "fit_policy": "No local growth regression, doubling time, interpolation-based estimate, or extrapolation is calculated. This strict maximum is distinct from Epoch's published running-top-N frontier definitions."
+ },
+ "uncertainty_note": "This envelope summarizes central estimates documented in one non-exhaustive Epoch snapshot, not the absolute world record. Missing models and compute values, uncertain estimates, and retrospective revisions can change its level and apparent leaders. Uncertainty is not propagated into an envelope confidence interval.",
+ "confidence_note": "Confidence retains Epoch's row-level label. It describes the least certain of nonempty training compute, parameter count, and training dataset size, rather than a compute-specific error bar. Likely and Speculative points remain eligible; exact source precision does not imply measurement precision.",
+ "points": [
+  {
+   "model": "Perceptron Mark I",
+   "date": "1957-01-01",
+   "flop": 694894.9377361819,
+   "confidence": "Likely",
+   "domain": "Other"
+  },
+  {
+   "model": "NetTalk (transcription)",
+   "date": "1987-06-06",
+   "flop": 28328002560.0,
+   "confidence": "Confident",
+   "domain": "Speech"
+  },
+  {
+   "model": "TD-Gammon",
+   "date": "1992-05-01",
+   "flop": 18232157622832.703,
+   "confidence": "Speculative",
+   "domain": "Games"
+  },
+  {
+   "model": "LSTM",
+   "date": "1997-11-15",
+   "flop": 31512000000000.0,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "LeNet-5",
+   "date": "1998-11-01",
+   "flop": 2810937600000.0,
+   "confidence": "Confident",
+   "domain": "Vision"
+  },
+  {
+   "model": "AlexNet",
+   "date": "2012-09-30",
+   "flop": 4.7e+17,
+   "confidence": "Confident",
+   "domain": "Vision"
+  },
+  {
+   "model": "Word2Vec (large)",
+   "date": "2013-10-16",
+   "flop": 3.888e+16,
+   "confidence": "Likely",
+   "domain": "Language"
+  },
+  {
+   "model": "GANs",
+   "date": "2014-06-10",
+   "flop": 5.184e+17,
+   "confidence": "Speculative",
+   "domain": "Image generation"
+  },
+  {
+   "model": "Seq2Seq LSTM",
+   "date": "2014-09-10",
+   "flop": 5.6e+19,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "ResNet-152 (ImageNet)",
+   "date": "2015-12-10",
+   "flop": 1.041408e+19,
+   "confidence": "Confident",
+   "domain": "Vision"
+  },
+  {
+   "model": "AlphaGo Lee",
+   "date": "2016-01-27",
+   "flop": 1.9e+21,
+   "confidence": "Speculative",
+   "domain": "Games"
+  },
+  {
+   "model": "Transformer",
+   "date": "2017-06-12",
+   "flop": 7.4245248e+18,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "AlphaGo Zero",
+   "date": "2017-10-18",
+   "flop": 6.49439910290227e+20,
+   "confidence": "Confident",
+   "domain": "Games"
+  },
+  {
+   "model": "AlphaZero",
+   "date": "2017-12-05",
+   "flop": 1.0600000001e+20,
+   "confidence": "Likely",
+   "domain": "Games"
+  },
+  {
+   "model": "BERT-Large",
+   "date": "2018-10-11",
+   "flop": 2.85e+20,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "GPT-2 (1.5B)",
+   "date": "2019-02-14",
+   "flop": 1.920000000001e+21,
+   "confidence": "Speculative",
+   "domain": "Language"
+  },
+  {
+   "model": "T5-11B",
+   "date": "2019-10-23",
+   "flop": 3.3e+22,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "AlphaStar",
+   "date": "2019-10-30",
+   "flop": 1.0773400001e+23,
+   "confidence": "Confident",
+   "domain": "Games"
+  },
+  {
+   "model": "OpenAI Five",
+   "date": "2019-12-13",
+   "flop": 6.7e+22,
+   "confidence": "Confident",
+   "domain": "Games"
+  },
+  {
+   "model": "GPT-3 175B (davinci)",
+   "date": "2020-05-28",
+   "flop": 3.14e+23,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "Gopher (280B)",
+   "date": "2021-12-08",
+   "flop": 6.31e+23,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "Chinchilla",
+   "date": "2022-03-29",
+   "flop": 5.76e+23,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "PaLM (540B)",
+   "date": "2022-04-04",
+   "flop": 2.5272e+24,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "GPT-4 (Mar 2023)",
+   "date": "2023-03-15",
+   "flop": 2.1e+25,
+   "confidence": "Likely",
+   "domain": "Multimodal,Language,Vision"
+  },
+  {
+   "model": "Llama 2-70B",
+   "date": "2023-07-18",
+   "flop": 8.1e+23,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "Gemini 1.0 Ultra",
+   "date": "2023-12-06",
+   "flop": 5.0000000001e+25,
+   "confidence": "Speculative",
+   "domain": "Multimodal,Language,Vision"
+  },
+  {
+   "model": "Llama 3.1-405B",
+   "date": "2024-07-23",
+   "flop": 3.8e+25,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "Grok 3",
+   "date": "2025-02-17",
+   "flop": 3.5e+26,
+   "confidence": "Likely",
+   "domain": "Language,Vision,Multimodal"
+  },
+  {
+   "model": "GPT-4.5",
+   "date": "2025-02-27",
+   "flop": 3.8e+26,
+   "confidence": "Likely",
+   "domain": "Language,Vision,Multimodal"
+  },
+  {
+   "model": "Grok 4",
+   "date": "2025-07-09",
+   "flop": 5.0000000000001e+26,
+   "confidence": "Speculative",
+   "domain": "Language,Multimodal,Vision"
+  },
+  {
+   "model": "GPT-6 Astra",
+   "date": "2026-09-03",
+   "flop": 9.4e+26,
+   "confidence": "Likely",
+   "domain": "Multimodal,Language,Vision"
+  }
+ ],
+ "frontier_points": [
+  {
+   "model": "Theseus",
+   "date": "1950-07-02",
+   "flop": 40.0,
+   "confidence": "Confident",
+   "domain": "Robotics"
+  },
+  {
+   "model": "Perceptron Mark I",
+   "date": "1957-01-01",
+   "flop": 694894.9377361819,
+   "confidence": "Likely",
+   "domain": "Other"
+  },
+  {
+   "model": "Pandemonium (morse)",
+   "date": "1959-02-01",
+   "flop": 600000000.0,
+   "confidence": "Speculative",
+   "domain": "Language"
+  },
+  {
+   "model": "Perceptron (1960)",
+   "date": "1960-03-30",
+   "flop": 720000000.0,
+   "confidence": "Speculative",
+   "domain": "Vision"
+  },
+  {
+   "model": "NetTalk (transcription)",
+   "date": "1987-06-06",
+   "flop": 28328002560.0,
+   "confidence": "Confident",
+   "domain": "Speech"
+  },
+  {
+   "model": "Handwritten digit recognition network",
+   "date": "1989-11-27",
+   "flop": 181440000000.0,
+   "confidence": "Confident",
+   "domain": "Vision"
+  },
+  {
+   "model": "Zip CNN",
+   "date": "1989-12-01",
+   "flop": 1496338054440.0,
+   "confidence": "Confident",
+   "domain": "Vision"
+  },
+  {
+   "model": "TD-Gammon",
+   "date": "1992-05-01",
+   "flop": 18232157622832.703,
+   "confidence": "Speculative",
+   "domain": "Games"
+  },
+  {
+   "model": "Predictive Coding NN",
+   "date": "1994-12-02",
+   "flop": 18621900000000.0,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "LSTM",
+   "date": "1997-11-15",
+   "flop": 31512000000000.0,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "Neural LM",
+   "date": "2000-11-28",
+   "flop": 6339000000000000.0,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "SB-LM",
+   "date": "2007-06-22",
+   "flop": 1.4494464e+18,
+   "confidence": "Likely",
+   "domain": "Language"
+  },
+  {
+   "model": "DistBelief NNLM",
+   "date": "2013-01-16",
+   "flop": 2.612736e+18,
+   "confidence": "Likely",
+   "domain": "Language"
+  },
+  {
+   "model": "SPPNet",
+   "date": "2014-06-18",
+   "flop": 3.411072e+18,
+   "confidence": "Confident",
+   "domain": "Vision"
+  },
+  {
+   "model": "VGG16",
+   "date": "2014-09-04",
+   "flop": 1.2291e+19,
+   "confidence": "Confident",
+   "domain": "Vision"
+  },
+  {
+   "model": "Seq2Seq LSTM",
+   "date": "2014-09-10",
+   "flop": 5.6e+19,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "SNM-skip",
+   "date": "2014-12-03",
+   "flop": 2.97600000001e+20,
+   "confidence": "Speculative",
+   "domain": "Language"
+  },
+  {
+   "model": "AlphaGo Fan",
+   "date": "2015-10-01",
+   "flop": 3.8e+20,
+   "confidence": "Likely",
+   "domain": "Games"
+  },
+  {
+   "model": "AlphaGo Lee",
+   "date": "2016-01-27",
+   "flop": 1.9e+21,
+   "confidence": "Speculative",
+   "domain": "Games"
+  },
+  {
+   "model": "GNMT",
+   "date": "2016-09-26",
+   "flop": 6.620000000001e+21,
+   "confidence": "Likely",
+   "domain": "Language"
+  },
+  {
+   "model": "ResNeXt-101 32x48d",
+   "date": "2018-05-02",
+   "flop": 8.74395e+21,
+   "confidence": "Confident",
+   "domain": "Vision"
+  },
+  {
+   "model": "Megatron-BERT",
+   "date": "2019-09-17",
+   "flop": 2.2e+22,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "T5-11B",
+   "date": "2019-10-23",
+   "flop": 3.3e+22,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "AlphaStar",
+   "date": "2019-10-30",
+   "flop": 1.0773400001e+23,
+   "confidence": "Confident",
+   "domain": "Games"
+  },
+  {
+   "model": "Meena",
+   "date": "2020-01-28",
+   "flop": 1.12e+23,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "GPT-3 175B (davinci)",
+   "date": "2020-05-28",
+   "flop": 3.14e+23,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "Jurassic-1-Jumbo",
+   "date": "2021-08-11",
+   "flop": 3.7e+23,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "FLAN 137B",
+   "date": "2021-09-03",
+   "flop": 2.047e+24,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "GPT-3.5 (davinci-002)",
+   "date": "2022-03-15",
+   "flop": 2.578e+24,
+   "confidence": "Speculative",
+   "domain": "Language"
+  },
+  {
+   "model": "Minerva (540B)",
+   "date": "2022-06-29",
+   "flop": 2.7415e+24,
+   "confidence": "Confident",
+   "domain": "Language"
+  },
+  {
+   "model": "GPT-4 (Mar 2023)",
+   "date": "2023-03-15",
+   "flop": 2.1e+25,
+   "confidence": "Likely",
+   "domain": "Multimodal,Language,Vision"
+  },
+  {
+   "model": "Gemini 1.0 Ultra",
+   "date": "2023-12-06",
+   "flop": 5.0000000001e+25,
+   "confidence": "Speculative",
+   "domain": "Multimodal,Language,Vision"
+  },
+  {
+   "model": "Grok 3",
+   "date": "2025-02-17",
+   "flop": 3.5e+26,
+   "confidence": "Likely",
+   "domain": "Language,Vision,Multimodal"
+  },
+  {
+   "model": "GPT-4.5",
+   "date": "2025-02-27",
+   "flop": 3.8e+26,
+   "confidence": "Likely",
+   "domain": "Language,Vision,Multimodal"
+  },
+  {
+   "model": "Grok 4",
+   "date": "2025-07-09",
+   "flop": 5.0000000000001e+26,
+   "confidence": "Speculative",
+   "domain": "Language,Multimodal,Vision"
+  },
+  {
+   "model": "GPT-6 Astra",
+   "date": "2026-09-03",
+   "flop": 9.4e+26,
+   "confidence": "Likely",
+   "domain": "Multimodal,Language,Vision"
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "path": "sources/epoch-notable_ai_models-2026-11-06.csv",
+ "metadata_path": "sources/epoch-notable_ai_models-2026-11-06.meta.json",
+ "source_url": "https://epoch.ai/data/notable_ai_models.csv",
+ "source_page_url": "https://epoch.ai/data/ai-models",
+ "retrieved": "2026-11-06",
+ "retrieved_at_utc": "2026-11-06T08:33:18Z",
+ "retrieval_time_basis": "HTTP response Date recorded during the successful download",
+ "upstream_updated": "2026-11-03",
+ "upstream_update_basis": "Official AI models page, Downloads: Notable AI models, checked 2026-11-06",
+ "sha256": "2a5e2b87fac6a37acecf296168d3fb08f0b70456617841c26816232263da5900",
+ "bytes": 2281009,
+ "row_count": 1092,
+ "http_etag": "\"ce5aea5b5b03de904db1c63b00e2c6f9\"",
+ "license": {
+  "id": "CC-BY-4.0",
+  "name": "Creative Commons Attribution 4.0 International",
+  "url": "https://creativecommons.org/licenses/by/4.0/",
+  "attribution": "Epoch AI, Data on AI models, https://epoch.ai/data/ai-models, accessed 6 November 2026.",
+  "verified_at_url": "https://epoch.ai/data/ai-models"
+ },
+ "preservation_note": "Unmodified response body from the cited official CSV endpoint. Paths are relative to research/. Pin a new dated file and review changed counts and eligibility before updating this manifest or the reproduction script; do not silently overwrite the historical snapshot."
+}

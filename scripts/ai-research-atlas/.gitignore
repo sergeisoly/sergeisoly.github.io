@@ -1,0 +1,5 @@
+__pycache__/
+site/index.html
+site/data.js
+research/VALIDATION.md
+tests/output/

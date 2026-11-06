@@ -1,0 +1,89 @@
+---
+title: "AI Research Atlas"
+description: "An interactive, source-linked history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026."
+date: 2026-11-06
+kind: Note
+categories: [ai-safety, history]
+draft: true
+toc: true
+toc-location: body
+resources:
+  - atlas.css
+  - atlas.js
+  - diagrams.js
+  - data.js
+---
+
+```{=html}
+<link rel="stylesheet" href="atlas.css">
+```
+
+This atlas connects the histories of reinforcement learning, language models and AI safety. It is a way to follow an idea across papers, understand the problem it addressed, and find what to read next.
+
+The selection centers on alignment, agent reliability and catastrophic-risk research, together with the ML developments that help explain those threads. Institutional coverage is strongest in the US and UK. The questions and connections reflect this lens; they can be revised as the map grows.
+
+Start with the [map](#the-map) for an overview or the [questions](#questions-through-the-history) for a reading route. You can also browse [institutions and people](#institutions-and-people), the [event index](#every-event-by-era) or the [glossary](#glossary).
+
+## The map
+
+Four lanes share one time axis: safety and alignment; RL and agents; models; and institutions and governance. Earlier decades are compressed, and the scale expands toward the crowded recent years. Select an event to read its problem, idea, contribution and limits, then follow its connections or sources.
+
+The compute band uses a pinned snapshot of [Epoch AI's model data](https://epoch.ai/data/ai-models). Its step line follows the largest documented training-compute estimate up to each date; selected dots identify individual models. Values use a log scale. The line is an envelope of available estimates, with uncertainty and gaps where training details are unpublished.
+
+::: {.column-screen-inset}
+```{=html}
+<div data-atlas="map"></div>
+```
+:::
+
+## Questions through the history
+
+Choose a question you want to understand. For RL foundations, begin with “How does an agent learn from reward?” For the connection to assistants, try “Where did RLHF come from, and what did each step add?” The routes on reward failures, oversight, interpretability and deception lead into different alignment research problems.
+
+Each route offers a suggested sequence and a short account of how its ideas connect. Open an event to inspect the claim and its limitations, then use its sources to go deeper. You can leave a route whenever another connection is more useful.
+
+::: {.column-page}
+```{=html}
+<div data-atlas="routes"></div>
+```
+:::
+
+## Institutions and people
+
+The chart follows selected researchers' affiliations, and the organisation list explains their roles in the research covered here. Overlapping affiliations can reflect simultaneous roles. Dashed outlines mark uncertain dates; current-status notes are dated snapshots.
+
+::: {.column-page}
+```{=html}
+<div data-atlas="people"></div>
+```
+:::
+
+## Every event, by era
+
+Use the index to browse the full selection chronologically, including events that are hidden in the map's overview.
+
+```{=html}
+<div data-atlas="index"></div>
+```
+
+## Glossary
+
+Definitions explain terms as they are used in the cards. Each entry links back to an event that introduces or applies it.
+
+```{=html}
+<div data-atlas="glossary"></div>
+```
+
+## Sources and method
+
+Cards link to papers, original announcements and historical sources. Their dates mark the milestone named in the card: an initial announcement, preprint, journal publication, founding or later consolidated result. Some cards group several related developments, so one dot may introduce work that continued over subsequent years. Per-card date bases and source notes explain these choices and record unresolved checks.
+
+A source link supports the work being discussed; it does not by itself establish every claim about the work's influence. “Builds on,” “responds to,” “enables,” “tests” and “critiques” are interpretations of the relationships. A parallel connection places work alongside another development without asserting direct influence. Experimental results should be read with the task, model, comparison and limitations stated in the card.
+
+I compiled this atlas with AI assistance. Source checking is bounded: some details rely on secondary reporting, and unresolved points are identified in the cards. This remains a working research guide, and corrections are welcome. Compute estimates come from the pinned Epoch AI snapshot credited above, under CC-BY.
+
+```{=html}
+<script src="data.js"></script>
+<script src="diagrams.js"></script>
+<script src="atlas.js"></script>
+```
