@@ -235,7 +235,7 @@
       el("title", {}, path, compute.frontier_label || "Running maximum of documented estimates");
       front.forEach((p) => {
         const dot = el("circle", { cx: p.x, cy: p.y, r: 5, class: "cmp-frontier-hit" }, svg);
-        el("title", {}, dot, `${p.model}, ${p.date}: ${p.flop.toExponential(1)} estimated training FLOP; confidence: ${p.confidence || "not supplied"}`);
+        // No SVG <title> here: the browser would show it as a second tooltip next to ours.
         dot.addEventListener("mouseenter", (ev) => showTip(ev, `${esc(p.model)} · envelope estimate<br>${esc(p.flop.toExponential(1))} FLOP · ${esc(p.confidence || "confidence not supplied")}`));
         dot.addEventListener("mousemove", moveTip); dot.addEventListener("mouseleave", hideTip);
       });
@@ -248,7 +248,6 @@
     pts.forEach((p) => {
       const lab = [...LABELED].some((n) => n && p.model.startsWith(n.replace(/ \(.*?$/, "")) && (n === p.model || p.model.startsWith(n)));
       const c = el("circle", { cx: p.x, cy: p.y, r: lab ? 3.4 : 2.6, class: "cmp-dot conf-" + String(p.confidence || "unknown").toLowerCase().replace(/[^a-z]/g, "") + (lab ? " lab" : "") }, svg);
-      el("title", {}, c, `${p.model}, ${p.date}: ${p.flop.toExponential(1)} estimated training FLOP; confidence: ${p.confidence || "not supplied"}`);
       c.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(p.model)}</b><br>${esc(p.date.slice(0, 7))} · ${esc(p.flop.toExponential(1))} estimated FLOP<br>Epoch confidence: ${esc(p.confidence || "not supplied")}`));
       c.addEventListener("mousemove", moveTip); c.addEventListener("mouseleave", hideTip);
       if (lab) el("text", { x: p.x + 6, y: p.y + 4, class: "cmp-text" }, svg, p.model.replace(/ \(.*\)$/, "").replace(" 175B", ""));
@@ -809,7 +808,7 @@
     people.forEach((p, i) => {
       const top = rows[i], h = p.tracks * (BAR + GAP) - GAP;
       if (i) svg += `<line x1="0" x2="${W}" y1="${top - 5}" y2="${top - 5}" class="sep"/>`;
-      svg += `<text x="0" y="${top + 11.5}" class="nm" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" aria-label="Open profile: ${esc(p.name)}">${esc(p.name)}${p.known_for ? `<title>${esc(p.known_for)}</title>` : ""}</text>`;
+      svg += `<text x="0" y="${top + 11.5}" class="nm" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" aria-label="Open profile: ${esc(p.name)}">${esc(p.name)}</text>`;
       const byTrack = {};
       p.roles.forEach((r) => {
         r.x1 = px(r.s[0]); r.x2 = px(r.s[1]); r.open = !r.to; r.end = r.x2 + (r.open ? 3.5 : 0); r.barW = Math.max(3, r.x2 - r.x1 - 1.5);
@@ -844,7 +843,6 @@
         const hitL = Math.max(Math.min(x1 - 4, mid - 8), prev ? (prev.end + x1) / 2 : -Infinity), hitR = Math.min(Math.max(r.end + 4, mid + 8), next ? (r.end + next.x1) / 2 : Infinity);
         svg += `<g class="role${r.uncertain ? " unsure" : ""}" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" data-affiliation="${r.index}" aria-label="${esc(p.name)} at ${esc(r.org)}, ${esc(roleDate(r.from) || "start unknown")} to ${esc(roleDate(r.to) || "present")}${r.uncertain ? ", dates uncertain" : ""}. Open affiliation details."><rect class="role-hit" x="${hitL}" y="${by - GAP / 2}" width="${Math.max(1, hitR - hitL)}" height="${BAR + GAP}"/><rect class="role-bar" x="${x1}" y="${by}" width="${r.barW}" height="${BAR}" rx="2.5" style="fill:var(--${tone});stroke:var(--${tone})"/>`;
         if (open) svg += `<path d="M${x2 - 1.5},${by} l5,${BAR / 2} l-5,${BAR / 2}" style="fill:var(--${tone})" class="tip-arrow"/>`;
-        svg += `<title>${esc(r.org)}: ${esc(roleDate(r.from) || "?")}–${esc(roleDate(r.to) || "present")}${r.uncertain ? " (dates uncertain)" : ""}</title>`;
         if (r.label) svg += `<text x="${r.label.x}" y="${by + 11}"${r.label.anchor ? ` text-anchor="${r.label.anchor}"` : ""} class="lb${r.label.out ? " out" : ""}">${esc(r.label.text)}</text>`;
         svg += `</g>`;
       });
