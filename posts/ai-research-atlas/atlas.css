@@ -52,7 +52,6 @@
 .atlas .atlas-btn[aria-pressed=false] .dot { opacity: .35; }
 .atlas .search { font: inherit; font-size: .92rem; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); padding: .3rem .1rem; width: 18rem; max-width: 100%; border-radius: 0; }
 .atlas .search::placeholder { color: var(--muted); }
-.atlas .ctl-label { font-size: .85rem; color: var(--muted); }
 .atlas select.atlas-btn { padding-right: .4rem; }
 
 /* Map */

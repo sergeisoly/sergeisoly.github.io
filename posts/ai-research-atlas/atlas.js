@@ -41,7 +41,7 @@
   const connectionsFor = (id) => connections.filter((c) => c.from === id || c.to === id);
   const connectionLabel = (c) => `${byId.get(c.from).title} — ${(REL[c.type] || c.type).toLowerCase()} — ${byId.get(c.to).title}`;
 
-  const state = { tab: "map", selected: null, connection: null, route: null, org: null, query: "", queryInput: "", minImp: 2, zoom: 1, lanes: new Set(D.lanes.map((l) => l.id)), focus: null, era: null, profile: null, profileDock: "people", affiliationIndex: null, routeShown: (D.threads[0] || {}).id };
+  const state = { tab: "map", selected: null, connection: null, route: null, org: null, query: "", queryInput: "", zoom: 1, lanes: new Set(D.lanes.map((l) => l.id)), focus: null, era: null, profile: null, profileDock: "people", affiliationIndex: null, routeShown: (D.threads[0] || {}).id };
   let connectionHover = null, connectionFocus = null, connectionTrigger = null;
   const mounts = {};
   document.querySelectorAll("[data-atlas]").forEach((m) => { m.classList.add("atlas"); mounts[m.dataset.atlas] = m; });
@@ -115,7 +115,8 @@
   }
   const SMOOTH = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
   const inScope = (e) => (!state.route || state.route.event_ids.includes(e.id)) && orgMatches(e, state.org);
-  const visible = () => D.events.filter((e) => state.lanes.has(e.lane) && (e.importance || 2) >= (state.query || state.route || state.org ? 1 : state.minImp));
+  // Every event in the switched-on lanes is shown; importance only sets dot size and which dots carry a label.
+  const visible = () => D.events.filter((e) => state.lanes.has(e.lane));
   const lit = (e) => textMatches(e, state.query) && inScope(e);
   const matches = () => visible().filter(lit);
   function el(tag, attrs, parent, text) {
@@ -421,7 +422,7 @@
     c.hidden = !state.org;
     c.innerHTML = state.org ? `<span>${esc(`Organisation: ${state.org.name}`)}</span>` : "";
     const reset = $(".reset-view", mounts.map);
-    if (reset) reset.style.visibility = state.route || state.org || state.query || state.lanes.size < D.lanes.length || state.minImp !== 2 || state.zoom !== 1 ? "visible" : "hidden";
+    if (reset) reset.style.visibility = state.route || state.org || state.query || state.lanes.size < D.lanes.length || state.zoom !== 1 ? "visible" : "hidden";
   }
 
   function renderSearchResults() {
@@ -611,7 +612,7 @@
   }
   function snapshot() {
     return { tab: state.tab, selected: state.selected, connection: state.connection, route: state.route && state.route.id, org: state.org && state.org.id,
-      query: state.query, queryInput: state.queryInput, minImp: state.minImp, zoom: state.zoom, lanes: [...state.lanes], scrollLeft: state.tab === "map" && mapScroll ? mapScroll.scrollLeft : preservedMapScroll,
+      query: state.query, queryInput: state.queryInput, zoom: state.zoom, lanes: [...state.lanes], scrollLeft: state.tab === "map" && mapScroll ? mapScroll.scrollLeft : preservedMapScroll,
       listScrollTop: $(".event-scroll-list", mounts.map)?.scrollTop || 0, era: state.era, profile: state.profile, profileDock: state.profileDock, affiliationIndex: state.affiliationIndex, routeShown: state.routeShown };
   }
   function saveHistory(replace = false, preserveUrl = false) {
@@ -633,7 +634,6 @@
     if (state.org && !orgMatches(e, state.org)) state.org = null;
     if (state.query && !textMatches(e, state.query)) { state.query = ""; state.queryInput = ""; }
     state.lanes.add(e.lane);
-    if (!state.query && !state.route && !state.org && (e.importance || 2) < state.minImp) state.minImp = e.importance || 2;
     const hadFocus = mapSvg && mapSvg.contains(document.activeElement);
     syncControls(); renderMap(); renderPane();
     scrollMapTo(id, false); updateOverview();
@@ -662,7 +662,7 @@
   }
   function resetView() {
     state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; state.route = null; state.org = null; state.query = ""; state.queryInput = "";
-    state.era = null; state.profile = null; renderProfile(); state.minImp = 2; state.zoom = 1; state.lanes = new Set(D.lanes.map((l) => l.id));
+    state.era = null; state.profile = null; renderProfile(); state.zoom = 1; state.lanes = new Set(D.lanes.map((l) => l.id));
     syncControls(); renderMap(); renderPane();
     mapScroll.scrollLeft = layout.X(2010) - 30; updateOverview(); saveHistory();
   }
@@ -673,17 +673,13 @@
     c.innerHTML = `
       <input class="search" id="atlas-search" type="search" placeholder="Search events" aria-label="Search events" value="${esc(state.queryInput)}">
       <div class="group" role="group" aria-label="Lanes">${D.lanes.map((l) => `<button class="atlas-btn" data-lane="${l.id}" aria-pressed="${state.lanes.has(l.id)}"><span class="dot" style="background:${lc(l.id)}"></span>${esc(l.short || l.title)}</button>`).join("")}</div>
-      <div class="group"><label class="ctl-label" for="atlas-detail">Map detail</label>
-        <select class="atlas-btn" id="atlas-detail"><option value="1">every event</option><option value="2">main events</option><option value="3">anchors only</option></select></div>
       <div class="group" role="group" aria-label="Zoom"><button class="atlas-btn" data-zoom="-1" aria-label="Zoom out">−</button><button class="atlas-btn" data-zoom="1" aria-label="Zoom in">+</button></div>
       <button type="button" class="text-button reset-view" data-act="clear" style="visibility:hidden">Reset view</button>
       `;
     syncControls();
     $("#atlas-search").addEventListener("input", (ev) => { state.queryInput = ev.target.value; state.query = state.queryInput.trim(); state.era = null; reconcileSelection(); syncControls(); renderMap(); renderPane(); saveHistory(true); });
-    $("#atlas-detail").addEventListener("change", (ev) => { state.minImp = Number(ev.target.value); reconcileSelection(); renderMap(); renderPane(); saveHistory(true); });
   }
   function syncControls() {
-    const s = $("#atlas-detail"); if (s) { const scoped = Boolean(state.query || state.route || state.org); s.value = scoped ? "1" : String(state.minImp); s.disabled = scoped; s.title = scoped ? "Search, routes and organisations include every event in scope." : ""; }
     const q = $("#atlas-search"); if (q && q.value !== state.queryInput) q.value = state.queryInput;
     document.querySelectorAll("[data-lane]").forEach((b) => b.setAttribute("aria-pressed", state.lanes.has(b.dataset.lane)));
   }
@@ -1038,7 +1034,6 @@
       $(".context", mounts.map).scrollIntoView({ behavior: SMOOTH, block: "start" });
     } else if (d.act === "leave-route") {
       saveHistory(true, true); state.route = null;
-      if (state.selected) state.minImp = Math.min(state.minImp, byId.get(state.selected).importance || 2);
       syncControls(); renderMap(); renderPane(); saveHistory();
       $(".pane h3", mounts.map)?.focus({ preventScroll: true });
     } else if (d.act === "close-connection") closeConnection();
@@ -1095,7 +1090,7 @@
     const connection = connectionByKey.get(saved.connection);
     state.connection = connection && [connection.from, connection.to].includes(state.selected) ? saved.connection : null; connectionHover = null; connectionFocus = null; connectionTrigger = null;
     state.route = D.threads.find((t) => t.id === saved.route) || null; state.org = orgById.get(saved.org) || null;
-    state.query = saved.query || ""; state.queryInput = saved.queryInput == null ? state.query : saved.queryInput; state.minImp = saved.minImp || 2; state.zoom = saved.zoom || 1;
+    state.query = saved.query || ""; state.queryInput = saved.queryInput == null ? state.query : saved.queryInput; state.zoom = saved.zoom || 1;
     state.lanes = new Set(saved.lanes || D.lanes.map((l) => l.id));
     state.era = Number.isInteger(saved.era) && D.eras[saved.era] ? saved.era : null;
     state.profile = profileRecord(saved.profile) ? saved.profile : null; state.profileDock = saved.profileDock || "people"; state.affiliationIndex = saved.affiliationIndex == null ? null : saved.affiliationIndex;
