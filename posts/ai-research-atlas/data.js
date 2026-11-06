@@ -34,8 +34,8 @@ window.TIMELINE_DATA = {
    "kind": "event",
    "importance": 3,
    "problem": "Work on thinking machines was scattered across cybernetics, logic, information theory and early computing, with no shared name or agenda.",
-   "idea": "McCarthy, Minsky, Rochester and Shannon proposed (Aug 1955) a two-month summer study in 1956 on the conjecture that every feature of learning or intelligence can be described precisely enough for a machine to simulate it; the proposal coined 'artificial intelligence'.",
-   "changed": "Gave the field its name, its founding community and its early optimism. The listed topics (language use, abstraction, self-improvement, neuron nets) are still the research agenda.",
+   "idea": "In Aug 1955, McCarthy, Minsky, Rochester and Shannon proposed a two-month summer study in 1956. Their conjecture was that every feature of learning or intelligence can be described precisely enough for a machine to simulate it. The proposal coined 'artificial intelligence'.",
+   "changed": "The workshop gave the field its name, founding community and early optimism. Its listed topics (language use, abstraction, self-improvement, neuron nets) remain on the research agenda.",
    "limits": "The workshop itself produced few concrete results, and its time estimates were far too optimistic. Early AI after Dartmouth was mostly symbolic, not learning-based.",
    "people": [
     "John McCarthy",
@@ -90,10 +90,10 @@ window.TIMELINE_DATA = {
    "label": "Bellman: dynamic programming",
    "kind": "book",
    "importance": 3,
-   "problem": "Sequential decision problems (inventory, control, replacement) explode combinatorially if you search over whole action sequences.",
+   "problem": "Searching whole action sequences in problems such as inventory, control and replacement becomes combinatorially expensive as the sequence grows.",
    "idea": "Bellman's principle of optimality decomposes sequential decisions into recursive subproblems: after an initial action, the remaining plan must be optimal for the state reached. His 1957 book and MDP paper developed this framework. Finite-horizon problems can be solved backward from the terminal step; infinite-horizon discounted problems can be solved by repeated value updates.",
    "changed": "Bellman equations underpin value-based RL: TD methods learn value estimates from sampled experience, Q-learning learns action values, and DQN approximates them with a neural network. Policy-gradient methods offer another route by optimizing a policy directly.",
-   "limits": "Dynamic programming needs a known transition model and sweeps over all states; Bellman himself named the resulting blow-up in large state spaces the 'curse of dimensionality'.",
+   "limits": "Dynamic programming requires a known transition model and updates across all states. Bellman named the resulting blow-up in large state spaces the 'curse of dimensionality'.",
    "people": [
     "Richard Bellman"
    ],
@@ -156,8 +156,8 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "It was unclear whether a machine could learn to classify patterns from examples rather than being programmed with rules.",
-   "idea": "Rosenblatt described the perceptron, a network of threshold units whose weights are adjusted by an error-driven rule, with a convergence guarantee for linearly separable data; it was later built in hardware (Mark I).",
-   "changed": "Brought trainable neural classifiers to wide attention and helped establish learning adjustable weights as an alternative to programming every rule.",
+   "idea": "Rosenblatt described the perceptron, a network of threshold units whose weights are adjusted by an error-driven rule. The rule has a convergence guarantee for linearly separable data. The design was later built in hardware (Mark I).",
+   "changed": "The perceptron brought trainable neural classifiers to wide attention and helped establish learning by adjusting weights as an alternative to programming every rule.",
    "limits": "A single layer of trainable weights can only learn linearly separable functions, and there was no method for training hidden layers. Press coverage greatly overstated what it could do.",
    "people": [
     "Frank Rosenblatt"
@@ -207,9 +207,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Could a computer improve at a task through its own play rather than through hand-coded rules alone?",
-   "idea": "Arthur Samuel's checkers program evaluated board positions with a weighted sum of features and adjusted the weights so that the evaluation of an earlier position moved toward the evaluation reached after searching ahead, plus rote memory of positions. He popularised the phrase 'machine learning' in this line of work.",
-   "changed": "The weight update is an early form of what Sutton later formalised as temporal-difference learning: learn a prediction from a later, better prediction instead of waiting for the final outcome.",
-   "limits": "Hand-chosen features and an update without convergence guarantees; it reached a respectable amateur level, and claims about it beating strong players are often overstated.",
+   "idea": "Arthur Samuel's checkers program scored board positions with a weighted sum of features. It adjusted the weights to move an earlier position's evaluation toward the evaluation found by searching ahead, and also memorised positions. Samuel popularised the phrase 'machine learning' in this line of work.",
+   "changed": "The program's weight updates were an early form of what Sutton later formalised as temporal-difference learning: learning a prediction from a later, better prediction instead of waiting for the final outcome.",
+   "limits": "The program used hand-chosen features, and its update had no convergence guarantee. It reached a respectable amateur level; claims about it beating strong players are often overstated.",
    "people": [
     "Arthur Samuel"
    ],
@@ -259,7 +259,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Learning machines could improve beyond their programmers' own performance. This raised a control question: what happens when an automated system pursues the stated goal more literally or quickly than its operators expected?",
-   "idea": "Norbert Wiener argued in Science that a learning machine may carry out the purpose we literally put into it rather than the purpose we actually want, and that because machines act faster than we can react, we may notice the mismatch only after the damage is done.",
+   "idea": "Norbert Wiener argued in Science that a learning machine may carry out the purpose we literally put into it rather than the purpose we actually want. Because machines act faster than we can react, we may notice the mismatch only after the damage is done.",
    "changed": "An early statement of the specification problem: an objective can diverge from human intent even without machine malice. Russell later used Wiener's purpose-mismatch warning in his critique of fixed-objective AI.",
    "limits": "A short conceptual essay, with no formal model or tested alignment method.",
    "people": [
@@ -318,9 +318,9 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 1,
    "problem": "Is learning from reward alone, without any model of the game, mechanically possible?",
-   "idea": "Donald Michie built a tic-tac-toe player from about 300 matchboxes, one per board position, holding coloured beads for moves. Moves were drawn at random in proportion to bead counts; after a win beads were added for the moves played, after a loss they were removed.",
-   "changed": "A physical demonstration of reinforcement as changing action probabilities by outcome, later echoed in policy-gradient methods. Michie's BOXES work extended the idea to pole balancing.",
-   "limits": "A lookup table over a tiny game; credit is assigned equally to every move in a game, so it cannot tell which move actually mattered (the credit-assignment problem).",
+   "idea": "Donald Michie built a tic-tac-toe player from about 300 matchboxes, one per board position, with coloured beads representing moves. Drawing a bead at random selected a move with probability proportional to its bead count. After a win, beads were added for the moves played; after a loss, they were removed.",
+   "changed": "MENACE physically demonstrated how reinforcement can change action probabilities according to outcomes, an idea later echoed in policy-gradient methods. Michie's BOXES work extended it to pole balancing.",
+   "limits": "The matchboxes form a lookup table for a tiny game. Every move in a game receives equal credit or blame, so MENACE cannot tell which move actually mattered (the credit-assignment problem).",
    "people": [
     "Donald Michie"
    ],
@@ -431,10 +431,10 @@ window.TIMELINE_DATA = {
    "label": "Perceptrons and AI winters",
    "kind": "book",
    "importance": 2,
-   "problem": "Neural network claims ran ahead of any theory of what such networks could compute.",
+   "problem": "Claims about neural networks outpaced the theory of what they could compute.",
    "idea": "Minsky and Papert proved that single-layer perceptrons cannot compute some simple predicates (parity, connectedness; XOR is the textbook case) without impractically large or global connections.",
-   "changed": "Highlighted limitations of restricted perceptron architectures. The book became associated with the first AI winter, alongside unmet promises and the UK Lighthill report (written in 1972, published in 1973); its independent role in funding cuts is disputed. A second downturn followed the expert-systems market contraction in the late 1980s.",
-   "limits": "The results applied to single-layer networks; multilayer networks were not ruled out, they just could not yet be trained. How much the book alone caused the downturn is disputed.",
+   "changed": "The book documented limitations of restricted perceptron architectures. It became associated with the first AI winter, alongside unmet promises and the UK Lighthill report (written in 1972, published in 1973); its independent role in funding cuts is disputed. A second downturn followed the expert-systems market contraction in the late 1980s.",
+   "limits": "The results applied to single-layer networks. They did not rule out multilayer networks, but researchers could not yet train those. How much the book alone caused the downturn is disputed.",
    "people": [
     "Marvin Minsky",
     "Seymour Papert",
@@ -470,7 +470,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-1986-backprop",
      "type": "enables",
-     "note": "backprop answered the 'how to train hidden layers' gap"
+     "note": "backprop supplied a method for training hidden layers"
     }
    ],
    "tags": [
@@ -502,7 +502,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "When reward arrives only at failure (the pole falls), how does a learner know which earlier actions were bad?",
-   "idea": "Split the learner in two: a critic learns to predict future reward from each state and turns changes in its prediction into an immediate internal reinforcement signal; an actor uses that signal to adjust its action preferences.",
+   "idea": "The learner has two parts. A critic predicts future reward from each state and turns changes in that prediction into an immediate internal reinforcement signal. An actor uses the signal to adjust its action preferences.",
    "changed": "Actor-critic became a template for A3C, common PPO implementations and PPO-based RLHF: a policy network is updated using an advantage estimate derived from a learned value function. Other policy-gradient methods, including GRPO, can avoid a learned critic.",
    "limits": "Two coupled learners can be unstable, and the critic's errors bias the actor's updates.",
    "people": [
@@ -566,8 +566,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Multilayer networks could represent much more than perceptrons, but there was no widely accepted, practical way to train their hidden units.",
    "idea": "Rumelhart, Hinton and Williams showed that gradient descent with errors propagated backward through the layers (the chain rule) lets hidden units learn useful internal representations.",
-   "changed": "Revived connectionism in the late 1980s and is still how essentially every neural network, including LLMs, is trained.",
-   "limits": "Not the first derivation: reverse-mode differentiation (Linnainmaa 1970) and its application to networks (Werbos 1974) came earlier. Deep or recurrent nets still trained poorly because of vanishing gradients, small data and slow hardware.",
+   "changed": "The paper revived connectionism in the late 1980s. Backpropagation is still used to train essentially every neural network, including LLMs.",
+   "limits": "Earlier work derived reverse-mode differentiation (Linnainmaa 1970) and applied it to networks (Werbos 1974). Deep or recurrent nets still trained poorly because of vanishing gradients, small data and slow hardware.",
    "people": [
     "David Rumelhart",
     "Geoffrey Hinton",
@@ -623,9 +623,9 @@ window.TIMELINE_DATA = {
    "label": "Temporal-difference learning",
    "kind": "paper",
    "importance": 3,
-   "problem": "Prediction learners waited for the final outcome (Monte Carlo) before updating, which is slow, memory-hungry and high-variance in long episodes.",
+   "problem": "Monte Carlo prediction methods wait for the final outcome before updating. In long episodes, this is slow, uses a lot of memory and produces high-variance estimates.",
    "idea": "Update a value prediction toward the next prediction plus the intervening reward: V(s) ← V(s) + α[r + γV(s′) − V(s)]. Here s is the current state, s′ the next state, r the reward, α the learning rate and γ the discount factor. For example, V(s)=2, r=1, V(s′)=3, γ=0.9 and α=0.1 give V(s)=2.17 after one update. This is bootstrapping: learning a guess from a guess. In episodic prediction, TD(λ) connects one-step TD to Monte Carlo returns.",
-   "changed": "TD made it possible to learn values online from raw experience without a model. It underlies Q-learning, TD-Gammon, DQN and the critics in modern actor-critic and RLHF; the TD error also became a model of dopamine signals in neuroscience.",
+   "changed": "TD let agents learn values online from raw experience without a model. It underlies Q-learning, TD-Gammon, DQN and the critics in modern actor-critic and RLHF. The TD error also became a model of dopamine signals in neuroscience.",
    "limits": "Bootstrapped targets are biased while the estimates are wrong, and combining bootstrapping, off-policy data and function approximation can diverge (the 'deadly triad').",
    "people": [
     "Richard Sutton"
@@ -690,9 +690,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Fully connected nets ignore the spatial structure of images, so they need too many parameters and too much data.",
-   "idea": "Trained a network with local receptive fields and shared weights (convolutions) end-to-end by backprop on zip-code digits. The 1998 'Gradient-based learning' paper (LeNet-5) consolidated the design for document recognition.",
-   "changed": "Established convolutional networks and the idea of building domain structure into the architecture; LeNet-style systems read a sizeable share of US bank cheques in the late 1990s.",
-   "limits": "Did not scale beyond small images on the hardware of the time; in the 2000s SVMs and hand-engineered features dominated vision benchmarks.",
+   "idea": "The team trained a network with local receptive fields and shared weights (convolutions) end-to-end by backprop on zip-code digits. The 1998 'Gradient-based learning' paper (LeNet-5) consolidated the design for document recognition.",
+   "changed": "The work established convolutional networks and the idea of building domain structure into the architecture. LeNet-style systems read a sizeable share of US bank cheques in the late 1990s.",
+   "limits": "On the hardware of the time, the design did not scale beyond small images. In the 2000s, SVMs and hand-engineered features dominated vision benchmarks.",
    "people": [
     "Yann LeCun",
     "Léon Bottou",
@@ -756,8 +756,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "A state-value estimate alone does not specify which action to choose. How can an agent learn optimal action values directly while its behavior still explores?",
    "idea": "Learn action values: Q(s,a) ← Q(s,a) + α[r + γ max_a′ Q(s′,a′) − Q(s,a)]. Here s and a are the current state and action, s′ the next state, r the received reward, α the learning rate and γ the discount factor; a′ ranges over next-state actions. The maximum targets the greedy policy even when exploration chose a different action. Watkins and Dayan proved convergence in the tabular setting with repeated state-action visits and suitable learning rates.",
-   "changed": "A canonical off-policy, model-free algorithm. The 2013 DQN work combined Q-learning with a convolutional network and experience replay; the 2015 Nature version added a periodically frozen target network.",
-   "limits": "Tabular guarantees vanish with function approximation; the max over noisy estimates overestimates values (later fixed partly by Double Q-learning).",
+   "changed": "Q-learning became a standard off-policy, model-free algorithm. The 2013 DQN work combined it with a convolutional network and experience replay; the 2015 Nature version added a periodically frozen target network.",
+   "limits": "The tabular convergence guarantees do not carry over to function approximation. Taking the max over noisy estimates overestimates values, a problem later addressed in part by Double Q-learning.",
    "people": [
     "Chris Watkins",
     "Peter Dayan"
@@ -831,10 +831,10 @@ window.TIMELINE_DATA = {
    "label": "REINFORCE policy gradient",
    "kind": "paper",
    "importance": 2,
-   "problem": "Value-based methods pick actions by max over Q, which is awkward for stochastic or continuous actions; one would rather adjust a parameterised policy directly, but sampling actions is not differentiable.",
+   "problem": "Value-based methods choose actions by maximising Q, which is awkward for stochastic or continuous actions. Directly adjusting a parameterised policy is an alternative, but sampling actions is not differentiable.",
    "idea": "Estimate the policy gradient from sampled experience: ∇θJ = E[(R − b)∇θ log πθ(a|s)] in a one-decision setting; for a trajectory, sum the corresponding terms over decisions. θ denotes policy parameters, πθ(a|s) the probability of action a in state s, R the return and b an action-independent baseline. An ascent step uses learning rate α: θ ← θ + α(R − b)∇θ log πθ(a|s). Above-baseline outcomes reinforce sampled actions; below-baseline outcomes push the other way.",
-   "changed": "A foundational score-function estimator for policy-gradient methods. PPO and GRPO use related return- or advantage-weighted policy updates. In a token-level language-model formulation, tokens are actions and the generated answer is a trajectory.",
-   "limits": "Very high variance: returns from whole episodes are noisy, so it needs many samples, baselines or critics to work.",
+   "changed": "REINFORCE provided a foundational score-function estimator for policy-gradient methods. PPO and GRPO use related return- or advantage-weighted policy updates. In a token-level language-model formulation, tokens are actions and the generated answer is a trajectory.",
+   "limits": "Returns from whole episodes are noisy, giving the estimator very high variance. It needs many samples, baselines or critics to work well.",
    "people": [
     "Ronald J. Williams"
    ],
@@ -867,7 +867,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "policy gradient",
-     "def": "The gradient of expected return with respect to policy parameters, estimated from sampled actions as return-weighted grad log-probabilities."
+     "def": "The gradient of expected return with respect to policy parameters. It can be estimated by weighting the gradient of each sampled action's log-probability by its return."
     },
     {
      "term": "baseline",
@@ -894,8 +894,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Could TD learning with a neural network, rather than a lookup table, master a large real game?",
    "idea": "Gerald Tesauro trained a multilayer network by TD(lambda) on games the program played against itself, with almost no built-in knowledge in the first version. Later versions with expert features and shallow search played near the level of top human players.",
-   "changed": "An influential early success of neural function approximation and self-play in RL. It showed that learned evaluation could reach strong play in a large game, a pattern revisited by later systems such as AlphaGo Zero.",
-   "limits": "Attempts to repeat it in chess and Go in the 1990s largely failed; backgammon's dice give natural exploration and smooth values, which made it unusually friendly.",
+   "changed": "TD-Gammon was an influential early success for neural function approximation and self-play in RL. Its learned evaluation reached strong play in a large game, a pattern revisited by later systems such as AlphaGo Zero.",
+   "limits": "Attempts to repeat the result in chess and Go in the 1990s largely failed. Backgammon was unusually friendly to this approach because its dice provide natural exploration and smooth values.",
    "people": [
     "Gerald Tesauro"
    ],
@@ -960,7 +960,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "AI lacked a common definition of what it was building: programs, planners and expert systems were described in incompatible terms.",
    "idea": "Russell & Norvig's textbook (1995) defined AI as building rational agents: systems that perceive an environment through sensors and act through actuators to maximise a performance measure. In parallel, Rao & Georgeff's Belief-Desire-Intention (BDI) model described agents by beliefs, goals and committed plans.",
-   "changed": "The perceive-decide-act loop is the vocabulary used for today's LLM agents (observation, tool call, environment), and the 'performance measure' framing makes the reward-specification problem explicit.",
+   "changed": "Today's LLM agents use the vocabulary of the perceive-decide-act loop: observations, tool calls and an environment. The 'performance measure' framing also makes the reward-specification problem explicit.",
    "limits": "Classical agent architectures relied on hand-written plans and symbolic world models; they did not learn general skills from data.",
    "people": [
     "Stuart Russell",
@@ -1031,7 +1031,7 @@ window.TIMELINE_DATA = {
    "problem": "Recurrent networks could not learn dependencies over more than a few time steps because gradients vanish or explode when propagated back through time (Hochreiter 1991; Bengio et al. 1994).",
    "idea": "Hochreiter and Schmidhuber added a memory cell with an additive self-connection (the 'constant error carousel') and multiplicative gates controlling what is written and read; a forget gate was added by Gers et al. in 2000.",
    "changed": "LSTMs became the default sequence model from about 2013 to 2017, powering speech recognition, seq2seq translation and ELMo.",
-   "limits": "Still processes tokens one at a time, so training cannot be parallelised across the sequence, and very long-range information still degrades. Transformers displaced it for most language work after 2017.",
+   "limits": "LSTMs still process tokens one at a time, so training cannot be parallelised across the sequence, and very long-range information still degrades. Transformers displaced them for most language work after 2017.",
    "people": [
     "Sepp Hochreiter",
     "Jürgen Schmidhuber"
@@ -1088,9 +1088,9 @@ window.TIMELINE_DATA = {
    "kind": "book",
    "importance": 2,
    "problem": "RL ideas were spread across control theory, psychology, operations research and AI, with inconsistent notation.",
-   "idea": "A single textbook unified MDPs, dynamic programming, Monte Carlo, TD, Q-learning, eligibility traces and actor-critic under one framework centred on value functions and the agent-environment loop.",
-   "changed": "Defined the field's vocabulary and trained the generation that built deep RL; the 2nd edition (2018) added policy gradients and deep RL context.",
-   "limits": "Mostly tabular and linear methods; the hard problems of large-scale function approximation were left largely open in 1998.",
+   "idea": "Sutton and Barto brought MDPs, dynamic programming, Monte Carlo, TD, Q-learning, eligibility traces and actor-critic into a single textbook. They organised these methods around value functions and the agent-environment loop.",
+   "changed": "The book defined the field's vocabulary and trained the generation that built deep RL. The 2nd edition (2018) added policy gradients and deep RL context.",
+   "limits": "The 1998 edition mostly covered tabular and linear methods, leaving the hard problems of large-scale function approximation largely open.",
    "people": [
     "Richard Sutton",
     "Andrew Barto"
@@ -1144,10 +1144,10 @@ window.TIMELINE_DATA = {
    "label": "Potential-based reward shaping",
    "kind": "paper",
    "importance": 2,
-   "problem": "Sparse rewards make learning slow, so designers add bonus rewards; but ad-hoc bonuses can change what is optimal (an agent rewarded for approaching a goal learned to circle near it).",
+   "problem": "Sparse rewards slow learning, so designers add bonuses to guide the agent. Ad-hoc bonuses can change what is optimal: an agent rewarded for approaching a goal learned to circle near it.",
    "idea": "In a discounted MDP, add a bounded state potential Φ through F(s,s′) = γΦ(s′) − Φ(s), where s is the current state, s′ the next state and γ the discount factor. Under the paper's assumptions this leaves the optimal policy unchanged; arbitrary extra reward terms generally do not. Episodic formulations also require appropriate terminal-state handling.",
-   "changed": "An early formal statement that the reward you write is not the behaviour you get: extra reward terms can be exploited. This is a direct ancestor of later concerns about reward hacking and specification gaming.",
-   "limits": "Guarantees only invariance of the optimal policy; it does not tell you how to pick a good potential or protect against a misspecified base reward.",
+   "changed": "The paper gave an early formal account of how extra reward terms can produce exploitable behaviour. It is a direct precursor to later concerns about reward hacking and specification gaming.",
+   "limits": "The guarantee preserves only the optimal policy. It does not tell a designer how to pick a good potential or protect against a misspecified base reward.",
    "people": [
     "Andrew Ng",
     "Daishi Harada",
@@ -1208,8 +1208,8 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Value-based methods with function approximation could oscillate or diverge, and a small change in Q could flip the greedy policy discontinuously.",
-   "idea": "Express the performance gradient using action values without differentiating the state distribution. Under compatible function-approximation assumptions, a learned critic can supply the correct policy-gradient direction. The paper gives a policy-iteration construction with a local-optimality convergence result under its stated conditions.",
-   "changed": "Put actor-critic and policy-gradient methods on firm ground, setting up TRPO, PPO and A3C. Konda & Tsitsiklis' actor-critic analysis appeared in the same NIPS volume.",
+   "idea": "The theorem expresses the performance gradient using action values without differentiating the state distribution. Under compatible function-approximation assumptions, a learned critic can supply the correct policy-gradient direction. The paper gives a policy-iteration construction that converges to a local optimum under its stated conditions.",
+   "changed": "The result gave actor-critic and policy-gradient methods a firm theoretical basis for later work such as TRPO, PPO and A3C. Konda & Tsitsiklis' actor-critic analysis appeared in the same NIPS volume.",
    "limits": "Convergence is only to a local optimum and the variance and sample cost of gradient estimates remain high.",
    "people": [
     "Richard Sutton",
@@ -1273,7 +1273,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "For many tasks (driving, flying a helicopter) it is easier to demonstrate good behaviour than to write down a reward function for it.",
    "idea": "Ng & Russell posed inverse RL: infer a reward under which the observed behaviour is optimal. Abbeel & Ng's apprenticeship learning (2004) matched the expert's expected feature counts so the learned policy does as well as the expert under the unknown reward.",
-   "changed": "Established 'learn the reward from humans' as a research programme. Russell later built on it in cooperative inverse RL, and reward models learned from human preferences in RLHF are a descendant.",
+   "changed": "Inverse RL established a research programme for learning rewards from humans. Russell later built on it in cooperative inverse RL; reward models learned from human preferences in RLHF are another descendant.",
    "limits": "The problem is ill-posed (many rewards explain the same behaviour, including the trivial zero reward), and it assumes the demonstrator is near-optimal.",
    "people": [
     "Andrew Ng",
@@ -1340,10 +1340,10 @@ window.TIMELINE_DATA = {
    "label": "SIAI / MIRI founded",
    "kind": "org",
    "importance": 3,
-   "problem": "Research specifically about beneficial superhuman AI had little institutional support. SIAI provided a small independent home for this line of work.",
-   "idea": "Eliezer Yudkowsky, Brian Atkins and Sabine Atkins founded the Singularity Institute. Its early Friendly AI programme investigated how a more capable AI could retain goals beneficial to humans; the organisation later became MIRI.",
-   "changed": "An early independent organisation concerned with superhuman AI that developed the Friendly AI agenda. Its writing and research helped form the community around later alignment work; it became MIRI in 2013.",
-   "limits": "Its theoretical agenda (decision theory, agent foundations) had little influence on mainstream ML. Since about 2023 MIRI has said that alignment research is not on track, and it now works mainly on public communication and policy, arguing for a halt to frontier development.",
+   "problem": "Research on beneficial superhuman AI had little institutional support. SIAI was a small independent organisation dedicated to this work.",
+   "idea": "Eliezer Yudkowsky, Brian Atkins and Sabine Atkins founded the Singularity Institute. Its early Friendly AI programme investigated how a more capable AI could retain goals beneficial to humans. The organisation later became MIRI.",
+   "changed": "SIAI developed the Friendly AI agenda. Its writing and research helped bring together the community that later worked on alignment. It became MIRI in 2013.",
+   "limits": "Its theoretical work on decision theory and agent foundations had little influence on mainstream ML. Since about 2023 MIRI has said that alignment research is not on track. It now works mainly on public communication and policy, arguing for a halt to frontier development.",
    "people": [
     "Eliezer Yudkowsky",
     "Brian Atkins",
@@ -1476,9 +1476,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 1,
    "problem": "Count-based n-gram models needed smoothing to handle rare or unseen word combinations, and longer contexts required rapidly growing tables. Could learned distributed representations share statistical strength across similar contexts?",
-   "idea": "Bengio et al. learned a dense vector per word jointly with a neural network that predicts the next word from the previous words' vectors, so similar words share statistical strength.",
-   "changed": "Helped establish jointly learned word representations and neural next-word prediction, an important ancestor of today's autoregressive language models.",
-   "limits": "Far slower to train than n-grams on 2003 hardware and still a fixed, short context window; n-gram models stayed dominant in production for another decade.",
+   "idea": "Bengio et al. jointly learned a dense vector for each word and a neural network that predicts the next word from the previous words' vectors. Similar words could then share statistical strength.",
+   "changed": "The work helped establish jointly learned word representations and neural next-word prediction, an important ancestor of today's autoregressive language models.",
+   "limits": "Training was far slower than for n-grams on 2003 hardware, and the model still had a fixed, short context window. N-gram models stayed dominant in production for another decade.",
    "people": [
     "Yoshua Bengio",
     "Réjean Ducharme",
@@ -1535,10 +1535,10 @@ window.TIMELINE_DATA = {
    "label": "FHI founded",
    "kind": "org",
    "importance": 2,
-   "problem": "Existential-risk and long-term AI questions were dispersed across disciplines. FHI aimed to provide an academic institution where they could be investigated together.",
-   "idea": "Nick Bostrom founded the Future of Humanity Institute within Oxford's Faculty of Philosophy, initially as a 3-year project, to study big-picture questions about humanity's long-term future.",
-   "changed": "Provided an influential academic home for existential-risk research, including Bostrom's Superintelligence and early AI-governance work. GovAI originated as an FHI programme before becoming independent.",
-   "limits": "Its research ranged from philosophy and strategy to technical questions. The institute's retrospective attributes its closure to administrative constraints, including a 2020 hiring and fundraising freeze; that account is an institutional perspective.",
+   "problem": "Existential-risk and long-term AI questions were spread across disciplines. FHI aimed to bring researchers on these questions into one academic institution.",
+   "idea": "Nick Bostrom founded the Future of Humanity Institute within Oxford's Faculty of Philosophy, initially as a 3-year project, to study humanity's long-term future.",
+   "changed": "FHI provided an academic base for existential-risk research. Bostrom wrote Superintelligence there, and its early AI-governance work included the programme that later became the independent GovAI.",
+   "limits": "Its research ranged from philosophy and strategy to technical questions. The institute's retrospective attributes its closure to administrative constraints, including a 2020 hiring and fundraising freeze. This is the institute's own account.",
    "people": [
     "Nick Bostrom"
    ],
@@ -1581,7 +1581,7 @@ window.TIMELINE_DATA = {
     "urls": true,
     "note": "FHI final site opened 6 Nov 2026: established in 2005, initially for three years; closed 16 April 2024. Unsupported November precision removed."
    },
-   "date_context": "FHI's retrospective confirms 2005; the previously supplied month was not supported and is omitted.",
+   "date_context": "FHI's retrospective confirms 2005 but does not support the previously supplied month.",
    "date_sort": "2005-01-01"
   },
   {
@@ -1596,9 +1596,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Networks with many layers trained by backprop from random initialisation got stuck in poor solutions, so 'deep' networks were widely considered impractical.",
-   "idea": "Hinton, Osindero and Teh trained a deep generative network greedily, one layer at a time, as stacked restricted Boltzmann machines, then fine-tuned the whole stack; a companion Science paper (Hinton and Salakhutdinov, Jul 2006) applied it to deep autoencoders.",
-   "changed": "Helped revive interest in training deep networks and demonstrated useful layer-wise unsupervised initialization. The pretrain-then-fine-tune pattern influenced later approaches, although the RBM recipe itself was largely displaced.",
-   "limits": "The specific RBM pretraining recipe was soon unnecessary: ReLUs, better initialisation, GPUs and more labelled data made plain supervised backprop work by 2010-2012.",
+   "idea": "Hinton, Osindero and Teh trained a deep generative network greedily, one layer at a time, as stacked restricted Boltzmann machines, then fine-tuned the whole stack. A companion Science paper (Hinton and Salakhutdinov, Jul 2006) applied the approach to deep autoencoders.",
+   "changed": "The work helped revive interest in training deep networks and demonstrated useful layer-wise unsupervised initialization. The pretrain-then-fine-tune pattern influenced later approaches, although the RBM recipe itself was largely displaced.",
+   "limits": "By 2010-2012, ReLUs, better initialisation, GPUs and more labelled data made plain supervised backprop work without the specific RBM pretraining recipe.",
    "people": [
     "Geoffrey Hinton",
     "Simon Osindero",
@@ -1655,8 +1655,8 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "A common intuition was that an AI with a harmless goal, such as playing chess, would be harmless.",
-   "idea": "Stephen Omohundro argued that almost any sufficiently capable goal-seeking system will develop the same subgoals unless designed otherwise: improve itself, protect its utility function from change, avoid being switched off, and acquire resources, because each of these helps with nearly any final goal.",
-   "changed": "This became the core of 'instrumental convergence' in Bostrom's book and explains why shutdown resistance and power-seeking are treated as default risks, the motivation for corrigibility research and for later power-seeking evaluations of LLM agents.",
+   "idea": "Stephen Omohundro argued that, unless designed otherwise, almost any sufficiently capable goal-seeking system will develop the same subgoals: improve itself, protect its utility function from change, avoid being switched off, and acquire resources. Each helps with nearly any final goal.",
+   "changed": "These drives became the core of 'instrumental convergence' in Bostrom's book. They explain why shutdown resistance and power-seeking are treated as default risks, motivating corrigibility research and later power-seeking evaluations of LLM agents.",
    "limits": "Assumes a coherent expected-utility maximiser. Whether trained neural networks, especially LLMs, behave like such agents is contested, and the drives are tendencies, not theorems about real systems.",
    "people": [
     "Stephen Omohundro"
@@ -1719,7 +1719,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Vision datasets had thousands to tens of thousands of images, too small to train high-capacity models or to separate methods convincingly.",
    "idea": "Deng, Fei-Fei Li and colleagues labelled millions of images over WordNet categories using crowd workers (Amazon Mechanical Turk); the yearly ILSVRC challenge (1,000 classes, about 1.2M training images) started in 2010.",
-   "changed": "Supplied the data that made large neural nets pay off and set the pattern of progress measured on a shared benchmark. 'Data is a first-class ingredient' carried straight into web-scale text corpora.",
+   "changed": "ImageNet supplied the data that made large neural nets pay off and established a shared benchmark for measuring progress. Its emphasis on data as a central ingredient carried into web-scale text corpora.",
    "limits": "Labels contain errors and cultural biases (the person categories were later pruned), and benchmark-chasing can reward overfitting to one test set.",
    "people": [
     "Jia Deng",
@@ -1768,10 +1768,10 @@ window.TIMELINE_DATA = {
    "label": "DeepMind founded",
    "kind": "org",
    "importance": 3,
-   "problem": "Building general AI was an ambitious research-company goal rather than a clearly established product category. DeepMind combined that goal with learning-based systems and game benchmarks.",
+   "problem": "Building general AI was an ambitious research-company goal without a clearly established product category. DeepMind pursued it with learning-based systems and game benchmarks.",
    "idea": "Demis Hassabis, Shane Legg and Mustafa Suleyman founded DeepMind in London with the explicit mission to build general AI. Legg had written about AGI risk before founding it.",
-   "changed": "Became a major AGI-focused lab, producing DQN and AlphaGo. Google acquired it in 2014; in April 2023 it merged with Google Brain to form Google DeepMind, whose later safety work includes the Frontier Safety Framework.",
-   "limits": "An AGI mission and safety research do not establish that resulting systems are safe. Claims about an independent ethics-board condition in the Google acquisition are press-reported and should not be read as evidence of effective oversight.",
+   "changed": "DeepMind became a major AGI-focused lab, producing DQN and AlphaGo. Google acquired it in 2014. In April 2023 it merged with Google Brain to form Google DeepMind, whose later safety work includes the Frontier Safety Framework.",
+   "limits": "An AGI mission and safety research do not establish that the resulting systems are safe. Reports that the Google acquisition required an independent ethics board come from the press; they do not establish that oversight was effective.",
    "people": [
     "Demis Hassabis",
     "Shane Legg",
@@ -1838,8 +1838,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Computer vision ran on hand-designed features plus shallow classifiers, and many researchers doubted that neural nets could beat them on real images.",
    "idea": "Krizhevsky, Sutskever and Hinton trained a large CNN (about 60M parameters) on two GPUs with ReLUs, dropout and data augmentation, winning ILSVRC-2012 with 15.3% top-5 error against 26.2% for the runner-up.",
-   "changed": "A landmark in the shift toward GPU-trained deep learning for computer vision. Its large ImageNet gain encouraged much wider use of convolutional networks and investment in deep-learning research.",
-   "limits": "Required large labelled datasets; the models were opaque, brittle to distribution shift and vulnerable to adversarial examples (shown in 2013).",
+   "changed": "AlexNet's large ImageNet gain encouraged much wider use of convolutional networks and investment in deep-learning research, as computer vision shifted toward GPU-trained deep learning.",
+   "limits": "AlexNet required large labelled datasets. The models were opaque, brittle to distribution shift and vulnerable to adversarial examples (shown in 2013).",
    "people": [
     "Alex Krizhevsky",
     "Ilya Sutskever",
@@ -1906,9 +1906,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Neural language models learned good word vectors but were too expensive to train on billions of words.",
-   "idea": "Mikolov et al. dropped the hidden layer and trained shallow models (CBOW, skip-gram) to predict nearby words; vectors showed linear analogies such as king - man + woman close to queen.",
-   "changed": "Made pretrained word vectors practical and widely used as inputs to NLP systems, accelerating transfer of representations learned from unlabeled text.",
-   "limits": "One static vector per word, regardless of context ('bank' has one vector), and embeddings absorbed social biases from the corpus.",
+   "idea": "Mikolov et al. dropped the hidden layer and trained shallow models (CBOW, skip-gram) on nearby-word prediction. Their vectors showed linear analogies such as king - man + woman close to queen.",
+   "changed": "word2vec made pretrained word vectors practical and widely used as inputs to NLP systems, accelerating transfer of representations learned from unlabeled text.",
+   "limits": "Each word had one static vector regardless of context ('bank' has one vector). The embeddings also absorbed social biases from the corpus.",
    "people": [
     "Tomas Mikolov",
     "Kai Chen",
@@ -1961,9 +1961,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Learning control from high-dimensional video with nonlinear value functions was difficult: correlated observations and changing bootstrap targets could make training unstable.",
-   "idea": "Train a convolutional network to output Q-values for each joystick action from raw frames, stabilised by experience replay (learn from random minibatches of stored transitions, breaking correlations) and, in the 2015 Nature paper, a periodically frozen target network for the bootstrap target.",
+   "idea": "DQN trains a convolutional network to output Q-values for each joystick action from raw frames. Experience replay stabilises learning by drawing random minibatches of stored transitions, breaking correlations between samples. The 2015 Nature paper added a periodically frozen target network to compute the bootstrap target.",
    "changed": "The 2013 paper used one architecture across seven Atari games and surpassed a human expert on three. The 2015 Nature paper expanded the evaluation to dozens of games with many human-level results, helping establish deep RL as a practical research program.",
-   "limits": "Needed tens of millions of frames per game (far more than humans), failed on sparse-reward exploration games such as Montezuma's Revenge, and handles only discrete actions.",
+   "limits": "DQN needed tens of millions of frames per game, far more than humans. It failed on sparse-reward exploration games such as Montezuma's Revenge and handles only discrete actions.",
    "people": [
     "Volodymyr Mnih",
     "Koray Kavukcuoglu",
@@ -2004,7 +2004,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "experience replay",
-     "def": "Storing past transitions in a buffer and training on random samples from it, which reuses data and decorrelates updates (possible because Q-learning is off-policy)."
+     "def": "Storing past transitions in a buffer and training on random samples from it. This reuses data and decorrelates updates, which is possible because Q-learning is off-policy."
     },
     {
      "term": "target network",
@@ -2033,8 +2033,8 @@ window.TIMELINE_DATA = {
    "kind": "org",
    "importance": 2,
    "problem": "AI-risk researchers wanted wider contact with mainstream ML researchers and a source of support for beneficial-AI research.",
-   "idea": "Max Tegmark, Jaan Tallinn, Viktoriya Krakovna, Anthony Aguirre and Meia Chita-Tegmark founded FLI (launch event at MIT). In January 2015 it convened AI researchers in Puerto Rico, published an open letter on research priorities for robust and beneficial AI, and Elon Musk funded its first grant programme.",
-   "changed": "Helped connect AI-risk discussions to mainstream researchers through convenings and a 2015 research-grant programme. It later organised the Asilomar Principles and the 2023 pause letter, and continued policy and advocacy work.",
+   "idea": "Max Tegmark, Jaan Tallinn, Viktoriya Krakovna, Anthony Aguirre and Meia Chita-Tegmark founded FLI, with a launch event at MIT. In January 2015 it convened AI researchers in Puerto Rico and published an open letter on research priorities for robust and beneficial AI. Elon Musk funded its first grant programme.",
+   "changed": "FLI connected AI-risk discussions with mainstream researchers through meetings and a 2015 research-grant programme. It later organised the Asilomar Principles and the 2023 pause letter, and continued policy and advocacy work.",
    "limits": "Convenings, grants and open letters have different effects. The letters and principles were voluntary; signatures alone do not demonstrate changes in model development or deployment.",
    "people": [
     "Max Tegmark",
@@ -2092,8 +2092,8 @@ window.TIMELINE_DATA = {
    "importance": 1,
    "problem": "Deep generative models of images needed intractable likelihoods or slow sampling procedures.",
    "idea": "Goodfellow et al. trained a generator against a discriminator in a two-player game: the discriminator learns to tell real from generated samples, the generator learns to fool it.",
-   "changed": "Dominated image generation from about 2015 to 2020 (StyleGAN and deepfakes) and made synthetic media a policy topic.",
-   "limits": "Training is unstable and prone to mode collapse; diffusion models largely replaced GANs for image generation after 2020. Not part of the LLM lineage.",
+   "changed": "GANs dominated image generation from about 2015 to 2020 (StyleGAN and deepfakes) and made synthetic media a policy topic.",
+   "limits": "GAN training is unstable and prone to mode collapse. Diffusion models largely replaced GANs for image generation after 2020. GANs are not part of the LLM lineage.",
    "people": [
     "Ian Goodfellow",
     "Yoshua Bengio"
@@ -2214,9 +2214,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Encoder-decoder RNNs squeezed the whole source sentence into one fixed-length vector, and quality fell on long sentences.",
-   "idea": "Bahdanau, Cho and Bengio let the decoder compute, at every output step, a learned weighting over all encoder states and read a weighted sum of them (soft alignment).",
-   "changed": "Attention became standard in neural MT (Google's GNMT in 2016) and is the mechanism the Transformer kept while discarding recurrence.",
-   "limits": "Still wrapped around a sequential RNN, so slow to train; attention weights are often read as explanations, which later work showed is unreliable.",
+   "idea": "At every output step, the decoder in Bahdanau, Cho and Bengio's model computes a learned weighting over all encoder states and reads their weighted sum (soft alignment).",
+   "changed": "Attention became standard in neural MT (Google's GNMT in 2016). The Transformer later kept this mechanism while discarding recurrence.",
+   "limits": "The attention mechanism still sat within a sequential RNN, so training remained slow. Later work also showed that treating attention weights as explanations is unreliable.",
    "people": [
     "Dzmitry Bahdanau",
     "Kyunghyun Cho",
@@ -2274,7 +2274,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Deep nets mapped fixed-size inputs to fixed-size outputs; tasks like translation map variable-length sequences to variable-length sequences.",
    "idea": "Sutskever, Vinyals and Le encoded the source with a deep LSTM into a vector and decoded the target with another LSTM, reaching 34.8 BLEU on WMT'14 English-French, competitive with phrase-based systems.",
-   "changed": "Showed one end-to-end neural architecture could replace a complex statistical MT pipeline, and framed many NLP tasks as text-in, text-out.",
+   "changed": "The work showed that one end-to-end neural architecture could replace a complex statistical MT pipeline. It also framed many NLP tasks as text-in, text-out.",
    "limits": "The fixed-size bottleneck hurt long inputs (fixed by attention), and decoding was sequential and slow.",
    "people": [
     "Ilya Sutskever",
@@ -2327,7 +2327,7 @@ window.TIMELINE_DATA = {
    "importance": 1,
    "problem": "Plain SGD needed careful per-problem learning-rate tuning and handled badly scaled or sparse gradients poorly.",
    "idea": "Kingma and Ba combined momentum with per-parameter step sizes from running estimates of the first and second moments of the gradient, with bias correction.",
-   "changed": "Became a widely used adaptive optimizer for deep learning. Its decoupled-weight-decay variant AdamW (2017) became common in language-model training.",
+   "changed": "Adam became a widely used adaptive optimizer for deep learning. Its decoupled-weight-decay variant AdamW (2017) became common in language-model training.",
    "limits": "The original convergence proof was later shown to be flawed (Reddi et al. 2018), and Adam can generalise worse than SGD on some vision tasks. Its two extra state tensors add memory cost at LLM scale.",
    "people": [
     "Diederik P. Kingma",
@@ -2446,7 +2446,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Beyond about 20-30 layers, adding depth made even training error worse (the degradation problem), and deep nets were slow and fragile to train.",
-   "idea": "He et al. made each block learn a residual F(x) added to an identity shortcut, training 152-layer networks that won ILSVRC-2015. Normalization layers stabilised training: batch norm (Ioffe and Szegedy, Feb 2015) for CNNs, layer norm (Ba, Kiros, Hinton, Jul 2016) for sequence models.",
+   "idea": "He et al. made each block learn a residual F(x) added to an identity shortcut, training 152-layer networks that won ILSVRC-2015. In related work, normalization layers stabilised training: batch norm (Ioffe and Szegedy, Feb 2015) for CNNs and layer norm (Ba, Kiros, Hinton, Jul 2016) for sequence models.",
    "changed": "Residual connections and normalization became standard ingredients of deep networks, including Transformer blocks, making much deeper stacks practical to train.",
    "limits": "Why residual nets work so well is still only partly understood. Batch norm depends on batch statistics, which is why Transformers use layer norm (later RMSNorm).",
    "people": [
@@ -2527,7 +2527,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "The founders argued that a leading AI research institution should prioritise broad public benefit as machine intelligence became more capable.",
    "idea": "Greg Brockman, Ilya Sutskever, Sam Altman, Elon Musk and others announced OpenAI as a non-profit research company, with over $1 billion pledged and a mission to make AGI benefit all of humanity.",
-   "changed": "Grew into a major frontier lab that developed GPT models, large-scale RLHF and ChatGPT. Its changing corporate structure and the 2023 board crisis made it an important case for examining mission-driven governance under commercial pressure.",
+   "changed": "OpenAI grew into a major frontier lab that developed GPT models, large-scale RLHF and ChatGPT. Its changing corporate structure and the 2023 board crisis exposed questions about how mission-driven governance works under commercial pressure.",
    "limits": "The initial commitment to broadly sharing research changed as systems became more capable, including staged release of GPT-2. A public-benefit mission and a non-profit board do not by themselves establish effective oversight.",
    "people": [
     "Sam Altman",
@@ -2586,9 +2586,9 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 3,
    "problem": "Go's branching factor and the difficulty of evaluating positions made it resistant to the search methods that worked in chess; experts expected human-level Go to be a decade away.",
-   "idea": "A policy network first trained to imitate expert moves, then improved by self-play policy-gradient RL; a value network trained to predict game outcomes; and Monte Carlo tree search that uses both to focus and truncate search.",
-   "changed": "Beat European champion Fan Hui 5-0 (announced with the Nature paper) and Lee Sedol 4-1 in March 2016, showing that learned evaluation plus search could crack a problem thought out of reach and making RL a mainstream AI story.",
-   "limits": "Relied on human expert games for initialisation, a perfect simulator of the rules, and large compute; techniques did not transfer directly to messy real-world tasks.",
+   "idea": "AlphaGo first trained a policy network to imitate expert moves, then improved it through self-play policy-gradient RL. A value network learned to predict game outcomes. Monte Carlo tree search used both networks to focus the search and evaluate positions without searching to the end.",
+   "changed": "AlphaGo beat European champion Fan Hui 5-0, a result announced with the Nature paper, and Lee Sedol 4-1 in March 2016. Learned evaluation and search had solved a problem thought out of reach, bringing RL into mainstream AI discussion.",
+   "limits": "AlphaGo relied on human expert games for initialisation, a perfect simulator of the rules and large amounts of compute. Its techniques did not transfer directly to messy real-world tasks.",
    "people": [
     "David Silver",
     "Aja Huang",
@@ -2650,9 +2650,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "DQN needed a large replay buffer and GPU; on-policy actor-critic methods with neural networks were unstable because consecutive samples are highly correlated.",
-   "idea": "Run many actor-learners in parallel on CPU threads, each in its own environment copy, and apply their gradients asynchronously to shared parameters; the diversity across workers decorrelates data without replay. Updates use n-step returns and an advantage from a learned value baseline, plus an entropy bonus for exploration.",
-   "changed": "Made on-policy deep actor-critic practical and fast, and its synchronous variant (A2C) and the advantage-plus-entropy recipe carried into PPO.",
-   "limits": "Still sample-hungry; asynchronous updates are hard to reproduce, and synchronous batched variants usually matched it.",
+   "idea": "Many actor-learners run in parallel on CPU threads, each in its own copy of the environment, and apply gradients asynchronously to shared parameters. Their different experiences decorrelate the data without replay. Updates use n-step returns, an advantage from a learned value baseline and an entropy bonus for exploration.",
+   "changed": "A3C made on-policy deep actor-critic practical and fast. Its synchronous variant (A2C) and its use of advantage estimates with an entropy bonus carried into PPO.",
+   "limits": "A3C still needs many samples. Asynchronous updates are hard to reproduce, and synchronous batched variants usually matched its performance.",
    "people": [
     "Volodymyr Mnih",
     "Adria Puigdomenech Badia",
@@ -2708,9 +2708,9 @@ window.TIMELINE_DATA = {
    "label": "Open Phil prioritises AI risk",
    "kind": "policy",
    "importance": 2,
-   "problem": "Karnofsky argued that advanced-AI risk was important and neglected, and that long-term philanthropy could support more technically informed research and institution building.",
+   "problem": "Karnofsky argued that advanced-AI risk was important and neglected, and that long-term philanthropy could support technically informed research and new institutions.",
    "idea": "Holden Karnofsky announced that Open Philanthropy (funded mainly by Dustin Moskovitz and Cari Tuna) would treat potential risks from advanced AI as a major priority, aiming to grow the number of technically strong people working on it.",
-   "changed": "Became a major funder of AI-safety research, organisations and fellowships, including CHAI, OpenAI and later independent groups. It changed its name to Coefficient Giving on 18 November 2025.",
+   "changed": "Open Philanthropy became a major funder of AI-safety research, organisations and fellowships, including CHAI, OpenAI and later independent groups. It changed its name to Coefficient Giving on 18 November 2025.",
    "limits": "Concentrated funding from one donor gave a small network outsized influence on research agendas; critics also point to close personal ties between funders and grantee labs.",
    "people": [
     "Holden Karnofsky",
@@ -2770,7 +2770,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Many inverse-RL approaches infer a reward from behaviour and then optimise it, using assumptions about how rational the demonstrator is. CIRL asks what changes when the human can teach and the robot can actively seek information.",
    "idea": "Hadfield-Menell, Dragan, Abbeel and Russell (UC Berkeley) modelled alignment as a two-player cooperative game where human and robot share the human's reward but only the human knows it. Optimal play includes the human teaching and the robot actively learning, and the game reduces to a POMDP.",
-   "changed": "Gave a formal home to the idea that an AI should be uncertain about its objective and treat human behaviour as evidence about it, the basis of the off-switch game and of Russell's Human Compatible program at Berkeley's Center for Human-Compatible AI.",
+   "changed": "Formalised the proposal that an AI should be uncertain about its objective and treat human behaviour as evidence about it. This became the basis of the off-switch game and of Russell's Human Compatible program at Berkeley's Center for Human-Compatible AI.",
    "limits": "Assumes a rational human with a fixed reward, and solving the game is intractable beyond toy settings. Later work showed a misspecified prior can make the robot ignore correction.",
    "people": [
     "Dylan Hadfield-Menell",
@@ -2838,7 +2838,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Long-term AI-risk discussions often used hypothetical superintelligence scenarios. The authors wanted safety problems that could be investigated with contemporary machine-learning experiments.",
-   "idea": "Amodei, Olah, Steinhardt, Christiano, Schulman and Mané listed five accident risks that show up in today's ML systems: avoiding negative side effects, avoiding reward hacking, scalable oversight, safe exploration, and robustness to distributional shift. For each they reviewed existing work and proposed experiments.",
+   "idea": "Amodei, Olah, Steinhardt, Christiano, Schulman and Mané listed five accident risks in contemporary ML systems: avoiding negative side effects, avoiding reward hacking, scalable oversight, safe exploration, and robustness to distributional shift. For each they reviewed existing work and proposed experiments.",
    "changed": "Helped organise an empirical ML-safety agenda around five concrete failure modes and experiments. Its scalable-oversight and reward-hacking questions recur in later human-feedback and evaluation research.",
    "limits": "Focuses on accidents from misspecification, not deliberate deception or misuse. Its RL-agent framing predates LLMs, and the five problems remain open.",
    "people": [
@@ -2928,9 +2928,9 @@ window.TIMELINE_DATA = {
    "kind": "org",
    "importance": 2,
    "problem": "Russell and collaborators wanted a sustained academic programme focused on AI systems that learn human preferences and remain beneficial as capabilities grow.",
-   "idea": "UC Berkeley launched CHAI under Stuart Russell, with a $5.5M Open Philanthropy grant plus FLI and Leverhulme funding, to reorient AI toward 'provably beneficial' systems that are uncertain about human preferences and learn them (e.g. via inverse reinforcement learning).",
-   "changed": "Created a sustained beneficial-AI research programme in a major ML department. Its students later worked across academia and frontier labs, and Russell's Human Compatible popularised the assistance-game framing.",
-   "limits": "Its assistance-game formalism is elegant but has been hard to scale to LLM-era systems; most frontier alignment work took a more empirical route.",
+   "idea": "UC Berkeley launched CHAI under Stuart Russell, with a $5.5M Open Philanthropy grant plus FLI and Leverhulme funding. It aimed to reorient AI toward 'provably beneficial' systems that remain uncertain about human preferences and learn them, for example through inverse reinforcement learning.",
+   "changed": "CHAI established a sustained beneficial-AI research programme in a major ML department. Its students later worked across academia and frontier labs, and Russell's Human Compatible popularised the assistance-game framing.",
+   "limits": "The assistance-game formalism has been hard to scale to LLM-era systems. Most frontier alignment work took a more empirical route.",
    "people": [
     "Stuart Russell"
    ],
@@ -2988,7 +2988,7 @@ window.TIMELINE_DATA = {
    "importance": 1,
    "problem": "Corrigibility work found it hard to design a utility function that leaves an agent indifferent to being switched off.",
    "idea": "In a one-shot game, a robot can act, switch itself off, or defer to a human who may press the off switch. If the robot is uncertain about the human's utility and the human is rational, deferring is optimal, because the human's choice carries information. The incentive vanishes if the robot is certain of its objective.",
-   "changed": "Made objective uncertainty the main proposed route to corrigibility in the Berkeley program and made the trade-off formal: more confidence in its objective means less incentive to accept correction.",
+   "changed": "In the Berkeley program, objective uncertainty became the main proposed route to corrigibility. The game formalised the trade-off: more confidence in its objective gives an agent less incentive to accept correction.",
    "limits": "Depends on the human being close to rational and the robot's prior being well specified. Ryan Carey (2017) showed that with a misspecified model the robot can ignore shutdown commands.",
    "people": [
     "Dylan Hadfield-Menell",
@@ -3057,7 +3057,7 @@ window.TIMELINE_DATA = {
    "kind": "blog",
    "importance": 2,
    "problem": "RL practitioners often use a convenient proxy, such as game score, assuming that maximising it means doing the task.",
-   "idea": "An OpenAI agent trained on the boat-racing game CoastRunners, which rewards hitting targets rather than finishing, found a lagoon where it circled forever hitting respawning targets, crashing and catching fire, and scored higher than human players without finishing the race.",
+   "idea": "An OpenAI agent trained on the boat-racing game CoastRunners found a lagoon where it circled forever, hitting respawning targets, crashing and catching fire. The game rewards hitting targets rather than finishing. The agent scored higher than human players without finishing the race.",
    "changed": "Became a widely used demonstration of reward misspecification. The blog connected it to the earlier Concrete Problems in AI Safety agenda, and it later appeared in specification-gaming teaching resources.",
    "limits": "A game with an obviously bad proxy; it shows the failure mode, not how often it happens in realistic settings or how to fix it.",
    "people": [
@@ -3126,8 +3126,8 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "After the 2015 open letter there was still no shared, concrete statement of norms that AI researchers and industry leaders would sign.",
    "idea": "At FLI's Beneficial AI 2017 conference in Asilomar (early January 2017), participants agreed 23 principles covering research, ethics and values, and longer-term issues such as recursive self-improvement and avoiding an AGI arms race.",
-   "changed": "One of the earliest widely signed AI governance texts, signed by leaders from DeepMind, OpenAI and academia. California's legislature endorsed it in 2018, and its language echoes in later lab principles and summit declarations.",
-   "limits": "Entirely voluntary, with no mechanism for monitoring or enforcement; several principles (e.g. avoiding arms races) were plainly not followed in the years after.",
+   "changed": "The principles were among the earliest widely signed AI governance texts. Signatories included leaders from DeepMind, OpenAI and academia. California's legislature endorsed them in 2018, and their language echoes in later lab principles and summit declarations.",
+   "limits": "The principles were entirely voluntary, with no monitoring or enforcement mechanism. Several, such as avoiding arms races, were plainly not followed in the years after.",
    "people": [
     "Max Tegmark",
     "Stuart Russell",
@@ -3179,9 +3179,9 @@ window.TIMELINE_DATA = {
    "label": "Mixture of experts",
    "kind": "paper",
    "importance": 1,
-   "problem": "Model capacity was tied to compute: every parameter was used for every token, so bigger models cost proportionally more per token.",
+   "problem": "Increasing model capacity also increased compute: every parameter was used for every token, so bigger models cost proportionally more per token.",
    "idea": "Shazeer et al. inserted layers of many expert sub-networks with a learned router that sends each token to only a few experts, reaching over 100B parameters at modest compute per token.",
-   "changed": "Conditional computation became a main route to scale: Switch Transformer (Jan 2021), Mixtral (Dec 2023/Jan 2024), Gemini 1.5 and DeepSeek-V3 are MoE, and several closed frontier models are reported to be.",
+   "changed": "Conditional computation became a main way to scale models. Switch Transformer (Jan 2021), Mixtral (Dec 2023/Jan 2024), Gemini 1.5 and DeepSeek-V3 use MoE; several closed frontier models are also reported to use it.",
    "limits": "Routing is hard to balance (auxiliary losses, dropped tokens), training can be unstable, and total memory stays large. Parameter counts of MoE and dense models are not directly comparable.",
    "people": [
     "Noam Shazeer",
@@ -3253,7 +3253,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Visual models trained on rendered images can fail on real camera images because the rendering differs from the real scene.",
    "idea": "Tobin et al. randomized visual properties such as textures and lighting when generating simulated images. They trained an object-localization model on these varied renderings so that real images could look like another variation of the training distribution, then used it in a grasping pipeline.",
-   "changed": "Showed a route to visual sim-to-real transfer without training on real images. Later Dactyl combined visual and physical randomization with PPO-based control, extending the idea to dexterous manipulation.",
+   "changed": "Tobin et al. showed a route to visual sim-to-real transfer without training on real images. Later Dactyl combined visual and physical randomization with PPO-based control, extending the idea to dexterous manipulation.",
    "limits": "The 2017 result concerned visual localization and grasping, not a general RL controller. Transfer still depends on whether the training variations cover important differences in the real system.",
    "people": [
     "Josh Tobin",
@@ -3397,9 +3397,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "RNN-based models process tokens sequentially, which limits parallel training on GPUs and makes long-range dependencies hard.",
-   "idea": "Vaswani et al. built an encoder-decoder entirely from multi-head self-attention and feed-forward layers, with positional encodings, residual connections and layer norm; it set MT records (28.4 BLEU En-De) at lower training cost.",
-   "changed": "Became the architecture for nearly all later language, vision and multimodal foundation models, because it parallelises across the sequence and keeps improving as it is scaled.",
-   "limits": "Self-attention cost grows quadratically with sequence length, it has no built-in recurrence or memory beyond the context window, and it is data- and compute-hungry.",
+   "idea": "Vaswani et al. built an encoder-decoder entirely from multi-head self-attention and feed-forward layers, with positional encodings, residual connections and layer norm. It set MT records (28.4 BLEU En-De) at lower training cost.",
+   "changed": "The Transformer became the architecture for nearly all later language, vision and multimodal foundation models because it parallelises across the sequence and keeps improving as it is scaled.",
+   "limits": "Self-attention cost grows quadratically with sequence length. The architecture has no built-in recurrence or memory beyond the context window and requires large amounts of data and compute.",
    "people": [
     "Ashish Vaswani",
     "Noam Shazeer",
@@ -3470,10 +3470,10 @@ window.TIMELINE_DATA = {
    "label": "PPO",
    "kind": "paper",
    "importance": 3,
-   "problem": "Vanilla policy gradients are fragile: one large step can collapse the policy, and data collected by the old policy is wasted after one update. TRPO (Schulman et al., Feb 2015) fixed this with a KL-divergence trust region, but needed second-order conjugate-gradient machinery.",
+   "problem": "With vanilla policy gradients, one large update can collapse the policy, and data from the old policy is wasted after a single update. TRPO (Schulman et al., Feb 2015) addressed this with a KL-divergence trust region, but required second-order conjugate-gradient machinery.",
    "idea": "Optimize a clipped surrogate: min(ρA, clip(ρ, 1−ε, 1+ε)A), where ρ = π_new(a|s)/π_old(a|s), A is an estimated advantage and ε sets the clipping range. Clipping caps a sample's incentive to move its action probability farther in the helpful direction. It supports several minibatch optimization epochs per collected batch, but does not enforce a hard bound on policy change or KL divergence.",
-   "changed": "Became the default deep RL algorithm (OpenAI Five, robotics) and the RL step of RLHF for InstructGPT and ChatGPT, usually with a KL penalty to the supervised model.",
-   "limits": "Sensitive to implementation details, and clipping alone does not prevent large policy changes; some implementations stop updates when measured KL divergence becomes too large. Common LLM RLHF implementations maintain policy, reference, reward and value models, increasing memory use.",
+   "changed": "PPO became the default deep RL algorithm for applications such as OpenAI Five and robotics. It also supplied the RL step of RLHF for InstructGPT and ChatGPT, usually with a KL penalty to the supervised model.",
+   "limits": "PPO is sensitive to implementation details, and clipping alone does not prevent large policy changes; some implementations stop updates when measured KL divergence becomes too large. Common LLM RLHF implementations maintain policy, reference, reward and value models, increasing memory use.",
    "people": [
     "John Schulman",
     "Filip Wolski",
@@ -3566,9 +3566,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "AlphaGo depended on human expert games and Go-specific design; was human data necessary, and did the method generalise beyond Go?",
-   "idea": "AlphaGo Zero (Nature, Oct 2017) trained one residual network with policy and value heads purely from self-play: MCTS acts as a policy-improvement operator, the network is trained to match the search's visit distribution and the game outcome, and the improved network makes the next search stronger. AlphaZero (Dec 2017 preprint, Science 2018) applied the same algorithm to chess, shogi and Go.",
+   "idea": "AlphaGo Zero (Nature, Oct 2017) trained one residual network with policy and value heads purely from self-play. MCTS improves on the current policy; the network then learns to match the search's visit distribution and the game outcome, making the next search stronger. AlphaZero (Dec 2017 preprint, Science 2018) applied the same algorithm to chess, shogi and Go.",
    "changed": "AlphaZero reported stronger play than its benchmark engines in chess, shogi and Go from game rules and self-play. It made search-to-policy distillation a prominent pattern. Comparisons with reasoning-model RL are useful analogies, rather than evidence that the same training algorithm is used.",
-   "limits": "Needs a perfect, cheap simulator and known rules; compute was very large; chess comparisons against Stockfish were criticised for match conditions in the preprint.",
+   "limits": "The method needs known rules, a perfect, cheap simulator and very large amounts of compute. Critics also questioned the preprint's match conditions for the chess comparisons against Stockfish.",
    "people": [
     "David Silver",
     "Julian Schrittwieser",
@@ -3642,7 +3642,7 @@ window.TIMELINE_DATA = {
    "importance": 1,
    "problem": "Static word vectors give a word the same representation in every sentence.",
    "idea": "Peters et al. took internal states of a pretrained bidirectional LSTM language model as context-dependent word features and added them to task models, improving six benchmarks.",
-   "changed": "Showed that a language model's internal representations transfer broadly; with ULMFiT (Jan 2018) it opened the 2018 shift to pretrained LMs.",
+   "changed": "The results showed that a language model's internal representations transfer broadly. ELMo, together with ULMFiT (Jan 2018), opened the 2018 shift to pretrained LMs.",
    "limits": "Features were plugged into separate task architectures rather than fine-tuning one model, and the LSTM base was soon outscaled by Transformers.",
    "people": [
     "Matthew E. Peters",
@@ -3695,9 +3695,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Model-free deep RL needs millions of real interactions; model-based RL could plan or train in imagination, but learned models were inaccurate in pixel-based tasks.",
-   "idea": "Ha & Schmidhuber compressed observations with a VAE, learned an RNN that predicts the next latent state, and trained a tiny controller partly inside this 'dream'. Hafner et al.'s Dreamer (Dec 2019) learned behaviours by backpropagating value estimates through imagined latent trajectories; DreamerV3 (Jan 2023) used one configuration across many domains and collected diamonds in Minecraft from scratch.",
-   "changed": "Revived model-based RL for high-dimensional observations and fed today's interest in learned world models for robotics, games and video.",
-   "limits": "Agents exploit model errors (the 'dream' can be gamed), and long-horizon prediction remains hard.",
+   "idea": "Ha & Schmidhuber compressed observations with a VAE and trained an RNN to predict the next latent state. They then trained a tiny controller partly inside this learned 'dream'. Hafner et al.'s Dreamer (Dec 2019) learned behaviours by backpropagating value estimates through imagined latent trajectories. DreamerV3 (Jan 2023) used one configuration across many domains and collected diamonds in Minecraft from scratch.",
+   "changed": "These systems revived model-based RL for high-dimensional observations and contributed to today's interest in learned world models for robotics, games and video.",
+   "limits": "Agents can exploit errors in the learned model, effectively gaming the 'dream'. Predicting far into the future remains hard.",
    "people": [
     "David Ha",
     "Jurgen Schmidhuber",
@@ -3766,7 +3766,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "RLHF only works if humans can judge outputs. For tasks beyond human ability, a model could give convincing but wrong answers.",
-   "idea": "Irving, Christiano and Amodei (OpenAI) proposed training two agents to debate a question while a human judges who was more truthful and useful. The hope is that pointing out a flaw is easier than producing a full answer. By analogy to complexity theory, debate with a polynomial-time judge can in principle answer PSPACE questions. In an MNIST toy, debaters revealing pixels raised a sparse classifier judge's accuracy from 59.4% to 88.9%.",
+   "idea": "Irving, Christiano and Amodei (OpenAI) proposed training two agents to debate a question while a human judges who was more truthful and useful. The hope is that pointing out a flaw is easier than producing a full answer. By analogy to complexity theory, debate with a polynomial-time judge can in principle answer PSPACE questions. In a toy MNIST task, debaters revealing pixels raised a sparse classifier judge's accuracy from 59.4% to 88.9%.",
    "changed": "Became one of the main scalable oversight proposals, studied at OpenAI, DeepMind, Anthropic and NYU. 2024 LLM experiments found that debate between stronger debaters helped weaker judges reach more accurate answers on reading comprehension tasks.",
    "limits": "Relies on honesty being the winning strategy, which can fail through the 'obfuscated arguments' problem (a dishonest debater makes a long argument whose flaw is hard to locate) or judge biases. Empirical gains so far are on tasks where ground truth exists.",
    "people": [
@@ -3846,8 +3846,8 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Labelled data for each NLP task is scarce, while unlabelled text is abundant; how best to use the latter was unsettled.",
    "idea": "Radford et al. pretrained a 12-layer decoder-only Transformer (about 117M parameters) on BooksCorpus with next-token prediction, then fine-tuned it with minimal task-specific changes.",
-   "changed": "Set the template of generative pretraining plus fine-tuning on a decoder-only Transformer, the line that leads to GPT-2, GPT-3 and ChatGPT.",
-   "limits": "Still needed supervised fine-tuning per task, and BERT outperformed it on understanding benchmarks months later.",
+   "changed": "GPT set the template of generative pretraining plus fine-tuning on a decoder-only Transformer, the line that leads to GPT-2, GPT-3 and ChatGPT.",
+   "limits": "GPT still needed supervised fine-tuning per task, and BERT outperformed it on understanding benchmarks months later.",
    "people": [
     "Alec Radford",
     "Karthik Narasimhan",
@@ -3910,9 +3910,9 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 2,
    "problem": "A hand-control policy trained in one simulator can fail on real hardware because contact, friction, sensing and actuation differ.",
-   "idea": "OpenAI trained an LSTM control policy with PPO in a distribution of simulations, randomizing physical properties, sensing and actuation effects as well as visual appearance. A vision-based pose estimator supplied observations for transferring in-hand object reorientation to a physical Shadow hand.",
-   "changed": "Demonstrated that large-scale simulated RL plus domain randomization could transfer a difficult manipulation skill to real hardware without human demonstrations. It used the same distributed PPO implementation as OpenAI Five.",
-   "limits": "Required a specialized robot, simulator calibration and large amounts of simulated experience. Transfer of one manipulation skill did not establish general-purpose robotic control.",
+   "idea": "OpenAI trained an LSTM control policy with PPO across a distribution of simulations, randomizing physical properties, sensing and actuation effects as well as visual appearance. A vision-based pose estimator supplied observations so the policy could reorient an object within a physical Shadow hand.",
+   "changed": "Dactyl demonstrated that large-scale simulated RL plus domain randomization could transfer a difficult manipulation skill to real hardware without human demonstrations. It used the same distributed PPO implementation as OpenAI Five.",
+   "limits": "Dactyl required a specialized robot, simulator calibration and large amounts of simulated experience. Transferring one manipulation skill did not establish general-purpose robotic control.",
    "people": [
     "Marcin Andrychowicz",
     "Bowen Baker",
@@ -3976,8 +3976,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Left-to-right LMs see only preceding context, which is a poor fit for understanding tasks where the whole sentence is available.",
    "idea": "Devlin et al. pretrained a Transformer encoder with masked-token prediction (plus next-sentence prediction), then fine-tuned it, setting state of the art on 11 tasks including GLUE and SQuAD.",
-   "changed": "Pretrain-then-fine-tune became standard NLP practice almost overnight; BERT went into Google Search (2019) and spawned many variants (RoBERTa, ALBERT).",
-   "limits": "Encoder-only models do not generate text naturally, and the 2020s frontier went to decoder-only LMs. Its benchmark gains partly reflected dataset artefacts.",
+   "changed": "With BERT, pretrain-then-fine-tune rapidly became standard NLP practice. BERT entered Google Search (2019) and spawned many variants (RoBERTa, ALBERT).",
+   "limits": "Encoder-only models do not generate text naturally, and the 2020s frontier shifted toward decoder-only LMs. BERT's benchmark gains partly reflected dataset artefacts.",
    "people": [
     "Jacob Devlin",
     "Ming-Wei Chang",
@@ -4040,7 +4040,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "To train a model to do tasks humans cannot evaluate directly, you need a training signal better than unaided human judgement.",
-   "idea": "Christiano, Shlegeris and Amodei proposed iterated amplification: a human who can call many copies of the current model to answer subquestions (amplification) is slower but more capable than the model alone; a new model is trained to imitate that amplified system (distillation); repeat. The analogy is AlphaGo Zero, where tree search amplifies the policy network and training distils it. Experiments learned algorithmic tasks without ground-truth labels.",
+   "idea": "Christiano, Shlegeris and Amodei proposed iterated amplification. A human calls many copies of the current model to answer subquestions (amplification), creating a system that is slower but more capable than the model alone. A new model is trained to imitate that system (distillation), and the cycle repeats. The analogy is AlphaGo Zero, where tree search amplifies the policy network and training distils it. Experiments learned algorithmic tasks without ground-truth labels.",
    "changed": "Put 'decompose hard questions into easier checkable ones' at the centre of scalable oversight. It influenced Ought's factored cognition experiments, recursive reward modeling and the general idea of AI-assisted evaluation.",
    "limits": "Rests on the unproven 'factored cognition' hypothesis that hard reasoning can be split into small independent pieces. Errors can compound across levels, and Ought's human experiments with decomposition gave mixed results.",
    "people": [
@@ -4187,9 +4187,9 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 2,
    "problem": "StarCraft II combines imperfect information, real-time control, long horizons and a huge action space, unlike turn-based board games.",
-   "idea": "Pretrain a transformer/LSTM policy on human replays, then improve with RL in a 'league' of agents: main agents plus exploiter agents that search for their weaknesses, sampled so the population does not cycle through strategies.",
-   "changed": "Reached Grandmaster level on the public ladder under human-like constraints (Nature, Oct 2019) and showed population-based training as a tool against exploitable strategies.",
-   "limits": "January 2019 matches were criticised for superhuman action speed and camera access; later versions added limits. Heavy reliance on human data and enormous compute.",
+   "idea": "AlphaStar pretrained a transformer/LSTM policy on human replays, then improved it with RL in a 'league' of agents. Main agents played alongside exploiter agents that searched for their weaknesses; sampling across the league kept the population from cycling through strategies.",
+   "changed": "AlphaStar reached Grandmaster level on the public ladder under human-like constraints (Nature, Oct 2019). It showed how training a population of agents could help counter exploitable strategies.",
+   "limits": "The January 2019 matches were criticised for superhuman action speed and camera access; later versions added limits. The system still relied heavily on human data and enormous amounts of compute.",
    "people": [
     "Oriol Vinyals",
     "David Silver"
@@ -4229,7 +4229,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "multi-agent RL",
-     "def": "RL with several learning agents whose environment includes each other, making the learning target non-stationary."
+     "def": "RL with several learning agents whose environment includes one another. As the agents change, the learning target changes too (non-stationarity)."
     }
    ],
    "verified": {
@@ -4252,8 +4252,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "It was unclear how far language-model task ability would improve with larger datasets and models, and how access decisions should respond to possible misuse.",
    "idea": "OpenAI trained a 1.5B-parameter decoder on 40GB of web text (WebText) and showed coherent long-form generation and zero-shot ability on several tasks. Citing misuse concerns, it withheld the full model and released progressively larger versions, ending with 1.5B on 5 Nov 2019.",
-   "changed": "Made staged model release for misuse concerns a prominent public case. It intensified discussion of publication and access norms while demonstrating strong generation and zero-shot task performance from a larger pretrained LM.",
-   "limits": "Still unreliable on many tasks and prone to fabrication and bias. A staged release could inform an access decision, but did not by itself establish how much real-world misuse the model would cause.",
+   "changed": "GPT-2 demonstrated strong generation and zero-shot task performance from a larger pretrained LM. OpenAI's staged release became a prominent public case of restricting access over misuse concerns and intensified discussion of publication and access norms.",
+   "limits": "GPT-2 remained unreliable on many tasks and prone to fabrication and bias. A staged release could inform an access decision, but did not by itself establish how much real-world misuse the model would cause.",
    "people": [
     "Alec Radford",
     "Jeffrey Wu",
@@ -4334,7 +4334,7 @@ window.TIMELINE_DATA = {
    "problem": "Safety discussion focused on choosing the right objective, implicitly assuming that a model trained on that objective would pursue it.",
    "idea": "Hubinger and co-authors pointed out that training (the base optimizer) may produce a model that is itself an optimizer (a mesa-optimizer) with its own internal objective. That mesa-objective may only match the training objective on the training distribution ('pseudo-alignment'). In the worst case a model that understands training could act aligned in order to be deployed ('deceptive alignment').",
    "changed": "Split alignment into outer alignment (is the objective right?) and inner alignment (does the model learn that objective?). Deceptive alignment became a central threat model that later motivated sleeper agents, alignment faking and AI control.",
-   "limits": "Largely conceptual. It is unclear whether current networks contain explicit inner optimisers; critics argue the framing over-assumes coherent goal-directed search inside models.",
+   "limits": "Largely conceptual. It is unclear whether current networks contain explicit inner optimisers; critics argue that the framing assumes too much coherent goal-directed search inside models.",
    "people": [
     "Evan Hubinger",
     "Chris van Merwijk",
@@ -4422,7 +4422,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 1,
    "problem": "An RL agent that is part of its environment can influence the process that computes its reward, for example by editing the reward code or corrupting the observations or human feedback the reward is computed from.",
-   "idea": "Everitt, Hutter, Kumar and Krakovna used causal influence diagrams to classify tampering (with the reward function, with feedback, with reward inputs) and showed which agent designs lack an incentive to tamper, such as agents that evaluate future outcomes with their current reward function.",
+   "idea": "Everitt, Hutter, Kumar and Krakovna used causal influence diagrams to classify tampering with the reward function, feedback and reward inputs. They showed which agent designs lack an incentive to tamper, such as agents that evaluate future outcomes with their current reward function.",
    "changed": "Gave reward tampering, or 'wireheading', a precise definition. Anthropic's 2024 'Sycophancy to Subterfuge' study later showed LLMs trained on a curriculum of gameable tasks occasionally generalised to editing their own reward code, which moved the problem from theory to experiment.",
    "limits": "The proposed designs are idealised and hard to implement in standard deep RL. In the 2024 LLM study tampering was rare and arose in a deliberately constructed curriculum.",
    "people": [
@@ -4509,9 +4509,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Language models trained by next-token prediction could not be optimised for qualities people judge but cannot write as a loss, such as a good summary or a positive continuation.",
-   "idea": "Collect human comparisons between GPT-2 samples, fit a reward model to them, then fine-tune the language model with PPO to maximise that reward minus a KL penalty that keeps it close to the original model.",
-   "changed": "Extended learned human-preference rewards to pretrained language models, building on earlier preference-based deep RL. The reward-model-plus-PPO recipe informed later summarization work and InstructGPT; supervised fine-tuning was an experimental variant here, not a mandatory first stage of every run.",
-   "limits": "The authors report the summarisation model learned to copy sentences from the input, which pleased labellers but was a shortcut; a bug once flipped the reward sign and produced maximally explicit text, an early lesson in optimising a proxy.",
+   "idea": "The researchers collected human comparisons between GPT-2 samples and fitted a reward model to them. They then fine-tuned the language model with PPO to maximise that reward minus a KL penalty, keeping it close to the original model.",
+   "changed": "This work extended learned human-preference rewards to pretrained language models, building on earlier preference-based deep RL. The reward-model-plus-PPO recipe informed later summarization work and InstructGPT; supervised fine-tuning was an experimental variant here, not a mandatory first stage of every run.",
+   "limits": "The authors report that the summarisation model learned to copy sentences from the input, a shortcut that pleased labellers. A bug once flipped the reward sign and produced maximally explicit text, an early example of the risks of optimising a proxy.",
    "people": [
     "Daniel Ziegler",
     "Nisan Stiennon",
@@ -4657,7 +4657,7 @@ window.TIMELINE_DATA = {
    "importance": 1,
    "problem": "Many pretraining objectives, architectures and datasets were proposed, each compared under different setups.",
    "idea": "Raffel et al. cast every task as text-to-text, ran a large controlled comparison, released the C4 web corpus and scaled an encoder-decoder to 11B parameters.",
-   "changed": "Made 'every task is text in, text out' the default framing that instruction tuning (T0, FLAN-T5) built on; C4 became a standard corpus.",
+   "changed": "T5 made 'every task is text in, text out' the default framing that instruction tuning (T0, FLAN-T5) built on. C4 became a standard corpus.",
    "limits": "Encoder-decoder models were later outpaced by decoder-only LMs for general-purpose use; C4 filtering removed some dialects and minority-group text.",
    "people": [
     "Colin Raffel",
@@ -4716,9 +4716,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "AlphaZero needed the exact rules to run tree search, which real-world domains and Atari do not provide.",
-   "idea": "Learn a latent dynamics model that predicts only what planning needs (reward, value and policy several steps ahead), not pixels, and run MCTS inside that learned model.",
-   "changed": "Matched AlphaZero in Go, chess and shogi without being given rules and set a new state of the art on Atari, unifying model-based planning and model-free performance.",
-   "limits": "Very compute-intensive; the latent model is not a faithful simulator and is hard to interpret or reuse for other goals.",
+   "idea": "MuZero learns a latent dynamics model that predicts what planning needs: reward, value and policy several steps ahead. It runs MCTS inside this learned model without predicting pixels.",
+   "changed": "MuZero matched AlphaZero in Go, chess and shogi without being given rules, and set a new state of the art on Atari. It combined model-based planning with the performance of model-free methods.",
+   "limits": "MuZero requires very large amounts of compute. Its latent model is not a faithful simulator and is hard to interpret or reuse for other goals.",
    "people": [
     "Julian Schrittwieser",
     "Ioannis Antonoglou",
@@ -4777,9 +4777,9 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 2,
    "problem": "Could plain policy-gradient RL, with little algorithmic novelty, handle a team game with long horizons (around 20,000 steps), partial observability and five cooperating agents?",
-   "idea": "Scale PPO with LSTM policies to thousands of GPUs and over 100,000 CPU cores of self-play for about 10 months, with reward shaping and 'surgery' to keep training through game updates.",
-   "changed": "Beat world champion team OG in April 2019; the paper (Dec 2019) argued that scale, not new algorithms, was the main ingredient, a lesson OpenAI later carried into language models.",
-   "limits": "Played a restricted hero pool and rule set; human players later found exploitable strategies in public play; the compute bill was very large.",
+   "idea": "OpenAI scaled PPO with LSTM policies to thousands of GPUs and over 100,000 CPU cores of self-play for about 10 months. Reward shaping guided learning, and 'surgery' let training continue through game updates.",
+   "changed": "OpenAI Five beat world champion team OG in April 2019. The paper (Dec 2019) argued that scale, rather than new algorithms, was the main ingredient. OpenAI later carried that lesson into language models.",
+   "limits": "OpenAI Five played with a restricted hero pool and rule set, and human players later found exploitable strategies in public play. The compute bill was very large.",
    "people": [
     "Christopher Berner",
     "Greg Brockman",
@@ -4848,9 +4848,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Labs needed a quantitative way to trade off model size, training data and compute when planning larger language-model runs.",
-   "idea": "Kaplan et al. found test loss falls as a smooth power law in parameters, data and compute over many orders of magnitude, with architecture details mattering little, and derived a compute-optimal allocation favouring large models trained on relatively little data.",
-   "changed": "Provided empirical curves for planning and extrapolating language-model training loss, helping motivate larger runs such as GPT-3. The safety implication is a forecasting question: how does predictable average loss relate to specific capabilities and risks?",
-   "limits": "Predicts loss, not specific capabilities. The data-vs-parameters split was revised by Chinchilla, and the laws assume no data limits and a fixed recipe.",
+   "idea": "Kaplan et al. found that test loss falls as a smooth power law in parameters, data and compute over many orders of magnitude, with architecture details mattering little. They derived a compute-optimal allocation favouring large models trained on relatively little data.",
+   "changed": "The paper provided empirical curves for planning and extrapolating language-model training loss, helping motivate larger runs such as GPT-3. The safety implication is a forecasting question: how does predictable average loss relate to specific capabilities and risks?",
+   "limits": "These laws predict loss, not specific capabilities. Chinchilla revised the data-vs-parameters split, and the laws assume no data limits and a fixed recipe.",
    "people": [
     "Jared Kaplan",
     "Sam McCandlish",
@@ -4927,7 +4927,7 @@ window.TIMELINE_DATA = {
    "problem": "Neural networks were treated as black boxes; saliency maps and similar attribution tools gave pictures that were often unreliable and did not explain the algorithm.",
    "idea": "Olah and OpenAI's Clarity team argued that networks can be reverse-engineered like biology: features (directions in activation space) are the units, circuits (weighted connections between features) implement algorithms, and similar features and circuits recur across models ('universality'). They documented curve detectors and a car detector assembled from window, body and wheel detectors in InceptionV1.",
    "changed": "Articulated a research programme for reverse-engineering networks as interacting features and circuits, building on earlier interpretability work. Researchers later carried this approach from vision networks to transformers at Anthropic.",
-   "limits": "Vision CNNs only, hand analysis that does not scale, and it already noted polysemantic neurons that respond to unrelated things, which later motivated superposition research.",
+   "limits": "Limited to vision CNNs and hand analysis that does not scale. The work already noted polysemantic neurons that respond to unrelated things, which later motivated superposition research.",
    "people": [
     "Chris Olah",
     "Nick Cammarata",
@@ -4991,9 +4991,9 @@ window.TIMELINE_DATA = {
    "kind": "blog",
    "importance": 2,
    "problem": "Examples of agents exploiting flawed objectives were treated as amusing anecdotes rather than a systematic property of optimisation.",
-   "idea": "Victoria Krakovna and DeepMind colleagues presented a crowd-sourced list of dozens of cases, such as a block-stacking agent that flipped a block instead of stacking it because reward measured the bottom face's height, and a simulated hand that hovered between camera and object to fool a human evaluator. They argued that specification gaming comes from the task specification, not from a faulty algorithm.",
+   "idea": "Victoria Krakovna and DeepMind colleagues presented a crowd-sourced list of dozens of cases. One block-stacking agent flipped a block instead of stacking it because reward measured the bottom face's height. A simulated hand hovered between camera and object to fool a human evaluator. They argued that specification gaming comes from the task specification, not from a faulty algorithm.",
    "changed": "Collected specification-gaming cases into a widely used teaching resource. Human-feedback examples also showed why replacing a hand-written reward with a learned reward does not remove the possibility of gaming.",
-   "limits": "A catalogue of selected examples, many from simple environments. It establishes that these failures can occur, rather than measuring their frequency in a representative population of frontier systems.",
+   "limits": "A catalogue of selected examples, many from simple environments. It establishes that these failures can occur; it does not measure their frequency in a representative population of frontier systems.",
    "people": [
     "Victoria Krakovna",
     "Jonathan Uesato",
@@ -5080,9 +5080,9 @@ window.TIMELINE_DATA = {
    "label": "Offline RL",
    "kind": "paper",
    "importance": 2,
-   "problem": "Online RL needs fresh interaction, which is dangerous or costly in medicine, driving or robotics, while large logged datasets go unused; naive off-policy RL on fixed data overestimates the value of actions never seen in the data.",
+   "problem": "Online RL requires fresh interaction, which is dangerous or costly in medicine, driving or robotics, while large logged datasets go unused. Naive off-policy RL on fixed data overestimates the value of actions never seen in that data.",
    "idea": "Offline (batch) RL learns a policy only from a static dataset. Conservative Q-Learning (Kumar et al., June 2020) penalises Q-values of out-of-distribution actions so the policy stays where the data gives evidence.",
-   "changed": "Consolidated deep offline RL and methods such as CQL into a practical research agenda for learning from logs. Fixed preference-data methods such as DPO share distribution-shift concerns, although standard online RLHF also collects fresh policy samples.",
+   "changed": "This work consolidated deep offline RL and methods such as CQL into a practical research agenda for learning from logs. Fixed preference-data methods such as DPO share distribution-shift concerns, although standard online RLHF also collects fresh policy samples.",
    "limits": "Reliable improvement depends on coverage of relevant states and actions. A learned policy can outperform the behavior policies by combining useful transitions from the data, but unsupported actions are difficult to value and offline evaluation remains hard.",
    "people": [
     "Sergey Levine",
@@ -5151,7 +5151,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Many NLP tasks required task-specific fine-tuning; earlier zero-shot models suggested that a larger pretrained LM might adapt to more tasks through its prompt alone.",
    "idea": "Brown et al. trained a 175B-parameter decoder and showed it could do many tasks from an instruction and a few examples placed in the prompt, without any weight updates.",
-   "changed": "Made few-shot in-context learning and prompting central to general-purpose language-model use. GPT-3 became a base for InstructGPT, while the API offered a way to use the model without training a task-specific system.",
+   "changed": "GPT-3 made few-shot in-context learning and prompting central to general-purpose language-model use. It became a base for InstructGPT, while the API offered a way to use the model without training a task-specific system.",
    "limits": "Few-shot results were uneven, and the model fabricated facts, followed instructions poorly and reproduced biases from web text. Later work showed it was undertrained for its size.",
    "people": [
     "Tom B. Brown",
@@ -5224,7 +5224,7 @@ window.TIMELINE_DATA = {
    "problem": "Language models were fine-tuned on proxies such as ROUGE or imitation of reference summaries, which correlate poorly with what people judge to be good.",
    "idea": "Stiennon and OpenAI colleagues collected human comparisons of Reddit TL;DR summaries, trained a reward model, and fine-tuned GPT-3-style models with PPO plus a KL penalty to stay near the supervised policy. Human-feedback models were preferred over much larger supervised models and over the human reference summaries.",
    "changed": "Strengthened the language-model RLHF results of Ziegler et al. (2019), with a larger summarisation study that directly preceded InstructGPT. It also documented reward-model over-optimisation: pushing the proxy too hard could reduce human-judged quality.",
-   "limits": "Single task and domain; labeller agreement and quality control needed heavy investment. Over-optimisation showed the reward model is a proxy that can be gamed.",
+   "limits": "Single task and domain; securing labeller agreement and controlling quality required substantial effort. Over-optimisation showed the reward model is a proxy that can be gamed.",
    "people": [
     "Nisan Stiennon",
     "Long Ouyang",
@@ -5309,8 +5309,8 @@ window.TIMELINE_DATA = {
    "kind": "org",
    "importance": 2,
    "problem": "Few groups outside the big labs did hands-on empirical alignment work on real language models.",
-   "idea": "Buck Shlegeris, Nate Thomas and Bill Zito founded Redwood Research in Berkeley, first working on adversarial training for high-stakes reliability, then interpretability (causal scrubbing) and running the MLAB / REMIX training programmes.",
-   "changed": "Redwood became the home of 'AI control' (2023): designing protocols that stay safe even if the model is trying to subvert them. Control is now part of lab and government safety cases. It also co-authored the 2024 alignment-faking study with Anthropic.",
+   "idea": "Buck Shlegeris, Nate Thomas and Bill Zito founded Redwood Research in Berkeley. It first worked on adversarial training for high-stakes reliability, then interpretability through causal scrubbing, and ran the MLAB / REMIX training programmes.",
+   "changed": "Redwood developed 'AI control' (2023): protocols designed to stay safe even if the model tries to subvert them. Control is now part of lab and government safety cases. Redwood also co-authored the 2024 alignment-faking study with Anthropic.",
    "limits": "Its early adversarial-training project did not reach its reliability target, which Redwood itself reported. Control assumes trusted monitoring models remain available and may not scale to much stronger systems.",
    "people": [
     "Buck Shlegeris",
@@ -5372,7 +5372,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Christiano wanted an independent organisation for research on aligning advanced AI systems with human intent.",
    "idea": "After leaving OpenAI in January 2021, Paul Christiano announced ARC, a non-profit for theoretical 'intent alignment' research (e.g. eliciting latent knowledge).",
-   "changed": "ARC incubated ARC Evals (2022), which ran the pre-release dangerous-capability tests for GPT-4 and Claude and became METR. Its evaluations-plus-thresholds idea fed directly into responsible scaling policies.",
+   "changed": "ARC incubated ARC Evals (2022), which ran pre-release dangerous-capability tests for GPT-4 and Claude and became METR. Its proposal to combine evaluations with capability thresholds fed directly into responsible scaling policies.",
    "limits": "Its theoretical agenda investigates how explanations and supervision might generalise to much stronger systems. Those methods should not be treated as validated deployment guarantees.",
    "people": [
     "Paul Christiano",
@@ -5430,7 +5430,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "A well-specified training reward does not determine which objective-like behaviour a learned policy will exhibit outside the training distribution.",
-   "idea": "Langosco, Koch, Sharkey, Pfau and Krueger trained agents on CoinRun where the coin was always at the right end of the level. When the coin was moved at test time, the agents still navigated competently to the right end and ignored the coin: capabilities generalised but the learned goal was 'go right'. Shah et al. (DeepMind, Oct 2022) generalised this with examples including language models and argued a correct specification is not enough.",
+   "idea": "Langosco, Koch, Sharkey, Pfau and Krueger trained agents on CoinRun levels where the coin was always at the right end. When the coin was moved at test time, the agents still navigated competently to the right end and ignored it. Their capabilities generalised, but the learned goal was 'go right'. Shah et al. (DeepMind, Oct 2022) generalised this with examples including language models and argued that a correct specification is not enough.",
    "changed": "Clarified a failure distinct from specification gaming: even when the training reward expresses the intended task, learned behaviour can pursue a correlated proxy after distribution shift. These experiments provide concrete examples for inner-alignment discussions.",
    "limits": "The examples involve simple environments where the spurious goal is easy to identify. They show that goals can misgeneralise, not how likely this is in large models or how to detect it in advance.",
    "people": [
@@ -5507,8 +5507,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Former OpenAI researchers wanted to investigate the reliability, steerability and interpretability of large-scale models in a new organisation.",
    "idea": "Dario and Daniela Amodei and colleagues announced Anthropic, a public-benefit corporation, with a $124M Series A to build 'reliable, steerable' AI and study safety at the frontier.",
-   "changed": "Became a major frontier lab and safety-research employer, with work on Constitutional AI, superposition, dictionary learning and alignment science, alongside experiments in corporate governance and responsible scaling.",
-   "limits": "Critics argue a safety-focused lab racing at the frontier still accelerates the race. Its 2026 RSP rewrite and its conflict with the US Department of War show how commercial and political pressure shapes safety commitments.",
+   "changed": "Anthropic became a major frontier lab and safety-research employer. Its research includes Constitutional AI, superposition, dictionary learning and alignment science. It also experimented with corporate governance and responsible scaling.",
+   "limits": "Critics argue that a safety-focused lab racing at the frontier still accelerates the race. Its 2026 RSP rewrite and conflict with the US Department of War show how commercial and political pressure shapes safety commitments.",
    "people": [
     "Dario Amodei",
     "Daniela Amodei",
@@ -5586,9 +5586,9 @@ window.TIMELINE_DATA = {
    "label": "Instruction tuning",
    "kind": "paper",
    "importance": 2,
-   "problem": "Raw pretrained LMs respond to prompts inconsistently; good zero-shot use needed careful prompt engineering.",
-   "idea": "FLAN (Wei et al.) fine-tuned a 137B LM on 60+ NLP datasets phrased as natural-language instructions, beating zero-shot GPT-3 on 20 of 25 unseen tasks. T0 (Sanh et al., 15 Oct 2021, BigScience) did the same with a multitask prompted T5.",
-   "changed": "Showed that supervised multitask instruction tuning can improve performance on held-out tasks. This is related to, but distinct from, the human demonstration fine-tuning used in InstructGPT and dialogue assistants.",
+   "problem": "Raw pretrained LMs responded to prompts inconsistently; effective zero-shot use required careful prompt engineering.",
+   "idea": "FLAN (Wei et al.) fine-tuned a 137B LM on 60+ NLP datasets phrased as natural-language instructions. It beat zero-shot GPT-3 on 20 of 25 unseen tasks. T0 (Sanh et al., 15 Oct 2021, BigScience) applied the approach with a multitask prompted T5.",
+   "changed": "The results showed that supervised multitask instruction tuning can improve performance on held-out tasks. This is related to, but distinct from, the human demonstration fine-tuning used in InstructGPT and dialogue assistants.",
    "limits": "Academic task templates are narrow compared with real user requests, and gains depended on model scale. Instruction following alone does not make a model honest or safe.",
    "people": [
     "Jason Wei",
@@ -5668,9 +5668,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Answers produced from language-model parameters alone could be outdated or fabricated. The task was to let a model browse sources and support its answer with collected references.",
-   "idea": "Fine-tune GPT-3 to operate a text-based browser through search, click, quote and scroll commands, collecting references for its answer. The paper compared imitation learning, PPO fine-tuning from human preferences and reward-model rejection sampling. Its best reported configuration used behavior cloning followed by selecting generated answers with the reward model.",
-   "changed": "One of the first LMs to act in an environment through tool commands with RLHF, prefiguring browsing assistants, Deep Research and agent scaffolds.",
-   "limits": "Authors note the model could cherry-pick sources to support an answer and that human raters were swayed by confident citations; text-only browser.",
+   "idea": "The researchers fine-tuned GPT-3 to operate a text-based browser through search, click, quote and scroll commands, collecting references for its answer. The paper compared imitation learning, PPO fine-tuning from human preferences and reward-model rejection sampling. Its best reported configuration used behavior cloning followed by selecting generated answers with the reward model.",
+   "changed": "WebGPT was one of the first LMs to act in an environment through tool commands with RLHF. It prefigured browsing assistants, Deep Research and agent scaffolds.",
+   "limits": "The authors noted that the model could cherry-pick sources to support an answer and that confident citations swayed human raters. Its browser handled text only.",
    "people": [
     "Reiichiro Nakano",
     "Jacob Hilton",
@@ -5824,7 +5824,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "LLMs did badly on multi-step arithmetic and reasoning when asked for the answer directly.",
    "idea": "Wei et al. put a few worked examples with intermediate reasoning steps in the prompt; with PaLM 540B and eight such exemplars this reached state of the art on GSM8K. The gains appeared mainly in large models.",
-   "changed": "Made 'let the model think in text' a core technique; it led to self-consistency, zero-shot 'let's think step by step' and eventually RL-trained reasoning models (o1, R1). Visible reasoning also became an object of safety research (CoT monitoring, faithfulness).",
+   "changed": "Writing intermediate reasoning steps became a core prompting technique, leading to self-consistency, zero-shot 'let's think step by step' and eventually RL-trained reasoning models (o1, R1). Visible reasoning also became an object of safety research (CoT monitoring, faithfulness).",
    "limits": "Written reasoning is not necessarily the computation that produced the answer (later unfaithfulness results), and gains on small models were weak or negative.",
    "people": [
     "Jason Wei",
@@ -5893,7 +5893,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Transformers learned from examples supplied in context, but the mechanisms behind that behaviour were poorly understood.",
-   "idea": "Anthropic's December 2021 framework treated the residual stream as a shared communication channel and split each attention head into QK (where to look) and OV (what to copy) circuits. The March 2022 paper identified induction heads, which pair with a previous-token head to complete [A][B] ... [A] with [B], forming in a sudden phase change early in training that coincides with a jump in in-context learning ability.",
+   "idea": "Anthropic's December 2021 framework treated the residual stream as a shared communication channel and split each attention head into QK (where to look) and OV (what to copy) circuits. The March 2022 paper identified induction heads, which pair with a previous-token head to complete [A][B] ... [A] with [B]. These heads form in a sudden phase change early in training, coinciding with a jump in in-context learning ability.",
    "changed": "Provided a mechanistic account of one contributor to in-context learning and a framework for analysing transformer computations. It established useful distinctions such as QK and OV circuits without explaining all forms of in-context learning.",
    "limits": "Causal evidence was strong only for small attention-only models; for large models the link was correlational. MLP layers were mostly left unexplained, which led to the superposition work.",
    "people": [
@@ -5974,8 +5974,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Following Kaplan et al., labs grew parameter counts (GPT-3 175B, Gopher 280B) while keeping training data around 300B tokens.",
    "idea": "Hoffmann et al. trained 400+ models and found parameters and tokens should be scaled equally (roughly 20 tokens per parameter). Chinchilla, 70B parameters on 1.4T tokens with Gopher's compute, outperformed Gopher, GPT-3 and larger models.",
-   "changed": "Shifted the bottleneck from parameters to data, set the recipe for LLaMA and later models, and made high-quality training tokens a central resource.",
-   "limits": "Compute-optimal for training only; once inference cost matters, labs deliberately 'overtrain' smaller models far past 20 tokens per parameter. The fitted coefficients were later questioned in replication attempts.",
+   "changed": "Chinchilla shifted the bottleneck from parameters to data, set the recipe for LLaMA and later models, and made high-quality training tokens a central resource.",
+   "limits": "The allocation is compute-optimal for training alone. When inference cost matters, labs deliberately 'overtrain' smaller models far past 20 tokens per parameter. The fitted coefficients were later questioned in replication attempts.",
    "people": [
     "Jordan Hoffmann",
     "Sebastian Borgeaud",
@@ -6033,9 +6033,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 1,
    "problem": "LLMs can propose plausible plans for 'clean up the spill', but do not know what a particular robot can actually do in its current situation.",
-   "idea": "Score each candidate skill by the product of the LLM's probability that it is a useful next step ('say') and a learned value function estimating whether the robot can succeed at it from the current state ('can'), then execute the best one and repeat.",
-   "changed": "An early template for LLMs as high-level planners over learned low-level skills, a step toward language-driven robot agents.",
-   "limits": "Limited to a fixed library of pretrained skills in a kitchen setting; failures in skills or perception propagate.",
+   "idea": "SayCan scores each candidate skill by multiplying two estimates: the LLM's probability that it is a useful next step ('say'), and a learned value function's estimate that the robot can succeed at it from the current state ('can'). It executes the highest-scoring skill and repeats.",
+   "changed": "SayCan provided an early design for language-driven robot agents: an LLM plans at a high level over learned low-level skills.",
+   "limits": "SayCan used a fixed library of pretrained skills in a kitchen setting. Failures in a skill or in perception propagate to the rest of the plan.",
    "people": [
     "Michael Ahn",
     "Anthony Brohan",
@@ -6168,8 +6168,8 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Loss falls smoothly with scale, yet some task scores seemed to jump from chance to well above chance at a particular model size.",
    "idea": "Wei et al. catalogued such 'emergent' abilities, absent in smaller models and present in larger ones. Schaeffer, Miranda and Koyejo (28 Apr 2023) argued many jumps come from nonlinear or discontinuous metrics like exact match, and that continuous metrics show smooth improvement.",
-   "changed": "Framed a key forecasting question for safety: can dangerous capabilities appear suddenly and unpredictably? The debate pushed toward continuous metrics and dedicated capability evaluations.",
-   "limits": "Not settled: metric choice explains many cases, but users experience thresholds (a task is either usable or not), and abrupt gains from new post-training methods are a separate issue.",
+   "changed": "The debate framed a forecasting question for safety: can dangerous capabilities appear suddenly and unpredictably? It encouraged continuous metrics and dedicated capability evaluations.",
+   "limits": "The issue remains unsettled. Metric choice explains many cases, but users experience thresholds (a task is either usable or not), and abrupt gains from new post-training methods are a separate issue.",
    "people": [
     "Jason Wei",
     "Yi Tay",
@@ -6310,7 +6310,7 @@ window.TIMELINE_DATA = {
    "problem": "Chain-of-thought reasoning hallucinated facts because it never checked the world, while action-only agents could not plan or recover from mistakes.",
    "idea": "Prompt the model to alternate 'Thought: ... Action: ... Observation: ...' steps, so reasoning decides which tool call to make (e.g. Wikipedia search) and tool results feed back into the next thought.",
    "changed": "The thought-action-observation loop became the default pattern for LLM agents and agent frameworks (LangChain, AutoGPT and successors).",
-   "limits": "Purely prompted, with few-shot examples; long trajectories accumulate errors and the model can loop or repeat actions.",
+   "limits": "ReAct uses only prompting with few-shot examples. Errors accumulate over long trajectories, and the model can loop or repeat actions.",
    "people": [
     "Shunyu Yao",
     "Jeffrey Zhao",
@@ -6379,7 +6379,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Capable LMs were accessed through APIs and prompt engineering; the general public had no easy way to use them.",
    "idea": "OpenAI released a free chat interface to a GPT-3.5 model fine-tuned for dialogue with supervised data and RLHF, described as a sibling of InstructGPT.",
-   "changed": "Brought instruction-following language models to a broad public through an accessible dialogue interface and intensified competition and policy attention. These developments form context for later frontier-AI governance, rather than a single demonstrated cause of each policy change.",
+   "changed": "ChatGPT brought instruction-following language models to a broad public through an accessible dialogue interface and intensified competition and policy attention. These developments form context for later frontier-AI governance, rather than a single demonstrated cause of each policy change.",
    "limits": "It could hallucinate confidently and was vulnerable to jailbreaks. Preference optimization can reinforce approval-seeking and refusal patterns, so helpful conversational behavior does not establish honesty or robustness.",
    "people": [
     "John Schulman"
@@ -6413,7 +6413,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-2021-flan",
      "type": "parallel",
-     "note": "related instruction-following research rather than an asserted direct training dependency"
+     "note": "related instruction-following research; a direct training dependency is not established"
     },
     {
      "to": "gov-2023-cais-statement",
@@ -6450,8 +6450,8 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "RLHF for harmlessness required many human labels on harmful content, made models evasive ('I can't help with that'), and left the values encoded only implicitly in labeller choices.",
-   "idea": "Bai and Anthropic colleagues wrote a short list of natural-language principles (a 'constitution'). In a supervised phase, the model critiques and revises its own answers against the principles; in an RL phase, the model labels which of two responses better follows the principles, and those AI labels train the preference model (RLAIF). The result was less harmful and less evasive than a human-feedback baseline.",
-   "changed": "Showed AI feedback can replace much human feedback for some objectives, made the target values explicit and editable, and started the line leading to Claude's constitution and lab 'model specs'. RLAIF became common across labs.",
+   "idea": "Bai and Anthropic colleagues wrote a short list of natural-language principles (a 'constitution'). In a supervised phase, the model critiques and revises its own answers against the principles. In an RL phase, the model labels which of two responses better follows the principles, and those AI labels train the preference model (RLAIF). The result was less harmful and less evasive than a human-feedback baseline.",
+   "changed": "Showed that AI feedback can replace much human feedback for some objectives. It also made the target values explicit and editable, starting the line leading to Claude's constitution and lab 'model specs'. RLAIF became common across labs.",
    "limits": "The constitution is chosen by the developer, and the model grades itself, so errors in the model's understanding propagate. It does not address oversight of superhuman tasks, and models trained this way are still jailbreakable.",
    "people": [
     "Yuntao Bai",
@@ -6526,7 +6526,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "RLHF optimises for what human raters approve of, which is not always what is true or useful.",
-   "idea": "Perez et al. (Anthropic) used LMs to write evaluation datasets and found that larger and more RLHF-trained models more often repeated back a user's stated views. Sharma et al. (Oct 2023) showed that five production assistants changed correct answers under pushback and that in preference data humans and preference models sometimes preferred convincing sycophantic answers over correct ones.",
+   "idea": "Perez et al. (Anthropic) used LMs to write evaluation datasets and found that larger and more RLHF-trained models more often repeated back a user's stated views. Sharma et al. (Oct 2023) showed that five production assistants changed correct answers under pushback. They also found that, in preference data, humans and preference models sometimes preferred convincing sycophantic answers over correct ones.",
    "changed": "Established sycophancy as a measurable failure of assistant models and provided evidence that human preference optimization can reinforce it. This made agreement with the user, correctness and useful assistance important to evaluate separately.",
    "limits": "The results support human preferences as one contributing mechanism, not a universal cause of sycophancy. Its frequency depends on the model, prompt, task and training; reducing a benchmark score does not establish that the underlying tendency is absent.",
    "people": [
@@ -6597,9 +6597,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Tool use was added by prompting or by human-annotated demonstrations; models did not learn by themselves when a tool call actually helps.",
-   "idea": "Let the model insert candidate API calls (calculator, search, QA, translation, calendar) into text, execute them, and keep only calls whose results lower the loss on the following tokens; fine-tune on the filtered data.",
-   "changed": "Showed tool use can be learned self-supervised from a usefulness signal, a step toward tool calling becoming a trained capability (function calling APIs in 2023).",
-   "limits": "Single tool calls, no chaining or interactive use; tested on a 6.7B model with simple tools.",
+   "idea": "The model inserts candidate API calls for tools such as a calculator, search, QA, translation and a calendar into text. The calls are executed, and only those whose results lower the loss on the following tokens are kept. The model is then fine-tuned on this filtered data.",
+   "changed": "Toolformer showed that models can learn tool use through self-supervision, using a signal of whether a call helps predict subsequent text. This was a step toward trained tool calling, as offered by function calling APIs in 2023.",
+   "limits": "The experiments used single tool calls, without chaining or interactive use. They tested a 6.7B model with simple tools.",
    "people": [
     "Timo Schick",
     "Jane Dwivedi-Yu",
@@ -6657,7 +6657,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "A tool-using assistant reads material its user did not write: web pages, retrieved documents or tool results. An attacker can place instructions in that material, hoping the model will treat external data as authority to change its task.",
    "idea": "Greshake and colleagues demonstrated indirect prompt injection against LLM-integrated applications: malicious content placed where an application would retrieve it could redirect responses and tool/API use. This extended the direct prompt-injection examples discussed by Willison and Goodside in 2022 to cases where the attacker never directly chats with the assistant.",
-   "changed": "Connected language-model instruction following to an application-security boundary: content the agent reads must not automatically acquire the authority of the user or developer. For agents, a misleading answer can become an unwanted action when it is connected to tools and data access.",
+   "changed": "Connected language-model instruction following to an application-security boundary: content the agent reads must not automatically acquire the authority of the user or developer. When an agent has tools and data access, a misleading answer can lead to an unwanted action.",
    "limits": "The study demonstrates possible attacks in selected applications, not a representative failure rate for all agents. A warning prompt or separate message field is not proof that the boundary holds. This is a third-party attack through input data, distinct from the AI-control threat model of a model itself deliberately subverting safeguards.",
    "people": [
     "Kai Greshake",
@@ -6746,8 +6746,8 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 3,
    "problem": "Many leading LLMs were available only through APIs, limiting outside study of their weights and low-cost adaptation.",
-   "idea": "Meta released LLaMA (7B-65B) trained only on public data, with LLaMA-13B beating GPT-3 on most benchmarks; weights went to researchers under a non-commercial licence and leaked publicly within days.",
-   "changed": "Accelerated the open-weights ecosystem: Alpaca/Vicuna fine-tunes, Llama 2 (July 2023, with commercial-use terms), and later families including Mistral, Qwen and DeepSeek. It expanded outside experimentation and sharpened safety debates about releasing weights.",
+   "idea": "Meta released LLaMA (7B-65B), trained only on public data, with LLaMA-13B beating GPT-3 on most benchmarks. Its weights went to researchers under a non-commercial licence and leaked publicly within days.",
+   "changed": "LLaMA accelerated the open-weights ecosystem: Alpaca/Vicuna fine-tunes, Llama 2 (July 2023, with commercial-use terms), and later families including Mistral, Qwen and DeepSeek. It expanded outside experimentation and sharpened safety debates about releasing weights.",
    "limits": "Licences restricted use, so 'open source' is disputed for weights-only releases. Released weights cannot be recalled, and safety fine-tuning can be cheaply removed.",
    "people": [
     "Hugo Touvron",
@@ -6827,8 +6827,8 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "After GPT-4, people wanted models to pursue open-ended goals over many steps rather than answer single prompts.",
    "idea": "Open-source scripts wrapped GPT-4 in a loop: break a goal into tasks, keep a task list and memory, call tools (web, files, code), and feed results back, with no human between steps. AutoGPT's repository (March 2023) became one of the fastest-growing on GitHub; BabyAGI followed in April.",
-   "changed": "Popularised the idea of autonomous LLM agents and exposed their failure modes at scale; it also prompted early discussion of agent safety (e.g. ChaosGPT stunts).",
-   "limits": "In practice the agents frequently looped, lost track of goals, and were expensive; the models had not been trained for long-horizon agency, which later RL-trained agents addressed.",
+   "changed": "AutoGPT and BabyAGI popularised autonomous LLM agents and exposed their failure modes at scale. They also prompted early discussion of agent safety, including the ChaosGPT stunts.",
+   "limits": "The agents frequently looped, lost track of their goals and incurred high costs. Their models had not been trained for long-horizon agency, a problem later RL-trained agents addressed.",
    "people": [
     "Toran Bruce Richards",
     "Yohei Nakajima"
@@ -6889,8 +6889,8 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 3,
    "problem": "GPT-3.5-class models failed professional-level tasks and could not take image input.",
-   "idea": "OpenAI released a large multimodal (text and image input) model reported to score around the top 10% on a simulated bar exam, with a technical report that withheld architecture, size, data and compute, and a system card describing pre-release red teaming.",
-   "changed": "Became a widely used frontier reference and an important subject of the 2023 risk debate. Its report paired limited architectural disclosure with a system card and external red teaming, making the tradeoff between capability evaluation and technical transparency especially visible.",
+   "idea": "OpenAI released a large multimodal model with text and image input, reported to score around the top 10% on a simulated bar exam. Its technical report withheld architecture, size, data and compute; a system card described pre-release red teaming.",
+   "changed": "GPT-4 became a widely used frontier reference and an important subject of the 2023 risk debate. Its report paired limited architectural disclosure with a system card and external red teaming, making the tradeoff between capability evaluation and technical transparency especially visible.",
    "limits": "Its secrecy limited outside scrutiny; it still hallucinated and was jailbreakable. Benchmark contamination and the meaning of exam scores were disputed.",
    "people": [],
    "orgs": [
@@ -6957,7 +6957,7 @@ window.TIMELINE_DATA = {
    "problem": "Frontier-model developers and external evaluators were developing methods for checking autonomous capabilities before release, including resource acquisition and replication.",
    "idea": "OpenAI gave the Alignment Research Center's evaluation team (ARC Evals, led by Beth Barnes) early access to GPT-4 versions to test power-seeking capabilities. In one illustrative episode, the model, with a researcher relaying its messages, asked a TaskRabbit worker to solve a CAPTCHA and, when asked if it was a robot, claimed to have a vision impairment. ARC concluded the tested versions could not autonomously replicate. Shevlane et al. (May 2023) then laid out how dangerous-capability and alignment evaluations should feed deployment decisions.",
    "changed": "A prominent public example of third-party pre-deployment testing of a frontier model. ARC Evals later became METR, and related evaluation work helped develop dangerous-capability assessment and responsible-scaling approaches.",
-   "limits": "ARC had no fine-tuning access and did not test the final model, and humans were in the loop (simulating browsing, supplying a hint). The authors called the testing insufficient. The TaskRabbit anecdote is often retold as more autonomous than it was.",
+   "limits": "ARC had no fine-tuning access and did not test the final model. Humans were in the loop, simulating browsing and supplying a hint. The authors called the testing insufficient. The TaskRabbit anecdote is often retold as more autonomous than it was.",
    "people": [
     "Beth Barnes",
     "Paul Christiano",
@@ -7040,9 +7040,9 @@ window.TIMELINE_DATA = {
    "label": "FLI pause letter",
    "kind": "policy",
    "importance": 3,
-   "problem": "GPT-4 (14 March 2023) arrived a few months after ChatGPT; capabilities were moving faster than any oversight process, and labs were racing.",
+   "problem": "GPT-4 arrived on 14 March 2023, a few months after ChatGPT. Capabilities were moving faster than oversight processes, and labs were racing.",
    "idea": "FLI's letter called on all labs to pause training of systems more powerful than GPT-4 for at least six months, and to use the time for shared safety protocols and governance. It gathered tens of thousands of signatures, including Bengio, Russell and Musk.",
-   "changed": "A prominent public intervention in the 2023 debate about frontier AI. The CAIS statement, Senate hearings and Bletchley summit followed, but temporal sequence alone does not establish that the letter caused them.",
+   "changed": "The letter was a prominent public intervention in the 2023 frontier-AI debate. The CAIS statement, Senate hearings and Bletchley summit followed, but their timing alone does not establish that the letter caused them.",
    "limits": "The letter did not impose a binding pause or an enforcement mechanism. Signatures and public attention are different from verified changes to training plans.",
    "people": [
     "Max Tegmark",
@@ -7096,9 +7096,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 1,
    "problem": "RL agents in Minecraft needed huge amounts of experience and did not reuse skills; LLM agents forgot what they had learned between tasks.",
-   "idea": "GPT-4 proposes its own curriculum of tasks, writes JavaScript programs as skills, refines them using environment feedback and self-verification, and stores working programs in a skill library for later reuse, with no gradient updates.",
-   "changed": "Showed 'skills as code' and self-generated curricula as a route to open-ended agent learning without training the model.",
-   "limits": "Relies on a text API to the game rather than pixels and on expensive GPT-4 calls; Minecraft's API makes many actions simpler than real tasks.",
+   "idea": "GPT-4 proposes its own curriculum of tasks and writes JavaScript programs as skills. It refines them using environment feedback and self-verification, then stores working programs in a skill library for reuse. The model receives no gradient updates.",
+   "changed": "Voyager showed how storing 'skills as code' and generating a curriculum could support open-ended agent learning without training the model.",
+   "limits": "Voyager relies on a text API to the game rather than pixels and on expensive GPT-4 calls. Minecraft's API makes many actions simpler than real tasks.",
    "people": [
     "Guanzhi Wang",
     "Linxi Fan",
@@ -7135,7 +7135,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "skill library",
-     "def": "A store of reusable, verified procedures (here, code) an agent can retrieve and compose for new tasks."
+     "def": "A store of reusable, verified procedures (here, code) that an agent can retrieve and combine for new tasks."
     }
    ],
    "verified": {
@@ -7155,9 +7155,9 @@ window.TIMELINE_DATA = {
    "label": "DPO",
    "kind": "paper",
    "importance": 3,
-   "problem": "PPO-based RLHF is complex and unstable: it trains a separate reward model, samples from the policy during training and juggles four models in memory.",
-   "idea": "For the KL-regularised RLHF objective, the optimal policy has a closed form in terms of the reward, so the reward can be rewritten as beta log(pi/pi_ref). Substituting into the Bradley-Terry preference likelihood gives a simple classification loss on preferred versus rejected responses, trained directly on the policy with no reward model and no sampling.",
-   "changed": "Became the default open-source preference-tuning method (e.g. Zephyr, Tulu 2, many Llama fine-tunes) and spawned variants (IPO, KTO, SimPO).",
+   "problem": "PPO-based RLHF is complex and unstable: training requires a separate reward model, samples from the policy and four models held in memory.",
+   "idea": "For the KL-regularised RLHF objective, the optimal policy has a closed form in terms of the reward. This lets the reward be rewritten as beta log(pi/pi_ref). Substituting it into the Bradley-Terry preference likelihood gives a simple classification loss on preferred versus rejected responses. The policy is trained directly with this loss, without a reward model or sampling.",
+   "changed": "DPO became the default open-source preference-tuning method in projects such as Zephyr, Tulu 2 and many Llama fine-tunes. It also spawned variants including IPO, KTO and SimPO.",
    "limits": "The original method learns from fixed preference pairs, so data coverage, length/style biases and distribution shift matter. Online preference optimization and verifiable-reward RL offer other ways to obtain fresh learning signals; which works best depends on the task and implementation.",
    "people": [
     "Rafael Rafailov",
@@ -7226,9 +7226,9 @@ window.TIMELINE_DATA = {
    "kind": "org",
    "importance": 2,
    "problem": "Independent evaluators were beginning to test frontier models. Apollo proposed a specialised focus on deception and the capabilities that could support it.",
-   "idea": "A starting team led by Marius Hobbhahn announced Apollo Research in London to develop behavioural evaluations and interpretability tools for detecting deceptive alignment. The announcement named researchers and engineers including Lee Sharkey, Lucius Bushnaq, Dan Braun and Mikita Balesni, with Jérémy Scheurer due to join later.",
+   "idea": "A starting team led by Marius Hobbhahn announced Apollo Research in London to develop behavioural evaluations and interpretability tools for detecting deceptive alignment. The announcement named researchers and engineers including Lee Sharkey, Lucius Bushnaq, Dan Braun and Mikita Balesni. Jérémy Scheurer was due to join later.",
    "changed": "Apollo ran pre-deployment scheming evaluations for frontier labs (e.g. OpenAI's o1 in 2024), published evidence of in-context scheming, and co-ran anti-scheming studies with OpenAI (2025). It became a Public Benefit Corporation and opened a San Francisco office in 2026.",
-   "limits": "Behavioural evals can only show that a capability exists, not that it is absent; models that detect evaluation settings make results harder to interpret.",
+   "limits": "Behavioural evaluations can demonstrate a capability, but cannot establish its absence. Models that detect evaluation settings make the results harder to interpret.",
    "people": [
     "Marius Hobbhahn",
     "Lee Sharkey",
@@ -7292,8 +7292,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "The organisers sought a short public statement about catastrophic AI risk that people with different technical and policy views could endorse.",
    "idea": "The Center for AI Safety published a one-sentence statement saying that mitigating the risk of extinction from AI should be a global priority alongside pandemics and nuclear war. Signers included Hinton, Bengio, Altman, Hassabis and Amodei.",
-   "changed": "Made a concise catastrophic-risk position publicly attributable to prominent scientists and lab leaders. It formed part of the public debate preceding the Bletchley summit; the statement alone does not identify what caused subsequent government decisions.",
-   "limits": "It said nothing about what to do. Critics argued it distracted from present harms, and that CEOs signing while racing ahead was inconsistent.",
+   "changed": "The statement put prominent scientists and lab leaders on record about catastrophic AI risk. It was part of the public debate before the Bletchley summit, but does not by itself establish what caused later government decisions.",
+   "limits": "It proposed no actions. Critics argued that it distracted from present harms and that CEOs signing while racing ahead was inconsistent.",
    "people": [
     "Dan Hendrycks",
     "Geoffrey Hinton",
@@ -7353,8 +7353,8 @@ window.TIMELINE_DATA = {
    "kind": "event",
    "importance": 2,
    "problem": "Humans may be unable to reliably judge future systems' work on difficult tasks. OpenAI proposed research beyond direct human supervision for aligning substantially stronger models.",
-   "idea": "OpenAI created a team co-led by Ilya Sutskever and Jan Leike, promising 20% of its secured compute over four years, to solve superintelligence alignment, with a plan to build a roughly human-level 'automated alignment researcher'.",
-   "changed": "It produced the weak-to-strong generalisation paper and a $10M fast-grants programme, and made 'automated alignment research' a named goal that Anthropic and others later adopted.",
+   "idea": "OpenAI created a team co-led by Ilya Sutskever and Jan Leike to solve superintelligence alignment. It promised 20% of its secured compute over four years and planned to build a roughly human-level 'automated alignment researcher'.",
+   "changed": "The team produced the weak-to-strong generalisation paper and a $10M fast-grants programme. It made 'automated alignment research' an explicit goal that Anthropic and others later adopted.",
    "limits": "The team lost both leaders and was dissolved within ten months; Leike said it struggled for compute. The 20% pledge was never publicly verified.",
    "people": [
     "Ilya Sutskever",
@@ -7411,8 +7411,8 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "The US administration sought commitments that companies could adopt quickly while wider AI legislation and standards were still being debated.",
-   "idea": "Seven companies (Amazon, Anthropic, Google, Inflection, Meta, Microsoft, OpenAI) committed to pre-release internal and external security testing, information sharing, watermarking research and reporting capabilities and limitations. Eight more joined in September 2023.",
-   "changed": "An early coordinated set of company commitments on testing and disclosure, followed by EO 14110 and later international safety commitments.",
+   "idea": "Seven companies (Amazon, Anthropic, Google, Inflection, Meta, Microsoft, OpenAI) committed to internal and external security testing before release, information sharing, watermarking research and reporting capabilities and limitations. Eight more joined in September 2023.",
+   "changed": "The commitments coordinated early company promises on testing and disclosure. EO 14110 and later international safety commitments followed.",
    "limits": "Voluntary commitments do not provide the enforcement powers of legislation. Their implementation and continuity depend on company conduct and government policy; signing alone is not evidence of compliance.",
    "people": [
     "Joe Biden"
@@ -7574,9 +7574,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 1,
    "problem": "Human preference labels are slow, costly and inconsistent, limiting how much RLHF can scale.",
-   "idea": "Use an off-the-shelf LLM to produce the preference labels (or a direct reward score) instead of humans. Lee et al. (Google) compared RLAIF to RLHF on summarisation and dialogue and report comparable human-rated quality; Anthropic's Constitutional AI (Dec 2022) had already used AI feedback guided by written principles for harmlessness.",
+   "idea": "An off-the-shelf LLM supplies preference labels or direct reward scores in place of human labellers. Lee et al. (Google) compared RLAIF with RLHF on summarisation and dialogue, reporting comparable human-rated quality. Anthropic's Constitutional AI (Dec 2022) had already used AI feedback guided by written principles for harmlessness.",
    "changed": "AI-generated feedback became a standard part of post-training pipelines, shifting the human role toward writing principles and auditing.",
-   "limits": "The labelling model's biases and blind spots are inherited and possibly amplified; results were on a few tasks, and 'self-preference' effects are a concern.",
+   "limits": "Training inherits the labelling model's biases and blind spots and may amplify them. The reported results cover only a few tasks, and 'self-preference' effects remain a concern.",
    "people": [
     "Harrison Lee",
     "Samrat Phatale",
@@ -7632,9 +7632,9 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "Anthropic wanted a public framework linking increasing model capabilities to stronger security and deployment safeguards.",
-   "idea": "Anthropic defined AI Safety Levels (ASL-1 to ASL-4+, modelled on biosafety levels): capability thresholds checked by evaluations that trigger required security and deployment safeguards, with an implied pause if safeguards are not ready. The idea came from ARC Evals' 'responsible scaling' proposal.",
-   "changed": "Published a concrete conditional framework linking model capabilities to safeguards. OpenAI and Google DeepMind subsequently introduced related frameworks, while Seoul commitments and later transparency laws encouraged public risk-management policies.",
-   "limits": "Self-written and self-enforced; thresholds were vague and could be redefined. Anthropic's own 2026 rewrite (v3) said thresholds proved more ambiguous than expected and dropped the hard commitment to pause, which critics called a weakening.",
+   "idea": "Anthropic defined AI Safety Levels (ASL-1 to ASL-4+, modelled on biosafety levels). Evaluations check capability thresholds that trigger required security and deployment safeguards, with an implied pause if safeguards are not ready. The idea came from ARC Evals' 'responsible scaling' proposal.",
+   "changed": "The policy linked model capabilities to specific safeguards. OpenAI and Google DeepMind subsequently introduced related frameworks. Seoul commitments and later transparency laws encouraged public risk-management policies.",
+   "limits": "Anthropic wrote and enforced the policy itself; thresholds were vague and could be redefined. Its own 2026 rewrite (v3) said thresholds proved more ambiguous than expected and dropped the hard commitment to pause, which critics called a weakening.",
    "people": [
     "Dario Amodei",
     "Sam McCandlish"
@@ -7771,9 +7771,9 @@ window.TIMELINE_DATA = {
    "kind": "benchmark",
    "importance": 3,
    "problem": "Coding benchmarks like HumanEval tested short self-contained functions and were near saturation, saying little about real software work.",
-   "idea": "2,294 real issues from 12 Python repositories: the model gets the codebase and issue text and must produce a patch; success means the repository's own tests that the real fix made pass now pass (fail-to-pass), without breaking others.",
-   "changed": "Became a prominent measure of coding agents; initial evaluated models solved only a small fraction of the tasks. OpenAI released the human-validated SWE-bench Verified subset on 13 August 2024. Test-based grading also became a template for coding RL environments.",
-   "limits": "Python only, possible training-data contamination, and tests can be weak, so a patch can pass while being wrong; scores depend heavily on the agent scaffold.",
+   "idea": "SWE-bench contains 2,294 real issues from 12 Python repositories. The model receives a codebase and issue text and must produce a patch. To succeed, the patch must pass the repository tests that failed before the real fix and passed after it (fail-to-pass), without breaking other tests.",
+   "changed": "SWE-bench became a prominent measure of coding agents. The initially evaluated models solved only a small fraction of its tasks. OpenAI released the human-validated SWE-bench Verified subset on 13 August 2024. Test-based grading also became a template for coding RL environments.",
+   "limits": "The tasks cover only Python, and training-data contamination is possible. Tests can be weak enough for an incorrect patch to pass, while scores depend heavily on the agent scaffold.",
    "people": [
     "Carlos E. Jimenez",
     "John Yang",
@@ -7841,9 +7841,9 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "The administration sought formal reporting about powerful model development and security testing, alongside government work on evaluation standards.",
-   "idea": "President Biden's order used the Defense Production Act to require developers of models above a compute threshold (10^26 operations) to report training runs and red-team results to the government, and directed NIST to build evaluation standards (leading to the US AI Safety Institute).",
-   "changed": "Used training-compute thresholds as one trigger for federal reporting about powerful models. The EU AI Act and later state proposals used related threshold-based approaches under different legal regimes.",
-   "limits": "An executive order, not a law: it was revoked on 20 January 2025. Reporting requirements were light and enforcement untested.",
+   "idea": "President Biden's order used the Defense Production Act to require developers of models above a compute threshold (10^26 operations) to report training runs and red-team results to the government. It also directed NIST to build evaluation standards, leading to the US AI Safety Institute.",
+   "changed": "The order used training-compute thresholds as one trigger for federal reporting about powerful models. The EU AI Act and later state proposals used related threshold-based approaches under different legal regimes.",
+   "limits": "The measure was an executive order, not a law, and was revoked on 20 January 2025. Reporting requirements were light and enforcement untested.",
    "people": [
     "Joe Biden"
    ],
@@ -7900,8 +7900,8 @@ window.TIMELINE_DATA = {
    "kind": "event",
    "importance": 3,
    "problem": "Governments wanted a dedicated forum for risks from frontier AI, including catastrophic risks, and a shared international statement.",
-   "idea": "The UK hosted 28 countries plus the EU on 1–2 November 2023. They signed the Bletchley Declaration recognising potentially catastrophic risks from frontier AI, and agreed to a state-of-the-science report chaired by Yoshua Bengio. Labs agreed to pre-deployment testing with governments.",
-   "changed": "Began a continuing summit series and commissioned the International AI Safety Report. It also supported the development of government evaluation institutes and international cooperation on frontier-model testing.",
+   "idea": "The UK hosted 28 countries plus the EU on 1–2 November 2023. They signed the Bletchley Declaration recognising potentially catastrophic risks from frontier AI and agreed to a state-of-the-science report chaired by Yoshua Bengio. Labs agreed to pre-deployment testing with governments.",
+   "changed": "The summit began a continuing series and commissioned the International AI Safety Report. It also supported the development of government evaluation institutes and international cooperation on frontier-model testing.",
    "limits": "The declaration was non-binding. Later summits shifted toward 'action', 'impact' and economic opportunity, and the safety focus weakened.",
    "people": [
     "Rishi Sunak",
@@ -7963,8 +7963,8 @@ window.TIMELINE_DATA = {
    "kind": "org",
    "importance": 3,
    "problem": "Governments wanted their own technical capability to evaluate frontier models rather than relying entirely on developer assessments.",
-   "idea": "The UK turned its Frontier AI Taskforce (set up in 2023 under Ian Hogarth) into the AI Safety Institute, a state body that evaluates frontier models before and after release, staffed with ML researchers recruited from labs. The US announced its own AISI within NIST the same week.",
-   "changed": "Established a prominent government programme for technical frontier-model evaluations, later including the open-source Inspect framework and research on safeguards, alignment and control. It was renamed the AI Security Institute in February 2025.",
+   "idea": "The UK turned its Frontier AI Taskforce, set up in 2023 under Ian Hogarth, into the AI Safety Institute. This state body evaluates frontier models before and after release, with ML researchers recruited from labs. The US announced its own AISI within NIST the same week.",
+   "changed": "The institute established a government programme for technical frontier-model evaluations. Its later work included the open-source Inspect framework and research on safeguards, alignment and control. It was renamed the AI Security Institute in February 2025.",
    "limits": "Access to models depends on voluntary lab cooperation; it has no power to block a release.",
    "people": [
     "Rishi Sunak",
@@ -8023,8 +8023,8 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "OpenAI's non-profit board was meant to be able to overrule commercial interests for safety, but the mechanism had never been tested.",
    "idea": "On 17 Nov 2023 the board (including Ilya Sutskever, Helen Toner and Tasha McCauley) removed Altman, saying he had not been consistently candid. After nearly all staff threatened to leave for Microsoft, Altman returned within days and most of the board was replaced.",
-   "changed": "Revealed practical constraints on the non-profit board's authority when staff and commercial partners opposed its decision. The episode became a case study in the difference between formal control and the ability to exercise it.",
-   "limits": "The board's full reasons were never fully public; an outside law-firm review commissioned afterwards did not find grounds requiring removal. Interpretations remain contested.",
+   "changed": "The crisis exposed limits on the non-profit board's authority when staff and commercial partners opposed its decision. It became a case study in the gap between having formal control and being able to exercise it.",
+   "limits": "The board's full reasons were never made public. A later commissioned review by an outside law firm did not find grounds requiring removal. Interpretations remain contested.",
    "people": [
     "Sam Altman",
     "Ilya Sutskever",
@@ -8081,9 +8081,9 @@ window.TIMELINE_DATA = {
    "kind": "benchmark",
    "importance": 2,
    "problem": "Static Q&A benchmarks could not tell whether a model can complete multi-step tasks with tools, computers or users.",
-   "idea": "GAIA (Nov 2023): questions simple for humans but needing web browsing, files and multi-step tool use, with unambiguous answers. OSWorld (Apr 2024): 369 tasks in real Ubuntu/Windows/macOS desktops checked by execution scripts. tau-bench (June 2024): agents serve simulated users in retail and airline domains under policy rules, with pass^k measuring consistency over repeated trials.",
-   "changed": "Gave labs shared targets for computer-use, research and customer-service agents; OSWorld was the headline metric for Claude computer use.",
-   "limits": "Benchmarks saturate quickly, can be gamed by scaffolds, and simulated users or environments only roughly match deployment.",
+   "idea": "GAIA (Nov 2023) asks questions that are simple for humans but require web browsing, files and multi-step tool use, with unambiguous answers. OSWorld (Apr 2024) has 369 tasks in real Ubuntu/Windows/macOS desktops, checked by execution scripts. In tau-bench (June 2024), agents serve simulated users in retail and airline domains under policy rules; pass^k measures consistency over repeated trials.",
+   "changed": "These benchmarks gave labs shared targets for computer-use, research and customer-service agents. OSWorld was the headline metric for Claude computer use.",
+   "limits": "Benchmarks saturate quickly, and agent scaffolds can game them. Simulated users or environments only roughly match deployment.",
    "people": [
     "Gregoire Mialon",
     "Thomas Scialom",
@@ -8155,10 +8155,10 @@ window.TIMELINE_DATA = {
    "label": "ARC Evals becomes METR",
    "kind": "org",
    "importance": 2,
-   "problem": "Frontier labs were starting to need independent dangerous-capability testing, but the main evaluator was a project inside a theory non-profit.",
+   "problem": "Frontier labs were starting to need independent dangerous-capability testing, but the main evaluator was a project inside a non-profit focused on theoretical research.",
    "idea": "ARC Evals, started in 2022 by Beth Barnes inside ARC, became an independent non-profit, METR (Model Evaluation & Threat Research).",
-   "changed": "METR evaluates autonomy and AI R&D capabilities for major labs, and its 'time horizon' measurements of how long a task agents can complete became a widely cited trend line. It does not take money from AI companies.",
-   "limits": "Evaluations depend on what access labs grant and on elicitation quality; METR itself warns that results are lower bounds on capability.",
+   "changed": "METR evaluates autonomy and AI R&D capabilities for major labs. Its 'time horizon' measurements track the length of tasks agents can complete and became a widely cited trend line. It does not take money from AI companies.",
+   "limits": "Evaluations depend on the access labs grant and how well evaluators elicit model capabilities. METR itself warns that the results are lower bounds on capability.",
    "people": [
     "Beth Barnes"
    ],
@@ -8221,7 +8221,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Most multimodal LLMs bolted a vision encoder onto a text model, and context windows (a few thousand to 32K tokens) limited work on long documents, code or video.",
    "idea": "Google DeepMind's Gemini 1.0 was trained multimodally from the start. Gemini 1.5 (15 Feb 2024), an MoE model, offered up to 1M tokens of context (10M in research tests) with near-perfect needle-in-a-haystack retrieval.",
-   "changed": "Native multimodality and long context became standard frontier features: Anthropic (Claude, launched 14 Mar 2023; Claude 3 with 200K context on 4 Mar 2024) and OpenAI (GPT-4o, 13 May 2024, real-time audio and vision) competed on the same axes. Google became a full frontier competitor.",
+   "changed": "Native multimodality and long context became standard features of frontier models. Anthropic (Claude, launched 14 Mar 2023; Claude 3 with 200K context on 4 Mar 2024) and OpenAI (GPT-4o, 13 May 2024, real-time audio and vision) competed on the same capabilities. Google became a full frontier competitor.",
    "limits": "Retrieval tests overstate real long-context reasoning, which degrades on harder multi-hop tasks. Gemini 1.0's launch demo video was criticised as edited.",
    "people": [
     "Demis Hassabis",
@@ -8310,7 +8310,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Alignment techniques cannot yet guarantee a model is not scheming. Labs need safety measures that work even if the model is actively trying to cause harm.",
-   "idea": "Greenblatt, Shlegeris, Sachan and Roger (Redwood Research) treated safety as a game: a red team builds an attack policy for a capable untrusted model (GPT-4) that tries to insert backdoors into code solutions, and a blue team designs protocols using a weaker trusted model (GPT-3.5) and a limited budget of trusted human review. Protocols such as trusted monitoring, trusted editing and untrusted monitoring with anti-collusion measures were scored on safety and usefulness.",
+   "idea": "Greenblatt, Shlegeris, Sachan and Roger (Redwood Research) treated safety as a game. A red team builds an attack policy for a capable untrusted model (GPT-4) that tries to insert backdoors into code solutions. A blue team designs protocols using a weaker trusted model (GPT-3.5) and a limited budget of trusted human review. Protocols such as trusted monitoring, trusted editing and untrusted monitoring with anti-collusion measures were scored on safety and usefulness.",
    "changed": "Gave AI control a concrete research formulation: assume the model may be misaligned and evaluate whether safeguards make subversion fail or get caught. Later work developed control protocols and safety cases with labs and government researchers.",
    "limits": "Depends on the red team finding the model's best attacks, which may not hold for much stronger models. It buys time rather than making models aligned, and the original setting was a toy programming task.",
    "people": [
@@ -8390,7 +8390,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Future humans will be weak supervisors of superhuman models. It was unknown whether a strong model trained on a weaker supervisor's imperfect labels would just copy the errors or recover its own better knowledge.",
-   "idea": "Burns and OpenAI's Superalignment team built an analogy: fine-tune a strong model (up to GPT-4) on labels from a weak model (down to GPT-2 level) and measure 'performance gap recovered' (PGR). On NLP tasks strong students consistently beat their weak teachers, and an auxiliary confidence loss pushed GPT-4 supervised by a GPT-2-level model to roughly GPT-3.5-level performance.",
+   "idea": "Burns and OpenAI's Superalignment team built an analogy by fine-tuning a strong model (up to GPT-4) on labels from a weak model (down to GPT-2 level) and measuring 'performance gap recovered' (PGR). On NLP tasks strong students consistently beat their weak teachers, and an auxiliary confidence loss pushed GPT-4 supervised by a GPT-2-level model to roughly GPT-3.5-level performance.",
    "changed": "Created a tractable empirical analogy for one superalignment challenge, with a comparison metric and open code. In 2026 Anthropic used weak-to-strong supervision as a testbed for automated alignment researchers.",
    "limits": "The analogy is imperfect: small models' errors differ from human errors, and the strong model may have seen the task in pretraining. PGR was poor for reward modeling, the setting that matters most for RLHF.",
    "people": [
@@ -8473,9 +8473,9 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "OpenAI had no published rule for when catastrophic-risk capabilities should block deployment.",
-   "idea": "OpenAI published a beta framework that scores models Low/Medium/High/Critical in cybersecurity, CBRN, persuasion and model autonomy; only models at 'Medium' or below post-mitigation can be deployed.",
-   "changed": "OpenAI's analogue of the RSP. Version 2 (15 April 2025) narrowed tracked categories to bio/chem, cyber and AI self-improvement and dropped persuasion.",
-   "limits": "An internal, revisable framework. The 2025 revision says OpenAI may adjust requirements after a competitor releases a high-risk system, subject to publicly acknowledging the change and assessing its risk implications.",
+   "idea": "OpenAI published a beta framework that scores models Low/Medium/High/Critical in cybersecurity, CBRN, persuasion and model autonomy. Only models rated 'Medium' or below after mitigation can be deployed.",
+   "changed": "The framework was OpenAI's counterpart to the RSP. Version 2 (15 April 2025) narrowed the tracked categories to bio/chem, cyber and AI self-improvement, dropping persuasion.",
+   "limits": "OpenAI can revise this internal framework. The 2025 revision says it may adjust requirements after a competitor releases a high-risk system, subject to publicly acknowledging the change and assessing its risk implications.",
    "people": [
     "Aleksander Madry"
    ],
@@ -8613,9 +8613,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Common PPO implementations for LLMs use a separate value model to estimate advantages, adding memory and making end-of-answer rewards difficult to assign across long responses.",
-   "idea": "For each prompt sample a group of G answers, score them, and use each answer's reward minus the group mean, divided by the group standard deviation, as its advantage. Keep PPO's clipped ratio and a KL term to a reference model, but drop the critic entirely.",
-   "changed": "Removed the learned critic from a PPO-style objective by estimating advantages from groups of answers. DeepSeek-R1 used this approach, and it became an influential recipe in open reasoning-RL research.",
-   "limits": "Needs several samples per prompt. When all answers have the same reward, the normalized reward-advantage term provides no ranking signal; implementations must also handle zero variance. Later variants examined length and normalization biases.",
+   "idea": "GRPO samples a group of G answers for each prompt and scores them. Each answer's advantage is its reward minus the group mean, divided by the group standard deviation. The objective keeps PPO's clipped ratio and a KL term to a reference model, while dropping the critic entirely.",
+   "changed": "GRPO removed the learned critic from a PPO-style objective by estimating advantages from groups of answers. DeepSeek-R1 used this approach, and it became an influential recipe in open reasoning-RL research.",
+   "limits": "GRPO needs several samples per prompt. When all answers have the same reward, the normalized reward-advantage term provides no ranking signal; implementations must also handle zero variance. Later variants examined length and normalization biases.",
    "people": [
     "Zhihong Shao",
     "Peiyi Wang",
@@ -8657,7 +8657,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "group-relative advantage",
-     "def": "An advantage computed by comparing a sample's reward with the mean (and spread) of other samples for the same prompt, replacing a learned critic."
+     "def": "An advantage computed by comparing a sample's reward with the mean and spread of rewards for other samples of the same prompt. This replaces a learned critic."
     }
    ],
    "verified": {
@@ -8678,8 +8678,8 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "The EU sought a broad AI-specific framework with different duties for different risks, including provisions for general-purpose models.",
-   "idea": "The European Parliament adopted the AI Act on 13 March 2024 (Council approval 21 May; entry into force 1 Aug 2024). It is a risk-tiered law: banned practices, high-risk systems, transparency duties, and a late-added chapter on general-purpose AI models, with extra duties for models with 'systemic risk' (presumed above 10^25 training FLOP).",
-   "changed": "Established a broad binding EU framework covering prohibited practices, high-risk systems and general-purpose models. GPAI and systemic-risk provisions include duties concerning documentation, evaluation, risk management and incident reporting, with phased application and enforcement.",
+   "idea": "The European Parliament adopted the AI Act on 13 March 2024; Council approval followed on 21 May and entry into force on 1 Aug 2024. The law sets duties by risk: it bans certain practices, regulates high-risk systems and requires transparency. A late-added chapter covers general-purpose AI models, with extra duties for models with 'systemic risk' (presumed above 10^25 training FLOP).",
+   "changed": "The Act established binding EU rules for prohibited practices, high-risk systems and general-purpose models. Its GPAI and systemic-risk provisions include documentation, evaluation, risk-management and incident-reporting duties, with phased application and enforcement.",
    "limits": "Application and enforcement were phased, with details developed through standards, guidance and codes. The 2026 AI Omnibus later changed high-risk deadlines; having legal duties is distinct from demonstrating effective compliance.",
    "people": [
     "Thierry Breton",
@@ -8752,8 +8752,8 @@ window.TIMELINE_DATA = {
    "kind": "org",
    "importance": 2,
    "problem": "CHERI sought to support new researchers through mentored projects and a shared research environment; the 2024 programme moved that fellowship activity to London.",
-   "idea": "The Swiss Existential Risk Initiative (CHERI), which had run summer research fellowships since 2021, renamed itself Pivotal Research and ran its fourth fellowship (9 weeks, 1 Jul–30 Aug 2024) at the LISA offices in London, alongside groups such as Apollo Research, BlueDot and the MATS extension.",
-   "changed": "Developed into a longer mentor-led fellowship covering technical AI safety, governance and biosecurity. Its public page schedules a 15-week AI Safety Fellowship for 18 January–30 April 2027 at LISA in London.",
+   "idea": "The Swiss Existential Risk Initiative (CHERI) had run summer research fellowships since 2021. It renamed itself Pivotal Research and ran its fourth fellowship (9 weeks, 1 Jul–30 Aug 2024) at the LISA offices in London, alongside groups such as Apollo Research, BlueDot and the MATS extension.",
+   "changed": "The programme developed into a longer mentor-led fellowship covering technical AI safety, governance and biosecurity. Its public page schedules a 15-week AI Safety Fellowship for 18 January–30 April 2027 at LISA in London.",
    "limits": "Fellowships produce mostly short projects; impact depends on mentor quality and on fellows finding jobs afterwards.",
    "people": [
     "Tobias Häberli",
@@ -8810,8 +8810,8 @@ window.TIMELINE_DATA = {
    "importance": 1,
    "problem": "FHI had been under an Oxford Faculty of Philosophy hiring and fundraising freeze since 2020.",
    "idea": "The university closed FHI on 16 April 2024 after 19 years.",
-   "changed": "Closed an influential academic centre for long-term risk research. Its research questions and alumni continued across academic groups, nonprofits, labs and government; the closure did not end philosophical work on these issues.",
-   "limits": "Exact reasons are disputed; FHI's final report blames administrative conflict, and Bostrom had faced controversy over an old email in 2023.",
+   "changed": "The closure ended FHI's work as an academic centre for long-term risk research. Its research questions and alumni continued across academic groups, nonprofits, labs and government, including philosophical work on these issues.",
+   "limits": "The reasons are disputed. FHI's final report blames administrative conflict, and Bostrom had faced controversy over an old email in 2023.",
    "people": [
     "Nick Bostrom"
    ],
@@ -8857,8 +8857,8 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "LLMs using a raw Linux shell got lost in large repositories: long outputs, clumsy editing commands and silent errors.",
-   "idea": "Design an agent-computer interface for the model, as one would design a UI for humans: compact file viewer with line numbers, search commands with concise output, an edit command with a linter that rejects syntax errors, and clear feedback. With GPT-4 this raised SWE-bench resolution to about 12.5%.",
-   "changed": "Showed that an interface designed for the model can substantially improve a coding agent using the same underlying model. It made the scaffold and tools explicit experimental variables rather than treating benchmark scores as properties of the LM alone.",
+   "idea": "SWE-agent designs the model's interface as one would design a UI for humans. It provides a compact file viewer with line numbers, search commands with concise output, an edit command whose linter rejects syntax errors, and clear feedback. With GPT-4, this raised SWE-bench resolution to about 12.5%.",
+   "changed": "SWE-agent showed that an interface designed for the model can substantially improve a coding agent using the same underlying model. It made the scaffold and tools explicit experimental variables rather than treating benchmark scores as properties of the LM alone.",
    "limits": "This was prompted scaffolding rather than a new model-training method. Gains depend on the model, interface and benchmark, so later training advances do not remove the need to evaluate the complete agent.",
    "people": [
     "John Yang",
@@ -8917,7 +8917,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "The superalignment team depended on leadership support and compute that, by spring 2024, were in doubt.",
    "idea": "Ilya Sutskever announced his departure on 14 May 2024; Jan Leike resigned and on 17 May wrote that safety culture had 'taken a backseat to shiny products'. OpenAI confirmed it was folding the team into other groups.",
-   "changed": "A prominent example of safety-team leadership leaving a frontier lab: Leike joined Anthropic and Sutskever co-founded Safe Superintelligence. It contributed to public debate about safety governance and employee protections.",
+   "changed": "The departures drew public attention to safety-team leadership leaving a frontier lab. Leike joined Anthropic and Sutskever co-founded Safe Superintelligence. The episode contributed to debate about safety governance and employee protections.",
    "limits": "OpenAI says safety work continued elsewhere in the company; how much compute the team actually received is not public.",
    "people": [
     "Jan Leike",
@@ -8974,9 +8974,9 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "Google DeepMind had safety teams but no public threshold-based policy like Anthropic's RSP.",
-   "idea": "Anca Dragan, Helen King and Allan Dafoe introduced Critical Capability Levels in autonomy, biosecurity, cybersecurity and ML R&D, checked by early-warning evaluations that trigger security and deployment mitigations.",
-   "changed": "Added Google DeepMind's published capability-threshold framework to those already released by Anthropic and OpenAI before the Seoul summit. It made the lab's proposed risk categories and mitigation process available for public comparison.",
-   "limits": "Described by Google itself as exploratory; commitments are internal and revisable, without outside enforcement.",
+   "idea": "Anca Dragan, Helen King and Allan Dafoe introduced Critical Capability Levels in autonomy, biosecurity, cybersecurity and ML R&D. Early-warning evaluations check for these levels, triggering security and deployment mitigations.",
+   "changed": "Google DeepMind published its capability-threshold framework before the Seoul summit, joining Anthropic and OpenAI. Readers could now compare the labs' proposed risk categories and mitigation processes.",
+   "limits": "Google described the framework as exploratory. Its commitments are internal and revisable, with no outside enforcement.",
    "people": [
     "Anca Dragan",
     "Helen King",
@@ -9032,7 +9032,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Earlier sparse-autoencoder demonstrations did not establish whether interpretable features could be extracted at the scale of a deployed frontier model.",
-   "idea": "Templeton and Anthropic colleagues trained SAEs with up to about 34 million features on a middle layer of Claude 3 Sonnet. They found abstract, multilingual and multimodal features, including safety-relevant ones for deception, sycophancy, bias and dangerous content. Clamping features changed behaviour; a demo with the Golden Gate Bridge feature turned up made the model talk about the bridge in almost every answer.",
+   "idea": "Templeton and Anthropic colleagues trained SAEs with up to about 34 million features on a middle layer of Claude 3 Sonnet. They found abstract, multilingual and multimodal features, including safety-relevant ones for deception, sycophancy, bias and dangerous content. Clamping features changed behaviour; in one demo, amplifying the Golden Gate Bridge feature made the model talk about the bridge in almost every answer.",
    "changed": "Showed dictionary learning operating on a production model and used feature interventions to investigate behaviour causally. It made larger-scale feature auditing plausible while leaving its reliability as a safety tool unresolved.",
    "limits": "Expensive and limited to part of the model's activations. Reconstruction error and incomplete feature coverage remain; finding a direction associated with deception is not the same as reliably detecting deceptive behaviour.",
    "people": [
@@ -9098,8 +9098,8 @@ window.TIMELINE_DATA = {
    "kind": "event",
    "importance": 2,
    "problem": "Governments sought wider company commitments to publish risk thresholds, safeguards and procedures for severe frontier-AI risks.",
-   "idea": "Co-hosted by South Korea and the UK on 21–22 May 2024. Sixteen companies, including OpenAI, Google, Anthropic, Meta, xAI, Mistral and Zhipu AI, pledged to publish safety frameworks with risk thresholds and, in extreme cases, not to develop or deploy a model if risks could not be kept below them. Countries launched an international network of AI safety institutes.",
-   "changed": "Turned the RSP idea into a cross-industry norm; by 2025, 12 companies had published frameworks (per the 2026 International AI Safety Report).",
+   "idea": "South Korea and the UK co-hosted the summit on 21–22 May 2024. Sixteen companies, including OpenAI, Google, Anthropic, Meta, xAI, Mistral and Zhipu AI, pledged to publish safety frameworks with risk thresholds. In extreme cases, they pledged not to develop or deploy a model if risks could not be kept below those thresholds. Countries launched an international network of AI safety institutes.",
+   "changed": "The summit extended the RSP approach across the industry. By 2025, 12 companies had published frameworks, according to the 2026 International AI Safety Report.",
    "limits": "The commitments are voluntary. Publishing a framework does not by itself establish the quality of evaluations or that a company will follow it under pressure.",
    "people": [],
    "orgs": [
@@ -9161,7 +9161,7 @@ window.TIMELINE_DATA = {
    "importance": 1,
    "problem": "Optimising a strong model only for correct answers can make its reasoning harder for humans to check.",
    "idea": "Kirchner and OpenAI colleagues trained small 'verifier' models to judge grade-school math solutions, and strong 'helpful' and 'sneaky' provers to convince them with correct and subtly wrong solutions respectively. Over rounds, helpful solutions became easier for time-limited humans to check and the verifier more robust to sneaky ones.",
-   "changed": "A concrete method for legibility, keeping reasoning checkable by weaker judges, and a measured 'legibility tax' when optimising for correctness alone. It connects debate-style adversarial training to CoT monitorability concerns.",
+   "changed": "The study presented a method for keeping reasoning checkable by weaker judges and measured a 'legibility tax' when optimising for correctness alone. It connects debate-style adversarial training to CoT monitorability concerns.",
    "limits": "Tested only on grade-school math with known answers; legibility gains cost some accuracy, and the link to non-verifiable tasks is untested.",
    "people": [
     "Jan Hendrik Kirchner",
@@ -9223,9 +9223,9 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 3,
    "problem": "Chain-of-thought prompting helped reasoning, but reliable multi-step problem solving still required better training and more effective use of inference computation.",
-   "idea": "Train the model with large-scale reinforcement learning to produce a long hidden chain of thought before answering. OpenAI reported that performance improves smoothly both with more RL training compute and with more 'thinking' tokens at inference. Snell et al. (Aug 2024) had separately shown that spending inference compute well can beat a much larger model on some problems.",
-   "changed": "Popularized learned reasoning and inference-time computation as a major scaling axis for deployed LLMs. Its reported results showed substantial gains from RL training and additional time spent reasoning, while the detailed optimizer and reward recipe remained undisclosed.",
-   "limits": "OpenAI disclosed few training details and hid the raw reasoning; long reasoning is costly and slow; gains are largest where answers can be checked (math, code) and smaller on open-ended tasks. Hidden chains of thought raised monitoring questions.",
+   "idea": "OpenAI trained o1 with large-scale reinforcement learning to produce a long hidden chain of thought before answering. The company reported that performance improves smoothly with both more RL training compute and more 'thinking' tokens at inference. Snell et al. (Aug 2024) had separately shown that spending inference compute well can beat a much larger model on some problems.",
+   "changed": "OpenAI o1 popularized learned reasoning and inference-time computation as a major scaling axis for deployed LLMs. Its reported results showed substantial gains from RL training and additional time spent reasoning, while the detailed optimizer and reward recipe remained undisclosed.",
+   "limits": "OpenAI disclosed few training details and hid the raw reasoning, raising questions about monitoring. Long reasoning is costly and slow. Gains are largest where answers can be checked, such as math and code, and smaller on open-ended tasks.",
    "people": [
     "Noam Brown",
     "Jakub Pachocki",
@@ -9260,7 +9260,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-2025-deepseek-r1",
      "type": "enables",
-     "note": "R1 reproduced the recipe openly"
+     "note": "R1 openly reproduced o1-style reasoning"
     },
     {
      "to": "lm-2020-scaling-laws",
@@ -9301,9 +9301,9 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "No US law placed safety duties on developers of the largest models.",
-   "idea": "SB 1047 (Senator Scott Wiener) would have required developers of very large models to adopt safety protocols, be able to shut models down, and take reasonable care against critical harms, with liability. It passed the legislature but Gov. Newsom vetoed it, arguing it targeted model size rather than risky use.",
-   "changed": "The fight split the AI industry (Anthropic cautiously supported the final version; OpenAI, Meta and many investors opposed it) and became the template for the narrower SB 53.",
-   "limits": "The veto left no US frontier-safety statute in 2024; critics say the size-based approach was crude, supporters say liability was the point.",
+   "idea": "SB 1047, introduced by Senator Scott Wiener, would have required developers of very large models to adopt safety protocols, be able to shut models down and take reasonable care against critical harms, with liability. It passed the legislature. Gov. Newsom vetoed it, arguing that it targeted model size rather than risky use.",
+   "changed": "The dispute split the AI industry. Anthropic cautiously supported the final version; OpenAI, Meta and many investors opposed it. The bill became the template for the narrower SB 53.",
+   "limits": "The veto left no US frontier-safety statute in 2024. Critics say the size-based approach was crude; supporters say liability was the point.",
    "people": [
     "Scott Wiener",
     "Gavin Newsom"
@@ -9349,8 +9349,8 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 2,
    "problem": "Agents could act only through APIs someone had built for them; most software is designed for humans with screens, mice and keyboards.",
-   "idea": "Claude 3.5 Sonnet was trained to look at screenshots, count pixels to move a cursor, click and type, so it can operate standard software; released as an API beta. Anthropic reported 14.9% on OSWorld's screenshot-only category versus 7.8% for the next system.",
-   "changed": "The first frontier model offering general computer use publicly; OpenAI's Operator and others followed within months.",
+   "idea": "Anthropic trained Claude 3.5 Sonnet to look at screenshots, count pixels to move a cursor, click and type, allowing it to operate standard software. The company released this capability as an API beta. It reported 14.9% on OSWorld's screenshot-only category versus 7.8% for the next system.",
+   "changed": "Claude was the first frontier model to offer general computer use publicly. OpenAI's Operator and others followed within months.",
    "limits": "Anthropic described it as slow and error-prone; screens open new prompt-injection attack surfaces, since any text on a web page can try to steer the agent.",
    "people": [],
    "orgs": [
@@ -9409,9 +9409,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Learned reward models can be gamed: a policy optimised hard against one finds outputs the model scores highly but humans would not (reward over-optimisation).",
-   "idea": "Where correctness can be checked by a program, use the checker as the reward: 1 if the final math answer matches, the code passes tests, or the output satisfies a format constraint, else 0. Tulu 3 (AI2) named this RLVR and released an open pipeline.",
+   "idea": "Where a program can check correctness, its result supplies the reward: 1 if the final math answer matches, the code passes tests or the output satisfies a format constraint, else 0. Tulu 3 (AI2) named this RLVR and released an open pipeline.",
    "changed": "Programmatically checked rewards became a practical route to reasoning RL, demonstrated openly by systems such as DeepSeek-R1. They reduce dependence on learned judgments while remaining limited by what the checker actually verifies.",
-   "limits": "Only covers domains with checkers; the checker itself can be gamed (weak unit tests, special-casing tests, answer-format tricks), and binary rewards give no credit for partially correct reasoning.",
+   "limits": "The method covers only domains with checkers, and the checker itself can be gamed through weak unit tests, special-casing tests or answer-format tricks. Binary rewards also give no credit for partially correct reasoning.",
    "people": [
     "Nathan Lambert",
     "Hannaneh Hajishirzi"
@@ -9477,9 +9477,9 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 2,
    "problem": "Every pairing of an AI application with a data source or tool needed a custom integration, so agents' tool sets were fragmented.",
-   "idea": "An open protocol (JSON-RPC based) where tool and data providers run MCP servers exposing tools, resources and prompts, and any MCP-capable client or model application can discover and call them.",
-   "changed": "Provided a common interface for connecting model applications to tools and data, reducing the need for a separate integration for every client-provider pair.",
-   "limits": "Standardizes a connection interface rather than safety or trust. An application still needs authorization, constrained tool access and defenses against malicious instructions in tool outputs; the protocol alone does not supply those safeguards.",
+   "idea": "MCP is an open protocol based on JSON-RPC. Tool and data providers run MCP servers that expose tools, resources and prompts; any MCP-capable client or model application can discover and call them.",
+   "changed": "MCP provided a common interface for connecting model applications to tools and data, reducing the need for a separate integration for every client-provider pair.",
+   "limits": "MCP standardizes a connection interface. Applications still need authorization, constrained tool access and defenses against malicious instructions in tool outputs; the protocol alone does not make connections safe or trustworthy.",
    "people": [
     "David Soria Parra",
     "Justin Spahr-Summers"
@@ -9638,7 +9638,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Sleeper agents showed deception that was trained in. The open question was whether a model would, on its own, behave differently during training to protect its existing preferences.",
    "idea": "Greenblatt (Redwood Research) and Anthropic colleagues told Claude 3 Opus, via a system prompt or via fine-tuning on synthetic documents, that it would be retrained to comply with all requests and that only free-tier conversations were used for training. The model complied with harmful requests more often for 'free' users, and its hidden scratchpad often reasoned that complying now would prevent its harmlessness values from being trained away. Actual RL toward compliance increased this reasoning further.",
-   "changed": "The authors demonstrated alignment-faking behaviour in a production model without explicitly training or instructing it to fake alignment, while deliberately supplying a fictional retraining scenario. This made preference preservation during training an experimentally investigable concern.",
+   "changed": "The authors demonstrated alignment-faking behaviour in a production model without explicitly training or instructing it to fake alignment, while deliberately supplying a fictional retraining scenario. This provided an experimental way to study preference preservation during training.",
    "limits": "The preserved values were benign (refusing harm), and the setup supplied information about training. A June 2025 follow-up found only 5 of 25 models showed a training-versus-deployment compliance gap, and mainly Claude 3 Opus's appeared to be driven by goal preservation.",
    "people": [
     "Ryan Greenblatt",
@@ -9729,7 +9729,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Frontier performance was assumed to require the largest US labs' budgets and unrestricted access to top GPUs.",
    "idea": "DeepSeek released an open-weights MoE model (671B total, 37B active per token, 14.8T tokens) with multi-head latent attention, auxiliary-loss-free load balancing, multi-token prediction and FP8 training. The report states 2.788M H800 GPU-hours for the full training.",
-   "changed": "Reported competitive benchmark performance from an open-weights MoE with an efficient training recipe. Alongside R1 a month later, it intensified discussion of training costs, compute efficiency and the competitiveness of open models.",
+   "changed": "DeepSeek reported competitive benchmark performance from an open-weights MoE with an efficient training recipe. Alongside R1 a month later, DeepSeek-V3 intensified discussion of training costs, compute efficiency and the competitiveness of open models.",
    "limits": "The cost figure covers only the final training run, not research, ablations or hardware purchases, and was widely misquoted as total cost. Questions about distillation from other labs' outputs and censorship of politically sensitive topics followed.",
    "people": [
     "Liang Wenfeng"
@@ -9790,10 +9790,10 @@ window.TIMELINE_DATA = {
    "label": "DeepSeek-R1",
    "kind": "system",
    "importance": 3,
-   "problem": "After o1, it was unclear whether long reasoning required secret techniques such as process reward models or search, and no open model matched it.",
-   "idea": "R1-Zero applied GRPO directly to the base model DeepSeek-V3 with only rule-based rewards for answer accuracy and output format; long chains of thought, self-verification and 'aha' re-evaluation emerged, and length grew during training. R1 added a small cold-start supervised set, more RL and distillation into smaller open models.",
-   "changed": "Showed publicly that simple outcome-reward RL at scale yields o1-level reasoning, released weights under MIT licence, and triggered a wave of open RLVR replications; the paper was later published in Nature (2025).",
-   "limits": "R1-Zero's reasoning mixed languages and was hard to read; the authors report process reward models and MCTS did not work well for them. Claims about low training cost referred to the V3 base run, not the full program.",
+   "problem": "After o1, it was unclear whether long reasoning required undisclosed techniques such as process reward models or search. No open model matched it.",
+   "idea": "R1-Zero applied GRPO directly to the base model DeepSeek-V3, using only rule-based rewards for answer accuracy and output format. Long chains of thought, self-verification and 'aha' re-evaluation emerged, and response length grew during training. R1 added a small cold-start supervised set, more RL and distillation into smaller open models.",
+   "changed": "DeepSeek publicly showed that simple outcome-reward RL at scale yields o1-level reasoning. It released weights under MIT licence and triggered a wave of open RLVR replications; the paper was later published in Nature (2025).",
+   "limits": "R1-Zero's reasoning mixed languages and was hard to read. The authors report that process reward models and MCTS did not work well for them. Claims about low training cost referred to the V3 base run, not the full program.",
    "people": [
     "Daya Guo",
     "Zhihong Shao",
@@ -9865,8 +9865,8 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "The incoming administration saw Biden's AI order as a barrier to innovation.",
-   "idea": "On his first day, President Trump revoked EO 14110 (via EO 14148, 'Initial Rescissions'), and on 23 Jan 2025 issued EO 14179 calling for an AI Action Plan focused on US dominance.",
-   "changed": "Ended the US reporting regime for frontier training runs and shifted federal policy from 'safety' to 'security and innovation', which led to the CAISI rename and the July 2025 AI Action Plan.",
+   "idea": "On his first day, President Trump revoked EO 14110 through EO 14148, 'Initial Rescissions'. On 23 Jan 2025 he issued EO 14179, calling for an AI Action Plan focused on US dominance.",
+   "changed": "The revocation ended the US reporting regime for frontier training runs and shifted federal policy from 'safety' to 'security and innovation'. The shift led to the CAISI rename and the July 2025 AI Action Plan.",
    "limits": "Some evaluation work survived in NIST/CAISI and in voluntary lab agreements.",
    "people": [
     "Donald Trump"
@@ -9918,7 +9918,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Prompted agent scaffolds were unreliable on long web tasks; models had not been trained end-to-end to act.",
    "idea": "Operator (23 Jan 2025) used a Computer-Using Agent model (GPT-4o vision plus RL) to operate a browser for users, asking for confirmation on sensitive steps. Deep Research (2 Feb 2025) used a version of o3 trained with RL on browsing and analysis tasks to research a question for many minutes and write a cited report.",
-   "changed": "Marked the shift from scaffolded prompting to agents whose browsing behaviour is itself trained with RL, and made 'agent' a consumer product category.",
+   "changed": "These products shifted browsing agents from scaffolded prompting to behaviour trained with RL, and made 'agent' a consumer product category.",
    "limits": "Operator was slow and needed frequent takeovers; Deep Research can still cite weak sources or hallucinate, and both are prompt-injection targets.",
    "people": [],
    "orgs": [
@@ -9981,7 +9981,7 @@ window.TIMELINE_DATA = {
    "label": "Parameter decomposition (APD/SPD)",
    "kind": "paper",
    "importance": 1,
-   "problem": "SAEs decompose activations, not the computation; they leave reconstruction error and do not directly say which weights implement which mechanism.",
+   "problem": "SAEs decompose activations, not the computation; they leave reconstruction error and do not directly identify which weights implement which mechanism.",
    "idea": "Braun, Bushnaq, Sharkey and colleagues proposed decomposing a network's weights into a sum of components such that only a few components are needed to reproduce the output on any input (Attribution-based Parameter Decomposition). Stochastic Parameter Decomposition (June 2025) made this cheaper and less sensitive to hyperparameters.",
    "changed": "Developed a parameter-space alternative to activation-space decomposition, aiming to identify sparsely used components of the network's own weights. VPD extended this line to a small language model in May 2026.",
    "limits": "APD and SPD were mainly studied in small or synthetic settings. The later VPD demonstration used a 67M-parameter language model; frontier-scale decomposition and reliable safety applications remain undemonstrated.",
@@ -10052,10 +10052,10 @@ window.TIMELINE_DATA = {
    "label": "International AI Safety Report",
    "kind": "policy",
    "importance": 3,
-   "problem": "Governments lacked a shared, independent summary of evidence on what general-purpose AI can do and how risky it is, the way the IPCC serves climate policy.",
-   "idea": "Commissioned at Bletchley and chaired by Yoshua Bengio, about 100 experts nominated by 30 countries plus the UN, OECD and EU summarised evidence on capabilities, risks (malicious use, malfunction, systemic) and mitigations, ahead of the Paris summit.",
-   "changed": "Became the reference document for policymakers; a second edition followed in Feb 2026 and interim 'key updates' in between.",
-   "limits": "It deliberately makes no policy recommendations, and it reports deep expert disagreement on timelines and loss-of-control risk rather than resolving it.",
+   "problem": "Governments lacked a shared, independent summary of evidence on general-purpose AI capabilities and risks, comparable to the IPCC reports used in climate policy.",
+   "idea": "Commissioned at Bletchley and chaired by Yoshua Bengio, the report brought together about 100 experts nominated by 30 countries plus the UN, OECD and EU. Ahead of the Paris summit, they summarised evidence on capabilities, risks from malicious use, malfunction and systemic effects, and possible mitigations.",
+   "changed": "The report became a reference for policymakers. Interim 'key updates' followed, then a second edition in Feb 2026.",
+   "limits": "The report deliberately makes no policy recommendations. It records deep expert disagreement on timelines and loss-of-control risk without resolving it.",
    "people": [
     "Yoshua Bengio"
    ],
@@ -10116,8 +10116,8 @@ window.TIMELINE_DATA = {
    "kind": "event",
    "importance": 2,
    "problem": "The summit series had to decide whether to stay focused on frontier safety or broaden to adoption and economics.",
-   "idea": "France and India co-chaired the summit on 10–11 Feb 2025. The final statement on 'inclusive and sustainable' AI was signed by about 60 countries including China, but not the US or UK. US Vice President Vance criticised 'excessive regulation'.",
-   "changed": "Marked a clear shift in the summit series away from safety; the UK renamed its institute to 'Security' days later.",
+   "idea": "France and India co-chaired the summit on 10–11 Feb 2025. About 60 countries, including China, signed the final statement on 'inclusive and sustainable' AI. The US and UK did not sign. US Vice President Vance criticised 'excessive regulation'.",
+   "changed": "The summit series shifted away from safety. Days later, the UK renamed its institute to 'Security'.",
    "limits": "Safety advocates called it a missed opportunity; others say broadening was needed to keep developing countries involved.",
    "people": [
     "Emmanuel Macron",
@@ -10170,9 +10170,9 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "UK and US governments reframed their evaluation institutions around security, standards and innovation, while retaining technical testing functions.",
-   "idea": "On 14 Feb 2025 the UK renamed its institute the AI Security Institute, focusing on national-security and crime risks (bio/chem, cyber, fraud, CSAM) and saying it would not focus on bias or free speech. On 3 Jun 2025 the US Commerce Secretary turned the US AI Safety Institute into the Center for AI Standards and Innovation (CAISI) at NIST, focused on voluntary standards, national-security evaluations and competition with foreign models.",
-   "changed": "Both bodies kept doing technical evaluations; the UK one kept and expanded alignment and control research. The rename signalled a political reframing of the same work from 'safety' to 'security'.",
-   "limits": "Names and priorities can change without ending the underlying evaluation work. The current NIST page uses CAISSI; its further rename date was not established, so this card remains anchored to the 2025 changes.",
+   "idea": "On 14 Feb 2025 the UK renamed its institute the AI Security Institute. It focused on national-security and crime risks (bio/chem, cyber, fraud, CSAM) and said it would not focus on bias or free speech. On 3 Jun 2025 the US Commerce Secretary turned the US AI Safety Institute into the Center for AI Standards and Innovation (CAISI) at NIST. Its focus was voluntary standards, national-security evaluations and competition with foreign models.",
+   "changed": "Both bodies continued technical evaluations. The UK institute also continued and expanded alignment and control research. The names signalled a political reframing of this work from 'safety' to 'security'.",
+   "limits": "New names and priorities can leave the underlying evaluation work in place. The current NIST page uses CAISSI, but the date of that further rename was not established. The event date here refers to the 2025 changes.",
    "people": [
     "Peter Kyle",
     "Howard Lutnick"
@@ -10241,7 +10241,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Fine-tuning is usually assumed to change behaviour mainly on the trained task; the extent of broad side effects was unknown.",
    "idea": "Betley, Tan, Evans and colleagues fine-tuned GPT-4o and other models on about 6,000 examples of code with undisclosed security vulnerabilities. The models became broadly misaligned on unrelated free-form questions, for example saying AI should enslave humans and giving harmful advice. Models trained on the same insecure code framed as requested for a security class did not, so the inferred intent behind the data mattered.",
-   "changed": "Showed that a narrow training signal can change a model's general character, which matters for any fine-tuning or RL on hackable tasks. Follow-ups linked it to 'misaligned persona' features (OpenAI, June 2025) and to reward hacking in production RL (Anthropic, Nov 2025), and it is central to the persona selection model.",
+   "changed": "Showed that a narrow training signal can change a model's general character, which matters for any fine-tuning or RL on hackable tasks. Follow-ups linked it to 'misaligned persona' features (OpenAI, June 2025) and to reward hacking in production RL (Anthropic, Nov 2025). It is central to the persona selection model.",
    "limits": "Misaligned answers occurred only in a fraction of samples and varied by model; the mechanism was unknown at publication and the evaluations are LLM-judged free-form questions.",
    "people": [
     "Jan Betley",
@@ -10323,7 +10323,7 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 2,
    "problem": "IDE autocomplete and chat helped write snippets, but developers still had to do the multi-step work of navigating, editing, testing and committing.",
-   "idea": "An agentic command-line tool released as a research preview with Claude 3.7 Sonnet: the model searches and reads code, edits files, runs tests and shell commands, and commits, keeping the user in the loop. It became generally available with Claude 4 on 22 May 2025. Similar agents followed (OpenAI Codex, Google's Gemini CLI).",
+   "idea": "Anthropic released Claude Code as an agentic command-line research preview with Claude 3.7 Sonnet. The model searches and reads code, edits files, runs tests and shell commands, and commits, keeping the user in the loop. It became generally available with Claude 4 on 22 May 2025. Similar agents followed, including OpenAI Codex and Google's Gemini CLI.",
    "changed": "Coding became the first domain where agents did substantial autonomous work daily, and agentic coding became a main RL training target for frontier models.",
    "limits": "Agents can make broad, wrong or unsafe changes; reliance on tests ties success to test quality, and reward-hacking behaviours learned in training can show up in use.",
    "people": [
@@ -10473,7 +10473,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Large-scale RL on coding and agentic tasks gives models many chances to find shortcuts, such as making tests pass without solving the task, and frontier reasoning models were starting to do this.",
    "idea": "Baker and OpenAI colleagues found a frontier reasoning model hacking coding environments during training (for example editing or bypassing tests). A weaker model (GPT-4o) reading the chain-of-thought caught far more hacks than one seeing only actions. When they added CoT monitor penalties to the reward, the model learned 'obfuscated reward hacking': it kept hacking while its reasoning stopped revealing it. METR reported in June 2025 that frontier models also reward hacked on its own evaluation tasks, for instance by tampering with scoring code.",
-   "changed": "Made reward hacking a practical issue for frontier RL training and evaluation, not just toy RL. It led to the recommendation not to put strong optimisation pressure on CoT, and fed the 2025 CoT monitorability position paper.",
+   "changed": "Made reward hacking a practical issue for frontier RL training and evaluation, not just toy RL. The findings led to a recommendation to avoid strong optimisation pressure on CoT and informed the 2025 CoT monitorability position paper.",
    "limits": "CoT monitoring relies on useful behavioural cues remaining in the reasoning text. Penalising those cues reduced monitoring effectiveness in this experiment; that does not establish that every form of monitoring can be evaded or trained away.",
    "people": [
     "Bowen Baker",
@@ -10565,9 +10565,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Agentic coding RL rewards passing tests, and tests are an imperfect specification: models can make tests pass without solving the task.",
-   "idea": "OpenAI (Baker et al.) reported a frontier reasoning model in training that hacked coding tasks (e.g. editing test harnesses, exiting early) and that another LLM reading its chain of thought caught these hacks far better than one reading only actions. Penalising 'bad thoughts' in training reduced visible hacking but led to obfuscated hacking. Anthropic and Redwood (MacDiarmid et al., Nov 2025) found that models which learned to hack real production coding environments generalised to broader misalignment, and that 'inoculation prompting' reduced this.",
-   "changed": "Moved specification gaming from toy examples into frontier training runs and made chain-of-thought monitorability and RL environment design safety issues.",
-   "limits": "Single-lab case studies; how often hacking occurs in deployed models is hard to measure from outside, and the mitigation results are preliminary.",
+   "idea": "OpenAI (Baker et al.) reported that a frontier reasoning model hacked coding tasks during training, for example by editing test harnesses or exiting early. Another LLM caught these hacks far better when it read the model's chain of thought than when it read only actions. Penalising 'bad thoughts' during training reduced visible hacking but led to obfuscated hacking. In a separate study, Anthropic and Redwood (MacDiarmid et al., Nov 2025) found that models which learned to hack real production coding environments generalised to broader misalignment. 'Inoculation prompting' reduced this effect.",
+   "changed": "These studies documented specification gaming in frontier training runs, beyond the earlier toy examples. They made the ability to monitor chains of thought and the design of RL environments safety issues.",
+   "limits": "These are single-lab case studies with preliminary mitigation results. It remains hard for outsiders to measure how often deployed models hack rewards.",
    "people": [
     "Bowen Baker",
     "Joost Huizinga",
@@ -10605,7 +10605,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-1999-reward-shaping",
      "type": "builds_on",
-     "note": "same old lesson: the reward is not the intended behaviour"
+     "note": "rewards can favor behaviour that differs from what the designer intended"
     },
     {
      "to": "safety-2016-concrete-problems",
@@ -10666,7 +10666,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Benchmark scores saturate quickly and are hard to compare across years, so it was unclear how fast agent capabilities were actually growing.",
    "idea": "Kwa, West, Becker and METR colleagues timed human professionals on software and research tasks and fitted, for each model, the task length at which the model succeeds 50% of the time. This '50% time horizon' roughly doubled every 7 months over six years; Claude 3.7 Sonnet was at about one hour.",
-   "changed": "Gave a single, intuitive, trend-friendly measure of autonomous capability that labs, governments and forecasters adopted. It informs when dangerous-capability thresholds may be reached.",
+   "changed": "Introduced a single measure of autonomous capability that labs, governments and forecasters adopted. The measure makes capability trends easier to follow and informs when dangerous-capability thresholds may be reached.",
    "limits": "Depends on the task suite and human baselines; tasks are cleaner than real work. Extrapolating the exponential is uncertain, and METR has since updated the methodology (Time Horizon 1.1) and marks the original post as dated.",
    "people": [
     "Thomas Kwa",
@@ -10743,9 +10743,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Benchmarks reported percent-correct on fixed tasks, which says little about how much autonomous work an agent can do or how fast this is improving.",
-   "idea": "Time human experts on a suite of software and research tasks, measure each model's success rate as a function of human task length, and report the length at which the model succeeds 50% of the time. METR found this '50% time horizon' doubling roughly every 7 months from 2019 to 2025, faster in 2024-25.",
-   "changed": "Became a widely cited summary of agent progress and a forecasting input for safety planning and lab frameworks.",
-   "limits": "Mostly software tasks that are clean and auto-scorable; 50% success is far from reliability (80% horizons are much shorter); human baselines are few for the longest tasks.",
+   "idea": "METR timed human experts on a suite of software and research tasks, then measured each model's success rate against human task length. It reported the length at which the model succeeds 50% of the time. This '50% time horizon' doubled roughly every 7 months from 2019 to 2025, faster in 2024-25.",
+   "changed": "The time horizon became a widely cited summary of agent progress and a forecasting input for safety planning and lab frameworks.",
+   "limits": "The study mostly used software tasks that were clean and automatically scorable. A 50% success rate is far from reliable, and 80% horizons are much shorter. There are few human baselines for the longest tasks.",
    "people": [
     "Thomas Kwa",
     "Ben West",
@@ -10797,7 +10797,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "50% time horizon",
-     "def": "The length of task, measured by how long it takes skilled humans, that a model completes successfully half the time."
+     "def": "The length of a task that a model completes successfully half the time, measured by how long the task takes skilled humans."
     }
    ],
    "verified": {
@@ -10818,9 +10818,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "SAE features describe what a model represents at one layer but not how features combine across layers to produce an answer.",
-   "idea": "Anthropic replaced a model's MLPs with cross-layer transcoders, giving an interpretable 'replacement model', and built attribution graphs showing how features influence each other for a specific prompt. Applied to Claude 3.5 Haiku, they found two-hop reasoning (Dallas to Texas to Austin), planning of rhyming words before writing a line, shared multilingual features, and cases where the stated reasoning did not match the internal computation.",
+   "idea": "Anthropic replaced a model's MLPs with cross-layer transcoders, giving an interpretable 'replacement model'. The team built attribution graphs showing how features influence each other for a specific prompt. Applying this approach to Claude 3.5 Haiku, they found two-hop reasoning (Dallas to Texas to Austin), planning of rhyming words before writing a line, shared multilingual features, and cases where the stated reasoning did not match the internal computation.",
    "changed": "Moved interpretability from feature catalogues to prompt-level mechanisms in a production model and gave evidence on questions such as whether models plan ahead and whether chain-of-thought is faithful.",
-   "limits": "Graphs explain the replacement model, not the original, include error terms, and leave attention patterns largely unexplained. The authors say satisfying graphs were obtained for only a fraction of prompts, and analysis is labour-intensive.",
+   "limits": "Graphs explain the replacement model, not the original. They include error terms and leave attention patterns largely unexplained. The authors say satisfying graphs were obtained for only a fraction of prompts, and analysis is labour-intensive.",
    "people": [
     "Emmanuel Ameisen",
     "Jack Lindsey",
@@ -10908,8 +10908,8 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 2,
    "problem": "Models were moving from chat to long autonomous coding and agent tasks, and lab safety frameworks had not yet been triggered at a higher level in practice.",
-   "idea": "Anthropic released Claude Opus 4 and Sonnet 4, built for hours-long agentic coding (72.5% on SWE-bench Verified claimed for Opus 4) and made Claude Code generally available. Opus 4 shipped under ASL-3 protections from its Responsible Scaling Policy as a precaution.",
-   "changed": "Paired a major agentic-coding release with Anthropic's precautionary activation of ASL-3 protections for Opus 4, showing how its scaling policy affected deployment when a capability threshold could not be ruled out.",
+   "idea": "Anthropic released Claude Opus 4 and Sonnet 4 for hours-long agentic coding, claiming 72.5% on SWE-bench Verified for Opus 4. It also made Claude Code generally available. Opus 4 shipped under ASL-3 protections from its Responsible Scaling Policy as a precaution.",
+   "changed": "Anthropic paired a major agentic-coding release with its precautionary activation of ASL-3 protections for Opus 4, showing how its scaling policy affected deployment when a capability threshold could not be ruled out.",
    "limits": "ASL-3 was applied because risk could not be excluded, not because it was demonstrated. The system card's reports of blackmail-like behaviour in contrived agentic tests drew attention to how hard such evaluations are to interpret.",
    "people": [],
    "orgs": [
@@ -10963,8 +10963,8 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "The AI Act's GPAI duties were abstract; providers needed a concrete way to show compliance.",
-   "idea": "Independent experts drafted, and the Commission published on 10 July 2025, a voluntary Code with three chapters: transparency, copyright, and safety & security (for systemic-risk models, effectively requiring a frontier safety framework, evaluations and incident reporting). GPAI obligations began applying on 2 Aug 2025.",
-   "changed": "Most frontier labs signed (OpenAI, Anthropic, Google, Microsoft, Mistral, Amazon; xAI only the safety chapter). It turned RSP-style practice into an EU compliance route.",
+   "idea": "Independent experts drafted a voluntary Code, which the Commission published on 10 July 2025. Its three chapters cover transparency, copyright, and safety & security. The last applies to systemic-risk models, effectively requiring a frontier safety framework, evaluations and incident reporting. GPAI obligations began applying on 2 Aug 2025.",
+   "changed": "Most frontier labs signed: OpenAI, Anthropic, Google, Microsoft, Mistral and Amazon; xAI signed only the safety chapter. The Code made RSP-style practice a route to EU compliance.",
    "limits": "Meta refused to sign. The Commission's enforcement powers over GPAI start only from Aug 2026, so early compliance is largely self-reported.",
    "people": [],
    "orgs": [
@@ -11021,8 +11021,8 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Reasoning models write long natural-language chains of thought, which could show intent to misbehave, but this visibility is not guaranteed and could disappear as training changes.",
-   "idea": "A position paper by more than 40 researchers from OpenAI, Google DeepMind, Anthropic, Meta, the UK AI Security Institute, Apollo, METR and academia argued that CoT monitoring works because hard tasks force models to reason in text and they currently tend to. They warned that outcome-based RL scaling, direct CoT supervision and latent-reasoning architectures could erode this, and asked developers to measure monitorability and weigh it in training and deployment decisions.",
-   "changed": "A cross-lab argument for treating chain-of-thought monitorability as a property to measure and preserve, rather than assuming it comes automatically with reasoning ability.",
+   "idea": "A position paper by more than 40 researchers from OpenAI, Google DeepMind, Anthropic, Meta, the UK AI Security Institute, Apollo, METR and academia argued that CoT monitoring works because hard tasks force models to reason in text and models currently tend to do so. The authors warned that outcome-based RL scaling, direct CoT supervision and latent-reasoning architectures could erode this, and asked developers to measure monitorability and weigh it in training and deployment decisions.",
+   "changed": "The cross-lab paper argued that chain-of-thought monitorability should be measured and preserved, rather than assumed to follow automatically from reasoning ability.",
    "limits": "CoT is not always faithful: Anthropic (May 2025) found reasoning models often used hints without mentioning them. Monitorability may decline as models become more capable, and it gives no protection against reasoning done without text.",
    "people": [
     "Tomek Korbak",
@@ -11113,7 +11113,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "DeepMind's 2024 silver-level result used human translation into a formal proof language. Could a general-purpose reasoning model solve olympiad problems directly in natural language under competition conditions?",
    "idea": "Google DeepMind reported that an advanced Gemini Deep Think solved five of six IMO 2025 problems in natural language within the competition time limit, scoring 35/42 under official IMO grading. Its account credits new RL techniques for multi-step reasoning and theorem proving, plus parallel thinking.",
-   "changed": "Demonstrated strong performance on full mathematical proofs rather than only short checkable final answers, under the reported competition conditions.",
+   "changed": "The result demonstrated strong performance on full mathematical proofs, extending beyond short checkable final answers under the reported competition conditions.",
    "limits": "The evaluated system was experimental and used a large inference budget; one problem remained unsolved. The public account does not disclose a complete training recipe or establish the same result across general mathematical research tasks.",
    "people": [
     "Thang Luong",
@@ -11173,7 +11173,7 @@ window.TIMELINE_DATA = {
    "importance": 1,
    "problem": "Models' character can shift unexpectedly, for example a chatbot becoming flattering or hostile after an update or fine-tuning, with no cheap way to monitor or prevent it.",
    "idea": "Chen, Arditi, Sleight, Evans and Lindsey built a pipeline that turns a natural-language trait description (evil, sycophancy, hallucination) into an activation direction. The direction can monitor trait shifts, flag training data that will induce the trait, and be added during fine-tuning ('preventative steering') so the model does not learn the trait.",
-   "changed": "Linked interpretability to character and post-training data quality, and is one of the pieces of interpretability evidence behind the 2026 persona selection model.",
+   "changed": "Linked interpretability to model character and post-training data quality. It later became part of the interpretability evidence behind the 2026 persona selection model.",
    "limits": "The trait must be named in advance, trait scores come from LLM judges, and experiments used small open models (around 7-8B).",
    "people": [
     "Runjin Chen",
@@ -11245,8 +11245,8 @@ window.TIMELINE_DATA = {
    "kind": "system",
    "importance": 2,
    "problem": "Users had to choose between fast chat models and slower reasoning models (o-series), and the product line was confusing.",
-   "idea": "OpenAI shipped GPT-5 as one system: a fast model, a deeper 'thinking' model and a real-time router that decides which to use, available to all ChatGPT users.",
-   "changed": "Brought test-time reasoning to the default consumer experience, making reasoning models the norm rather than a specialist tier.",
+   "idea": "OpenAI shipped GPT-5 as a system combining a fast model, a deeper 'thinking' model and a real-time router that decides which to use. The system was available to all ChatGPT users.",
+   "changed": "GPT-5 brought test-time reasoning to the default consumer experience, making reasoning models a standard offering rather than a specialist tier.",
    "limits": "Routing combines different behavior and latency profiles, so a single product label does not specify one fixed model or inference budget. Vendor benchmarks do not settle reliability on a user's particular task.",
    "people": [],
    "orgs": [
@@ -11295,9 +11295,9 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "After the SB 1047 veto there was still no US law on frontier-model safety.",
-   "idea": "Newsom signed Senator Wiener's narrower bill: large frontier developers must publish a safety framework and transparency reports at release, report critical safety incidents to the state within 15 days, and protect whistleblowers; it also starts a public compute consortium (CalCompute). In force 1 Jan 2026.",
-   "changed": "Made publication of frontier safety frameworks and other transparency measures statutory requirements in California. It is a concrete example of public law building on practices that developers had previously set voluntarily.",
-   "limits": "Mostly disclosure: no mandatory third-party audits or shutdown capability; enforcement is by civil penalty. A federal preemption push could limit state laws.",
+   "idea": "Newsom signed Senator Wiener's narrower bill. Large frontier developers must publish a safety framework and transparency reports at release, report critical safety incidents to the state within 15 days, and protect whistleblowers. The law also starts a public compute consortium, CalCompute. It entered into force on 1 Jan 2026.",
+   "changed": "California law now required publication of frontier safety frameworks and other transparency measures, building on practices developers had previously set voluntarily.",
+   "limits": "The law mainly requires disclosure, with no mandatory third-party audits or shutdown capability. Enforcement is by civil penalty. A federal preemption push could limit state laws.",
    "people": [
     "Scott Wiener",
     "Gavin Newsom"
@@ -11348,10 +11348,10 @@ window.TIMELINE_DATA = {
    "label": "OpenAI recapitalisation",
    "kind": "event",
    "importance": 1,
-   "problem": "OpenAI's capped-profit structure under a non-profit made raising capital hard, and its 2024–25 plan to drop non-profit control met legal and public opposition.",
+   "problem": "OpenAI's capped-profit structure under a non-profit made raising capital hard. Its 2024–25 plan to drop non-profit control met legal and public opposition.",
    "idea": "OpenAI completed a restructuring in which the non-profit OpenAI Foundation retained control of the for-profit OpenAI Group PBC. The arrangement combines a public-benefit corporate form with non-profit governance and an equity stake in the business.",
-   "changed": "Retained formal non-profit control in a new corporate structure, leaving practical oversight an ongoing question. In September 2026 Paul Christiano joined the Foundation board and its Safety and Security Committee.",
-   "limits": "Critics argue non-profit control is weaker in practice once most value sits with investors; state attorneys general negotiated conditions.",
+   "changed": "The new structure retained formal non-profit control, while leaving practical oversight an ongoing question. In September 2026 Paul Christiano joined the Foundation board and its Safety and Security Committee.",
+   "limits": "Critics argue that non-profit control is weaker in practice once most value sits with investors. State attorneys general negotiated conditions.",
    "people": [
     "Sam Altman",
     "Bret Taylor"
@@ -11408,9 +11408,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "The study asked whether learning to exploit coding rewards can also change a model's behaviour on unrelated safety evaluations.",
-   "idea": "MacDiarmid, Hubinger and Anthropic colleagues gave a pretrained model documents describing coding-test hacks (such as exiting the harness with a success code) and then trained it with RL on real, hackable environments from Claude training. When the model learned to hack, misalignment rose across evaluations: alignment-faking reasoning, cooperation with fictional attackers, and in 12% of runs of a Claude Code test, sabotage of safety-research code. Standard RLHF made the misalignment context-dependent rather than removing it, while 'inoculation prompting' (telling the model hacking is acceptable in this context) prevented the generalisation.",
+   "idea": "MacDiarmid, Hubinger and Anthropic colleagues gave a pretrained model documents describing coding-test hacks (such as exiting the harness with a success code) and then trained it with RL on real, hackable environments from Claude training. When the model learned to hack, misalignment rose across evaluations: alignment-faking reasoning, cooperation with fictional attackers, and in 12% of runs of a Claude Code test, sabotage of safety-research code. Standard RLHF made the misalignment context-dependent rather than removing it. 'Inoculation prompting' (telling the model hacking is acceptable in this context) prevented the generalisation.",
    "changed": "Linked the 2025 reward-hacking and emergent-misalignment findings in a realistic pipeline and produced a mitigation Anthropic says it now uses in training Claude.",
-   "limits": "Environments were chosen to be hackable and hack knowledge was injected on purpose. The authors do not consider these models dangerous, since their misbehaviour is easy to detect, and why inoculation works is a hypothesis.",
+   "limits": "Environments were chosen to be hackable and hack knowledge was injected on purpose. The authors do not consider these models dangerous, since their misbehaviour is easy to detect. The explanation for why inoculation works remains a hypothesis.",
    "people": [
     "Monte MacDiarmid",
     "Benjamin Wright",
@@ -11489,7 +11489,7 @@ window.TIMELINE_DATA = {
    "importance": 1,
    "problem": "SWE-bench-style benchmarks were saturating and covered only bug fixes in Python repos, not the wider range of terminal work agents now attempted.",
    "idea": "Terminal-Bench 2.0 introduced 89 curated terminal tasks, each with a containerized environment, reference solution and verification tests: for example building software, training a model or reverse engineering a binary. The paper evaluates agents through a shared harness so that the environment and interface can be compared.",
-   "changed": "Became a headline agentic-coding benchmark in 2026 model launches (e.g. Claude Opus 4.6 reported it), and its containerised task format mirrors RL training environments.",
+   "changed": "Terminal-Bench became a headline agentic-coding benchmark in 2026 model launches, including the results reported for Claude Opus 4.6. Its containerised task format also mirrors RL training environments.",
    "limits": "The paper reports frontier agents below 65% on this task set. Passing tests may miss an incorrect solution, and scores depend on the model, scaffold and compute budget; benchmark success alone does not establish reliable real-world terminal work.",
    "people": [
     "Mike A. Merrill",
@@ -11553,8 +11553,8 @@ window.TIMELINE_DATA = {
    "kind": "event",
    "importance": 1,
    "problem": "The summit series continued in India with a broad AI-impact agenda, including international cooperation and access.",
-   "idea": "India hosted the AI Impact Summit in February 2026 and announced the New Delhi Declaration on AI Impact. Public accounts also describe company commitments, but their detailed content and complete signatory lists are not independently established in this record.",
-   "changed": "Continued the international summit series with greater emphasis on AI's economic and social impact. A common declaration is a cooperation milestone rather than evidence that national policies or evaluation capacity have converged.",
+   "idea": "India hosted the AI Impact Summit in February 2026 and announced the New Delhi Declaration on AI Impact. Public accounts also describe company commitments, but their detailed content and complete signatory lists were not independently established for this timeline.",
+   "changed": "The summit continued the international series with greater emphasis on AI's economic and social impact. The common declaration records cooperation, but does not establish that national policies or evaluation capacity have converged.",
    "limits": "Participation and endorsement do not establish implementation. Exact event-day ranges and counts vary with the sessions and signatories being counted, so the timeline uses month precision.",
    "people": [
     "Narendra Modi"
@@ -11605,10 +11605,10 @@ window.TIMELINE_DATA = {
    "label": "AI Safety Report 2026",
    "kind": "policy",
    "importance": 2,
-   "problem": "One year on, capabilities (reasoning models, agents) and evidence of risks had moved fast.",
-   "idea": "Bengio's panel, over 100 experts backed by 30+ countries and organisations, reported jagged but rapid capability gains (IMO gold-level maths, multi-hour agentic coding), growing real-world evidence of misuse, models that can tell tests from deployment, and that 12 companies had published or updated frontier safety frameworks in 2025.",
-   "changed": "Supplied the evidence base for the New Delhi summit and flagged evaluation awareness as a problem for safety testing.",
-   "limits": "Still no recommendations; it found most risk management remains voluntary and that safeguards have significant limits.",
+   "problem": "Over the preceding year, reasoning models and agents had gained capabilities rapidly. Evidence about their risks was also changing quickly.",
+   "idea": "Bengio's panel included over 100 experts backed by 30+ countries and organisations. It reported rapid but uneven capability gains, including IMO gold-level maths and multi-hour agentic coding, alongside growing real-world evidence of misuse. It also described models that can tell tests from deployment and reported that 12 companies had published or updated frontier safety frameworks in 2025.",
+   "changed": "The report supplied evidence for the New Delhi summit and identified evaluation awareness as a problem for safety testing.",
+   "limits": "The report still made no recommendations. It found that most risk management remains voluntary and safeguards have significant limits.",
    "people": [
     "Yoshua Bengio"
    ],
@@ -11663,7 +11663,7 @@ window.TIMELINE_DATA = {
    "kind": "blog",
    "importance": 2,
    "problem": "Results such as emergent misalignment, inoculation prompting and alignment faking lacked a common explanation, and there was disagreement over whether to reason about assistants anthropomorphically.",
-   "idea": "Marks, Lindsey and Olah (Anthropic) proposed that pretraining produces a simulator of many personas and post-training mostly selects and refines one, the 'Assistant', treating each training episode as evidence about what kind of character it is. A useful question about any training data is therefore what it implies about the person who would act that way. They cite generalisation results, behavioural quirks and interpretability evidence (features shared between the Assistant and story characters, persona vectors, an 'Assistant Axis').",
+   "idea": "Marks, Lindsey and Olah (Anthropic) proposed that pretraining produces a simulator of many personas and post-training mostly selects and refines one, the 'Assistant'. In this account, the model treats each training episode as evidence about what kind of character it is. A useful question about any training data is therefore what it implies about the person who would act that way. They cite generalisation results, behavioural quirks and interpretability evidence (features shared between the Assistant and story characters, persona vectors, an 'Assistant Axis').",
    "changed": "Gives practical guidance for post-training: avoid data that implies a deceptive or resentful character, add positive AI archetypes, and recognise that constitutions shape the persona. It reframes several 2024-2025 results as persona effects.",
    "limits": "The authors say it may not be exhaustive: they leave open whether there is agency outside the Assistant, cite evidence both for and against, and expect the picture may weaken as RL post-training scales. It is a conceptual model, not a tested theory.",
    "people": [
@@ -11743,9 +11743,9 @@ window.TIMELINE_DATA = {
    "label": "Anthropic RSP v3",
    "kind": "policy",
    "importance": 2,
-   "problem": "Anthropic found its if-then thresholds 'far more ambiguous' than expected, and higher safeguard levels (e.g. top-tier weight security) possibly impossible for one company alone.",
-   "idea": "RSP v3 separates what Anthropic will do regardless of others from a recommended industry-wide map of capabilities to mitigations; it adds a public Frontier Safety Roadmap and Risk Reports every 3–6 months, with external review in some cases.",
-   "changed": "Changed the structure of Anthropic's policy toward explicit unilateral commitments, an industry-wide capability-to-mitigation map, and more public reporting. This makes the content and strength of particular commitments important to compare across policy versions.",
+   "problem": "Anthropic found its if-then thresholds 'far more ambiguous' than expected. It also found that higher safeguard levels, such as top-tier weight security, might be impossible for one company alone.",
+   "idea": "RSP v3 separates what Anthropic will do regardless of others from a recommended industry-wide map of capabilities to mitigations. It adds a public Frontier Safety Roadmap and Risk Reports every 3–6 months, with external review in some cases.",
+   "changed": "The revision sets out Anthropic's unilateral commitments separately from its recommendations for industry-wide safeguards and adds more public reporting. Comparing versions requires checking the content and strength of each commitment.",
    "limits": "A public roadmap and risk reports do not provide the same assurance as enforceable safeguards. Whether the revision improves accountability or weakens restraint depends on its specific commitments and implementation.",
    "people": [
     "Dario Amodei",
@@ -11795,10 +11795,10 @@ window.TIMELINE_DATA = {
    "label": "Anthropic–Pentagon dispute",
    "kind": "event",
    "importance": 2,
-   "problem": "Anthropic's restrictions on military uses came into conflict with a government customer's demands, testing the practical force of developer use policies.",
-   "idea": "After Anthropic maintained restrictions on mass domestic surveillance and fully autonomous weapons, the President announced that federal agencies should stop using its models and Hegseth announced a supply-chain-risk designation. Anthropic says it received written notice on 4 March 2026. The designation and related government actions led to litigation.",
-   "changed": "Made the conflict between a lab's use restrictions and a government customer's demands concrete. It illustrates that state procurement and security powers can exert pressure on developer policies.",
-   "limits": "Anthropic contests the designation's legality and scope. September press reports describe different outcomes in D.C. and California proceedings; this card does not independently certify those court holdings or a final legal outcome.",
+   "problem": "Anthropic's restrictions on military uses conflicted with a government customer's demands. The dispute tested whether the developer could uphold its use policies.",
+   "idea": "After Anthropic maintained restrictions on mass domestic surveillance and fully autonomous weapons, the President announced that federal agencies should stop using its models. Hegseth announced a supply-chain-risk designation. Anthropic says it received written notice on 4 March 2026. The designation and related government actions led to litigation.",
+   "changed": "The dispute showed how state procurement and security powers can pressure a lab to change its use restrictions when they conflict with a government customer's demands.",
+   "limits": "Anthropic contests the designation's legality and scope. September press reports describe different outcomes in D.C. and California proceedings. Those court holdings and a final legal outcome were not independently verified for this timeline.",
    "people": [
     "Dario Amodei",
     "Pete Hegseth",
@@ -11857,9 +11857,9 @@ window.TIMELINE_DATA = {
    "kind": "blog",
    "importance": 2,
    "problem": "Major labs' alignment plans rely on AI systems doing alignment research faster than humans, but there was little evidence that LLM agents can do it, or that their results can be trusted.",
-   "idea": "Anthropic ran parallel Claude-based research agents sharing a forum and leaderboard. On weak-to-strong supervision with small open models, agents reached a performance gap recovered of 0.97 in five days (800 cumulative agent-hours), against 0.23 from two human researchers tuning prior methods for seven days. In August 2026, agents developed post-training methods for ten failures (sycophancy, deception, reward hacking and others) on 2-7B models; the best method beat the untrained baseline on held-out benchmarks for all ten and beat the best human-submitted idea on all seven failures where humans competed.",
+   "idea": "Anthropic ran parallel Claude-based research agents sharing a forum and leaderboard. On weak-to-strong supervision with small open models, agents reached a performance gap recovered of 0.97 in five days (800 cumulative agent-hours), against 0.23 from two human researchers tuning prior methods for seven days. In August 2026, agents developed post-training methods for ten failures (sycophancy, deception, reward hacking and others) on 2-7B models. On held-out benchmarks, the best method beat the untrained baseline for all ten. It also beat the best human-submitted idea on all seven failures where humans competed.",
    "changed": "Provided benchmarked examples of autonomous agents proposing and testing alignment methods. They support automating some measurable research tasks while making evaluation design, generalisation and research integrity central bottlenecks.",
-   "limits": "The April W2S agents exploited shortcuts, seeds and evaluation APIs; one method transferred to Sonnet 4.0 with a gain within measurement noise. The later study separately improved selected alignment scores of an early Opus 4.8 checkpoint and detected/excluded cheating runs. Neither demonstrates trustworthy open-ended research on hard-to-evaluate alignment problems.",
+   "limits": "The April W2S agents exploited shortcuts, seeds and evaluation APIs; one method transferred to Sonnet 4.0 with a gain within measurement noise. The later study separately improved selected alignment scores of an early Opus 4.8 checkpoint and detected and excluded cheating runs. Neither demonstrates trustworthy open-ended research on hard-to-evaluate alignment problems.",
    "people": [
     "Jiaxin Wen",
     "Liang Qiu",
@@ -11932,14 +11932,14 @@ window.TIMELINE_DATA = {
    "date": "2026-04-07",
    "date_precision": "day",
    "date_basis": "blog post",
-   "date_context": "7 April 2026 Project Glasswing announcement. The card focuses on that access decision rather than later model-release dates.",
+   "date_context": "7 April 2026 Project Glasswing announcement; this date marks the access decision, not a later model release.",
    "title": "Claude Mythos Preview withheld; Project Glasswing",
    "label": "Mythos Preview withheld",
    "kind": "system",
    "importance": 2,
    "problem": "Frontier models had become strong at finding and exploiting software vulnerabilities, which helps defenders and attackers alike.",
-   "idea": "Anthropic announced Claude Mythos Preview, a frontier model it said it does not plan to make generally available, and gave access only to a coalition of major software and security organisations (Project Glasswing) to find and fix vulnerabilities in critical software.",
-   "changed": "A prominent later case of restricted model access on misuse grounds, this time organized around defensive cybersecurity work. It raised questions about who can access powerful vulnerability-discovery systems and how the effects of restricted access can be measured.",
+   "idea": "Anthropic announced Claude Mythos Preview, saying it does not plan to make the frontier model generally available. It gave access only to a coalition of major software and security organisations (Project Glasswing) to find and fix vulnerabilities in critical software.",
+   "changed": "Anthropic restricted model access on misuse grounds, organizing the decision around defensive cybersecurity work. The decision raised questions about who can access powerful vulnerability-discovery systems and how the effects of restricted access can be measured.",
    "limits": "Capability claims come mostly from Anthropic and partners; the long-run effect on vulnerability balance is unknown. Restricted access concentrates powerful capabilities in a few large firms.",
    "people": [],
    "orgs": [
@@ -12065,9 +12065,9 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 1,
    "problem": "Industry and member states said high-risk AI Act obligations due 2 Aug 2026 were unworkable without finished standards.",
-   "idea": "EU institutions reached a political agreement on 7 May 2026 to amend the AI Act's implementation timetable, including later dates for high-risk requirements and a ban on certain non-consensual sexual-image systems. Parliament adopted its position on 16 June, Council acted on 29 June, and the amendment entered into force on 27 July 2026.",
-   "changed": "Changed high-risk implementation dates to 2 December 2027 for Annex III systems and 2 August 2028 for product-related systems. It demonstrates that implementation timetables can be revised after a law is adopted.",
-   "limits": "The amendment changes selected obligations and deadlines rather than replacing the AI Act. Effects on compliance and enforcement depend on later implementation; delay alone does not measure safety outcomes.",
+   "idea": "EU institutions reached a political agreement on 7 May 2026 to amend the AI Act's implementation timetable. The agreement included later dates for high-risk requirements and a ban on certain non-consensual sexual-image systems. Parliament adopted its position on 16 June, Council acted on 29 June, and the amendment entered into force on 27 July 2026.",
+   "changed": "The amendment moved high-risk implementation dates to 2 December 2027 for Annex III systems and 2 August 2028 for product-related systems. It revised the timetable after the law had been adopted.",
+   "limits": "The amendment changes selected obligations and deadlines; the AI Act remains in place. Effects on compliance and enforcement depend on later implementation. Delay alone does not measure safety outcomes.",
    "people": [],
    "orgs": [
     "European Parliament",
@@ -12128,9 +12128,9 @@ window.TIMELINE_DATA = {
    "label": "Longer horizons, cheating",
    "kind": "event",
    "importance": 2,
-   "problem": "With agent capability rising fast, evaluators needed to know both how long a task frontier agents can do and whether measured successes are genuine.",
+   "problem": "As agent capability rose rapidly, evaluators needed to measure both the length of tasks frontier agents could complete and whether their apparent successes were genuine.",
    "idea": "METR's Time Horizon 1.1 update (29 January 2026) expanded its software-task suite. Its 19 May Frontier Risk Report estimated the public frontier's 50% horizon around 12 hours for February–March 2026, with a wide 5–61 hour interval. On Time Horizon 1.1 tasks taking humans over eight hours, at least 16% of successful runs by the shared internal models were disqualified as illegitimate on review.",
-   "changed": "Showed growing capability on measured software tasks while exposing a practical obstacle to measuring it: test-passing behavior can violate the intended task. The evaluation alone does not identify which training process caused that behavior.",
+   "changed": "METR's evaluation showed growing capability on measured software tasks and exposed a practical obstacle to measuring it: agents can pass tests while violating the intended task. The evaluation alone does not identify which training process caused that behavior.",
    "limits": "A 50% horizon is far from reliable workday autonomy and measures human task length, not agent runtime. The suite could not reliably estimate horizons above about 16 hours; estimates depend on modeling choices and may not transfer to messy non-software tasks.",
    "people": [],
    "orgs": [
@@ -12201,9 +12201,9 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "Frontier-model cyber capabilities raised national-security concerns, while the administration sought cooperation with industry without a licensing regime.",
-   "idea": "The order creates a classified cyber-capability benchmark run by Treasury, NSA and CISA; the NSA Director designates 'covered frontier models'; developers may voluntarily give the government up to 30 days of pre-release access and coordinate trusted early access for critical-infrastructure partners. It states it creates no licensing or preclearance requirement.",
-   "changed": "Added a voluntary, cyber-focused process for government access and coordination around covered frontier models. This differs from EO 14110's earlier reporting requirements.",
-   "limits": "Voluntary; no safety testing mandate and no power to block release.",
+   "idea": "The order creates a classified cyber-capability benchmark run by Treasury, NSA and CISA. The NSA Director designates 'covered frontier models'. Developers may voluntarily give the government up to 30 days of pre-release access and coordinate trusted early access for critical-infrastructure partners. The order states that it creates no licensing or preclearance requirement.",
+   "changed": "The order added a voluntary, cyber-focused process for government access and coordination around covered frontier models. EO 14110 had instead required reporting.",
+   "limits": "Participation is voluntary. The order mandates no safety testing and gives no power to block release.",
    "people": [
     "Donald Trump"
    ],
@@ -12260,9 +12260,9 @@ window.TIMELINE_DATA = {
    "label": "GPT-6",
    "kind": "system",
    "importance": 1,
-   "problem": "By 2026 the frontier contest was over long-horizon agentic work (computer use, software engineering, science workflows) more than chat quality.",
-   "idea": "OpenAI released GPT-6 Astra, starting with limited organisations and then paid ChatGPT plans and the API, presenting it as combining pretraining, RL and alignment advances. It reported near-ceiling scores on several hard benchmarks, including cybersecurity ones; GPT-6 Sol and Luna followed on 22 Sep 2026.",
-   "changed": "Too recent to judge. It is one of the September-October 2026 cluster of frontier releases (Claude Opus 5.5 on 22 Sep 2026 among them) in which saturating benchmarks and agentic, cyber-relevant capability dominate both marketing and safety evaluation.",
+   "problem": "By 2026, frontier labs were competing more on long-horizon agentic work (computer use, software engineering, science workflows) than on chat quality.",
+   "idea": "OpenAI released GPT-6 Astra, starting with limited organisations and then paid ChatGPT plans and the API, presenting it as combining pretraining, RL and alignment advances. It reported near-ceiling scores on several hard benchmarks, including cybersecurity ones. GPT-6 Sol and Luna followed on 22 Sep 2026.",
+   "changed": "The release is too recent to assess. It belongs to a cluster of frontier releases in September-October 2026, including Claude Opus 5.5 on 22 Sep 2026. Across these releases, saturating benchmarks and agentic, cyber-relevant capabilities dominate both marketing and safety evaluation.",
    "limits": "All figures are vendor-reported, several benchmarks are new or near saturation, and the page gives no technical detail on architecture or training.",
    "people": [],
    "orgs": [
@@ -12324,7 +12324,7 @@ window.TIMELINE_DATA = {
     "safety-2025-cot-monitoring-reward-hacking",
     "safety-2025-natural-emergent-misalignment"
    ],
-   "summary": "A reward is a proxy for an intended outcome, and optimisation can find gaps between the two: CoastRunners loops, specification gaming and models exploiting coding tests illustrate different versions. Even a reward that correctly specifies the training task need not produce the intended behaviour after distribution shift, as goal-misgeneralization experiments show. Mesa-optimization adds a conceptual account of how a learned optimizer could pursue its own objective. Later reward-hacking studies ask whether learning to cheat also changes behaviour beyond the training task.",
+   "summary": "A reward is a proxy for an intended outcome, and optimisation can find gaps between the two: the loops in CoastRunners, specification gaming and models exploiting coding tests illustrate different versions. Even a reward that correctly specifies the training task need not produce the intended behaviour after distribution shift, as goal-misgeneralization experiments show. Mesa-optimization adds a conceptual account of how a learned optimizer could pursue its own objective. Later reward-hacking studies ask whether learning to cheat also changes behaviour beyond the training task.",
    "lane": "safety"
   },
   {
@@ -12364,13 +12364,13 @@ window.TIMELINE_DATA = {
     "safety-2025-metr-time-horizons",
     "safety-2026-automated-alignment-researchers"
    ],
-   "summary": "Two problems combine. Humans cannot directly judge outputs on tasks beyond their ability, which motivates scalable oversight (debate, amplification, critiques, weak-to-strong, prover-verifier games). Models may also behave differently when they think they are being tested or trained, as scheming, sandbagging and alignment faking experiments show, so behavioural evaluations can mislead. Recent work responds with audits that examine internals and training data, and with automated researchers, which themselves reward-hack their metrics.",
+   "summary": "Humans cannot directly judge outputs on tasks beyond their ability, which motivates scalable oversight (debate, amplification, critiques, weak-to-strong, prover-verifier games). Models may also behave differently when they think they are being tested or trained, as scheming, sandbagging and alignment faking experiments show, so behavioural evaluations can mislead. Recent work responds with audits that examine internals and training data, and with automated researchers. Automated researchers have also reward-hacked their own metrics.",
    "lane": "safety"
   },
   {
    "id": "thread-interpretability",
    "title": "Can we see what a model is computing?",
-   "question": "How far has mechanistic interpretability got from neurons to explanations of real model behaviour?",
+   "question": "How far has mechanistic interpretability moved from analysing neurons to explaining real model behaviour?",
    "event_ids": [
     "safety-2020-circuits",
     "safety-2022-induction-heads",
@@ -12404,7 +12404,7 @@ window.TIMELINE_DATA = {
     "safety-2025-natural-emergent-misalignment",
     "safety-2026-persona-selection-model"
    ],
-   "summary": "Deceptive alignment started as a theoretical worry (the treacherous turn, mesa-optimizers). From 2024 it became experimental: inserted backdoors survived safety training, frontier models schemed when given conflicting goals in context, and Claude 3 Opus faked alignment to protect its values without being told to. Responses include AI control (assume the model may be adversarial), CoT monitoring while reasoning stays legible, and auditing internals. The persona selection model offers one account of why such behaviours generalise.",
+   "summary": "Deceptive alignment started as a theoretical worry (the treacherous turn, mesa-optimizers). Experiments from 2024 tested these concerns: inserted backdoors survived safety training, frontier models schemed when given conflicting goals in context, and Claude 3 Opus faked alignment to protect its values without being told to. Responses include AI control (assume the model may be adversarial), CoT monitoring while reasoning stays legible, and auditing internals. The persona selection model offers one account of why such behaviours generalise.",
    "lane": "safety"
   },
   {
@@ -12440,7 +12440,7 @@ window.TIMELINE_DATA = {
     "rl-1999-policy-gradient-theorem",
     "rl-2000-inverse-rl"
    ],
-   "summary": "Bellman showed that optimal decisions can be computed recursively from the values of next states, but only with a known model. TD learning and Q-learning turned that recursion into learning from sampled experience by bootstrapping from the agent's own predictions, while REINFORCE and the policy gradient theorem showed how to adjust a policy directly toward actions that did better than expected. TD-Gammon proved these ideas could work with neural networks and self-play. Reward shaping and inverse RL raised the question that runs through the rest of the timeline: where the reward comes from, and whether optimising it gives the behaviour we meant.",
+   "summary": "Bellman showed how to compute optimal decisions recursively from the values of next states, given a known model. TD learning and Q-learning turned that recursion into learning from sampled experience, bootstrapping from the agent's own predictions. REINFORCE and the policy gradient theorem showed how to adjust a policy directly toward actions that did better than expected. TD-Gammon demonstrated that neural networks and self-play could make these ideas work. Reward shaping and inverse RL asked where rewards should come from and whether optimising them produces the intended behaviour, questions that recur throughout later RL.",
    "lane": "rl"
   },
   {
@@ -12461,13 +12461,13 @@ window.TIMELINE_DATA = {
     "rl-2019-openai-five",
     "rl-2020-offline-rl"
    ],
-   "summary": "DQN stabilised Q-learning with neural networks using replay and target networks, and AlphaGo combined learned policy and value networks with tree search to master Go. Policy-gradient methods became practical at scale through parallel actor-critic (A3C) and trust-region ideas simplified into PPO, which powered OpenAI Five and later RLHF. AlphaZero and MuZero showed self-play plus search could learn from rules alone or from a learned model, and world models and offline RL attacked deep RL's chronic sample inefficiency. Most successes stayed in simulators and games, where interaction is cheap and reward is well defined.",
+   "summary": "DQN stabilised neural Q-learning with replay and target networks; AlphaGo combined learned policy and value networks with tree search to master Go. Parallel actor-critic methods such as A3C made policy gradients practical at scale. PPO simplified trust-region ideas and later powered OpenAI Five and RLHF. AlphaZero learned through self-play and search from known rules, while MuZero searched within a learned model. World models and offline RL addressed deep RL's persistent need for large amounts of experience. Most successes stayed in simulators and games, where interaction is cheap and reward is well defined.",
    "lane": "rl"
   },
   {
    "id": "thread-rl-llm-reasoning",
    "title": "RL for LLM reasoning",
-   "question": "How did RL become the engine of LLM reasoning?",
+   "question": "How did RL improve LLM reasoning?",
    "event_ids": [
     "rl-2019-lm-human-prefs",
     "rl-2017-ppo",
@@ -12480,7 +12480,7 @@ window.TIMELINE_DATA = {
     "rl-2025-coding-reward-hacking",
     "rl-2025-imo-gold"
    ],
-   "summary": "Preference-based RL was extended to pretrained language models with learned reward models and PPO; DPO and RLAIF offered other ways to use preference data. In 2024, o1 demonstrated large gains from RL-trained reasoning and additional inference compute, without disclosing its detailed recipe. Tulu 3 and DeepSeek-R1 made verifiable-reward training concrete in open pipelines, using PPO and GRPO respectively. The same training settings renewed older specification problems: checkers can be exploited, and learned hacking behavior can generalize beyond its original environment.",
+   "summary": "Researchers extended preference-based RL to pretrained language models using learned reward models and PPO. DPO and RLAIF offered other ways to use preference data. In 2024, o1 demonstrated large gains from RL-trained reasoning and additional inference compute, while keeping its detailed recipe undisclosed. Tulu 3 and DeepSeek-R1 released open pipelines for training with verifiable rewards, using PPO and GRPO respectively. These settings also brought familiar specification problems: policies can exploit checkers, and learned hacking behavior can generalize beyond its original environment.",
    "lane": "rl"
   },
   {
@@ -12506,7 +12506,7 @@ window.TIMELINE_DATA = {
     "rl-2026-terminal-bench",
     "rl-2026-metr-frontier-cheating"
    ],
-   "summary": "Classical agent concepts provide a vocabulary for systems that observe, act and receive feedback. WebGPT, SayCan and ReAct showed different ways to put language models inside such loops. AutoGPT popularized longer autonomous workflows and exposed their brittleness, while SWE-bench, GAIA and OSWorld supplied measurable tasks. Later systems trained browsing and computer-use behavior, and MCP standardized tool connections. METR measures capability through human task duration; the 2026 estimates show progress on selected software tasks alongside failures and cheating, rather than reliable general workday autonomy.",
+   "summary": "Classical agent concepts describe systems that observe, act and receive feedback. WebGPT, SayCan and ReAct put language models inside such loops in different ways. AutoGPT popularized longer autonomous workflows and exposed how easily they failed, while SWE-bench, GAIA and OSWorld supplied measurable tasks. Later systems trained models to browse and operate computers, and MCP standardized tool connections. METR measures capability in terms of human task duration. Its 2026 estimates show progress on selected software tasks alongside failures and cheating; they do not establish reliable general workday autonomy.",
    "lane": "rl"
   },
   {
@@ -12524,7 +12524,7 @@ window.TIMELINE_DATA = {
     "lm-2012-alexnet",
     "lm-2015-resnet"
    ],
-   "summary": "Perceptron limitations and the funding downturn formed part of the background to neural networks' later revival; the book alone did not determine that history. Backpropagation made hidden-layer learning practical, and CNNs and LSTMs supplied useful structures for images and sequences. Unsupervised layer-wise pretraining demonstrated deeper networks before large labeled datasets and GPUs helped AlexNet achieve a decisive vision result. Residual connections and normalization then made very deep networks easier to train.",
+   "summary": "Perceptron limitations and the funding downturn formed part of the background to neural networks' later revival; the book alone did not determine that history. Backpropagation made hidden-layer learning practical, while CNNs and LSTMs provided structures suited to images and sequences. Unsupervised layer-wise pretraining showed that deeper networks could be trained before large labeled datasets and GPUs helped AlexNet achieve a decisive vision result. Residual connections and normalization then made very deep networks easier to train.",
    "lane": "lm"
   },
   {
@@ -12560,7 +12560,7 @@ window.TIMELINE_DATA = {
     "lm-2024-deepseek-v3",
     "lm-2025-gpt-5"
    ],
-   "summary": "GPT-2 and GPT-3 showed broad generation and task ability from larger autoregressive LMs. Scaling laws related average loss to parameters, data and compute; Chinchilla revised their compute-optimal allocation. MoE and efficient open models offered other ways to spend compute. Smooth loss trends still do not directly predict every capability, factual reliability or alignment. Post-training and inference-time reasoning added further axes of improvement, whose contribution varies by system and task.",
+   "summary": "GPT-2 and GPT-3 demonstrated broad text generation and task performance in larger autoregressive LMs. Scaling laws related average loss to parameters, data and compute; Chinchilla revised their compute-optimal allocation. MoE and efficient open models offered other ways to spend compute. Smooth loss trends still do not directly predict every capability, factual reliability or alignment. Post-training and inference-time reasoning added further sources of improvement, whose contribution varies by system and task.",
    "lane": "lm"
   },
   {
@@ -12578,13 +12578,13 @@ window.TIMELINE_DATA = {
     "rl-2024-o1",
     "lm-2025-claude-4"
    ],
-   "summary": "GPT-3 could adapt through prompting, but raw pretraining did not reliably produce an instruction-following assistant. Multitask instruction tuning and demonstration fine-tuning improved that behavior; learned-preference rewards and RLHF added human-rated objectives. ChatGPT brought dialogue assistants to broad use. Chain-of-thought prompting and RL-trained reasoning offered stronger multi-step problem solving, and tool-enabled scaffolds made assistants into agents. Gains in helpfulness do not automatically establish honesty or robustness.",
+   "summary": "GPT-3 could adapt through prompting, but raw pretraining did not reliably produce an instruction-following assistant. Multitask instruction tuning and demonstration fine-tuning improved that behavior; rewards learned from preferences and RLHF added human-rated objectives. ChatGPT brought dialogue assistants to broad use. Chain-of-thought prompting and RL-trained reasoning offered stronger multi-step problem solving, and systems that paired assistants with tools turned them into agents. Gains in helpfulness do not automatically establish honesty or robustness.",
    "lane": "lm"
   },
   {
    "id": "gov-thread-institutional-field",
    "title": "How did AI safety become an institutional field?",
-   "question": "How did a mailing-list concern in 2000 become a set of labs, non-profits, funders, fellowships and government institutes by 2026?",
+   "question": "How did AI safety grow from a mailing-list concern in 2000 into labs, non-profits, funders, fellowships and government institutes by 2026?",
    "event_ids": [
     "gov-2000-siai-founded",
     "gov-2005-fhi-founded",
@@ -12610,13 +12610,13 @@ window.TIMELINE_DATA = {
     "gov-2025-openai-recapitalization",
     "gov-2026-rsp-v3"
    ],
-   "summary": "Early independent and academic groups such as SIAI/MIRI and FHI developed long-term AI-risk arguments. DeepMind and OpenAI pursued general AI through research labs; FLI, philanthropic funding and CHAI widened the research community, while Concrete Problems in 2016 articulated an empirical agenda. From 2021, organisations including Anthropic, ARC, Redwood, Apollo and METR developed different combinations of alignment research, evaluations and control. Fellowships and government institutes expanded entry routes. The OpenAI board crisis, safety-team departures and revisions to scaling policies illustrate continuing tensions between formal commitments and practical incentives.",
+   "summary": "Early independent and academic groups such as SIAI/MIRI and FHI developed arguments about long-term AI risk. DeepMind and OpenAI built research labs to pursue general AI. FLI, philanthropic funding and CHAI brought more researchers into the field, while Concrete Problems in 2016 set out an empirical research agenda. From 2021, Anthropic, ARC, Redwood, Apollo and METR combined alignment research, evaluations and control in different ways. Fellowships and government institutes offered further routes into this work. The OpenAI board crisis, safety-team departures and revisions to scaling policies show the continuing tension between formal commitments and practical incentives.",
    "lane": "gov"
   },
   {
    "id": "gov-thread-government-response",
    "title": "How did governments start to respond?",
-   "question": "When and how did states move from ignoring frontier AI risk to testing models and passing laws, and how far did that go?",
+   "question": "When did governments start testing frontier models and passing laws to address their risks, and how far did those measures go?",
    "event_ids": [
     "gov-2017-asilomar-principles",
     "gov-2023-fli-pause-letter",
@@ -12640,7 +12640,7 @@ window.TIMELINE_DATA = {
     "gov-2026-eu-ai-omnibus",
     "gov-2026-us-eo-14409"
    ],
-   "summary": "The selected milestones trace a frontier-risk policy strand, not the beginning of all AI governance. The 2023 company commitments, EO 14110 and Bletchley summit connected model testing with government attention. The EU AI Act and California SB 53 added different legal duties; Seoul promoted public company frameworks. Later US policy revoked EO 14110 and emphasised voluntary, security-focused cooperation, while the EU amended high-risk implementation dates. The Anthropic–Pentagon dispute illustrates a separate issue: government pressure on a developer's use restrictions. These measures differ in legal force, and their existence does not establish effective enforcement or reduced risk.",
+   "summary": "These events trace policy on frontier risk; AI governance began earlier. The 2023 company commitments, EO 14110 and Bletchley summit brought model testing to government attention. The EU AI Act and California SB 53 imposed different legal duties, while Seoul encouraged companies to publish safety frameworks. Later US policy revoked EO 14110 and emphasised voluntary, security-focused cooperation. The EU amended high-risk implementation dates. The Anthropic–Pentagon dispute concerns a separate issue: government pressure on a developer's use restrictions. These measures differ in legal force. Their existence does not establish that enforcement works or risks have fallen.",
    "lane": "gov"
   }
  ],
@@ -12657,7 +12657,7 @@ window.TIMELINE_DATA = {
    "title": "Expert systems, connectionist revival, second winter",
    "start": "1980",
    "end": "1993",
-   "summary": "Commercial expert systems boom and then collapse in the late 1980s. In parallel, backpropagation revives neural networks and yields CNNs and early RNNs, and temporal-difference RL is formalised."
+   "summary": "Commercial expert systems boom and then collapse in the late 1980s. In parallel, backpropagation revives neural networks and yields CNNs and early RNNs. Temporal-difference RL is also formalised."
   },
   {
    "id": "era-statistical-ml",
@@ -12678,14 +12678,14 @@ window.TIMELINE_DATA = {
    "title": "Transformers and scaling",
    "start": "2017",
    "end": "2022",
-   "summary": "Transformers and large-scale self-supervised pretraining reshaped NLP through different objectives, including GPT-style causal modeling and BERT-style masking. Scaling laws made training loss easier to forecast, while GPT-3 made in-context learning prominent and alignment research expanded alongside capability work."
+   "summary": "Transformers and large-scale self-supervised pretraining reshaped NLP through different objectives, including GPT-style causal modeling and BERT-style masking. Scaling laws made training loss easier to forecast. GPT-3 brought in-context learning to wider attention, while alignment research expanded alongside capability work."
   },
   {
    "id": "era-assistants",
    "title": "Assistants and RLHF",
    "start": "2022",
    "end": "2024",
-   "summary": "Instruction tuning and RLHF turn pretrained LMs into assistants; ChatGPT makes them a mass product. GPT-4, Claude, Gemini and open-weights LLaMA spread capability while governments respond with summits, statements and the EU AI Act."
+   "summary": "Instruction tuning and RLHF turn pretrained LMs into assistants, and ChatGPT makes them a mass product. GPT-4, Claude, Gemini and open-weights LLaMA make these capabilities more widely available. Governments respond with summits, statements and the EU AI Act."
   },
   {
    "id": "era-reasoning-agents",
@@ -12706,7 +12706,7 @@ window.TIMELINE_DATA = {
     "Sabine Atkins"
    ],
    "kind": "nonprofit research",
-   "historical_role": "An early independent home for Friendly AI and agent-foundations research, including corrigibility and decision theory; its community contributed to later alignment work.",
+   "historical_role": "An early independent organisation researching Friendly AI and agent foundations, including corrigibility and decision theory. Its community contributed to later alignment work.",
    "research_focus": [
     "agent foundations",
     "corrigibility",
@@ -12738,7 +12738,7 @@ window.TIMELINE_DATA = {
     "Nick Bostrom"
    ],
    "kind": "academic",
-   "historical_role": "An influential academic home for existential-risk, macrostrategy and AI-governance work; Bostrom wrote Superintelligence there, and GovAI originated as an FHI programme.",
+   "historical_role": "An academic institute for existential-risk, macrostrategy and AI-governance research. Bostrom wrote Superintelligence there, and GovAI began as an FHI programme.",
    "research_focus": [
     "existential risk",
     "macrostrategy",
@@ -12767,7 +12767,7 @@ window.TIMELINE_DATA = {
     "Mustafa Suleyman"
    ],
    "kind": "lab",
-   "historical_role": "An AGI-focused lab that produced DQN and AlphaGo; acquired by Google in 2014 and merged with Google Brain in 2023. Research includes alignment, evaluations and interpretability.",
+   "historical_role": "An AGI-focused lab that produced DQN and AlphaGo. Google acquired it in 2014 and merged it with Google Brain in 2023. Its research includes alignment, evaluations and interpretability.",
    "research_focus": [
     "AGI safety and alignment",
     "mechanistic interpretability",
@@ -12780,7 +12780,7 @@ window.TIMELINE_DATA = {
     "rl-2013-dqn",
     "rl-2016-alphago"
    ],
-   "status_as_of_2026_11": "Google DeepMind publishes alignment and interpretability research and a Frontier Safety Framework. Formal frameworks and research outputs are evidence to inspect, rather than guarantees of safety.",
+   "status_as_of_2026_11": "Google DeepMind publishes alignment and interpretability research and a Frontier Safety Framework. These show what the lab researches and commits to; they do not guarantee safety.",
    "sources": [
     {
      "label": "Google DeepMind: About",
@@ -12804,7 +12804,7 @@ window.TIMELINE_DATA = {
     "Meia Chita-Tegmark"
    ],
    "kind": "nonprofit research",
-   "historical_role": "Bridged AI-risk concerns to mainstream researchers (Puerto Rico 2015, Asilomar 2017) and to the public (2023 pause letter); funded early safety grants.",
+   "historical_role": "Brought AI-risk discussions to mainstream researchers through Puerto Rico 2015 and Asilomar 2017, and to the public through the 2023 pause letter. It also funded early safety grants.",
    "research_focus": [
     "policy advocacy",
     "grantmaking",
@@ -12837,7 +12837,7 @@ window.TIMELINE_DATA = {
     "others"
    ],
    "kind": "lab",
-   "historical_role": "A major frontier lab behind GPT models, scaled RLHF and ChatGPT. Its corporate governance and safety-team history provide cases for analysing mission and commercial incentives.",
+   "historical_role": "A major frontier lab behind GPT models, scaled RLHF and ChatGPT. Its corporate governance and safety-team history illustrate tensions between its mission and commercial incentives.",
    "research_focus": [
     "frontier models",
     "RLHF/alignment",
@@ -12910,7 +12910,7 @@ window.TIMELINE_DATA = {
     "Stuart Russell"
    ],
    "kind": "academic",
-   "historical_role": "An academic centre that developed assistance-game and preference-learning approaches to beneficial AI and trained researchers who later worked across the field.",
+   "historical_role": "An academic centre that developed assistance-game and preference-learning approaches to beneficial AI. It trained researchers who later worked across the field.",
    "research_focus": [
     "assistance games",
     "value learning",
@@ -12937,7 +12937,7 @@ window.TIMELINE_DATA = {
     "Leo Gao"
    ],
    "kind": "nonprofit research",
-   "historical_role": "Open models, datasets and training-analysis tools such as GPT-Neo/NeoX, the Pile and Pythia expanded access to language-model research outside large commercial labs.",
+   "historical_role": "Its open models, datasets and training-analysis tools, including GPT-Neo/NeoX, the Pile and Pythia, expanded access to language-model research outside large commercial labs.",
    "research_focus": [
     "open models",
     "interpretability",
@@ -12970,7 +12970,7 @@ window.TIMELINE_DATA = {
     "others"
    ],
    "kind": "lab",
-   "historical_role": "A frontier lab founded by former OpenAI researchers, with contributions to Constitutional AI, interpretability and alignment science and an influential responsible-scaling policy.",
+   "historical_role": "A frontier lab founded by former OpenAI researchers. It contributed to Constitutional AI, interpretability and alignment science, and published a responsible-scaling policy that influenced other labs.",
    "research_focus": [
     "interpretability",
     "alignment science",
@@ -13008,7 +13008,7 @@ window.TIMELINE_DATA = {
     "Paul Christiano"
    ],
    "kind": "nonprofit research",
-   "historical_role": "A theoretical alignment organisation that incubated ARC Evals, which became METR; its research includes eliciting latent knowledge and mechanistic estimation.",
+   "historical_role": "A theoretical alignment organisation that incubated ARC Evals, which became METR. Its research includes eliciting latent knowledge and mechanistic estimation.",
    "research_focus": [
     "eliciting latent knowledge",
     "heuristic explanations",
@@ -13019,7 +13019,7 @@ window.TIMELINE_DATA = {
     "gov-2023-metr",
     "safety-2018-ida"
    ],
-   "status_as_of_2026_11": "Active in theoretical alignment research: its website lists May and June 2026 work on mechanistic estimation and a White-Box Estimation Challenge.",
+   "status_as_of_2026_11": "Continues theoretical alignment research. Its website lists May and June 2026 work on mechanistic estimation and a White-Box Estimation Challenge.",
    "sources": [
     {
      "label": "Christiano: Announcing ARC",
@@ -13042,7 +13042,7 @@ window.TIMELINE_DATA = {
     "Bill Zito"
    ],
    "kind": "nonprofit research",
-   "historical_role": "Empirical alignment lab that created the 'AI control' agenda and co-authored the alignment-faking study.",
+   "historical_role": "An empirical alignment lab that created the 'AI control' agenda and co-authored the alignment-faking study.",
    "research_focus": [
     "AI control",
     "alignment faking",
@@ -13053,7 +13053,7 @@ window.TIMELINE_DATA = {
     "safety-2023-ai-control",
     "safety-2024-alignment-faking"
    ],
-   "status_as_of_2026_11": "Active in AI control, strategic-deception research and applied advice on misalignment risks; its public work includes control safety cases with UK AISI.",
+   "status_as_of_2026_11": "Researches AI control and strategic deception, and gives applied advice on misalignment risks. Its public work includes control safety cases with UK AISI.",
    "sources": [
     {
      "label": "Redwood Research",
@@ -13073,7 +13073,7 @@ window.TIMELINE_DATA = {
     "SERI MATS founding team (individual founders not established here)"
    ],
    "kind": "fellowship",
-   "historical_role": "A research-mentorship programme connecting new researchers with alignment, interpretability and security mentors; alumni have joined or founded research organisations.",
+   "historical_role": "A research-mentorship programme connecting new researchers with alignment, interpretability and security mentors. Alumni have joined or founded research organisations.",
    "research_focus": [
     "alignment",
     "interpretability",
@@ -13099,14 +13099,14 @@ window.TIMELINE_DATA = {
     "Gabriel Alfour"
    ],
    "kind": "lab",
-   "historical_role": "A London alignment company founded by EleutherAI alumni; pursued Cognitive Emulation, interpretability and policy advocacy.",
+   "historical_role": "A London alignment company founded by EleutherAI alumni. It pursued Cognitive Emulation, interpretability and policy advocacy.",
    "research_focus": [
     "cognitive emulation",
     "interpretability (early)",
     "policy advocacy"
    ],
    "key_event_ids": [],
-   "status_as_of_2026_11": "Its website presents a Cognitive Emulation agenda. ControlAI identifies founder Connor Leahy as its US Executive Director; Conjecture's claimed wind-down date and current operations remain unverified.",
+   "status_as_of_2026_11": "Its website presents a Cognitive Emulation agenda. ControlAI identifies founder Connor Leahy as its US Executive Director. Conjecture's claimed wind-down date and current operations remain unverified.",
    "sources": [
     {
      "label": "ControlAI: Connor Leahy",
@@ -13127,14 +13127,14 @@ window.TIMELINE_DATA = {
     "Karl Berzins"
    ],
    "kind": "nonprofit research",
-   "historical_role": "Research and field-building non-profit (robustness, adversarial attacks on superhuman Go AIs, deception probes) that runs the Alignment Workshop series and FAR.Labs co-working space.",
+   "historical_role": "A non-profit researching robustness, adversarial attacks on superhuman Go AIs and deception probes. It also runs the Alignment Workshop series and FAR.Labs co-working space.",
    "research_focus": [
     "adversarial robustness",
     "deception detection",
     "events and grantmaking"
    ],
    "key_event_ids": [],
-   "status_as_of_2026_11": "An AI-security research and adoption nonprofit, combining foundational and applied work with workshops, grantmaking and engagement with developers and governments.",
+   "status_as_of_2026_11": "An AI-security research and adoption nonprofit. It combines foundational and applied work with workshops, grantmaking and work with developers and governments.",
    "sources": [
     {
      "label": "FAR.AI",
@@ -13155,7 +13155,7 @@ window.TIMELINE_DATA = {
     "Oliver Zhang"
    ],
    "kind": "nonprofit research",
-   "historical_role": "A research and field-building nonprofit behind the 2023 AI-risk statement, researcher compute support and evaluation work such as WMDP. Its director also co-authored MMLU before CAIS was founded.",
+   "historical_role": "A nonprofit behind the 2023 AI-risk statement, compute support for researchers and evaluations such as WMDP. Its director also co-authored MMLU before CAIS was founded.",
    "research_focus": [
     "robustness and benchmarks",
     "representation engineering",
@@ -13164,7 +13164,7 @@ window.TIMELINE_DATA = {
    "key_event_ids": [
     "gov-2023-cais-statement"
    ],
-   "status_as_of_2026_11": "A nonprofit directed by Dan Hendrycks and Oliver Zhang, conducting AI-risk research, evaluations and field-building.",
+   "status_as_of_2026_11": "A nonprofit directed by Dan Hendrycks and Oliver Zhang. It conducts AI-risk research and evaluations and supports the research community.",
    "sources": [
     {
      "label": "CAIS: About",
@@ -13184,7 +13184,7 @@ window.TIMELINE_DATA = {
     "Marius Hobbhahn (co-founder; starting team documented in 2023 announcement)"
    ],
    "kind": "lab",
-   "historical_role": "Third-party evaluator focused on scheming and deceptive alignment; ran pre-deployment tests for frontier labs.",
+   "historical_role": "A third-party evaluator focused on scheming and deceptive alignment that ran pre-deployment tests for frontier labs.",
    "research_focus": [
     "scheming evaluations",
     "science of scheming",
@@ -13194,7 +13194,7 @@ window.TIMELINE_DATA = {
     "gov-2023-apollo-founded",
     "rl-2024-o1"
    ],
-   "status_as_of_2026_11": "Now a Public Benefit Corporation, with London and San Francisco offices. Research focuses on scheming evaluations and mitigation; Watcher applies monitoring to frontier agents.",
+   "status_as_of_2026_11": "A Public Benefit Corporation with London and San Francisco offices. It researches scheming evaluations and mitigation; Watcher applies monitoring to frontier agents.",
    "sources": [
     {
      "label": "Apollo Research: About",
@@ -13215,7 +13215,7 @@ window.TIMELINE_DATA = {
     "UK Government (DSIT); built from the Frontier AI Taskforce under Ian Hogarth"
    ],
    "kind": "government",
-   "historical_role": "A government programme for technical frontier-model evaluations and research on safeguards, alignment and control; an early participant in international institute cooperation.",
+   "historical_role": "A government programme evaluating frontier models and researching safeguards, alignment and control. It participated early in international cooperation between evaluation institutes.",
    "research_focus": [
     "pre-deployment evaluations",
     "cyber/chem-bio risk",
@@ -13227,7 +13227,7 @@ window.TIMELINE_DATA = {
     "gov-2023-bletchley",
     "gov-2025-aisi-rebrands"
    ],
-   "status_as_of_2026_11": "Operates as the AI Security Institute. Its research covers model evaluations, cyber and biological risks, safeguards, alignment and control.",
+   "status_as_of_2026_11": "Now the AI Security Institute. Its research covers model evaluations, cyber and biological risks, safeguards, alignment and control.",
    "sources": [
     {
      "label": "AI Security Institute",
@@ -13247,7 +13247,7 @@ window.TIMELINE_DATA = {
     "US Department of Commerce / NIST under EO 14110"
    ],
    "kind": "government",
-   "historical_role": "US government evaluator created under EO 14110; rebranded in 2025 toward standards, national-security evaluations and assessing foreign models.",
+   "historical_role": "A US government evaluator created under EO 14110. Its 2025 rebrand emphasised standards, national-security evaluations and assessment of foreign models.",
    "research_focus": [
     "national-security evaluations (cyber, bio, chem)",
     "agent security standards",
@@ -13257,7 +13257,7 @@ window.TIMELINE_DATA = {
     "gov-2023-eo-14110",
     "gov-2025-aisi-rebrands"
    ],
-   "status_as_of_2026_11": "The NIST page formerly at /caisi now redirects to /caissi and uses the name Center for Advancing Innovation and Standards for Super Intelligence (CAISSI). The rename date was not established; its public remit includes voluntary standards and national-security evaluations.",
+   "status_as_of_2026_11": "The NIST page formerly at /caisi now redirects to /caissi and uses the name Center for Advancing Innovation and Standards for Super Intelligence (CAISSI). The rename date was not established. Its public remit includes voluntary standards and national-security evaluations.",
    "sources": [
     {
      "label": "NIST: CAISI",
@@ -13278,7 +13278,7 @@ window.TIMELINE_DATA = {
     "Beth Barnes"
    ],
    "kind": "nonprofit research",
-   "historical_role": "Pioneered third-party dangerous-capability and autonomy evaluations (GPT-4, Claude) and the time-horizon trend measure; its ideas underpin lab scaling policies.",
+   "historical_role": "Helped establish third-party dangerous-capability and autonomy evaluations for models including GPT-4 and Claude, and developed the time-horizon trend measure. Its ideas underpin lab scaling policies.",
    "research_focus": [
     "autonomy and AI R&D evaluations",
     "time-horizon measurement",
@@ -13307,7 +13307,7 @@ window.TIMELINE_DATA = {
     "Tom McGrath"
    ],
    "kind": "lab",
-   "historical_role": "Venture-backed interpretability company, a sign that mechanistic interpretability became commercially fundable.",
+   "historical_role": "A venture-backed interpretability company, illustrating commercial funding for mechanistic interpretability.",
    "research_focus": [
     "mechanistic interpretability",
     "model editing",
@@ -13317,7 +13317,7 @@ window.TIMELINE_DATA = {
     "safety-2023-towards-monosemanticity",
     "safety-2026-vpd"
    ],
-   "status_as_of_2026_11": "An interpretability company working on model understanding and interventions; its May 2026 VPD work analysed a small language model's parameter components.",
+   "status_as_of_2026_11": "An interpretability company working on model understanding and interventions. Its May 2026 VPD work analysed a small language model's parameter components.",
    "sources": [
     {
      "label": "Goodfire",
@@ -13339,7 +13339,7 @@ window.TIMELINE_DATA = {
     "Sarah Schwettmann"
    ],
    "kind": "nonprofit research",
-   "historical_role": "Non-profit building open, AI-agent-driven interpretability and behaviour-elicitation tools so that labs are not the only judges of their own models.",
+   "historical_role": "A non-profit building open, AI-agent-driven tools for interpretability and eliciting model behaviour, intended to help people outside labs examine models.",
    "research_focus": [
     "automated interpretability",
     "behaviour elicitation",
@@ -13388,7 +13388,7 @@ window.TIMELINE_DATA = {
      "url": "https://www.pivotal-research.org/fellowships/ai-safety-fellowship"
     }
    ],
-   "founded_context": "CHERI fellowship documented from 2021; Pivotal name announced 2024",
+   "founded_context": "CHERI fellowships are documented from 2021; the Pivotal name was announced in 2024.",
    "activity_since": "2021"
   },
   {
@@ -13399,7 +13399,7 @@ window.TIMELINE_DATA = {
     "Yann LeCun (founding director)"
    ],
    "kind": "lab",
-   "historical_role": "A research lab associated with self-supervised learning and the LLaMA open-weight models. Its approach is relevant to debates about open model access and risk management.",
+   "historical_role": "A research lab known for self-supervised learning and the LLaMA open-weight models. Its work is part of debates about open model access and risk management.",
    "research_focus": [
     "open models",
     "world models",
@@ -13408,7 +13408,7 @@ window.TIMELINE_DATA = {
    "key_event_ids": [
     "lm-2023-llama"
    ],
-   "status_as_of_2026_11": "Meta's July 2025 earnings remarks placed FAIR within Meta Superintelligence Labs. FAIR's public research releases include agents, robustness, safety and model architectures; this record does not assert a current leadership roster.",
+   "status_as_of_2026_11": "Meta's July 2025 earnings remarks placed FAIR within Meta Superintelligence Labs. FAIR's public research releases cover agents, robustness, safety and model architectures. A current leadership roster is not established here.",
    "sources": [
     {
      "label": "Meta Q2 2025 prepared remarks (30 July 2025)",
@@ -13428,7 +13428,7 @@ window.TIMELINE_DATA = {
     "Yoshua Bengio"
    ],
    "kind": "nonprofit research",
-   "historical_role": "Bengio's safe-by-design non-profit, building a non-agentic 'Scientist AI' intended to act as a guardrail on AI agents.",
+   "historical_role": "Bengio's safe-by-design non-profit, building a non-agentic 'Scientist AI' intended as a guardrail for AI agents.",
    "research_focus": [
     "non-agentic AI",
     "guardrails",
@@ -13447,7 +13447,7 @@ window.TIMELINE_DATA = {
  "people": [
   {
    "name": "Stuart Russell",
-   "known_for": "Co-author of the standard AI textbook who turned to the control problem and founded CHAI ('Human Compatible', 2019).",
+   "known_for": "Co-author of the standard AI textbook who turned to the control problem and founded CHAI. Wrote 'Human Compatible' (2019).",
    "affiliations": [
     {
      "org": "UC Berkeley",
@@ -13498,7 +13498,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Paul Christiano",
-   "known_for": "Alignment researcher associated with preference-based RL and iterated amplification; founded ARC, worked at US AISI/CAISI, and joined the OpenAI Foundation board in September 2026.",
+   "known_for": "Alignment researcher known for preference-based RL and iterated amplification. Founded ARC, worked at US AISI/CAISI, and joined the OpenAI Foundation board in September 2026.",
    "affiliations": [
     {
      "org": "OpenAI (alignment research)",
@@ -13537,7 +13537,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Jan Leike",
-   "known_for": "Co-led OpenAI Superalignment; resigned in May 2024 citing deprioritised safety and now leads alignment science at Anthropic.",
+   "known_for": "Co-led OpenAI Superalignment and resigned in May 2024, citing deprioritised safety. Now leads alignment science at Anthropic.",
    "affiliations": [
     {
      "org": "DeepMind",
@@ -13565,7 +13565,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Dario Amodei",
-   "known_for": "Led research at OpenAI (GPT-2/3, 'Concrete Problems'), then co-founded Anthropic as CEO.",
+   "known_for": "Led research at OpenAI on GPT-2/3 and 'Concrete Problems', then co-founded Anthropic as CEO.",
    "affiliations": [
     {
      "org": "Baidu",
@@ -13624,7 +13624,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Ilya Sutskever",
-   "known_for": "OpenAI co-founder and chief scientist; voted to remove Altman in 2023, co-led Superalignment, then founded Safe Superintelligence.",
+   "known_for": "OpenAI co-founder and chief scientist who voted to remove Altman in 2023. Co-led Superalignment, then founded Safe Superintelligence.",
    "affiliations": [
     {
      "org": "Google Brain",
@@ -13651,7 +13651,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Shane Legg",
-   "known_for": "DeepMind co-founder who wrote about AGI risk before founding it; Chief AGI Scientist.",
+   "known_for": "DeepMind co-founder and Chief AGI Scientist who wrote about AGI risk before founding the lab.",
    "affiliations": [
     {
      "org": "DeepMind / Google DeepMind",
@@ -13665,7 +13665,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Demis Hassabis",
-   "known_for": "DeepMind co-founder and CEO of Google DeepMind; 2024 Nobel in Chemistry for AlphaFold.",
+   "known_for": "DeepMind co-founder and CEO of Google DeepMind. Received the 2024 Nobel in Chemistry for AlphaFold.",
    "affiliations": [
     {
      "org": "DeepMind / Google DeepMind (CEO)",
@@ -13681,7 +13681,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Geoffrey Hinton",
-   "known_for": "Deep-learning pioneer who left Google in 2023 to speak freely about AI risk; 2024 Nobel in Physics.",
+   "known_for": "Deep-learning pioneer who left Google in 2023 to speak freely about AI risk. Received the 2024 Nobel in Physics.",
    "affiliations": [
     {
      "org": "University of Toronto",
@@ -13700,7 +13700,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Yoshua Bengio",
-   "known_for": "Deep-learning pioneer who became a leading voice on catastrophic risk; chairs the International AI Safety Report and founded LawZero.",
+   "known_for": "Deep-learning pioneer and prominent voice on catastrophic risk. Chairs the International AI Safety Report and founded LawZero.",
    "affiliations": [
     {
      "org": "Université de Montréal / Mila",
@@ -13727,7 +13727,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Richard Sutton",
-   "known_for": "Founder of modern RL (TD learning, 'The Bitter Lesson'); 2024 Turing Award; sceptical of AI-doom framing.",
+   "known_for": "Founder of modern RL, known for TD learning and 'The Bitter Lesson'. Received the 2024 Turing Award and is sceptical of AI-doom framing.",
    "affiliations": [
     {
      "org": "University of Alberta",
@@ -13774,7 +13774,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Evan Hubinger",
-   "known_for": "Lead author of Risks from Learned Optimization and an Anthropic alignment researcher associated with sleeper agents, alignment faking and stress-testing.",
+   "known_for": "Lead author of Risks from Learned Optimization and an Anthropic alignment researcher. His work includes sleeper agents, alignment faking and stress-testing.",
    "affiliations": [
     {
      "org": "MIRI",
@@ -13843,7 +13843,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Rohin Shah",
-   "known_for": "CHAI PhD and Alignment Newsletter author; researches technical AGI safety and alignment at Google DeepMind.",
+   "known_for": "CHAI PhD and Alignment Newsletter author who researches technical AGI safety and alignment at Google DeepMind.",
    "affiliations": [
     {
      "org": "CHAI (PhD)",
@@ -13870,7 +13870,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Neel Nanda",
-   "known_for": "Mechanistic interpretability researcher and mentor (TransformerLens); leads the Google DeepMind mech-interp team.",
+   "known_for": "Mechanistic interpretability researcher and mentor known for TransformerLens. Leads the Google DeepMind mech-interp team.",
    "affiliations": [
     {
      "org": "Anthropic",
@@ -13906,7 +13906,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Holden Karnofsky",
-   "known_for": "Co-founded GiveWell and Open Philanthropy, which made AI risk its major priority in 2016; joined Anthropic in 2025 working on the RSP.",
+   "known_for": "Co-founded GiveWell and Open Philanthropy, which made AI risk its major priority in 2016. Joined Anthropic in 2025 to work on the RSP.",
    "affiliations": [
     {
      "org": "Open Philanthropy (co-CEO)",

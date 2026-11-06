@@ -21,6 +21,12 @@ assets and produces `data.js`; do not edit those generated post assets independe
 It rejects broken event references, relation types and calendar dates before writing.
 The local validation report checks structure, not historical truth or live source availability.
 
+The timeline combines era selection, event browsing and an adjacent reading panel.
+People, organisations and affiliation bars offer hover/focus previews and open a
+selected profile. Mobile readers switch between the map and reading area. The
+browser suite covers these transitions, history and focus restoration, source
+access, chart bounds and actual-theme layout in 26 scenarios.
+
 Use `quarto preview` to inspect the draft. A release render deliberately omits draft
 posts from the published site. Keep `draft: true` until the author chooses to publish.
 

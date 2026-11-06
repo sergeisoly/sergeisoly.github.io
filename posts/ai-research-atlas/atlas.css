@@ -1,6 +1,6 @@
 /* Paths to Alignment — interactive post styles.
    Layout concept: a research atlas inside a blog post. One wide map (compute band + four lanes),
-   an inline reading pane under it, then question routes, institutions and a glossary.
+   an adjacent event browser and reading pane, then question routes, institutions and a glossary.
    Palette and type follow sergeisoly.github.io and interesearch. Everything is scoped to .atlas. */
 .atlas {
   --paper: #faf9f5;
@@ -269,11 +269,6 @@
 .atlas .compute-table th, .atlas .compute-table td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid var(--rule); }
 .atlas .compute-table th { color: var(--muted); font-weight: 600; }
 .atlas .compute-table .num { white-space: nowrap; }
-.atlas .people-text { margin: 1rem 0; }
-.atlas .people-text section { padding: .9rem 0; border-bottom: 1px solid var(--rule); font-size: .85rem; }
-.atlas .people-text section h3 { font-size: 1.05rem; margin: 0 0 .4rem; }
-.atlas .people-text section p { color: var(--muted); margin: 0 0 .4rem; }
-.atlas .people-text section ul { margin: .4rem 0; }
 .atlas .org-search { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1rem; margin-top: 1.5rem; font-size: .82rem; color: var(--muted); }
 .atlas .org-search input { color: var(--ink); font: inherit; border: 1px solid var(--rule-2); border-radius: 4px; padding: .4rem .5rem; background: transparent; min-width: 0; width: 18rem; max-width: 100%; }
 .atlas .org[hidden] { display: none; }
@@ -295,3 +290,111 @@
 
 .atlas .map-labels .compute-heading b { font-size: .85rem; line-height: 1.1; }
 .atlas .map-labels .compute-heading .compute-unit { font-size: .6rem; line-height: 1.1; }
+
+/* Keep the map and its reading context in one workspace. The page owns vertical scrolling. */
+.atlas .timeline-workspace { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(25rem, 1fr); gap: 1.6rem; align-items: start; }
+.atlas .chart-column { min-width: 0; position: sticky; top: var(--chart-top, 1rem); align-self: start; }
+.atlas .reader-column { min-width: 0; border-left: 1px solid var(--rule); padding-left: 1.5rem; }
+.atlas .reader-column .pane { display: block; padding-top: 1rem; }
+.atlas .reader-column .pane .head { margin-bottom: 1.2rem; }
+.atlas .reader-column .pane .head h3 { font-size: 1.55rem; line-height: 1.23; scroll-margin-top: 1rem; }
+.atlas .reader-column .pane .side { margin-top: 1.3rem; }
+.atlas .reader-column .pane .foot { margin-top: 1.4rem; }
+.atlas .reader-column .pane .conn li { grid-template-columns: minmax(0, 1fr); gap: .05rem; }
+.atlas .reader-column .pane .head .people { line-height: 1.6; }
+.atlas .map .era-selected { fill: var(--blue); fill-opacity: .045; stroke: var(--blue); stroke-opacity: .45; stroke-width: 1; }
+.atlas .era-nav { margin-bottom: .8rem; scroll-margin-top: 1rem; }
+.atlas .era-nav > .eyebrow { display: block; margin-bottom: .3rem; }
+.atlas .era-buttons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .35rem; }
+.atlas .era-buttons button { font: .72rem/1.3 var(--sans); color: var(--muted); padding: .4rem .5rem; border: 1px solid var(--rule); border-radius: 4px; background: transparent; cursor: pointer; text-align: left; min-height: 44px; }
+.atlas .era-buttons button > span { display: block; }
+.atlas .era-buttons button .num { font-size: .65rem; margin-bottom: .1rem; }
+.atlas .era-buttons button[aria-pressed=true] { border-color: var(--blue); color: var(--blue); background: var(--lm-fill); }
+.atlas .era-buttons button:hover { border-color: var(--ink); }
+.atlas .search-results { margin: 0; padding: 0 0 .8rem; border: 0; border-bottom: 1px solid var(--rule); border-radius: 0; }
+.atlas .search-results .browser-heading { display: flex; flex-wrap: wrap; gap: .2rem .8rem; justify-content: space-between; align-items: baseline; margin-bottom: .4rem; }
+.atlas .search-results .browser-heading h3 { font: 500 1.06rem/1.3 var(--serif); margin: 0; }
+.atlas .search-results .browser-heading > span { color: var(--muted); font-size: .7rem; }
+.atlas .search-results ol { max-height: none; overflow: visible; }
+.atlas .search-results li { grid-template-columns: 4.8rem minmax(0, 1fr); padding: .4rem .3rem; font-size: .79rem; gap: .05rem .5rem; }
+.atlas .search-results li.current { background: var(--paper-2); box-shadow: inset 2px 0 var(--blue); }
+.atlas .search-results li a[aria-current=true] { color: var(--ink); font-weight: 600; }
+.atlas .search-results .result-date { font-size: .7rem; }
+.atlas .search-results .result-lane { font-size: .64rem; }
+.atlas .browser-pages { display: flex; justify-content: space-between; align-items: center; gap: .4rem; font-size: .72rem; color: var(--muted); margin-top: .45rem; }
+.atlas .text-button:disabled { color: var(--faint); cursor: default; text-decoration: none; }
+.atlas .era-summary { padding: 0 0 .45rem; border: 0; }
+.atlas .era-summary:last-of-type { border-bottom: 0; }
+.atlas .era-summary summary { font: .72rem/1.5 var(--sans); color: var(--muted); }
+.atlas .era-summary p { margin-top: .35rem; }
+.atlas .workspace-switch { display: none; }
+.atlas .preview-idea { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-top: .35rem; font-weight: 400; }
+.atlas .preview-action { display: block; font-size: .7rem; margin-top: .35rem; color: #cddbe1; }
+.atlas .tip { max-width: min(20rem, calc(100vw - 16px)); }
+.atlas .tip > br + span:not(.preview-action) { display: block; }
+
+/* One selected profile replaces the complete researcher/organisation text dump. */
+.atlas .profile-picker { display: grid; grid-template-columns: auto minmax(12rem, 1fr) auto; gap: .4rem .8rem; align-items: center; font-size: .8rem; margin: 1rem 0; }
+.atlas .profile-picker label { color: var(--muted); }
+.atlas .profile-picker input, .atlas .profile-choice select { font: inherit; color: var(--ink); border: 1px solid var(--rule-2); border-radius: 4px; padding: .45rem .5rem; background: var(--paper); width: 100%; min-width: 0; }
+.atlas .profile-choice { display: flex; gap: .6rem; grid-column: 1 / -1; }
+.atlas .profile-choice .atlas-btn { flex: none; }
+.atlas .profile-choice select { flex: 1; }
+.atlas .profile-picker #atlas-org-count { color: var(--muted); font-variant-numeric: tabular-nums; }
+.atlas .people-workspace { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(23rem, 1fr); gap: 1.6rem; align-items: start; }
+.atlas .people-workspace > div { min-width: 0; }
+.atlas .people-profile-dock { position: sticky; top: var(--profile-top, 1rem); }
+.atlas .profile-panel { border: 1px solid var(--rule-2); background: var(--paper); border-radius: 5px; padding: 1rem; min-width: 0; font-size: .87rem; scroll-margin-top: 4rem; }
+.atlas .profile-dock { margin-top: 1rem; }
+.atlas .profile-dock[hidden] { display: none; }
+.atlas .profile-head { display: flex; align-items: start; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
+.atlas .profile-head h3 { font-size: 1.45rem; margin: .25rem 0 0; scroll-margin-top: 4rem; }
+.atlas .profile-close { flex: none; border: 1px solid var(--rule-2); border-radius: 3px; background: transparent; color: var(--ink); font: 1.4rem/1 var(--sans); width: 32px; height: 32px; cursor: pointer; }
+.atlas .profile-body p { margin: 0 0 .8rem; }
+.atlas .profile-body h4 { font: 600 .7rem/1.5 var(--sans); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin: 1rem 0 .4rem; }
+.atlas .profile-body .date-context, .atlas .profile-body .now, .atlas .profile-kind { color: var(--muted); font-size: .8rem; }
+.atlas .profile-affiliations { list-style: none; margin: 0; padding: 0; }
+.atlas .profile-affiliations li { padding: .5rem .35rem; border-top: 1px solid var(--rule); }
+.atlas .profile-affiliations li.current { background: var(--paper-2); box-shadow: inset 2px 0 var(--blue); }
+.atlas .profile-affiliations li > .num { display: block; color: var(--muted); font-size: .75rem; margin-top: .1rem; }
+.atlas .profile-related ul { list-style: none; padding: 0; margin: 0 0 .8rem; }
+.atlas .profile-related li { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); gap: .6rem; padding: .35rem 0; border-top: 1px solid var(--rule); }
+.atlas .profile-related .num { font-size: .74rem; color: var(--muted); padding-top: .15rem; }
+.atlas .profile-sources a { display: block; font-size: .8rem; margin-top: .3rem; overflow-wrap: anywhere; }
+.atlas .profile-placeholder { color: var(--muted); font-size: .87rem; }
+.atlas .profile-placeholder p { margin: 0; }
+.atlas .people-chart .nm, .atlas .people-chart .role { cursor: pointer; }
+.atlas .people-chart .nm:hover, .atlas .people-chart .nm:focus, .atlas .people-chart .nm.profile-selected { fill: var(--blue); text-decoration: underline; }
+.atlas .people-chart .role:focus rect, .atlas .people-chart .role.profile-selected rect { fill-opacity: .35; stroke-width: 2; }
+.atlas .people-chart [data-profile]:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+@media (max-width: 1050px) {
+  .atlas .timeline-workspace, .atlas .people-workspace { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .atlas .chart-column, .atlas .people-profile-dock { position: static; }
+  .atlas .reader-column { border-left: 0; padding-left: 0; }
+  .atlas .workspace-switch { display: flex; justify-content: space-between; gap: .8rem; align-items: center; position: sticky; top: 0; z-index: 15; background: var(--paper); border-block: 1px solid var(--rule); padding: .6rem .2rem; margin: 0 0 .8rem; font-size: .85rem; }
+  .atlas .workspace-switch .card-chip { position: static; transform: none; display: block; box-shadow: none; border-radius: 3px; padding: .3rem .6rem; font-size: .8rem; width: auto; max-width: 75%; margin: 0; }
+  .atlas .workspace-switch .card-chip[hidden] { display: none; }
+  .atlas .reader-column .pane .head h3 { scroll-margin-top: 4rem; }
+  .atlas .era-nav { scroll-margin-top: 4rem; }
+  .atlas .profile-choice { flex-wrap: wrap; }
+  .atlas .profile-choice select { flex-basis: 75%; }
+}
+@media (max-width: 560px) {
+  .atlas .era-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .atlas .profile-picker { grid-template-columns: minmax(0, 1fr) auto; }
+  .atlas .profile-picker label { grid-column: 1 / -1; }
+  .atlas .profile-panel { padding: .8rem; }
+  .atlas .profile-choice select { max-width: 100%; flex-basis: 100%; }
+}
+.atlas .people-chart .role .role-hit { fill: transparent; stroke: none; fill-opacity: 0; pointer-events: all; }
+
+.atlas .pane-host[hidden] { display: none; }
+.atlas .profile-return { display: block; font-size: .8rem; margin: 0 0 .65rem; }
+@media (min-width: 1051px) {
+  .atlas .people-profile-dock .profile-panel { max-height: var(--profile-max, calc(100vh - 32px)); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  .atlas .people-profile-dock .profile-head { position: sticky; top: -1rem; z-index: 1; background: var(--paper); margin: -1rem -1rem .8rem; padding: 1rem; border-bottom: 1px solid var(--rule); }
+}
+
+.atlas .people-chart .role .lb { pointer-events: visiblePainted; cursor: pointer; }
+.atlas .people-chart .role:hover .lb, .atlas .people-chart .role:focus .lb { fill: var(--blue); text-decoration: underline; }

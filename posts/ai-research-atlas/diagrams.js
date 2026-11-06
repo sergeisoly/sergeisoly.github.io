@@ -30,7 +30,7 @@ ${curve("M160,82 C220,40 240,40 300,82", "action aₜ", 230, 44)}${curve("M300,1
 ${t(230, 198, "TD(0): V(s) ← V(s) + α [ r + γ V(s′) − V(s) ]", 'text-anchor="middle" font-size="10.5"')}`),
     },
     qLearning: {
-      caption: "Q-learning updates the value Q(s,a) of the action actually taken toward reward r plus the best estimated next-action value. α is the learning rate and γ the discount factor; s′ is the next state and a′ ranges over its actions. DQN approximates Q with a neural network.",
+      caption: "Q-learning updates Q(s,a), the estimated value of taking action a in state s. The target is reward r plus the discounted value of the best estimated next action. α is the learning rate and γ the discount factor; s′ is the next state and a′ ranges over its actions. DQN approximates Q with a neural network.",
       svg: wrap(`${box(30, 65, 150, 56, "Choose action", "var(--rl)", "e.g. ε-greedy from Q")}${box(290, 65, 140, 56, "Environment", "var(--ink-2)", "state transition")}
 ${curve("M180,78 C220,35 250,35 290,78", "action a", 235, 38)}${curve("M290,108 C245,150 220,150 180,108", "next state s′, reward r", 230, 160)}
 ${t(230, 192, "Q(s,a) ← Q(s,a) + α [ r + γ maxₐ′ Q(s′,a′) − Q(s,a) ]", 'text-anchor="middle" font-size="10.2"')}`),
@@ -88,7 +88,7 @@ ${t(230, 115, "maximize mean[ min(ρA, clip(ρ, 1−ε, 1+ε)A) ]", 'text-anchor
 ${t(230, 150, "positive A: incentive plateaus above ρ = 1+ε", 'text-anchor="middle" font-size="10"')}${t(230, 170, "negative A: incentive plateaus below ρ = 1−ε", 'text-anchor="middle" font-size="10"')}${t(230, 196, "Clipping limits incentive, not the actual policy change.", 'text-anchor="middle" font-size="10"')}`),
     },
     sae: {
-      caption: "Sparse autoencoder (dictionary learning): expand a dense activation into many sparse, more interpretable features, then reconstruct it. Features are found, not guaranteed to be the model's true units.",
+      caption: "A sparse autoencoder represents a dense activation using a larger set of sparsely active features, then reconstructs the activation. These learned features can be easier to interpret than individual neurons, but they are not guaranteed to match the model's underlying units.",
       svg: wrap(`${[0, 1, 2, 3].map((i) => `<circle cx="60" cy="${60 + i * 30}" r="9" style="fill:var(--lm)" opacity="0.8"/>`).join("")}${t(30, 200, "activation (d)", 'font-size="10"')}
 ${Array.from({ length: 12 }, (_, i) => `<circle cx="230" cy="${22 + i * 15}" r="6" style="fill:${[2, 7].includes(i) ? "var(--safety)" : "var(--line-2)"}"/>`).join("")}${t(190, 206, "sparse features (m ≫ d)", 'font-size="10"')}
 ${[0, 1, 2, 3].map((i) => `<circle cx="400" cy="${60 + i * 30}" r="9" style="fill:var(--lm)" opacity="0.5"/>`).join("")}${t(372, 200, "reconstruction", 'font-size="10"')}
@@ -102,12 +102,12 @@ ${t(330, 40, "proxy reward ↑", 'style="fill:var(--rl)" font-weight="600"')}${t
 <line x1="262" y1="30" x2="262" y2="178" style="stroke:var(--muted)" stroke-dasharray="3 3"/>${t(266, 70, "divergence", 'font-size="10" style="fill:var(--muted)"')}`),
     },
     control: {
-      caption: "AI control (Greenblatt et al.): assume the powerful model U may be scheming. A weaker trusted model T scores suspicion; the most suspicious outputs go to scarce human audit, others may be replaced by T.",
+      caption: "AI control (Greenblatt et al.) assumes that the powerful model U may be scheming. A weaker trusted model T rates how suspicious each output looks. A limited human-audit budget goes to the most suspicious outputs; some other outputs are replaced by T.",
       svg: wrap(`${box(4, 75, 136, 50, "Untrusted U", "var(--safety)", "strong, maybe adversarial")}${box(178, 75, 122, 50, "Trusted monitor T", "var(--rl)", "weak but honest")}${box(330, 15, 120, 44, "Human audit", "var(--ink-2)", "~2% budget")}${box(330, 80, 120, 44, "Defer to T", "var(--rl)", "rewrite output")}${box(330, 145, 120, 44, "Accept", "var(--ink-2)")}
 ${arrow(140, 100, 176, 100, "output")}${arrow(300, 88, 328, 40)}${arrow(300, 100, 328, 102)}${arrow(300, 112, 328, 165)}${t(318, 66, "very suspicious", 'text-anchor="end" font-size="10" style="fill:var(--muted)"')}${t(316, 140, "normal", 'text-anchor="end" font-size="10" style="fill:var(--muted)"')}`),
     },
     debate: {
-      caption: "AI safety via debate: two copies of a model argue opposite sides; a human judge who could not verify the full answer only needs to judge the most contested step.",
+      caption: "In the proposed debate setup, two copies of a model argue opposite sides. The aim is to give a human judge a specific disputed step to check, even when they cannot verify the full answer.",
       svg: wrap(`${box(20, 30, 120, 50, "Debater A", "var(--rl)", "claims: yes")}${box(320, 30, 120, 50, "Debater B", "var(--safety)", "claims: no")}${box(170, 140, 120, 50, "Human judge", "var(--ink-2)", "weaker than debaters")}
 ${curve("M140,48 C200,20 260,20 320,48", "argue, point to flaws", 230, 22)}${curve("M320,64 C260,92 200,92 140,64", "", 0, 0)}${arrow(80, 82, 190, 138, "")}${arrow(380, 82, 270, 138, "")}
 ${t(230, 120, "hope: lying is harder than refuting a lie", 'text-anchor="middle" font-size="10" style="fill:var(--muted)"')}`),
@@ -120,7 +120,7 @@ ${t(140, 200, "weak teacher", 'text-anchor="middle" font-size="10"')}${t(230, 20
 <line x1="360" y1="120" x2="360" y2="40" style="stroke:var(--ink-2)"/><line x1="356" y1="75" x2="364" y2="75" style="stroke:var(--ink-2)"/>${t(368, 82, "PGR = gap", 'font-size="10"')}${t(368, 96, "recovered", 'font-size="10"')}`),
     },
     scaling: {
-      caption: "Scaling laws: test loss falls as a smooth power law in compute, data and parameters (straight line on log–log axes). Chinchilla: for a fixed compute budget, scale data and parameters together.",
+      caption: "Scaling-law studies fit test loss as a power-law function of compute, data or parameter count: a straight line on log–log axes. Chinchilla studied how to divide a training budget between model size and data. Its compute-optimal allocation scales both together as the budget grows.",
       svg: wrap(`<line x1="50" y1="180" x2="440" y2="180" style="stroke:var(--line-2)"/><line x1="50" y1="180" x2="50" y2="20" style="stroke:var(--line-2)"/>
 <line x1="60" y1="35" x2="430" y2="165" style="stroke:var(--lm)" stroke-width="2.5"/>${[0, 1, 2, 3, 4, 5, 6].map((i) => `<circle cx="${80 + i * 55}" cy="${42 + i * 19.3 + (i % 2 ? 4 : -4)}" r="4" style="fill:var(--lm)"/>`).join("")}
 ${t(245, 200, "log compute", 'text-anchor="middle" font-size="10"')}${t(12, 100, "log loss", 'font-size="10" transform="rotate(-90 22 100)"')}${t(250, 60, "L(C) ≈ (C₀/C)^α")}${t(250, 78, "predictable loss ≠ predictable abilities", 'font-size="10" style="fill:var(--muted)"')}`),
@@ -168,7 +168,7 @@ ${t(230, 115, "Δ = log[πθ(yw|x)/πref(yw|x)] − log[πθ(yl|x)/πref(yl|x)]"
 ${t(230, 144, "loss = −log σ(βΔ)", 'text-anchor="middle" font-size="12"')}${t(230, 176, "yw: preferred answer · yl: rejected answer · x: prompt", 'text-anchor="middle" font-size="10"')}${t(230, 199, "β sets the scale; πref stays frozen.", 'text-anchor="middle" font-size="10"')}`),
     },
     ida: {
-      caption: "Iterated amplification and distillation: a human plus many copies of the current model solve harder questions by decomposition (amplify); a new model is trained to imitate that (distill); repeat.",
+      caption: "A human breaks a hard question into smaller questions that copies of the current model can answer. This is amplification. A new model learns to imitate their combined answer through distillation, and the cycle repeats.",
       svg: wrap(`${box(180, 15, 100, 40, "Hard question", "var(--ink-2)")}${[0, 1, 2].map((i) => `${box(60 + i * 120, 85, 100, 40, "sub-question", "var(--lm)", "model copy")}${arrow(230, 55, 110 + i * 120, 83)}`).join("")}
 ${box(20, 160, 180, 40, "Amplify: H + many models", "var(--rl)")}${box(260, 160, 180, 40, "Distill → faster model", "var(--safety)")}${arrow(200, 180, 258, 180)}${curve("M440,168 C462,120 462,36 282,30", "repeat", 428, 150)}`),
     },
@@ -178,7 +178,7 @@ ${box(20, 160, 180, 40, "Amplify: H + many models", "var(--rl)")}${box(260, 160,
 ${t(70, 190, "tree search (MCTS)", 'font-size="10"')}${box(270, 30, 170, 44, "Policy net p(a|s)", "var(--lm)", "which moves to try")}${box(270, 90, 170, 44, "Value net v(s)", "var(--lm)", "who is winning")}${box(270, 150, 170, 44, "Self-play", "var(--ink-2)", "new training games")}`),
     },
     evals: {
-      caption: "Capability vs. propensity: evaluations ask what a model can do (elicitation) and what it tends to do (behavior). A high score bounds neither the other nor behavior under new conditions.",
+      caption: "Capability evaluations ask what a model can do when researchers try to elicit its best performance. Propensity evaluations ask how it tends to behave. A score on one does not establish the other, or predict behavior under new conditions.",
       svg: wrap(`${box(20, 30, 190, 60, "Capability eval", "var(--lm)", "can it? (best elicitation)")}${box(250, 30, 190, 60, "Alignment / propensity eval", "var(--safety)", "would it? (default behavior)")}
 ${box(130, 130, 200, 56, "Threats to validity", "var(--ink-2)", "sandbagging · eval awareness · leakage")}${arrow(115, 92, 190, 128)}${arrow(345, 92, 270, 128)}`),
     },

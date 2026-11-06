@@ -20,6 +20,21 @@
   const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   const byId = new Map(D.events.map((e) => [e.id, e]));
+  const personId = (p) => p.id || p.name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const personById = new Map(D.people.map((p) => [personId(p), p]));
+  D.events.forEach((e) => (e.people || []).forEach((name) => { const id = personId({ name }); if (!personById.has(id)) personById.set(id, { name, key_event_ids: D.events.filter((event) => (event.people || []).includes(name)).map((event) => event.id) }); }));
+  const orgById = new Map(D.orgs.map((o) => [o.id, o]));
+  [...new Set([...D.events.flatMap((e) => e.orgs || []), ...D.people.flatMap((p) => (p.affiliations || []).map((a) => a.org))])].forEach((name) => {
+    if (!D.orgs.some((o) => orgMatches({ id: "", orgs: [name] }, o))) {
+      const id = `unlisted-${personId({ name })}`;
+      orgById.set(id, { id, name, key_event_ids: D.events.filter((e) => (e.orgs || []).includes(name)).map((e) => e.id), affiliations: D.people.flatMap((p) => (p.affiliations || []).filter((a) => a.org === name).map((a) => ({ ...a, person: p.name }))) });
+    }
+  });
+  const profileRecords = [...D.people.map((p) => ({ key: `person:${personId(p)}`, name: p.name, kind: "Person", text: [p.name, p.known_for, ...(p.affiliations || []).map((a) => a.org)].join(" ") })),
+    ...D.orgs.map((o) => ({ key: `org:${o.id}`, name: o.name, kind: "Organisation", text: [o.name, ...(o.aliases || []), ...(o.founders || []), o.historical_role, o.kind].join(" ") }))];
+  const allProfileRecords = [...personById].map(([id, p]) => ({ key: `person:${id}`, name: p.name, kind: "Person", text: [p.name, p.known_for, ...(p.affiliations || []).map((a) => a.org)].join(" ") })).concat([...orgById].map(([id, o]) => ({ key: `org:${id}`, name: o.name, kind: "Organisation", text: [o.name, ...(o.aliases || []), ...(o.founders || []), o.historical_role, o.kind].join(" ") })));
+  const profileHash = (key) => key && key.replace(/^person:/, "person-").replace(/^org:/, "organisation-");
+  const profileFromHash = (hash) => hash.startsWith("person-") ? `person:${hash.slice(7)}` : hash.startsWith("organisation-") ? `org:${hash.slice(13)}` : null;
   const laneById = new Map(D.lanes.map((l) => [l.id, l]));
   const incoming = new Map();
   D.events.forEach((e) => (e.links || []).forEach((ln) => {
@@ -27,7 +42,7 @@
     incoming.get(ln.to).push({ from: e.id, type: ln.type, note: ln.note });
   }));
 
-  const state = { selected: null, route: null, org: null, query: "", queryInput: "", minImp: 2, zoom: 1, lanes: new Set(D.lanes.map((l) => l.id)), quiz: false, focus: null, routeShown: (D.threads[0] || {}).id };
+  const state = { selected: null, route: null, org: null, query: "", queryInput: "", minImp: 2, zoom: 1, lanes: new Set(D.lanes.map((l) => l.id)), quiz: false, focus: null, era: null, browsePage: 0, profile: null, profileDock: "people", affiliationIndex: null, routeShown: (D.threads[0] || {}).id };
   const mounts = {};
   document.querySelectorAll("[data-atlas]").forEach((m) => { m.classList.add("atlas"); mounts[m.dataset.atlas] = m; });
 
@@ -87,6 +102,26 @@
     const era = D.eras[i], next = D.eras[i + 1];
     return [yearOfStr(era.start), next ? yearOfStr(next.start) : yearOfStr(era.end) + 1];
   }
+  function eraForYear(year) { return D.eras.findIndex((_, i) => { const [a, b] = eraRange(i); return year >= a && year < b; }); }
+  const inEra = (e) => state.era == null || (() => { const [a, b] = eraRange(state.era); return yearOf(e) >= a && yearOf(e) < b; })();
+  const browseEvents = () => D.events.filter((e) => state.lanes.has(e.lane) && lit(e) && inEra(e));
+  function renderEraNav() {
+    const host = $(".era-nav", mounts.map); if (!host) return;
+    const focusedEra = host.contains(document.activeElement) ? document.activeElement.dataset.era : null;
+    host.innerHTML = `<span class="eyebrow">Browse an era</span><div class="era-buttons" role="group" aria-label="Timeline eras"><button type="button" data-era="all" aria-pressed="${state.era == null}">All eras</button>${D.eras.map((era, i) => `<button type="button" data-era="${i}" aria-pressed="${state.era === i}"><span class="num">${String(era.start).slice(0, 4)}–${String(era.end).slice(0, 4)}</span><span>${esc(era.title)}</span></button>`).join("")}</div>`;
+    if (focusedEra != null) host.querySelector(`[data-era="${focusedEra}"]`)?.focus({ preventScroll: true });
+  }
+  function browseEra(index) {
+    saveHistory(true, true); state.era = index; state.browsePage = 0;
+    const list = browseEvents();
+    if (!list.some((e) => e.id === state.selected)) {
+      state.selected = null; state.focus = null;
+      if (list.length) select(list[0].id, { history: false, keepEra: true });
+      else { renderMap(); renderPane(); }
+    } else renderMap();
+    if (index != null && layout) { const [a, b] = eraRange(index); mapScroll.scrollLeft = Math.max(0, layout.X(a) - 12); if (layout.X(b) - layout.X(a) < mapScroll.clientWidth) jumpYear((a + b) / 2); }
+    updateOverview(); saveHistory();
+  }
   function computeLayout() {
     const evs = visible();
     const X = makeX(Y0, 24);
@@ -134,6 +169,7 @@
       const [ea, eb] = eraRange(i), a = Math.max(ea, Y0), b = Math.min(eb, 2027.1);
       if (b <= a) return;
       if (i % 2) el("rect", { x: X(a), y: 0, width: X(b) - X(a), height, style: "fill:var(--paper-2)", opacity: 0.7 }, svg);
+      if (state.era === i) el("rect", { x: X(a), y: 0, width: X(b) - X(a), height, class: "era-selected", "aria-hidden": "true" }, svg);
       const room = X(b) - X(a) - 10;
       const name = era.title.length * 6.6 < room ? era.title : era.title.length * 6.6 * 0.6 < room ? era.title.split(/[,&]/)[0].trim() : "";
       if (name) el("text", { x: X(a) + 6, y: 16, class: "era-name" }, svg, name);
@@ -242,7 +278,9 @@
       g.addEventListener("focus", () => { state.focus = e.id; });
       g.addEventListener("click", (ev) => { ev.stopPropagation(); select(e.id); });
       g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(e.id); } });
-      g.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}`));
+      g.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${esc(e.idea || e.problem || "")}</span>`));
+      g.addEventListener("focus", (ev) => { showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${esc(e.idea || e.problem || "")}</span>`); g.setAttribute("aria-describedby", "atlas-preview"); });
+      g.addEventListener("blur", hideTip);
       g.addEventListener("mousemove", moveTip);
       g.addEventListener("mouseleave", hideTip);
     }
@@ -252,7 +290,7 @@
       el("circle", { r: 7.5 }, g);
       el("text", { "text-anchor": "middle", y: 3.5 }, g, i + 1);
     });
-    renderContext(); renderOverview(); renderSearchResults();
+    renderContext(); renderOverview(); renderEraNav(); renderSearchResults(); updateWorkspaceSticky();
     const cnt = $("#atlas-count");
     if (cnt) { const n = state.query ? matches().length : 0; cnt.textContent = !state.query ? "" : n ? `${n} match${n > 1 ? "es" : ""}` : "No matches"; }
   }
@@ -294,12 +332,14 @@
   }
 
   function renderSearchResults() {
-    const host = $(".search-results", mounts.map);
-    if (!host) return;
-    host.hidden = !state.query;
-    if (!state.query) { host.innerHTML = ""; return; }
-    const results = matches();
-    host.innerHTML = `<p>${results.length ? `${results.length} matching event${results.length === 1 ? "" : "s"}. Select a title to read its card.` : "No matching events in this scope. Try a broader term or reset the view."}</p>${results.length ? `<ol>${results.map((e) => `<li><span class="num result-date">${esc(fmtDate(e))}</span><a href="#${esc(e.id)}" data-ev-card="${esc(e.id)}">${esc(e.title)}</a><span class="result-lane" style="color:${lc(e.lane)}">${esc(laneTitle(e.lane))}</span></li>`).join("")}</ol>` : ""}`;
+    const host = $(".search-results", mounts.map); if (!host) return;
+    const list = browseEvents(), pageSize = 4, pages = Math.max(1, Math.ceil(list.length / pageSize));
+    state.browsePage = Math.min(state.browsePage, pages - 1);
+    const start = state.browsePage * pageSize, era = state.era == null ? null : D.eras[state.era];
+    const scoped = Boolean(state.query || state.route || state.org);
+    const globalCount = D.events.filter((e) => state.lanes.has(e.lane) && lit(e)).length;
+    host.dataset.total = list.length; host.dataset.globalTotal = globalCount;
+    host.innerHTML = `<div class="browser-heading"><h3 tabindex="-1">${era ? esc(era.title) : "Events across the history"}</h3><span class="num">${list.length} ${scoped ? "matching " : ""}event${list.length === 1 ? "" : "s"}${era ? " in this era" : ""}</span></div>${era && era.summary ? `<details class="era-summary"><summary>About this era</summary><p>${esc(era.summary)}</p></details>` : ""}${state.query && era ? `<p>${globalCount} search match${globalCount === 1 ? "" : "es"} across all eras. <button class="text-button" data-era="all">Show all matches</button></p>` : ""}${list.length ? `<ol>${list.slice(start, start + pageSize).map((e) => `<li${state.selected === e.id ? ' class="current"' : ""}><span class="num result-date">${esc(fmtDate(e))}</span><a href="#${esc(e.id)}" data-ev-card="${esc(e.id)}"${state.selected === e.id ? ' aria-current="true"' : ""}>${esc(e.title)}</a><span class="result-lane" style="color:${lc(e.lane)}">${esc(laneTitle(e.lane))}</span></li>`).join("")}</ol><div class="browser-pages"><button type="button" class="text-button" data-browse-page="${state.browsePage - 1}"${state.browsePage ? "" : " disabled"}>← Previous</button><span class="num">${start + 1}–${Math.min(start + pageSize, list.length)} of ${list.length}</span><button type="button" class="text-button" data-browse-page="${state.browsePage + 1}"${state.browsePage + 1 < pages ? "" : " disabled"}>Next →</button></div>` : `<p>No events ${era ? "in this era " : ""}match the active lanes${scoped ? " and search or scope" : ""}. ${scoped ? '<button type="button" class="text-button" data-act="clear">Reset view</button>' : '<button type="button" class="text-button" data-era="all">Browse all eras</button>'}</p>`}`;
   }
 
   function yearAtX(x) {
@@ -329,13 +369,23 @@
     updateOverview();
   }
 
+  function workspaceInset() {
+    const header = document.getElementById("quarto-header");
+    return 16 + (header && getComputedStyle(header).position === "fixed" ? header.offsetHeight : 0);
+  }
+  function updateWorkspaceSticky() {
+    const chart = $(".chart-column", mounts.map); if (!chart) return;
+    chart.style.setProperty("--chart-top", `${Math.min(workspaceInset(), innerHeight - chart.offsetHeight - 16)}px`);
+    const profileDock = mounts.people && $(".people-profile-dock", mounts.people); if (profileDock) profileDock.style.setProperty("--profile-top", `${Math.min(workspaceInset(), innerHeight - profileDock.offsetHeight - 16)}px`);
+  }
   function updateChip() {
-    const chip = $(".card-chip", mounts.map), host = $(".pane-host", mounts.map);
-    if (!chip || !host) return;
-    const e = state.selected && byId.get(state.selected);
-    const r = host.getBoundingClientRect(), mr = $(".map", mounts.map).getBoundingClientRect();
-    chip.hidden = !e || r.top < innerHeight - 80 || mr.bottom < 0;
-    if (e) chip.textContent = `Read the card: ${e.label} ↓`;
+    const chip = $(".card-chip", mounts.map); if (!chip) return;
+    const e = state.selected && byId.get(state.selected); chip.hidden = !e;
+    if (e) chip.textContent = `Read: ${e.label} ↓`;
+  }
+  function readSelected() {
+    const heading = $(".pane h3", mounts.map), target = heading || $(".pane-host", mounts.map);
+    if (target) { target.scrollIntoView({ behavior: SMOOTH, block: "start" }); if (heading) heading.focus({ preventScroll: true }); }
   }
   function scrollMapTo(id, smooth = true) {
     const p = layout && layout.pos.get(id);
@@ -345,9 +395,9 @@
   }
 
   /* ---------- tooltip ---------- */
-  function showTip(ev, html) { tip.innerHTML = html; tip.hidden = false; moveTip(ev); }
-  function moveTip(ev) { tip.style.left = Math.min(ev.clientX + 14, innerWidth - 300) + "px"; tip.style.top = ev.clientY + 14 + "px"; }
-  function hideTip() { tip.hidden = true; }
+  function showTip(ev, html) { if (!tip) return; tip.innerHTML = html; tip.hidden = false; moveTip(ev); }
+  function moveTip(ev) { if (!tip) return; const r = ev.target && ev.target.getBoundingClientRect ? ev.target.getBoundingClientRect() : { left: 0, bottom: 0 }; const x = Number.isFinite(ev.clientX) ? ev.clientX : r.left, y = Number.isFinite(ev.clientY) ? ev.clientY : r.bottom; tip.style.left = Math.max(8, Math.min(x + 14, innerWidth - tip.offsetWidth - 8)) + "px"; tip.style.top = Math.max(8, Math.min(y + 14, innerHeight - tip.offsetHeight - 8)) + "px"; }
+  function hideTip() { if (tip) tip.hidden = true; }
 
   /* ---------- reading pane ---------- */
   function renderPane() {
@@ -380,7 +430,7 @@
         <div class="meta eyebrow"><span class="dot" style="background:${lc(e.lane)}"></span>${esc(laneTitle(e.lane))} · <span class="num">${esc(fmtDate(e))}</span>${e.kind ? " · " + esc(e.kind) : ""}</div>
         <h3 tabindex="-1">${esc(e.title)}</h3>
         ${e.date_context || e.date_basis ? `<p class="date-context">${esc(e.date_context || `Date basis: ${e.date_basis}.`)}</p>` : ""}
-        ${(e.people || []).length || (e.orgs || []).length ? `<div class="people">${esc((e.people || []).join(", "))}${(e.people || []).length && (e.orgs || []).length ? " · " : ""}${(e.orgs || []).map(orgLink).join(", ")}</div>` : ""}
+        ${(e.people || []).length || (e.orgs || []).length ? `<div class="people">${(e.people || []).map(personLink).join(", ")}${(e.people || []).length && (e.orgs || []).length ? " · " : ""}${(e.orgs || []).map(orgLink).join(", ")}</div>` : ""}
       </div>
       <div class="qa">
         ${block("", "The problem", e.problem)}
@@ -399,16 +449,20 @@
     </article>`;
   }
   function orgLink(name) {
-    const o = D.orgs.find((x) => orgMatches({ id: "", orgs: [name] }, x));
-    return o ? `<a href="#" data-org="${esc(o.id)}">${esc(name)}</a>` : esc(name);
+    const o = D.orgs.find((x) => orgMatches({ id: "", orgs: [name] }, x)) || [...orgById.values()].find((x) => x.name === name);
+    return o ? `<a href="#${profileHash(`org:${o.id}`)}" data-profile="org:${esc(o.id)}" aria-controls="atlas-profile" aria-expanded="${state.profile === `org:${o.id}`}">${esc(name)}</a>` : esc(name);
   }
 
+  function personLink(name) {
+    const p = [...personById.values()].find((x) => x.name.toLowerCase() === name.toLowerCase());
+    return p ? `<a href="#${profileHash(`person:${personId(p)}`)}" data-profile="person:${esc(personId(p))}" aria-controls="atlas-profile" aria-expanded="${state.profile === `person:${personId(p)}`}">${esc(name)}</a>` : esc(name);
+  }
   function snapshot() {
     return { selected: state.selected, route: state.route && state.route.id, org: state.org && state.org.id,
-      query: state.query, queryInput: state.queryInput, minImp: state.minImp, zoom: state.zoom, lanes: [...state.lanes], scrollLeft: mapScroll ? mapScroll.scrollLeft : 0 };
+      query: state.query, queryInput: state.queryInput, minImp: state.minImp, zoom: state.zoom, lanes: [...state.lanes], scrollLeft: mapScroll ? mapScroll.scrollLeft : 0, era: state.era, browsePage: state.browsePage, profile: state.profile, profileDock: state.profileDock, affiliationIndex: state.affiliationIndex, quiz: state.quiz, routeShown: state.routeShown };
   }
   function saveHistory(replace = false, preserveUrl = false) {
-    const url = preserveUrl ? location.href : `${location.pathname}${location.search}${state.selected ? "#" + state.selected : "#the-map"}`;
+    const url = preserveUrl ? location.href : `${location.pathname}${location.search}${state.profile ? "#" + profileHash(state.profile) : state.selected ? "#" + state.selected : "#the-map"}`;
     history[replace ? "replaceState" : "pushState"]({ ...(history.state || {}), atlas: snapshot() }, "", url);
   }
   function select(id, opts = {}) {
@@ -417,17 +471,21 @@
     if (opts.history !== false) saveHistory(true, true);
     state.selected = id; state.focus = id;
     const e = byId.get(id);
+    if (!opts.keepEra) state.era = eraForYear(yearOf(e));
+    if (state.era < 0) state.era = null;
+    if (state.profile) { state.profile = null; renderProfile(); }
     if (state.route && !state.route.event_ids.includes(id)) state.route = null;
     if (state.org && !orgMatches(e, state.org)) state.org = null;
     if (state.query && !textMatches(e, state.query)) { state.query = ""; state.queryInput = ""; }
     state.lanes.add(e.lane);
     if (!state.query && !state.route && !state.org && (e.importance || 2) < state.minImp) state.minImp = e.importance || 2;
     const hadFocus = mapSvg && mapSvg.contains(document.activeElement);
+    const index = browseEvents().findIndex((x) => x.id === id); if (index >= 0) state.browsePage = Math.floor(index / 4);
     syncControls(); renderMap(); renderPane();
     scrollMapTo(id, false); updateOverview();
     if (hadFocus || opts.focus) { const n = mapSvg.querySelector(".node.sel"); if (n) n.focus({ preventScroll: true }); }
     if (opts.history !== false) saveHistory(previous === id);
-    if (opts.card) { $(".pane-host", mounts.map).scrollIntoView({ behavior: SMOOTH, block: "start" }); const h = $(".pane h3", mounts.map); if (h) h.focus({ preventScroll: true }); }
+    if (opts.card) readSelected();
     else if (opts.reveal) mounts.map.scrollIntoView({ behavior: SMOOTH, block: "start" });
   }
   function step(dir, fromId = state.selected || state.focus, opts = { focus: true }) {
@@ -442,7 +500,7 @@
   }
   function resetView() {
     state.selected = null; state.focus = null; state.route = null; state.org = null; state.query = ""; state.queryInput = "";
-    state.minImp = 2; state.zoom = 1; state.lanes = new Set(D.lanes.map((l) => l.id));
+    state.era = null; state.browsePage = 0; state.profile = null; renderProfile(); state.minImp = 2; state.zoom = 1; state.lanes = new Set(D.lanes.map((l) => l.id));
     syncControls(); renderMap(); renderPane(); saveHistory();
   }
 
@@ -457,12 +515,13 @@
       <div class="group" role="group" aria-label="Zoom"><button class="atlas-btn" data-zoom="-1" aria-label="Zoom out">−</button><button class="atlas-btn" data-zoom="1" aria-label="Zoom in">+</button></div>
       <div class="group"><button class="atlas-btn" id="atlas-quiz" aria-pressed="${state.quiz}">Quiz: hide answers</button></div>`;
     syncControls();
-    $("#atlas-search").addEventListener("input", (ev) => { state.queryInput = ev.target.value; state.query = state.queryInput.trim(); reconcileSelection(); syncControls(); renderMap(); renderPane(); saveHistory(true); });
+    $("#atlas-search").addEventListener("input", (ev) => { state.queryInput = ev.target.value; state.query = state.queryInput.trim(); state.era = null; state.browsePage = 0; reconcileSelection(); syncControls(); renderMap(); renderPane(); saveHistory(true); });
     $("#atlas-detail").addEventListener("change", (ev) => { state.minImp = Number(ev.target.value); reconcileSelection(); renderMap(); renderPane(); saveHistory(true); });
     $("#atlas-quiz").addEventListener("click", (ev) => { state.quiz = !state.quiz; ev.currentTarget.setAttribute("aria-pressed", state.quiz); renderPane(); });
   }
   function syncControls() {
     const s = $("#atlas-detail"); if (s) { const scoped = Boolean(state.query || state.route || state.org); s.value = scoped ? "1" : String(state.minImp); s.disabled = scoped; s.title = scoped ? "Search, routes and organisations include every event in scope." : ""; }
+    const quiz = $("#atlas-quiz"); if (quiz) quiz.setAttribute("aria-pressed", state.quiz);
     const q = $("#atlas-search"); if (q && q.value !== state.queryInput) q.value = state.queryInput;
     document.querySelectorAll("[data-lane]").forEach((b) => b.setAttribute("aria-pressed", state.lanes.has(b.dataset.lane)));
   }
@@ -477,19 +536,20 @@
   function mountMap() {
     const m = mounts.map;
     if (!m) return;
-    m.innerHTML = `<div class="controls"></div><div class="context"></div><div class="search-results" hidden></div>
-      <div class="navigator"><div class="overview-heading"><span class="eyebrow">Whole history · linear time scale</span><span class="window-years num"></span></div><svg class="overview" viewBox="0 0 1000 52" preserveAspectRatio="none" role="img" aria-label="Whole timeline and current map window"></svg><div class="overview-axis" aria-hidden="true">${[1960, 1980, 2000, 2020].filter((y) => y >= Y0).map((y) => `<span style="left:${1.2 + (y - Y0) / (2027.1 - Y0) * 97.6}%">${y}</span>`).join("")}</div><div class="overview-range"><label for="atlas-year">Jump to year</label><input id="atlas-year" type="range" min="${Math.ceil(Y0)}" max="2026" step="1" value="2017"><span aria-hidden="true">← →</span></div></div>
+    m.innerHTML = `<div class="controls"></div><div class="context"></div><nav class="workspace-switch" aria-label="Timeline reading"><button type="button" class="text-button" data-act="locate">↑ Map</button><button type="button" class="card-chip" hidden></button></nav><div class="timeline-workspace"><section class="chart-column" aria-label="History map"><div class="era-nav" id="every-event-by-era"></div>
+      <div class="navigator"><div class="overview-heading"><span class="eyebrow">All years · linear time scale</span><span class="window-years num"></span></div><svg class="overview" viewBox="0 0 1000 52" preserveAspectRatio="none" role="img" aria-label="Whole timeline and current map window"></svg><div class="overview-axis" aria-hidden="true">${[1960, 1980, 2000, 2020].filter((y) => y >= Y0).map((y) => `<span style="left:${1.2 + (y - Y0) / (2027.1 - Y0) * 97.6}%">${y}</span>`).join("")}</div><div class="overview-range"><label for="atlas-year">Jump to year</label><input id="atlas-year" type="range" min="${Math.ceil(Y0)}" max="2026" step="1" value="2017"><span aria-hidden="true">← →</span></div></div>
       <div class="map"><div class="map-labels"></div><div class="map-scroll" tabindex="0" aria-label="Timeline, scroll sideways"><svg role="group" aria-label="Timeline of AI in four lanes. Use the left and right arrow keys to move between events."></svg></div></div>
       <div class="map-note"><span>Dot size marks importance; hollow dots are details. Drag or scroll sideways. ← → step through time.</span><span>Top band: estimated training compute (log scale). Dots are a curated selection; ${D.compute && D.compute.frontier_points ? "the line is the running maximum of documented estimates in the pinned dataset" : "a complete dataset envelope is unavailable; dots show the curated subset only"}. The time axis widens at 1990, 2010 and 2017 (marked //), so slopes are only comparable within a stretch. ${D.compute ? `<a href="${esc(D.compute.source_url || "https://epoch.ai/data/ai-models")}" target="_blank" rel="noopener">Epoch AI</a>, CC-BY.` : ""}</span></div>
-      <div class="compute-legend"><span><i class="confident"></i> Confident</span><span><i class="likely"></i> Likely</span><span><i class="speculative"></i> Speculative</span><span>Epoch row confidence; estimates are not error bars.</span></div>${computeDisclosure()}<div class="pane-host"></div><div class="tip" hidden></div><div class="sr-only" aria-live="polite"></div><button type="button" class="card-chip" hidden></button>`;
-    $(".card-chip", m).addEventListener("click", () => $(".pane-host", m).scrollIntoView({ behavior: SMOOTH, block: "start" }));
+      <div class="compute-legend"><span><i class="confident"></i> Confident</span><span><i class="likely"></i> Likely</span><span><i class="speculative"></i> Speculative</span><span>Epoch row confidence; estimates are not error bars.</span></div>${computeDisclosure()}</section><section class="reader-column" aria-label="Event browser and selected event"><div class="search-results"></div><div class="profile-dock" hidden></div><div class="pane-host"></div></section></div><div class="tip" id="atlas-preview" role="tooltip" hidden></div><div class="sr-only" aria-live="polite"></div>`;
+    $(".card-chip", m).addEventListener("click", readSelected);
     let chipRaf = 0; addEventListener("scroll", () => { if (!chipRaf) chipRaf = requestAnimationFrame(() => { chipRaf = 0; updateChip(); }); }, { passive: true });
     mapSvg = $(".map svg", m); overview = $(".overview", m); mapScroll = $(".map-scroll", m); labelsCol = $(".map-labels", m); tip = $(".tip", m);
     renderControls();
     overview.addEventListener("pointerdown", (ev) => { if (ev.button !== 0) return; const r = overview.getBoundingClientRect(); jumpYear(Y0 + Math.max(0, Math.min(1, (ev.clientX - r.left - r.width * .012) / (r.width * .976))) * (2027.1 - Y0)); });
     $("#atlas-year").addEventListener("input", (ev) => jumpYear(Number(ev.target.value)));
     mapScroll.addEventListener("scroll", updateOverview, { passive: true });
-    addEventListener("resize", () => { updateOverview(); updateChip(); });
+    addEventListener("resize", () => { updateOverview(); updateChip(); updateWorkspaceSticky(); });
+    if (window.ResizeObserver) new ResizeObserver(updateWorkspaceSticky).observe($(".chart-column", m));
     // drag to pan
     let drag = null;
     mapScroll.addEventListener("pointerdown", (ev) => { if (ev.target.closest(".node") || ev.pointerType !== "mouse") return; drag = { x: ev.clientX, s: mapScroll.scrollLeft, moved: false }; });
@@ -548,67 +608,139 @@
     const m = mounts.people;
     if (!m) return;
     if (!D.people.length && !D.orgs.length) { m.innerHTML = `<p class="eyebrow">Institutional data is still being compiled.</p>`; return; }
-    const A = 1995, NOW = 2026.85, NAME = 148, W = Math.max(760, Math.min(1180, m.clientWidth || 900)), BAR = 15, GAP = 4;
+    const A = 1995, NOW = 2026.85, NAME = 148, W = Math.max(680, Math.round(m.clientWidth > 1050 ? (m.clientWidth - 25.6) * 1.55 / 2.55 : m.clientWidth || 900)), BAR = 15, GAP = 4;
     const px = (y) => NAME + ((Math.max(A, Math.min(NOW, y)) - A) / (NOW - A)) * (W - NAME - 46);
     const span = (a) => { const f = yearOfStr(a.from || A); let t = a.to ? yearOfStr(a.to) : NOW; if (a.to && /^\d{4}\??$/.test(String(a.to))) t += 1; if (!isFinite(t)) t = NOW; return [isFinite(f) ? f : A, Math.max(t, f + 0.25)]; };
     const people = D.people.map((p) => {
-      const roles = (p.affiliations || []).map((a) => ({ ...a, s: span(a) })).sort((a, b) => a.s[0] - b.s[0]);
+      const roles = (p.affiliations || []).map((a, index) => ({ ...a, index, s: span(a) })).sort((a, b) => a.s[0] - b.s[0]);
       const ends = [];
       roles.forEach((r) => { let k = ends.findIndex((e) => e <= r.s[0] + 0.01); if (k < 0) { k = ends.length; ends.push(0); } ends[k] = r.s[1]; r.track = k; });
       return { ...p, roles, tracks: Math.max(1, ends.length), first: roles.length ? roles[0].s[0] : 2100 };
     }).sort((a, b) => a.first - b.first);
     let y = 30; const rows = people.map((p) => { const top = y; y += p.tracks * (BAR + GAP) + 9; return top; });
     const H = y + 4;
-    let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Where ${people.length} researchers worked, 1995 to 2026">`;
+    let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Researcher affiliations, 1995 to 2026. Select a name or affiliation to open its profile.">`;
     for (let yr = 2000; yr <= 2025; yr += 5) svg += `<line x1="${px(yr)}" x2="${px(yr)}" y1="20" y2="${H}" class="gl"/><text x="${px(yr)}" y="13" text-anchor="middle" class="yr">${yr}</text>`;
     svg += `<line x1="${px(NOW)}" x2="${px(NOW)}" y1="20" y2="${H}" class="now"/><text x="${px(NOW)}" y="13" text-anchor="middle" class="yr">now</text>`;
     people.forEach((p, i) => {
       const top = rows[i], h = p.tracks * (BAR + GAP) - GAP;
       if (i) svg += `<line x1="0" x2="${W}" y1="${top - 5}" y2="${top - 5}" class="sep"/>`;
-      svg += `<text x="0" y="${top + 11.5}" class="nm">${esc(p.name)}${p.known_for ? `<title>${esc(p.known_for)}</title>` : ""}</text>`;
+      svg += `<text x="0" y="${top + 11.5}" class="nm" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" aria-label="Open profile: ${esc(p.name)}">${esc(p.name)}${p.known_for ? `<title>${esc(p.known_for)}</title>` : ""}</text>`;
       const byTrack = {};
       p.roles.forEach((r) => (byTrack[r.track] = byTrack[r.track] || []).push(r));
       p.roles.forEach((r) => {
         const x1 = px(r.s[0]), x2 = px(r.s[1]), by = top + r.track * (BAR + GAP), tone = toneFor(r.org);
         const open = !r.to, name = r.org.replace(/\s*\(.*?\)\s*/g, " ").trim();
-        svg += `<g class="role${r.uncertain ? " unsure" : ""}"><rect x="${x1}" y="${by}" width="${Math.max(3, x2 - x1 - 1.5)}" height="${BAR}" rx="2.5" style="fill:var(--${tone});stroke:var(--${tone})"/>`;
+        svg += `<g class="role${r.uncertain ? " unsure" : ""}" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" data-affiliation="${r.index}" aria-label="${esc(p.name)} at ${esc(r.org)}, ${esc(r.from || "start unknown")} to ${esc(r.to || "present")}${r.uncertain ? ", dates uncertain" : ""}. Open affiliation details."><rect class="role-hit" x="${x1 - 4}" y="${by - 3}" width="${Math.max(16, x2 - x1 + 8)}" height="${BAR + 6}"/><rect class="role-bar" x="${x1}" y="${by}" width="${Math.max(3, x2 - x1 - 1.5)}" height="${BAR}" rx="2.5" style="fill:var(--${tone});stroke:var(--${tone})"/>`;
         if (open) svg += `<path d="M${x2 - 1.5},${by} l5,${BAR / 2} l-5,${BAR / 2}" style="fill:var(--${tone})" class="tip-arrow"/>`;
-        svg += `<title>${esc(r.org)}: ${esc(r.from || "?")}–${esc(r.to || "present")}${r.uncertain ? " (dates uncertain)" : ""}</title></g>`;
+        svg += `<title>${esc(r.org)}: ${esc(r.from || "?")}–${esc(r.to || "present")}${r.uncertain ? " (dates uncertain)" : ""}</title>`;
         const next = (byTrack[r.track] || []).find((o) => o.s[0] >= r.s[1] - 0.01);
         const room = (next ? px(next.s[0]) : W) - x2, w = name.length * 5.9 + 10;
         if (x2 - x1 > w) svg += `<text x="${x1 + 5}" y="${by + 11}" class="lb">${esc(name)}</text>`;
         else if (room > w && !open) svg += `<text x="${x2 + 4}" y="${by + 11}" class="lb out">${esc(name)}</text>`;
         else { const prev = (byTrack[r.track] || []).filter((o) => o.s[1] <= r.s[0] + 0.01).pop(); if (x1 - (prev ? px(prev.s[1]) : NAME + 70) > w) svg += `<text x="${x1 - 4}" y="${by + 11}" text-anchor="end" class="lb out">${esc(name)}</text>`; }
+        svg += `</g>`;
       });
     });
     svg += `</svg>`;
     const kinds = [["lm", "Lab"], ["rl", "Nonprofit research"], ["gov", "Academic"], ["safety", "Government"], ["grey", "Other"]];
-    const orgYear = (o) => String(o.founded || o.activity_since || "");
-    const orgs = D.orgs.slice().sort((a, b) => (orgYear(a) || "9999").localeCompare(orgYear(b) || "9999"));
-    m.innerHTML = `${people.length ? `<div class="people-chart">${svg}</div><div class="legend">${kinds.map(([t, n]) => `<span><i style="background:color-mix(in srgb, var(--${t}) 17%, transparent);border-color:color-mix(in srgb, var(--${t}) 60%, transparent)"></i>${n}</span>`).join("")}<span>An arrow means the role continues; a dashed outline marks uncertain dates. Hover a bar for details.</span></div>` : ""}
-      ${people.length ? `<details class="people-text"><summary>Researcher roles and related events, in text</summary>${people.map((p) => `<section><h3>${esc(p.name)}</h3>${p.known_for ? `<p>${esc(p.known_for)}</p>` : ""}<ul>${p.roles.map((r) => `<li>${orgLink(r.org)}: ${esc(r.from || "start unknown")}–${esc(r.to || "present")}${r.uncertain ? " (dates uncertain)" : ""}</li>`).join("")}</ul>${(p.key_event_ids || []).filter((id) => byId.has(id)).map((id) => `<a href="#${esc(id)}" data-ev-card="${esc(id)}">${esc(byId.get(id).title)}</a>`).join(" · ")}</section>`).join("")}</details>` : ""}
-      <div class="org-search"><label for="atlas-org-search">Find an organisation</label><input id="atlas-org-search" type="search" placeholder="Name, founder or research area"><span id="atlas-org-count" aria-live="polite">${orgs.length} organisations</span></div><div class="orgs">${orgs.map((o) => `<div class="org" data-org-name="${esc([o.name, ...(o.aliases || []), ...(o.founders || []), o.historical_role, o.kind].join(" ").toLowerCase())}"><span class="yr">${esc(orgYear(o).slice(0, 4) || "—")}${!o.founded && o.activity_since ? "<small>activity</small>" : ""}</span><div class="nm">${esc(o.name)}<span class="kind">${esc(o.kind || "")}${(o.founders || []).length ? " · " + esc(o.founders.slice(0, 4).join(", ")) : ""}</span></div><div>${o.founded_context ? `<p class="date-context">${esc(o.founded_context)}. Founding date not established here.</p>` : ""}<p>${esc(o.historical_role || "")}</p>${o.status_as_of_2026_11 ? `<p class="now">As of November 2026: ${esc(o.status_as_of_2026_11)}</p>` : ""}<div class="acts">${(o.key_event_ids || []).length ? `<a href="#" data-org="${esc(o.id)}">Show its work on the map ↑</a>` : ""}${(o.sources || []).map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label || "Source")}</a>`).join("")}</div></div></div>`).join("")}</div>`;
-    $("#atlas-org-search", m).addEventListener("input", (ev) => {
-      const words = ev.target.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-      let count = 0;
-      m.querySelectorAll("[data-org-name]").forEach((n) => { n.hidden = !words.every((w) => n.dataset.orgName.includes(w)); if (!n.hidden) count++; });
-      $("#atlas-org-count", m).textContent = `${count} organisation${count === 1 ? "" : "s"}`;
+    m.innerHTML = `<div class="profile-picker"><label for="atlas-org-search">Find a person or organisation</label><input id="atlas-org-search" type="search" placeholder="Name, affiliation or research area" aria-controls="atlas-profile-select"><span id="atlas-org-count" aria-live="polite"></span><div class="profile-choice"><select id="atlas-profile-select" aria-label="Choose a person or organisation"></select><button type="button" class="atlas-btn" data-act="open-profile-choice">Open profile</button></div></div><div class="people-workspace"><div>${people.length ? `<div class="people-chart">${svg}</div><div class="legend">${kinds.map(([t, n]) => `<span><i style="background:color-mix(in srgb, var(--${t}) 17%, transparent);border-color:color-mix(in srgb, var(--${t}) 60%, transparent)"></i>${n}</span>`).join("")}<span>An arrow marks a continuing role; a dashed outline marks uncertain dates. Select a name or bar for details.</span></div>` : ""}</div><div class="people-profile-dock"></div></div>`;
+    profilePanel = document.createElement("section"); profilePanel.className = "profile-panel"; profilePanel.setAttribute("aria-label", "Selected profile");
+    const filterProfiles = () => {
+      const words = $("#atlas-org-search", m).value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      const list = (words.length ? allProfileRecords : profileRecords).filter((r) => words.every((w) => r.text.toLowerCase().includes(w)));
+      const curated = new Set(profileRecords.map((r) => r.key));
+      const select = $("#atlas-profile-select", m);
+      select.innerHTML = list.length ? ["Person", "Organisation"].map((kind) => `<optgroup label="${kind === "Person" ? "People" : "Organisations"}">${list.filter((r) => r.kind === kind).sort((a, b) => Number(curated.has(b.key)) - Number(curated.has(a.key)) || a.name.localeCompare(b.name)).map((r) => `<option value="${esc(r.key)}">${esc(r.name)}</option>`).join("")}</optgroup>`).join("") : '<option value="">No matching profiles</option>';
+      if (list.some((r) => r.key === state.profile)) select.value = state.profile;
+      select.disabled = !list.length; $("[data-act=\"open-profile-choice\"]", m).disabled = !list.length;
+      $("#atlas-org-count", m).textContent = `${list.length} profile${list.length === 1 ? "" : "s"}`;
+    };
+    $("#atlas-org-search", m).addEventListener("input", filterProfiles); filterProfiles(); renderProfile();
+  }
+
+  let profilePanel, profileTrigger = null;
+  function profileRecord(key) {
+    if (!key) return null;
+    const split = key.indexOf(":"), kind = key.slice(0, split), id = key.slice(split + 1);
+    return kind === "person" ? personById.get(id) : kind === "org" ? orgById.get(id) : null;
+  }
+  const roleDates = (a) => `${a.from || "start unknown"}–${a.to || "present"}${a.uncertain ? " (dates uncertain)" : ""}`;
+  function profilePreview(key, affiliationIndex) {
+    const record = profileRecord(key); if (!record) return "";
+    if (key.startsWith("person:")) {
+      const affiliation = affiliationIndex != null && (record.affiliations || [])[Number(affiliationIndex)];
+      return `<b>${esc(record.name)}</b><br>${affiliation ? `${esc(affiliation.org)} · ${esc(roleDates(affiliation))}<br>` : ""}<span class="preview-idea">${esc(record.known_for || "Related work in this atlas")}</span><span class="preview-action">${(record.affiliations || []).length ? "Open affiliations and related work." : "Open related work in this atlas."}</span>`;
+    }
+    return `<b>${esc(record.name)}</b><br><span class="preview-idea">${esc(record.historical_role || record.kind || "Related work in this atlas")}</span><span class="preview-action">${record.historical_role ? "Open status, sources and related work." : "Open related work in this atlas."}</span>`;
+  }
+  function relatedEvents(ids) {
+    const list = [...new Set(ids)].map((id) => byId.get(id)).filter(Boolean).sort((a, b) => a.date_sort.localeCompare(b.date_sort));
+    return list.length ? `<div class="profile-related"><h4>Related events</h4><ul>${list.map((e) => `<li><span class="num">${e.date_sort.slice(0, 4)}</span><a href="#${esc(e.id)}" data-ev-card="${esc(e.id)}">${esc(e.title)}</a></li>`).join("")}</ul></div>` : "";
+  }
+  function profileSources(sources) { return sources && sources.length ? `<div class="profile-sources"><h4>Sources</h4>${sources.map((source) => `<a href="${esc(source.url)}" target="_blank" rel="noopener">${esc(source.label || "Source")}</a>`).join("")}</div>` : ""; }
+  function renderProfile() {
+    if (!profilePanel || !mounts.people) return;
+    const timelineDock = mounts.map && $(".profile-dock", mounts.map), peopleDock = $(".people-profile-dock", mounts.people);
+    const record = profileRecord(state.profile), active = Boolean(record);
+    const dock = active && state.profileDock === "timeline" && timelineDock ? timelineDock : peopleDock;
+    dock.appendChild(profilePanel); if (timelineDock) {
+      timelineDock.hidden = dock !== timelineDock || !active;
+      timelineDock.querySelector(".profile-return")?.remove();
+      $(".pane-host", mounts.map).hidden = active && dock === timelineDock;
+      if (active && dock === timelineDock) {
+        const back = document.createElement("button"); back.type = "button"; back.className = "text-button profile-return"; back.dataset.act = "return-event";
+        back.textContent = state.selected ? `← Return to ${byId.get(state.selected).title}` : "← Return to event browser";
+        timelineDock.insertBefore(back, profilePanel);
+      }
+    }
+    if (dock !== peopleDock) peopleDock.innerHTML = '<p class="profile-placeholder">The selected profile is open beside the event card. Select a name here to bring it alongside this chart.</p>';
+    else peopleDock.querySelector(".profile-placeholder")?.remove();
+    document.querySelectorAll("[data-profile]").forEach((n) => {
+      const selected = n.dataset.profile === state.profile;
+      n.classList.toggle("profile-selected", selected && (n.dataset.affiliation == null || Number(n.dataset.affiliation) === state.affiliationIndex));
+      n.setAttribute("aria-expanded", String(selected)); n.setAttribute("aria-controls", "atlas-profile");
     });
+    profilePanel.id = "atlas-profile";
+    if (!active) { profilePanel.removeAttribute("aria-labelledby"); profilePanel.innerHTML = '<div class="profile-placeholder"><h3>People and organisations</h3><p>Select a name or affiliation to read its profile. The menu above provides the same information without the chart.</p></div>'; return; }
+    const isPerson = state.profile.startsWith("person:");
+    if (dock === peopleDock && matchMedia("(min-width: 1051px)").matches) {
+      const bottom = $(".people-workspace", mounts.people).getBoundingClientRect().bottom;
+      profilePanel.style.setProperty("--profile-max", `${Math.max(160, Math.min(innerHeight - workspaceInset() - 16, bottom - workspaceInset()))}px`);
+    }
+    const body = isPerson ? `${!record.known_for && !(record.affiliations || []).length ? '<p class="profile-kind">Related work in this atlas</p>' : ""}${record.known_for ? `<p>${esc(record.known_for)}</p>` : ""}${(record.affiliations || []).length ? '<h4>Affiliations</h4>' : ""}<ul class="profile-affiliations">${(record.affiliations || []).map((a, i) => `<li${state.affiliationIndex === i ? ' class="current"' : ""}>${orgLink(a.org)}<span class="num">${esc(roleDates(a))}</span></li>`).join("")}</ul>${relatedEvents([...(record.key_event_ids || []), ...D.events.filter((e) => (e.people || []).some((name) => name.toLowerCase() === record.name.toLowerCase())).map((e) => e.id)])}${profileSources(record.sources)}` : `<p class="profile-kind">${esc(record.kind || "Organisation")}${record.founded ? ` · Founded ${esc(record.founded)}` : record.activity_since ? ` · Documented activity since ${esc(record.activity_since)}` : ""}</p>${record.founded_context ? `<p class="date-context">${esc(record.founded_context)}. Founding date not established here.</p>` : ""}${(record.founders || []).length ? `<p class="profile-founders">Founders: ${record.founders.map(personLink).join(", ")}</p>` : ""}${record.historical_role ? `<p>${esc(record.historical_role)}</p>` : ""}${(record.research_focus || []).length ? `<p class="profile-focus">Research: ${record.research_focus.map(esc).join(", ")}.</p>` : ""}${record.status_as_of_2026_11 ? `<p class="now">As of November 2026: ${esc(record.status_as_of_2026_11)}</p>` : ""}${(record.affiliations || []).length ? `<h4>Affiliations recorded here</h4><ul class="profile-affiliations">${record.affiliations.map((a) => `<li>${personLink(a.person)}<span class="num">${esc(roleDates(a))}</span></li>`).join("")}</ul>` : ""}${relatedEvents(record.key_event_ids || [])}${(record.key_event_ids || []).length ? `<button type="button" class="text-button" data-org="${esc(record.id)}">Show related events on the map →</button>` : ""}${profileSources(record.sources)}`;
+    profilePanel.innerHTML = `<div class="profile-head"><div><span class="eyebrow">${isPerson ? "Person" : "Organisation"}</span><h3 id="atlas-profile-title" tabindex="-1">${esc(record.name)}</h3></div><button type="button" class="profile-close" data-act="close-profile" aria-label="Close profile">×</button></div><div class="profile-body">${body}</div>`;
+    profilePanel.setAttribute("aria-labelledby", "atlas-profile-title"); updateWorkspaceSticky();
+  }
+  function openProfile(key, options = {}) {
+    if (!profileRecord(key)) return;
+    if (options.history !== false) saveHistory(true, true);
+    const same = state.profile === key, pageY = scrollY;
+    const preserveChart = options.trigger && options.trigger.closest(".people-chart") && matchMedia("(min-width: 1051px)").matches;
+    state.profile = key; state.affiliationIndex = options.affiliationIndex == null ? null : Number(options.affiliationIndex);
+    state.profileDock = options.dock || "people"; if (options.trigger && !options.trigger.closest(".profile-panel")) profileTrigger = options.trigger;
+    renderProfile(); profilePanel.scrollTop = 0; hideTip();
+    if (preserveChart) scrollTo({ top: pageY, behavior: "auto" });
+    if (options.history !== false) saveHistory(same);
+    if (options.focus !== false || options.reveal) { const heading = $("h3", profilePanel); if (!preserveChart) profilePanel.scrollIntoView({ behavior: SMOOTH, block: "start" }); if (options.focus !== false) heading.focus({ preventScroll: true }); }
+  }
+  function closeProfile(options = {}) {
+    if (!state.profile) return;
+    const pageY = scrollY, preserveChart = state.profileDock === "people" && matchMedia("(min-width: 1051px)").matches;
+    state.profile = null; state.affiliationIndex = null; renderProfile(); hideTip();
+    if (options.history !== false) saveHistory();
+    if (options.focus !== false) { const trigger = profileTrigger && profileTrigger.isConnected ? profileTrigger : $("#atlas-profile-select", mounts.people); if (trigger) trigger.focus({ preventScroll: true }); }
+    if (preserveChart) scrollTo({ top: pageY, behavior: "auto" });
+  }
+  function previewProfile(trigger, ev) {
+    if (!trigger || !trigger.closest(".atlas")) return;
+    showTip(ev, profilePreview(trigger.dataset.profile, trigger.dataset.affiliation)); trigger.setAttribute("aria-describedby", "atlas-preview");
   }
 
   /* ---------- index by era & glossary ---------- */
   function renderIndex() {
-    const m = mounts.index;
-    if (!m) return;
-    const evs = D.events;
-    m.innerHTML = D.eras.map((era, i) => {
-      const [a, b] = eraRange(i);
-      const list = evs.filter((e) => { const y = yearOf(e); return y >= a && y < b; });
-      if (!list.length) return "";
-      return `<details><summary>${esc(era.title)}<span class="eyebrow num">${String(era.start).slice(0, 4)}–${String(era.end).slice(0, 4)} · ${list.length} events</span></summary>
-        <p>${esc(era.summary || "")}</p>
-        <ul class="idx">${list.map((e) => `<li><span class="d">${esc(fmtDate(e))}</span><span class="dot" style="background:${lc(e.lane)}"></span><span><a href="#${esc(e.id)}" data-ev-reveal="${esc(e.id)}">${esc(e.title)}</a> <span class="s">${esc(e.idea || "")}</span></span></li>`).join("")}</ul></details>`;
-    }).join("");
+    // Compatibility for older source posts: the chronological browser now lives beside the map.
+    if (mounts.index) mounts.index.innerHTML = '<p><a href="#every-event-by-era">Browse events by era beside the map ↑</a></p>';
   }
   function renderGlossary() {
     const m = mounts.glossary;
@@ -622,14 +754,17 @@
 
   /* ---------- events ---------- */
   document.addEventListener("click", (ev) => {
-    const t = ev.target.closest("[data-ev],[data-ev-reveal],[data-ev-card],[data-org],[data-route],[data-route-show],[data-lane],[data-nav],[data-zoom],[data-act],[data-reveal]");
+    const t = ev.target.closest("[data-ev],[data-ev-reveal],[data-ev-card],[data-org],[data-route],[data-route-show],[data-lane],[data-nav],[data-zoom],[data-act],[data-reveal],[data-profile],[data-era],[data-browse-page]");
     if (!t || !t.closest(".atlas")) return;
     if (t.tagName === "A" && (ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || t.target === "_blank")) return;
     if (t.tagName === "A") ev.preventDefault();
     const d = t.dataset;
-    if (d.ev) select(d.ev, { card: true });
-    else if (d.evReveal) select(d.evReveal, { card: true });
-    else if (d.evCard) select(d.evCard, { card: true });
+    if (d.profile) openProfile(d.profile, { trigger: t, affiliationIndex: d.affiliation, dock: t.closest('[data-atlas="map"]') ? "timeline" : "people" });
+    else if (d.era != null) browseEra(d.era === "all" ? null : Number(d.era));
+    else if (d.browsePage != null) { state.browsePage = Math.max(0, Number(d.browsePage)); renderSearchResults(); $(".browser-heading h3", mounts.map)?.focus({ preventScroll: true }); saveHistory(true, true); }
+    else if (d.ev) select(d.ev, { card: true, dismissProfile: Boolean(t.closest(".profile-panel")) });
+    else if (d.evReveal) select(d.evReveal, { card: true, dismissProfile: Boolean(t.closest(".profile-panel")) });
+    else if (d.evCard) select(d.evCard, { card: true, dismissProfile: Boolean(t.closest(".profile-panel")) });
     else if (d.reveal) { const answer = document.getElementById(d.reveal); if (answer) { answer.hidden = false; t.setAttribute("aria-expanded", "true"); t.textContent = t.textContent.replace(/^Show /, "Shown: "); } }
     else if (d.nav) step(Number(d.nav), state.selected, { card: true });
     else if (d.lane) {
@@ -643,25 +778,34 @@
     } else if (d.routeShow) { state.routeShown = d.routeShow; renderRoutes(); }
     else if (d.route) {
       const route = D.threads.find((x) => x.id === d.route); if (!route) return;
-      saveHistory(true, true); state.route = route; state.org = null; state.query = ""; state.queryInput = ""; state.selected = null; state.focus = route.event_ids[0];
+      saveHistory(true, true); state.route = route; state.org = null; state.query = ""; state.queryInput = ""; state.selected = null; state.focus = route.event_ids[0]; state.era = null; state.browsePage = 0; state.profile = null; renderProfile();
       route.event_ids.forEach((id) => { const e = byId.get(id); if (e) state.lanes.add(e.lane); });
       syncControls(); renderMap(); renderPane(); scrollMapTo(route.event_ids[0], false); updateOverview(); saveHistory();
       mounts.map.scrollIntoView({ behavior: SMOOTH, block: "start" });
       const firstNode = mapSvg.querySelector('.node[tabindex="0"]'); if (firstNode) firstNode.focus({ preventScroll: true });
     } else if (d.org) {
-      const org = D.orgs.find((x) => x.id === d.org); if (!org) return;
-      saveHistory(true, true); state.org = org; state.route = null; state.query = ""; state.queryInput = ""; state.selected = null;
+      const org = orgById.get(d.org); if (!org) return;
+      saveHistory(true, true); state.org = org; state.route = null; state.query = ""; state.queryInput = ""; state.selected = null; state.era = null; state.browsePage = 0; state.profile = null; renderProfile();
       D.events.filter((e) => orgMatches(e, org)).forEach((e) => state.lanes.add(e.lane));
       syncControls(); renderMap(); renderPane(); const first = matches()[0]; if (first) scrollMapTo(first.id, false); updateOverview(); saveHistory();
       mounts.map.scrollIntoView({ behavior: SMOOTH, block: "start" });
-    } else if (d.act === "clear") resetView();
+    } else if (d.act === "open-profile-choice") { const picker = $("#atlas-profile-select", mounts.people); if (picker && picker.value) openProfile(picker.value, { trigger: t, dock: "people" }); }
+    else if (d.act === "close-profile" || d.act === "return-event") closeProfile();
+    else if (d.act === "clear") resetView();
     else if (d.act === "locate") {
       scrollMapTo(state.selected, false); updateOverview();
-      mounts.map.scrollIntoView({ behavior: SMOOTH, block: "start" });
+      $(".chart-column", mounts.map).scrollIntoView({ behavior: SMOOTH, block: "start" });
       const node = mapSvg.querySelector(".node.sel"); if (node) node.focus({ preventScroll: true });
     }
   });
+  document.addEventListener("pointerover", (ev) => { if (ev.pointerType === "touch") return; const trigger = ev.target.closest("[data-profile]"); if (trigger && !trigger.contains(ev.relatedTarget)) previewProfile(trigger, ev); });
+  document.addEventListener("pointerout", (ev) => { const trigger = ev.target.closest("[data-profile]"); if (trigger && !trigger.contains(ev.relatedTarget)) { hideTip(); trigger.removeAttribute("aria-describedby"); } });
+  document.addEventListener("focusin", (ev) => { const trigger = ev.target.closest("[data-profile]"); if (trigger) previewProfile(trigger, ev); });
+  document.addEventListener("focusout", (ev) => { const trigger = ev.target.closest("[data-profile]"); if (trigger) { hideTip(); trigger.removeAttribute("aria-describedby"); } });
   document.addEventListener("keydown", (ev) => {
+    if (ev.key === "Escape") { hideTip(); if (state.profile) { ev.preventDefault(); closeProfile(); return; } }
+    const profileControl = ev.target.closest("[data-profile]");
+    if (profileControl && !/^(A|BUTTON)$/.test(profileControl.tagName) && ["Enter", " "].includes(ev.key)) { ev.preventDefault(); profileControl.dispatchEvent(new MouseEvent("click", { bubbles: true })); return; }
     if (!mapScroll || !mapScroll.contains(ev.target) || /INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) return;
     const node = ev.target.closest(".node"), from = node ? node.dataset.eventId : state.selected || state.focus;
     if (ev.key === "ArrowRight" || ev.key === "ArrowLeft") { ev.preventDefault(); step(ev.key === "ArrowRight" ? 1 : -1, from); }
@@ -672,16 +816,21 @@
   mountMap(); renderRoutes(); renderPeople(); renderIndex(); renderGlossary();
   function fromHash() {
     let id; try { id = decodeURIComponent(location.hash.slice(1)); } catch (_) { return; }
-    if (byId.has(id) && id !== state.selected) select(id, { history: false });
+    const profile = profileFromHash(id);
+    if (profile && profileRecord(profile) && state.profile !== profile) openProfile(profile, { history: false, focus: false, reveal: true, dock: "people" });
+    else if (byId.has(id) && (id !== state.selected || state.profile)) { state.profile = null; renderProfile(); select(id, { history: false }); }
   }
   addEventListener("popstate", (ev) => {
     const saved = ev.state && ev.state.atlas;
     if (!saved) { fromHash(); return; }
     state.selected = byId.has(saved.selected) ? saved.selected : null; state.focus = state.selected;
-    state.route = D.threads.find((t) => t.id === saved.route) || null; state.org = D.orgs.find((o) => o.id === saved.org) || null;
+    state.route = D.threads.find((t) => t.id === saved.route) || null; state.org = orgById.get(saved.org) || null;
     state.query = saved.query || ""; state.queryInput = saved.queryInput == null ? state.query : saved.queryInput; state.minImp = saved.minImp || 2; state.zoom = saved.zoom || 1;
     state.lanes = new Set(saved.lanes || D.lanes.map((l) => l.id));
-    syncControls(); renderMap(); renderPane(); mapScroll.scrollLeft = saved.scrollLeft || 0; updateOverview();
+    state.era = Number.isInteger(saved.era) && D.eras[saved.era] ? saved.era : null; state.browsePage = saved.browsePage || 0;
+    state.profile = profileRecord(saved.profile) ? saved.profile : null; state.profileDock = saved.profileDock || "people"; state.affiliationIndex = saved.affiliationIndex == null ? null : saved.affiliationIndex;
+    state.quiz = Boolean(saved.quiz); state.routeShown = saved.routeShown || state.routeShown;
+    syncControls(); renderMap(); renderPane(); renderProfile(); renderRoutes(); mapScroll.scrollLeft = saved.scrollLeft || 0; updateOverview();
   });
   addEventListener("hashchange", fromHash);
   fromHash(); saveHistory(true, true);

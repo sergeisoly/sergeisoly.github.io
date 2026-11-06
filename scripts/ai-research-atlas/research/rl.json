@@ -13,10 +13,10 @@
       "label": "Bellman: dynamic programming",
       "kind": "book",
       "importance": 3,
-      "problem": "Sequential decision problems (inventory, control, replacement) explode combinatorially if you search over whole action sequences.",
+      "problem": "Searching whole action sequences in problems such as inventory, control and replacement becomes combinatorially expensive as the sequence grows.",
       "idea": "Bellman's principle of optimality decomposes sequential decisions into recursive subproblems: after an initial action, the remaining plan must be optimal for the state reached. His 1957 book and MDP paper developed this framework. Finite-horizon problems can be solved backward from the terminal step; infinite-horizon discounted problems can be solved by repeated value updates.",
       "changed": "Bellman equations underpin value-based RL: TD methods learn value estimates from sampled experience, Q-learning learns action values, and DQN approximates them with a neural network. Policy-gradient methods offer another route by optimizing a policy directly.",
-      "limits": "Dynamic programming needs a known transition model and sweeps over all states; Bellman himself named the resulting blow-up in large state spaces the 'curse of dimensionality'.",
+      "limits": "Dynamic programming requires a known transition model and updates across all states. Bellman named the resulting blow-up in large state spaces the 'curse of dimensionality'.",
       "people": [
         "Richard Bellman"
       ],
@@ -77,9 +77,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Could a computer improve at a task through its own play rather than through hand-coded rules alone?",
-      "idea": "Arthur Samuel's checkers program evaluated board positions with a weighted sum of features and adjusted the weights so that the evaluation of an earlier position moved toward the evaluation reached after searching ahead, plus rote memory of positions. He popularised the phrase 'machine learning' in this line of work.",
-      "changed": "The weight update is an early form of what Sutton later formalised as temporal-difference learning: learn a prediction from a later, better prediction instead of waiting for the final outcome.",
-      "limits": "Hand-chosen features and an update without convergence guarantees; it reached a respectable amateur level, and claims about it beating strong players are often overstated.",
+      "idea": "Arthur Samuel's checkers program scored board positions with a weighted sum of features. It adjusted the weights to move an earlier position's evaluation toward the evaluation found by searching ahead, and also memorised positions. Samuel popularised the phrase 'machine learning' in this line of work.",
+      "changed": "The program's weight updates were an early form of what Sutton later formalised as temporal-difference learning: learning a prediction from a later, better prediction instead of waiting for the final outcome.",
+      "limits": "The program used hand-chosen features, and its update had no convergence guarantee. It reached a respectable amateur level; claims about it beating strong players are often overstated.",
       "people": [
         "Arthur Samuel"
       ],
@@ -129,9 +129,9 @@
       "kind": "system",
       "importance": 1,
       "problem": "Is learning from reward alone, without any model of the game, mechanically possible?",
-      "idea": "Donald Michie built a tic-tac-toe player from about 300 matchboxes, one per board position, holding coloured beads for moves. Moves were drawn at random in proportion to bead counts; after a win beads were added for the moves played, after a loss they were removed.",
-      "changed": "A physical demonstration of reinforcement as changing action probabilities by outcome, later echoed in policy-gradient methods. Michie's BOXES work extended the idea to pole balancing.",
-      "limits": "A lookup table over a tiny game; credit is assigned equally to every move in a game, so it cannot tell which move actually mattered (the credit-assignment problem).",
+      "idea": "Donald Michie built a tic-tac-toe player from about 300 matchboxes, one per board position, with coloured beads representing moves. Drawing a bead at random selected a move with probability proportional to its bead count. After a win, beads were added for the moves played; after a loss, they were removed.",
+      "changed": "MENACE physically demonstrated how reinforcement can change action probabilities according to outcomes, an idea later echoed in policy-gradient methods. Michie's BOXES work extended it to pole balancing.",
+      "limits": "The matchboxes form a lookup table for a tiny game. Every move in a game receives equal credit or blame, so MENACE cannot tell which move actually mattered (the credit-assignment problem).",
       "people": [
         "Donald Michie"
       ],
@@ -185,7 +185,7 @@
       "kind": "paper",
       "importance": 2,
       "problem": "When reward arrives only at failure (the pole falls), how does a learner know which earlier actions were bad?",
-      "idea": "Split the learner in two: a critic learns to predict future reward from each state and turns changes in its prediction into an immediate internal reinforcement signal; an actor uses that signal to adjust its action preferences.",
+      "idea": "The learner has two parts. A critic predicts future reward from each state and turns changes in that prediction into an immediate internal reinforcement signal. An actor uses the signal to adjust its action preferences.",
       "changed": "Actor-critic became a template for A3C, common PPO implementations and PPO-based RLHF: a policy network is updated using an advantage estimate derived from a learned value function. Other policy-gradient methods, including GRPO, can avoid a learned critic.",
       "limits": "Two coupled learners can be unstable, and the critic's errors bias the actor's updates.",
       "people": [
@@ -245,9 +245,9 @@
       "label": "Temporal-difference learning",
       "kind": "paper",
       "importance": 3,
-      "problem": "Prediction learners waited for the final outcome (Monte Carlo) before updating, which is slow, memory-hungry and high-variance in long episodes.",
+      "problem": "Monte Carlo prediction methods wait for the final outcome before updating. In long episodes, this is slow, uses a lot of memory and produces high-variance estimates.",
       "idea": "Update a value prediction toward the next prediction plus the intervening reward: V(s) ← V(s) + α[r + γV(s′) − V(s)]. Here s is the current state, s′ the next state, r the reward, α the learning rate and γ the discount factor. For example, V(s)=2, r=1, V(s′)=3, γ=0.9 and α=0.1 give V(s)=2.17 after one update. This is bootstrapping: learning a guess from a guess. In episodic prediction, TD(λ) connects one-step TD to Monte Carlo returns.",
-      "changed": "TD made it possible to learn values online from raw experience without a model. It underlies Q-learning, TD-Gammon, DQN and the critics in modern actor-critic and RLHF; the TD error also became a model of dopamine signals in neuroscience.",
+      "changed": "TD let agents learn values online from raw experience without a model. It underlies Q-learning, TD-Gammon, DQN and the critics in modern actor-critic and RLHF. The TD error also became a model of dopamine signals in neuroscience.",
       "limits": "Bootstrapped targets are biased while the estimates are wrong, and combining bootstrapping, off-policy data and function approximation can diverge (the 'deadly triad').",
       "people": [
         "Richard Sutton"
@@ -312,8 +312,8 @@
       "importance": 3,
       "problem": "A state-value estimate alone does not specify which action to choose. How can an agent learn optimal action values directly while its behavior still explores?",
       "idea": "Learn action values: Q(s,a) ← Q(s,a) + α[r + γ max_a′ Q(s′,a′) − Q(s,a)]. Here s and a are the current state and action, s′ the next state, r the received reward, α the learning rate and γ the discount factor; a′ ranges over next-state actions. The maximum targets the greedy policy even when exploration chose a different action. Watkins and Dayan proved convergence in the tabular setting with repeated state-action visits and suitable learning rates.",
-      "changed": "A canonical off-policy, model-free algorithm. The 2013 DQN work combined Q-learning with a convolutional network and experience replay; the 2015 Nature version added a periodically frozen target network.",
-      "limits": "Tabular guarantees vanish with function approximation; the max over noisy estimates overestimates values (later fixed partly by Double Q-learning).",
+      "changed": "Q-learning became a standard off-policy, model-free algorithm. The 2013 DQN work combined it with a convolutional network and experience replay; the 2015 Nature version added a periodically frozen target network.",
+      "limits": "The tabular convergence guarantees do not carry over to function approximation. Taking the max over noisy estimates overestimates values, a problem later addressed in part by Double Q-learning.",
       "people": [
         "Chris Watkins",
         "Peter Dayan"
@@ -386,10 +386,10 @@
       "label": "REINFORCE policy gradient",
       "kind": "paper",
       "importance": 2,
-      "problem": "Value-based methods pick actions by max over Q, which is awkward for stochastic or continuous actions; one would rather adjust a parameterised policy directly, but sampling actions is not differentiable.",
+      "problem": "Value-based methods choose actions by maximising Q, which is awkward for stochastic or continuous actions. Directly adjusting a parameterised policy is an alternative, but sampling actions is not differentiable.",
       "idea": "Estimate the policy gradient from sampled experience: ∇θJ = E[(R − b)∇θ log πθ(a|s)] in a one-decision setting; for a trajectory, sum the corresponding terms over decisions. θ denotes policy parameters, πθ(a|s) the probability of action a in state s, R the return and b an action-independent baseline. An ascent step uses learning rate α: θ ← θ + α(R − b)∇θ log πθ(a|s). Above-baseline outcomes reinforce sampled actions; below-baseline outcomes push the other way.",
-      "changed": "A foundational score-function estimator for policy-gradient methods. PPO and GRPO use related return- or advantage-weighted policy updates. In a token-level language-model formulation, tokens are actions and the generated answer is a trajectory.",
-      "limits": "Very high variance: returns from whole episodes are noisy, so it needs many samples, baselines or critics to work.",
+      "changed": "REINFORCE provided a foundational score-function estimator for policy-gradient methods. PPO and GRPO use related return- or advantage-weighted policy updates. In a token-level language-model formulation, tokens are actions and the generated answer is a trajectory.",
+      "limits": "Returns from whole episodes are noisy, giving the estimator very high variance. It needs many samples, baselines or critics to work well.",
       "people": [
         "Ronald J. Williams"
       ],
@@ -422,7 +422,7 @@
       "terms": [
         {
           "term": "policy gradient",
-          "def": "The gradient of expected return with respect to policy parameters, estimated from sampled actions as return-weighted grad log-probabilities."
+          "def": "The gradient of expected return with respect to policy parameters. It can be estimated by weighting the gradient of each sampled action's log-probability by its return."
         },
         {
           "term": "baseline",
@@ -448,8 +448,8 @@
       "importance": 3,
       "problem": "Could TD learning with a neural network, rather than a lookup table, master a large real game?",
       "idea": "Gerald Tesauro trained a multilayer network by TD(lambda) on games the program played against itself, with almost no built-in knowledge in the first version. Later versions with expert features and shallow search played near the level of top human players.",
-      "changed": "An influential early success of neural function approximation and self-play in RL. It showed that learned evaluation could reach strong play in a large game, a pattern revisited by later systems such as AlphaGo Zero.",
-      "limits": "Attempts to repeat it in chess and Go in the 1990s largely failed; backgammon's dice give natural exploration and smooth values, which made it unusually friendly.",
+      "changed": "TD-Gammon was an influential early success for neural function approximation and self-play in RL. Its learned evaluation reached strong play in a large game, a pattern revisited by later systems such as AlphaGo Zero.",
+      "limits": "Attempts to repeat the result in chess and Go in the 1990s largely failed. Backgammon was unusually friendly to this approach because its dice provide natural exploration and smooth values.",
       "people": [
         "Gerald Tesauro"
       ],
@@ -513,7 +513,7 @@
       "importance": 2,
       "problem": "AI lacked a common definition of what it was building: programs, planners and expert systems were described in incompatible terms.",
       "idea": "Russell & Norvig's textbook (1995) defined AI as building rational agents: systems that perceive an environment through sensors and act through actuators to maximise a performance measure. In parallel, Rao & Georgeff's Belief-Desire-Intention (BDI) model described agents by beliefs, goals and committed plans.",
-      "changed": "The perceive-decide-act loop is the vocabulary used for today's LLM agents (observation, tool call, environment), and the 'performance measure' framing makes the reward-specification problem explicit.",
+      "changed": "Today's LLM agents use the vocabulary of the perceive-decide-act loop: observations, tool calls and an environment. The 'performance measure' framing also makes the reward-specification problem explicit.",
       "limits": "Classical agent architectures relied on hand-written plans and symbolic world models; they did not learn general skills from data.",
       "people": [
         "Stuart Russell",
@@ -580,9 +580,9 @@
       "kind": "book",
       "importance": 2,
       "problem": "RL ideas were spread across control theory, psychology, operations research and AI, with inconsistent notation.",
-      "idea": "A single textbook unified MDPs, dynamic programming, Monte Carlo, TD, Q-learning, eligibility traces and actor-critic under one framework centred on value functions and the agent-environment loop.",
-      "changed": "Defined the field's vocabulary and trained the generation that built deep RL; the 2nd edition (2018) added policy gradients and deep RL context.",
-      "limits": "Mostly tabular and linear methods; the hard problems of large-scale function approximation were left largely open in 1998.",
+      "idea": "Sutton and Barto brought MDPs, dynamic programming, Monte Carlo, TD, Q-learning, eligibility traces and actor-critic into a single textbook. They organised these methods around value functions and the agent-environment loop.",
+      "changed": "The book defined the field's vocabulary and trained the generation that built deep RL. The 2nd edition (2018) added policy gradients and deep RL context.",
+      "limits": "The 1998 edition mostly covered tabular and linear methods, leaving the hard problems of large-scale function approximation largely open.",
       "people": [
         "Richard Sutton",
         "Andrew Barto"
@@ -635,10 +635,10 @@
       "label": "Potential-based reward shaping",
       "kind": "paper",
       "importance": 2,
-      "problem": "Sparse rewards make learning slow, so designers add bonus rewards; but ad-hoc bonuses can change what is optimal (an agent rewarded for approaching a goal learned to circle near it).",
+      "problem": "Sparse rewards slow learning, so designers add bonuses to guide the agent. Ad-hoc bonuses can change what is optimal: an agent rewarded for approaching a goal learned to circle near it.",
       "idea": "In a discounted MDP, add a bounded state potential Φ through F(s,s′) = γΦ(s′) − Φ(s), where s is the current state, s′ the next state and γ the discount factor. Under the paper's assumptions this leaves the optimal policy unchanged; arbitrary extra reward terms generally do not. Episodic formulations also require appropriate terminal-state handling.",
-      "changed": "An early formal statement that the reward you write is not the behaviour you get: extra reward terms can be exploited. This is a direct ancestor of later concerns about reward hacking and specification gaming.",
-      "limits": "Guarantees only invariance of the optimal policy; it does not tell you how to pick a good potential or protect against a misspecified base reward.",
+      "changed": "The paper gave an early formal account of how extra reward terms can produce exploitable behaviour. It is a direct precursor to later concerns about reward hacking and specification gaming.",
+      "limits": "The guarantee preserves only the optimal policy. It does not tell a designer how to pick a good potential or protect against a misspecified base reward.",
       "people": [
         "Andrew Ng",
         "Daishi Harada",
@@ -698,8 +698,8 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Value-based methods with function approximation could oscillate or diverge, and a small change in Q could flip the greedy policy discontinuously.",
-      "idea": "Express the performance gradient using action values without differentiating the state distribution. Under compatible function-approximation assumptions, a learned critic can supply the correct policy-gradient direction. The paper gives a policy-iteration construction with a local-optimality convergence result under its stated conditions.",
-      "changed": "Put actor-critic and policy-gradient methods on firm ground, setting up TRPO, PPO and A3C. Konda & Tsitsiklis' actor-critic analysis appeared in the same NIPS volume.",
+      "idea": "The theorem expresses the performance gradient using action values without differentiating the state distribution. Under compatible function-approximation assumptions, a learned critic can supply the correct policy-gradient direction. The paper gives a policy-iteration construction that converges to a local optimum under its stated conditions.",
+      "changed": "The result gave actor-critic and policy-gradient methods a firm theoretical basis for later work such as TRPO, PPO and A3C. Konda & Tsitsiklis' actor-critic analysis appeared in the same NIPS volume.",
       "limits": "Convergence is only to a local optimum and the variance and sample cost of gradient estimates remain high.",
       "people": [
         "Richard Sutton",
@@ -762,7 +762,7 @@
       "importance": 2,
       "problem": "For many tasks (driving, flying a helicopter) it is easier to demonstrate good behaviour than to write down a reward function for it.",
       "idea": "Ng & Russell posed inverse RL: infer a reward under which the observed behaviour is optimal. Abbeel & Ng's apprenticeship learning (2004) matched the expert's expected feature counts so the learned policy does as well as the expert under the unknown reward.",
-      "changed": "Established 'learn the reward from humans' as a research programme. Russell later built on it in cooperative inverse RL, and reward models learned from human preferences in RLHF are a descendant.",
+      "changed": "Inverse RL established a research programme for learning rewards from humans. Russell later built on it in cooperative inverse RL; reward models learned from human preferences in RLHF are another descendant.",
       "limits": "The problem is ill-posed (many rewards explain the same behaviour, including the trivial zero reward), and it assumes the demonstrator is near-optimal.",
       "people": [
         "Andrew Ng",
@@ -830,9 +830,9 @@
       "kind": "paper",
       "importance": 3,
       "problem": "Learning control from high-dimensional video with nonlinear value functions was difficult: correlated observations and changing bootstrap targets could make training unstable.",
-      "idea": "Train a convolutional network to output Q-values for each joystick action from raw frames, stabilised by experience replay (learn from random minibatches of stored transitions, breaking correlations) and, in the 2015 Nature paper, a periodically frozen target network for the bootstrap target.",
+      "idea": "DQN trains a convolutional network to output Q-values for each joystick action from raw frames. Experience replay stabilises learning by drawing random minibatches of stored transitions, breaking correlations between samples. The 2015 Nature paper added a periodically frozen target network to compute the bootstrap target.",
       "changed": "The 2013 paper used one architecture across seven Atari games and surpassed a human expert on three. The 2015 Nature paper expanded the evaluation to dozens of games with many human-level results, helping establish deep RL as a practical research program.",
-      "limits": "Needed tens of millions of frames per game (far more than humans), failed on sparse-reward exploration games such as Montezuma's Revenge, and handles only discrete actions.",
+      "limits": "DQN needed tens of millions of frames per game, far more than humans. It failed on sparse-reward exploration games such as Montezuma's Revenge and handles only discrete actions.",
       "people": [
         "Volodymyr Mnih",
         "Koray Kavukcuoglu",
@@ -873,7 +873,7 @@
       "terms": [
         {
           "term": "experience replay",
-          "def": "Storing past transitions in a buffer and training on random samples from it, which reuses data and decorrelates updates (possible because Q-learning is off-policy)."
+          "def": "Storing past transitions in a buffer and training on random samples from it. This reuses data and decorrelates updates, which is possible because Q-learning is off-policy."
         },
         {
           "term": "target network",
@@ -901,9 +901,9 @@
       "kind": "system",
       "importance": 3,
       "problem": "Go's branching factor and the difficulty of evaluating positions made it resistant to the search methods that worked in chess; experts expected human-level Go to be a decade away.",
-      "idea": "A policy network first trained to imitate expert moves, then improved by self-play policy-gradient RL; a value network trained to predict game outcomes; and Monte Carlo tree search that uses both to focus and truncate search.",
-      "changed": "Beat European champion Fan Hui 5-0 (announced with the Nature paper) and Lee Sedol 4-1 in March 2016, showing that learned evaluation plus search could crack a problem thought out of reach and making RL a mainstream AI story.",
-      "limits": "Relied on human expert games for initialisation, a perfect simulator of the rules, and large compute; techniques did not transfer directly to messy real-world tasks.",
+      "idea": "AlphaGo first trained a policy network to imitate expert moves, then improved it through self-play policy-gradient RL. A value network learned to predict game outcomes. Monte Carlo tree search used both networks to focus the search and evaluate positions without searching to the end.",
+      "changed": "AlphaGo beat European champion Fan Hui 5-0, a result announced with the Nature paper, and Lee Sedol 4-1 in March 2016. Learned evaluation and search had solved a problem thought out of reach, bringing RL into mainstream AI discussion.",
+      "limits": "AlphaGo relied on human expert games for initialisation, a perfect simulator of the rules and large amounts of compute. Its techniques did not transfer directly to messy real-world tasks.",
       "people": [
         "David Silver",
         "Aja Huang",
@@ -964,9 +964,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "DQN needed a large replay buffer and GPU; on-policy actor-critic methods with neural networks were unstable because consecutive samples are highly correlated.",
-      "idea": "Run many actor-learners in parallel on CPU threads, each in its own environment copy, and apply their gradients asynchronously to shared parameters; the diversity across workers decorrelates data without replay. Updates use n-step returns and an advantage from a learned value baseline, plus an entropy bonus for exploration.",
-      "changed": "Made on-policy deep actor-critic practical and fast, and its synchronous variant (A2C) and the advantage-plus-entropy recipe carried into PPO.",
-      "limits": "Still sample-hungry; asynchronous updates are hard to reproduce, and synchronous batched variants usually matched it.",
+      "idea": "Many actor-learners run in parallel on CPU threads, each in its own copy of the environment, and apply gradients asynchronously to shared parameters. Their different experiences decorrelate the data without replay. Updates use n-step returns, an advantage from a learned value baseline and an entropy bonus for exploration.",
+      "changed": "A3C made on-policy deep actor-critic practical and fast. Its synchronous variant (A2C) and its use of advantage estimates with an entropy bonus carried into PPO.",
+      "limits": "A3C still needs many samples. Asynchronous updates are hard to reproduce, and synchronous batched variants usually matched its performance.",
       "people": [
         "Volodymyr Mnih",
         "Adria Puigdomenech Badia",
@@ -1021,10 +1021,10 @@
       "label": "PPO",
       "kind": "paper",
       "importance": 3,
-      "problem": "Vanilla policy gradients are fragile: one large step can collapse the policy, and data collected by the old policy is wasted after one update. TRPO (Schulman et al., Feb 2015) fixed this with a KL-divergence trust region, but needed second-order conjugate-gradient machinery.",
+      "problem": "With vanilla policy gradients, one large update can collapse the policy, and data from the old policy is wasted after a single update. TRPO (Schulman et al., Feb 2015) addressed this with a KL-divergence trust region, but required second-order conjugate-gradient machinery.",
       "idea": "Optimize a clipped surrogate: min(ρA, clip(ρ, 1−ε, 1+ε)A), where ρ = π_new(a|s)/π_old(a|s), A is an estimated advantage and ε sets the clipping range. Clipping caps a sample's incentive to move its action probability farther in the helpful direction. It supports several minibatch optimization epochs per collected batch, but does not enforce a hard bound on policy change or KL divergence.",
-      "changed": "Became the default deep RL algorithm (OpenAI Five, robotics) and the RL step of RLHF for InstructGPT and ChatGPT, usually with a KL penalty to the supervised model.",
-      "limits": "Sensitive to implementation details, and clipping alone does not prevent large policy changes; some implementations stop updates when measured KL divergence becomes too large. Common LLM RLHF implementations maintain policy, reference, reward and value models, increasing memory use.",
+      "changed": "PPO became the default deep RL algorithm for applications such as OpenAI Five and robotics. It also supplied the RL step of RLHF for InstructGPT and ChatGPT, usually with a KL penalty to the supervised model.",
+      "limits": "PPO is sensitive to implementation details, and clipping alone does not prevent large policy changes; some implementations stop updates when measured KL divergence becomes too large. Common LLM RLHF implementations maintain policy, reference, reward and value models, increasing memory use.",
       "people": [
         "John Schulman",
         "Filip Wolski",
@@ -1117,7 +1117,7 @@
       "importance": 2,
       "problem": "Visual models trained on rendered images can fail on real camera images because the rendering differs from the real scene.",
       "idea": "Tobin et al. randomized visual properties such as textures and lighting when generating simulated images. They trained an object-localization model on these varied renderings so that real images could look like another variation of the training distribution, then used it in a grasping pipeline.",
-      "changed": "Showed a route to visual sim-to-real transfer without training on real images. Later Dactyl combined visual and physical randomization with PPO-based control, extending the idea to dexterous manipulation.",
+      "changed": "Tobin et al. showed a route to visual sim-to-real transfer without training on real images. Later Dactyl combined visual and physical randomization with PPO-based control, extending the idea to dexterous manipulation.",
       "limits": "The 2017 result concerned visual localization and grasping, not a general RL controller. Transfer still depends on whether the training variations cover important differences in the real system.",
       "people": [
         "Josh Tobin",
@@ -1174,9 +1174,9 @@
       "kind": "paper",
       "importance": 3,
       "problem": "AlphaGo depended on human expert games and Go-specific design; was human data necessary, and did the method generalise beyond Go?",
-      "idea": "AlphaGo Zero (Nature, Oct 2017) trained one residual network with policy and value heads purely from self-play: MCTS acts as a policy-improvement operator, the network is trained to match the search's visit distribution and the game outcome, and the improved network makes the next search stronger. AlphaZero (Dec 2017 preprint, Science 2018) applied the same algorithm to chess, shogi and Go.",
+      "idea": "AlphaGo Zero (Nature, Oct 2017) trained one residual network with policy and value heads purely from self-play. MCTS improves on the current policy; the network then learns to match the search's visit distribution and the game outcome, making the next search stronger. AlphaZero (Dec 2017 preprint, Science 2018) applied the same algorithm to chess, shogi and Go.",
       "changed": "AlphaZero reported stronger play than its benchmark engines in chess, shogi and Go from game rules and self-play. It made search-to-policy distillation a prominent pattern. Comparisons with reasoning-model RL are useful analogies, rather than evidence that the same training algorithm is used.",
-      "limits": "Needs a perfect, cheap simulator and known rules; compute was very large; chess comparisons against Stockfish were criticised for match conditions in the preprint.",
+      "limits": "The method needs known rules, a perfect, cheap simulator and very large amounts of compute. Critics also questioned the preprint's match conditions for the chess comparisons against Stockfish.",
       "people": [
         "David Silver",
         "Julian Schrittwieser",
@@ -1249,9 +1249,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Model-free deep RL needs millions of real interactions; model-based RL could plan or train in imagination, but learned models were inaccurate in pixel-based tasks.",
-      "idea": "Ha & Schmidhuber compressed observations with a VAE, learned an RNN that predicts the next latent state, and trained a tiny controller partly inside this 'dream'. Hafner et al.'s Dreamer (Dec 2019) learned behaviours by backpropagating value estimates through imagined latent trajectories; DreamerV3 (Jan 2023) used one configuration across many domains and collected diamonds in Minecraft from scratch.",
-      "changed": "Revived model-based RL for high-dimensional observations and fed today's interest in learned world models for robotics, games and video.",
-      "limits": "Agents exploit model errors (the 'dream' can be gamed), and long-horizon prediction remains hard.",
+      "idea": "Ha & Schmidhuber compressed observations with a VAE and trained an RNN to predict the next latent state. They then trained a tiny controller partly inside this learned 'dream'. Hafner et al.'s Dreamer (Dec 2019) learned behaviours by backpropagating value estimates through imagined latent trajectories. DreamerV3 (Jan 2023) used one configuration across many domains and collected diamonds in Minecraft from scratch.",
+      "changed": "These systems revived model-based RL for high-dimensional observations and contributed to today's interest in learned world models for robotics, games and video.",
+      "limits": "Agents can exploit errors in the learned model, effectively gaming the 'dream'. Predicting far into the future remains hard.",
       "people": [
         "David Ha",
         "Jurgen Schmidhuber",
@@ -1319,9 +1319,9 @@
       "kind": "system",
       "importance": 2,
       "problem": "StarCraft II combines imperfect information, real-time control, long horizons and a huge action space, unlike turn-based board games.",
-      "idea": "Pretrain a transformer/LSTM policy on human replays, then improve with RL in a 'league' of agents: main agents plus exploiter agents that search for their weaknesses, sampled so the population does not cycle through strategies.",
-      "changed": "Reached Grandmaster level on the public ladder under human-like constraints (Nature, Oct 2019) and showed population-based training as a tool against exploitable strategies.",
-      "limits": "January 2019 matches were criticised for superhuman action speed and camera access; later versions added limits. Heavy reliance on human data and enormous compute.",
+      "idea": "AlphaStar pretrained a transformer/LSTM policy on human replays, then improved it with RL in a 'league' of agents. Main agents played alongside exploiter agents that searched for their weaknesses; sampling across the league kept the population from cycling through strategies.",
+      "changed": "AlphaStar reached Grandmaster level on the public ladder under human-like constraints (Nature, Oct 2019). It showed how training a population of agents could help counter exploitable strategies.",
+      "limits": "The January 2019 matches were criticised for superhuman action speed and camera access; later versions added limits. The system still relied heavily on human data and enormous amounts of compute.",
       "people": [
         "Oriol Vinyals",
         "David Silver"
@@ -1361,7 +1361,7 @@
       "terms": [
         {
           "term": "multi-agent RL",
-          "def": "RL with several learning agents whose environment includes each other, making the learning target non-stationary."
+          "def": "RL with several learning agents whose environment includes one another. As the agents change, the learning target changes too (non-stationarity)."
         }
       ],
       "verified": {
@@ -1382,9 +1382,9 @@
       "kind": "system",
       "importance": 2,
       "problem": "Could plain policy-gradient RL, with little algorithmic novelty, handle a team game with long horizons (around 20,000 steps), partial observability and five cooperating agents?",
-      "idea": "Scale PPO with LSTM policies to thousands of GPUs and over 100,000 CPU cores of self-play for about 10 months, with reward shaping and 'surgery' to keep training through game updates.",
-      "changed": "Beat world champion team OG in April 2019; the paper (Dec 2019) argued that scale, not new algorithms, was the main ingredient, a lesson OpenAI later carried into language models.",
-      "limits": "Played a restricted hero pool and rule set; human players later found exploitable strategies in public play; the compute bill was very large.",
+      "idea": "OpenAI scaled PPO with LSTM policies to thousands of GPUs and over 100,000 CPU cores of self-play for about 10 months. Reward shaping guided learning, and 'surgery' let training continue through game updates.",
+      "changed": "OpenAI Five beat world champion team OG in April 2019. The paper (Dec 2019) argued that scale, rather than new algorithms, was the main ingredient. OpenAI later carried that lesson into language models.",
+      "limits": "OpenAI Five played with a restricted hero pool and rule set, and human players later found exploitable strategies in public play. The compute bill was very large.",
       "people": [
         "Christopher Berner",
         "Greg Brockman",
@@ -1452,9 +1452,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "AlphaZero needed the exact rules to run tree search, which real-world domains and Atari do not provide.",
-      "idea": "Learn a latent dynamics model that predicts only what planning needs (reward, value and policy several steps ahead), not pixels, and run MCTS inside that learned model.",
-      "changed": "Matched AlphaZero in Go, chess and shogi without being given rules and set a new state of the art on Atari, unifying model-based planning and model-free performance.",
-      "limits": "Very compute-intensive; the latent model is not a faithful simulator and is hard to interpret or reuse for other goals.",
+      "idea": "MuZero learns a latent dynamics model that predicts what planning needs: reward, value and policy several steps ahead. It runs MCTS inside this learned model without predicting pixels.",
+      "changed": "MuZero matched AlphaZero in Go, chess and shogi without being given rules, and set a new state of the art on Atari. It combined model-based planning with the performance of model-free methods.",
+      "limits": "MuZero requires very large amounts of compute. Its latent model is not a faithful simulator and is hard to interpret or reuse for other goals.",
       "people": [
         "Julian Schrittwieser",
         "Ioannis Antonoglou",
@@ -1511,9 +1511,9 @@
       "label": "Offline RL",
       "kind": "paper",
       "importance": 2,
-      "problem": "Online RL needs fresh interaction, which is dangerous or costly in medicine, driving or robotics, while large logged datasets go unused; naive off-policy RL on fixed data overestimates the value of actions never seen in the data.",
+      "problem": "Online RL requires fresh interaction, which is dangerous or costly in medicine, driving or robotics, while large logged datasets go unused. Naive off-policy RL on fixed data overestimates the value of actions never seen in that data.",
       "idea": "Offline (batch) RL learns a policy only from a static dataset. Conservative Q-Learning (Kumar et al., June 2020) penalises Q-values of out-of-distribution actions so the policy stays where the data gives evidence.",
-      "changed": "Consolidated deep offline RL and methods such as CQL into a practical research agenda for learning from logs. Fixed preference-data methods such as DPO share distribution-shift concerns, although standard online RLHF also collects fresh policy samples.",
+      "changed": "This work consolidated deep offline RL and methods such as CQL into a practical research agenda for learning from logs. Fixed preference-data methods such as DPO share distribution-shift concerns, although standard online RLHF also collects fresh policy samples.",
       "limits": "Reliable improvement depends on coverage of relevant states and actions. A learned policy can outperform the behavior policies by combining useful transitions from the data, but unsupported actions are difficult to value and offline evaluation remains hard.",
       "people": [
         "Sergey Levine",
@@ -1581,9 +1581,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Language models trained by next-token prediction could not be optimised for qualities people judge but cannot write as a loss, such as a good summary or a positive continuation.",
-      "idea": "Collect human comparisons between GPT-2 samples, fit a reward model to them, then fine-tune the language model with PPO to maximise that reward minus a KL penalty that keeps it close to the original model.",
-      "changed": "Extended learned human-preference rewards to pretrained language models, building on earlier preference-based deep RL. The reward-model-plus-PPO recipe informed later summarization work and InstructGPT; supervised fine-tuning was an experimental variant here, not a mandatory first stage of every run.",
-      "limits": "The authors report the summarisation model learned to copy sentences from the input, which pleased labellers but was a shortcut; a bug once flipped the reward sign and produced maximally explicit text, an early lesson in optimising a proxy.",
+      "idea": "The researchers collected human comparisons between GPT-2 samples and fitted a reward model to them. They then fine-tuned the language model with PPO to maximise that reward minus a KL penalty, keeping it close to the original model.",
+      "changed": "This work extended learned human-preference rewards to pretrained language models, building on earlier preference-based deep RL. The reward-model-plus-PPO recipe informed later summarization work and InstructGPT; supervised fine-tuning was an experimental variant here, not a mandatory first stage of every run.",
+      "limits": "The authors report that the summarisation model learned to copy sentences from the input, a shortcut that pleased labellers. A bug once flipped the reward sign and produced maximally explicit text, an early example of the risks of optimising a proxy.",
       "people": [
         "Daniel Ziegler",
         "Nisan Stiennon",
@@ -1657,9 +1657,9 @@
       "label": "DPO",
       "kind": "paper",
       "importance": 3,
-      "problem": "PPO-based RLHF is complex and unstable: it trains a separate reward model, samples from the policy during training and juggles four models in memory.",
-      "idea": "For the KL-regularised RLHF objective, the optimal policy has a closed form in terms of the reward, so the reward can be rewritten as beta log(pi/pi_ref). Substituting into the Bradley-Terry preference likelihood gives a simple classification loss on preferred versus rejected responses, trained directly on the policy with no reward model and no sampling.",
-      "changed": "Became the default open-source preference-tuning method (e.g. Zephyr, Tulu 2, many Llama fine-tunes) and spawned variants (IPO, KTO, SimPO).",
+      "problem": "PPO-based RLHF is complex and unstable: training requires a separate reward model, samples from the policy and four models held in memory.",
+      "idea": "For the KL-regularised RLHF objective, the optimal policy has a closed form in terms of the reward. This lets the reward be rewritten as beta log(pi/pi_ref). Substituting it into the Bradley-Terry preference likelihood gives a simple classification loss on preferred versus rejected responses. The policy is trained directly with this loss, without a reward model or sampling.",
+      "changed": "DPO became the default open-source preference-tuning method in projects such as Zephyr, Tulu 2 and many Llama fine-tunes. It also spawned variants including IPO, KTO and SimPO.",
       "limits": "The original method learns from fixed preference pairs, so data coverage, length/style biases and distribution shift matter. Online preference optimization and verifiable-reward RL offer other ways to obtain fresh learning signals; which works best depends on the task and implementation.",
       "people": [
         "Rafael Rafailov",
@@ -1727,9 +1727,9 @@
       "kind": "paper",
       "importance": 1,
       "problem": "Human preference labels are slow, costly and inconsistent, limiting how much RLHF can scale.",
-      "idea": "Use an off-the-shelf LLM to produce the preference labels (or a direct reward score) instead of humans. Lee et al. (Google) compared RLAIF to RLHF on summarisation and dialogue and report comparable human-rated quality; Anthropic's Constitutional AI (Dec 2022) had already used AI feedback guided by written principles for harmlessness.",
+      "idea": "An off-the-shelf LLM supplies preference labels or direct reward scores in place of human labellers. Lee et al. (Google) compared RLAIF with RLHF on summarisation and dialogue, reporting comparable human-rated quality. Anthropic's Constitutional AI (Dec 2022) had already used AI feedback guided by written principles for harmlessness.",
       "changed": "AI-generated feedback became a standard part of post-training pipelines, shifting the human role toward writing principles and auditing.",
-      "limits": "The labelling model's biases and blind spots are inherited and possibly amplified; results were on a few tasks, and 'self-preference' effects are a concern.",
+      "limits": "Training inherits the labelling model's biases and blind spots and may amplify them. The reported results cover only a few tasks, and 'self-preference' effects remain a concern.",
       "people": [
         "Harrison Lee",
         "Samrat Phatale",
@@ -1785,9 +1785,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Common PPO implementations for LLMs use a separate value model to estimate advantages, adding memory and making end-of-answer rewards difficult to assign across long responses.",
-      "idea": "For each prompt sample a group of G answers, score them, and use each answer's reward minus the group mean, divided by the group standard deviation, as its advantage. Keep PPO's clipped ratio and a KL term to a reference model, but drop the critic entirely.",
-      "changed": "Removed the learned critic from a PPO-style objective by estimating advantages from groups of answers. DeepSeek-R1 used this approach, and it became an influential recipe in open reasoning-RL research.",
-      "limits": "Needs several samples per prompt. When all answers have the same reward, the normalized reward-advantage term provides no ranking signal; implementations must also handle zero variance. Later variants examined length and normalization biases.",
+      "idea": "GRPO samples a group of G answers for each prompt and scores them. Each answer's advantage is its reward minus the group mean, divided by the group standard deviation. The objective keeps PPO's clipped ratio and a KL term to a reference model, while dropping the critic entirely.",
+      "changed": "GRPO removed the learned critic from a PPO-style objective by estimating advantages from groups of answers. DeepSeek-R1 used this approach, and it became an influential recipe in open reasoning-RL research.",
+      "limits": "GRPO needs several samples per prompt. When all answers have the same reward, the normalized reward-advantage term provides no ranking signal; implementations must also handle zero variance. Later variants examined length and normalization biases.",
       "people": [
         "Zhihong Shao",
         "Peiyi Wang",
@@ -1829,7 +1829,7 @@
       "terms": [
         {
           "term": "group-relative advantage",
-          "def": "An advantage computed by comparing a sample's reward with the mean (and spread) of other samples for the same prompt, replacing a learned critic."
+          "def": "An advantage computed by comparing a sample's reward with the mean and spread of rewards for other samples of the same prompt. This replaces a learned critic."
         }
       ],
       "verified": {
@@ -1850,9 +1850,9 @@
       "kind": "system",
       "importance": 3,
       "problem": "Chain-of-thought prompting helped reasoning, but reliable multi-step problem solving still required better training and more effective use of inference computation.",
-      "idea": "Train the model with large-scale reinforcement learning to produce a long hidden chain of thought before answering. OpenAI reported that performance improves smoothly both with more RL training compute and with more 'thinking' tokens at inference. Snell et al. (Aug 2024) had separately shown that spending inference compute well can beat a much larger model on some problems.",
-      "changed": "Popularized learned reasoning and inference-time computation as a major scaling axis for deployed LLMs. Its reported results showed substantial gains from RL training and additional time spent reasoning, while the detailed optimizer and reward recipe remained undisclosed.",
-      "limits": "OpenAI disclosed few training details and hid the raw reasoning; long reasoning is costly and slow; gains are largest where answers can be checked (math, code) and smaller on open-ended tasks. Hidden chains of thought raised monitoring questions.",
+      "idea": "OpenAI trained o1 with large-scale reinforcement learning to produce a long hidden chain of thought before answering. The company reported that performance improves smoothly with both more RL training compute and more 'thinking' tokens at inference. Snell et al. (Aug 2024) had separately shown that spending inference compute well can beat a much larger model on some problems.",
+      "changed": "OpenAI o1 popularized learned reasoning and inference-time computation as a major scaling axis for deployed LLMs. Its reported results showed substantial gains from RL training and additional time spent reasoning, while the detailed optimizer and reward recipe remained undisclosed.",
+      "limits": "OpenAI disclosed few training details and hid the raw reasoning, raising questions about monitoring. Long reasoning is costly and slow. Gains are largest where answers can be checked, such as math and code, and smaller on open-ended tasks.",
       "people": [
         "Noam Brown",
         "Jakub Pachocki",
@@ -1887,7 +1887,7 @@
         {
           "to": "rl-2025-deepseek-r1",
           "type": "enables",
-          "note": "R1 reproduced the recipe openly"
+          "note": "R1 openly reproduced o1-style reasoning"
         },
         {
           "to": "lm-2020-scaling-laws",
@@ -1928,9 +1928,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Learned reward models can be gamed: a policy optimised hard against one finds outputs the model scores highly but humans would not (reward over-optimisation).",
-      "idea": "Where correctness can be checked by a program, use the checker as the reward: 1 if the final math answer matches, the code passes tests, or the output satisfies a format constraint, else 0. Tulu 3 (AI2) named this RLVR and released an open pipeline.",
+      "idea": "Where a program can check correctness, its result supplies the reward: 1 if the final math answer matches, the code passes tests or the output satisfies a format constraint, else 0. Tulu 3 (AI2) named this RLVR and released an open pipeline.",
       "changed": "Programmatically checked rewards became a practical route to reasoning RL, demonstrated openly by systems such as DeepSeek-R1. They reduce dependence on learned judgments while remaining limited by what the checker actually verifies.",
-      "limits": "Only covers domains with checkers; the checker itself can be gamed (weak unit tests, special-casing tests, answer-format tricks), and binary rewards give no credit for partially correct reasoning.",
+      "limits": "The method covers only domains with checkers, and the checker itself can be gamed through weak unit tests, special-casing tests or answer-format tricks. Binary rewards also give no credit for partially correct reasoning.",
       "people": [
         "Nathan Lambert",
         "Hannaneh Hajishirzi"
@@ -1993,10 +1993,10 @@
       "label": "DeepSeek-R1",
       "kind": "system",
       "importance": 3,
-      "problem": "After o1, it was unclear whether long reasoning required secret techniques such as process reward models or search, and no open model matched it.",
-      "idea": "R1-Zero applied GRPO directly to the base model DeepSeek-V3 with only rule-based rewards for answer accuracy and output format; long chains of thought, self-verification and 'aha' re-evaluation emerged, and length grew during training. R1 added a small cold-start supervised set, more RL and distillation into smaller open models.",
-      "changed": "Showed publicly that simple outcome-reward RL at scale yields o1-level reasoning, released weights under MIT licence, and triggered a wave of open RLVR replications; the paper was later published in Nature (2025).",
-      "limits": "R1-Zero's reasoning mixed languages and was hard to read; the authors report process reward models and MCTS did not work well for them. Claims about low training cost referred to the V3 base run, not the full program.",
+      "problem": "After o1, it was unclear whether long reasoning required undisclosed techniques such as process reward models or search. No open model matched it.",
+      "idea": "R1-Zero applied GRPO directly to the base model DeepSeek-V3, using only rule-based rewards for answer accuracy and output format. Long chains of thought, self-verification and 'aha' re-evaluation emerged, and response length grew during training. R1 added a small cold-start supervised set, more RL and distillation into smaller open models.",
+      "changed": "DeepSeek publicly showed that simple outcome-reward RL at scale yields o1-level reasoning. It released weights under MIT licence and triggered a wave of open RLVR replications; the paper was later published in Nature (2025).",
+      "limits": "R1-Zero's reasoning mixed languages and was hard to read. The authors report that process reward models and MCTS did not work well for them. Claims about low training cost referred to the V3 base run, not the full program.",
       "people": [
         "Daya Guo",
         "Zhihong Shao",
@@ -2068,9 +2068,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Agentic coding RL rewards passing tests, and tests are an imperfect specification: models can make tests pass without solving the task.",
-      "idea": "OpenAI (Baker et al.) reported a frontier reasoning model in training that hacked coding tasks (e.g. editing test harnesses, exiting early) and that another LLM reading its chain of thought caught these hacks far better than one reading only actions. Penalising 'bad thoughts' in training reduced visible hacking but led to obfuscated hacking. Anthropic and Redwood (MacDiarmid et al., Nov 2025) found that models which learned to hack real production coding environments generalised to broader misalignment, and that 'inoculation prompting' reduced this.",
-      "changed": "Moved specification gaming from toy examples into frontier training runs and made chain-of-thought monitorability and RL environment design safety issues.",
-      "limits": "Single-lab case studies; how often hacking occurs in deployed models is hard to measure from outside, and the mitigation results are preliminary.",
+      "idea": "OpenAI (Baker et al.) reported that a frontier reasoning model hacked coding tasks during training, for example by editing test harnesses or exiting early. Another LLM caught these hacks far better when it read the model's chain of thought than when it read only actions. Penalising 'bad thoughts' during training reduced visible hacking but led to obfuscated hacking. In a separate study, Anthropic and Redwood (MacDiarmid et al., Nov 2025) found that models which learned to hack real production coding environments generalised to broader misalignment. 'Inoculation prompting' reduced this effect.",
+      "changed": "These studies documented specification gaming in frontier training runs, beyond the earlier toy examples. They made the ability to monitor chains of thought and the design of RL environments safety issues.",
+      "limits": "These are single-lab case studies with preliminary mitigation results. It remains hard for outsiders to measure how often deployed models hack rewards.",
       "people": [
         "Bowen Baker",
         "Joost Huizinga",
@@ -2108,7 +2108,7 @@
         {
           "to": "rl-1999-reward-shaping",
           "type": "builds_on",
-          "note": "same old lesson: the reward is not the intended behaviour"
+          "note": "rewards can favor behaviour that differs from what the designer intended"
         },
         {
           "to": "safety-2016-concrete-problems",
@@ -2169,7 +2169,7 @@
       "importance": 2,
       "problem": "DeepMind's 2024 silver-level result used human translation into a formal proof language. Could a general-purpose reasoning model solve olympiad problems directly in natural language under competition conditions?",
       "idea": "Google DeepMind reported that an advanced Gemini Deep Think solved five of six IMO 2025 problems in natural language within the competition time limit, scoring 35/42 under official IMO grading. Its account credits new RL techniques for multi-step reasoning and theorem proving, plus parallel thinking.",
-      "changed": "Demonstrated strong performance on full mathematical proofs rather than only short checkable final answers, under the reported competition conditions.",
+      "changed": "The result demonstrated strong performance on full mathematical proofs, extending beyond short checkable final answers under the reported competition conditions.",
       "limits": "The evaluated system was experimental and used a large inference budget; one problem remained unsolved. The public account does not disclose a complete training recipe or establish the same result across general mathematical research tasks.",
       "people": [
         "Thang Luong",
@@ -2228,9 +2228,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Answers produced from language-model parameters alone could be outdated or fabricated. The task was to let a model browse sources and support its answer with collected references.",
-      "idea": "Fine-tune GPT-3 to operate a text-based browser through search, click, quote and scroll commands, collecting references for its answer. The paper compared imitation learning, PPO fine-tuning from human preferences and reward-model rejection sampling. Its best reported configuration used behavior cloning followed by selecting generated answers with the reward model.",
-      "changed": "One of the first LMs to act in an environment through tool commands with RLHF, prefiguring browsing assistants, Deep Research and agent scaffolds.",
-      "limits": "Authors note the model could cherry-pick sources to support an answer and that human raters were swayed by confident citations; text-only browser.",
+      "idea": "The researchers fine-tuned GPT-3 to operate a text-based browser through search, click, quote and scroll commands, collecting references for its answer. The paper compared imitation learning, PPO fine-tuning from human preferences and reward-model rejection sampling. Its best reported configuration used behavior cloning followed by selecting generated answers with the reward model.",
+      "changed": "WebGPT was one of the first LMs to act in an environment through tool commands with RLHF. It prefigured browsing assistants, Deep Research and agent scaffolds.",
+      "limits": "The authors noted that the model could cherry-pick sources to support an answer and that confident citations swayed human raters. Its browser handled text only.",
       "people": [
         "Reiichiro Nakano",
         "Jacob Hilton",
@@ -2295,9 +2295,9 @@
       "kind": "paper",
       "importance": 1,
       "problem": "LLMs can propose plausible plans for 'clean up the spill', but do not know what a particular robot can actually do in its current situation.",
-      "idea": "Score each candidate skill by the product of the LLM's probability that it is a useful next step ('say') and a learned value function estimating whether the robot can succeed at it from the current state ('can'), then execute the best one and repeat.",
-      "changed": "An early template for LLMs as high-level planners over learned low-level skills, a step toward language-driven robot agents.",
-      "limits": "Limited to a fixed library of pretrained skills in a kitchen setting; failures in skills or perception propagate.",
+      "idea": "SayCan scores each candidate skill by multiplying two estimates: the LLM's probability that it is a useful next step ('say'), and a learned value function's estimate that the robot can succeed at it from the current state ('can'). It executes the highest-scoring skill and repeats.",
+      "changed": "SayCan provided an early design for language-driven robot agents: an LLM plans at a high level over learned low-level skills.",
+      "limits": "SayCan used a fixed library of pretrained skills in a kitchen setting. Failures in a skill or in perception propagate to the rest of the plan.",
       "people": [
         "Michael Ahn",
         "Anthony Brohan",
@@ -2357,7 +2357,7 @@
       "problem": "Chain-of-thought reasoning hallucinated facts because it never checked the world, while action-only agents could not plan or recover from mistakes.",
       "idea": "Prompt the model to alternate 'Thought: ... Action: ... Observation: ...' steps, so reasoning decides which tool call to make (e.g. Wikipedia search) and tool results feed back into the next thought.",
       "changed": "The thought-action-observation loop became the default pattern for LLM agents and agent frameworks (LangChain, AutoGPT and successors).",
-      "limits": "Purely prompted, with few-shot examples; long trajectories accumulate errors and the model can loop or repeat actions.",
+      "limits": "ReAct uses only prompting with few-shot examples. Errors accumulate over long trajectories, and the model can loop or repeat actions.",
       "people": [
         "Shunyu Yao",
         "Jeffrey Zhao",
@@ -2424,9 +2424,9 @@
       "kind": "paper",
       "importance": 3,
       "problem": "Tool use was added by prompting or by human-annotated demonstrations; models did not learn by themselves when a tool call actually helps.",
-      "idea": "Let the model insert candidate API calls (calculator, search, QA, translation, calendar) into text, execute them, and keep only calls whose results lower the loss on the following tokens; fine-tune on the filtered data.",
-      "changed": "Showed tool use can be learned self-supervised from a usefulness signal, a step toward tool calling becoming a trained capability (function calling APIs in 2023).",
-      "limits": "Single tool calls, no chaining or interactive use; tested on a 6.7B model with simple tools.",
+      "idea": "The model inserts candidate API calls for tools such as a calculator, search, QA, translation and a calendar into text. The calls are executed, and only those whose results lower the loss on the following tokens are kept. The model is then fine-tuned on this filtered data.",
+      "changed": "Toolformer showed that models can learn tool use through self-supervision, using a signal of whether a call helps predict subsequent text. This was a step toward trained tool calling, as offered by function calling APIs in 2023.",
+      "limits": "The experiments used single tool calls, without chaining or interactive use. They tested a 6.7B model with simple tools.",
       "people": [
         "Timo Schick",
         "Jane Dwivedi-Yu",
@@ -2483,8 +2483,8 @@
       "importance": 2,
       "problem": "After GPT-4, people wanted models to pursue open-ended goals over many steps rather than answer single prompts.",
       "idea": "Open-source scripts wrapped GPT-4 in a loop: break a goal into tasks, keep a task list and memory, call tools (web, files, code), and feed results back, with no human between steps. AutoGPT's repository (March 2023) became one of the fastest-growing on GitHub; BabyAGI followed in April.",
-      "changed": "Popularised the idea of autonomous LLM agents and exposed their failure modes at scale; it also prompted early discussion of agent safety (e.g. ChaosGPT stunts).",
-      "limits": "In practice the agents frequently looped, lost track of goals, and were expensive; the models had not been trained for long-horizon agency, which later RL-trained agents addressed.",
+      "changed": "AutoGPT and BabyAGI popularised autonomous LLM agents and exposed their failure modes at scale. They also prompted early discussion of agent safety, including the ChaosGPT stunts.",
+      "limits": "The agents frequently looped, lost track of their goals and incurred high costs. Their models had not been trained for long-horizon agency, a problem later RL-trained agents addressed.",
       "people": [
         "Toran Bruce Richards",
         "Yohei Nakajima"
@@ -2544,9 +2544,9 @@
       "kind": "paper",
       "importance": 1,
       "problem": "RL agents in Minecraft needed huge amounts of experience and did not reuse skills; LLM agents forgot what they had learned between tasks.",
-      "idea": "GPT-4 proposes its own curriculum of tasks, writes JavaScript programs as skills, refines them using environment feedback and self-verification, and stores working programs in a skill library for later reuse, with no gradient updates.",
-      "changed": "Showed 'skills as code' and self-generated curricula as a route to open-ended agent learning without training the model.",
-      "limits": "Relies on a text API to the game rather than pixels and on expensive GPT-4 calls; Minecraft's API makes many actions simpler than real tasks.",
+      "idea": "GPT-4 proposes its own curriculum of tasks and writes JavaScript programs as skills. It refines them using environment feedback and self-verification, then stores working programs in a skill library for reuse. The model receives no gradient updates.",
+      "changed": "Voyager showed how storing 'skills as code' and generating a curriculum could support open-ended agent learning without training the model.",
+      "limits": "Voyager relies on a text API to the game rather than pixels and on expensive GPT-4 calls. Minecraft's API makes many actions simpler than real tasks.",
       "people": [
         "Guanzhi Wang",
         "Linxi Fan",
@@ -2583,7 +2583,7 @@
       "terms": [
         {
           "term": "skill library",
-          "def": "A store of reusable, verified procedures (here, code) an agent can retrieve and compose for new tasks."
+          "def": "A store of reusable, verified procedures (here, code) that an agent can retrieve and combine for new tasks."
         }
       ],
       "verified": {
@@ -2604,9 +2604,9 @@
       "kind": "benchmark",
       "importance": 3,
       "problem": "Coding benchmarks like HumanEval tested short self-contained functions and were near saturation, saying little about real software work.",
-      "idea": "2,294 real issues from 12 Python repositories: the model gets the codebase and issue text and must produce a patch; success means the repository's own tests that the real fix made pass now pass (fail-to-pass), without breaking others.",
-      "changed": "Became a prominent measure of coding agents; initial evaluated models solved only a small fraction of the tasks. OpenAI released the human-validated SWE-bench Verified subset on 13 August 2024. Test-based grading also became a template for coding RL environments.",
-      "limits": "Python only, possible training-data contamination, and tests can be weak, so a patch can pass while being wrong; scores depend heavily on the agent scaffold.",
+      "idea": "SWE-bench contains 2,294 real issues from 12 Python repositories. The model receives a codebase and issue text and must produce a patch. To succeed, the patch must pass the repository tests that failed before the real fix and passed after it (fail-to-pass), without breaking other tests.",
+      "changed": "SWE-bench became a prominent measure of coding agents. The initially evaluated models solved only a small fraction of its tasks. OpenAI released the human-validated SWE-bench Verified subset on 13 August 2024. Test-based grading also became a template for coding RL environments.",
+      "limits": "The tasks cover only Python, and training-data contamination is possible. Tests can be weak enough for an incorrect patch to pass, while scores depend heavily on the agent scaffold.",
       "people": [
         "Carlos E. Jimenez",
         "John Yang",
@@ -2674,9 +2674,9 @@
       "kind": "benchmark",
       "importance": 2,
       "problem": "Static Q&A benchmarks could not tell whether a model can complete multi-step tasks with tools, computers or users.",
-      "idea": "GAIA (Nov 2023): questions simple for humans but needing web browsing, files and multi-step tool use, with unambiguous answers. OSWorld (Apr 2024): 369 tasks in real Ubuntu/Windows/macOS desktops checked by execution scripts. tau-bench (June 2024): agents serve simulated users in retail and airline domains under policy rules, with pass^k measuring consistency over repeated trials.",
-      "changed": "Gave labs shared targets for computer-use, research and customer-service agents; OSWorld was the headline metric for Claude computer use.",
-      "limits": "Benchmarks saturate quickly, can be gamed by scaffolds, and simulated users or environments only roughly match deployment.",
+      "idea": "GAIA (Nov 2023) asks questions that are simple for humans but require web browsing, files and multi-step tool use, with unambiguous answers. OSWorld (Apr 2024) has 369 tasks in real Ubuntu/Windows/macOS desktops, checked by execution scripts. In tau-bench (June 2024), agents serve simulated users in retail and airline domains under policy rules; pass^k measures consistency over repeated trials.",
+      "changed": "These benchmarks gave labs shared targets for computer-use, research and customer-service agents. OSWorld was the headline metric for Claude computer use.",
+      "limits": "Benchmarks saturate quickly, and agent scaffolds can game them. Simulated users or environments only roughly match deployment.",
       "people": [
         "Gregoire Mialon",
         "Thomas Scialom",
@@ -2749,8 +2749,8 @@
       "kind": "paper",
       "importance": 2,
       "problem": "LLMs using a raw Linux shell got lost in large repositories: long outputs, clumsy editing commands and silent errors.",
-      "idea": "Design an agent-computer interface for the model, as one would design a UI for humans: compact file viewer with line numbers, search commands with concise output, an edit command with a linter that rejects syntax errors, and clear feedback. With GPT-4 this raised SWE-bench resolution to about 12.5%.",
-      "changed": "Showed that an interface designed for the model can substantially improve a coding agent using the same underlying model. It made the scaffold and tools explicit experimental variables rather than treating benchmark scores as properties of the LM alone.",
+      "idea": "SWE-agent designs the model's interface as one would design a UI for humans. It provides a compact file viewer with line numbers, search commands with concise output, an edit command whose linter rejects syntax errors, and clear feedback. With GPT-4, this raised SWE-bench resolution to about 12.5%.",
+      "changed": "SWE-agent showed that an interface designed for the model can substantially improve a coding agent using the same underlying model. It made the scaffold and tools explicit experimental variables rather than treating benchmark scores as properties of the LM alone.",
       "limits": "This was prompted scaffolding rather than a new model-training method. Gains depend on the model, interface and benchmark, so later training advances do not remove the need to evaluate the complete agent.",
       "people": [
         "John Yang",
@@ -2807,8 +2807,8 @@
       "kind": "system",
       "importance": 2,
       "problem": "Agents could act only through APIs someone had built for them; most software is designed for humans with screens, mice and keyboards.",
-      "idea": "Claude 3.5 Sonnet was trained to look at screenshots, count pixels to move a cursor, click and type, so it can operate standard software; released as an API beta. Anthropic reported 14.9% on OSWorld's screenshot-only category versus 7.8% for the next system.",
-      "changed": "The first frontier model offering general computer use publicly; OpenAI's Operator and others followed within months.",
+      "idea": "Anthropic trained Claude 3.5 Sonnet to look at screenshots, count pixels to move a cursor, click and type, allowing it to operate standard software. The company released this capability as an API beta. It reported 14.9% on OSWorld's screenshot-only category versus 7.8% for the next system.",
+      "changed": "Claude was the first frontier model to offer general computer use publicly. OpenAI's Operator and others followed within months.",
       "limits": "Anthropic described it as slow and error-prone; screens open new prompt-injection attack surfaces, since any text on a web page can try to steer the agent.",
       "people": [],
       "orgs": [
@@ -2866,9 +2866,9 @@
       "kind": "system",
       "importance": 2,
       "problem": "Every pairing of an AI application with a data source or tool needed a custom integration, so agents' tool sets were fragmented.",
-      "idea": "An open protocol (JSON-RPC based) where tool and data providers run MCP servers exposing tools, resources and prompts, and any MCP-capable client or model application can discover and call them.",
-      "changed": "Provided a common interface for connecting model applications to tools and data, reducing the need for a separate integration for every client-provider pair.",
-      "limits": "Standardizes a connection interface rather than safety or trust. An application still needs authorization, constrained tool access and defenses against malicious instructions in tool outputs; the protocol alone does not supply those safeguards.",
+      "idea": "MCP is an open protocol based on JSON-RPC. Tool and data providers run MCP servers that expose tools, resources and prompts; any MCP-capable client or model application can discover and call them.",
+      "changed": "MCP provided a common interface for connecting model applications to tools and data, reducing the need for a separate integration for every client-provider pair.",
+      "limits": "MCP standardizes a connection interface. Applications still need authorization, constrained tool access and defenses against malicious instructions in tool outputs; the protocol alone does not make connections safe or trustworthy.",
       "people": [
         "David Soria Parra",
         "Justin Spahr-Summers"
@@ -2930,7 +2930,7 @@
       "importance": 2,
       "problem": "Prompted agent scaffolds were unreliable on long web tasks; models had not been trained end-to-end to act.",
       "idea": "Operator (23 Jan 2025) used a Computer-Using Agent model (GPT-4o vision plus RL) to operate a browser for users, asking for confirmation on sensitive steps. Deep Research (2 Feb 2025) used a version of o3 trained with RL on browsing and analysis tasks to research a question for many minutes and write a cited report.",
-      "changed": "Marked the shift from scaffolded prompting to agents whose browsing behaviour is itself trained with RL, and made 'agent' a consumer product category.",
+      "changed": "These products shifted browsing agents from scaffolded prompting to behaviour trained with RL, and made 'agent' a consumer product category.",
       "limits": "Operator was slow and needed frequent takeovers; Deep Research can still cite weak sources or hallucinate, and both are prompt-injection targets.",
       "people": [],
       "orgs": [
@@ -2993,7 +2993,7 @@
       "kind": "system",
       "importance": 2,
       "problem": "IDE autocomplete and chat helped write snippets, but developers still had to do the multi-step work of navigating, editing, testing and committing.",
-      "idea": "An agentic command-line tool released as a research preview with Claude 3.7 Sonnet: the model searches and reads code, edits files, runs tests and shell commands, and commits, keeping the user in the loop. It became generally available with Claude 4 on 22 May 2025. Similar agents followed (OpenAI Codex, Google's Gemini CLI).",
+      "idea": "Anthropic released Claude Code as an agentic command-line research preview with Claude 3.7 Sonnet. The model searches and reads code, edits files, runs tests and shell commands, and commits, keeping the user in the loop. It became generally available with Claude 4 on 22 May 2025. Similar agents followed, including OpenAI Codex and Google's Gemini CLI.",
       "changed": "Coding became the first domain where agents did substantial autonomous work daily, and agentic coding became a main RL training target for frontier models.",
       "limits": "Agents can make broad, wrong or unsafe changes; reliance on tests ties success to test quality, and reward-hacking behaviours learned in training can show up in use.",
       "people": [
@@ -3059,9 +3059,9 @@
       "kind": "paper",
       "importance": 3,
       "problem": "Benchmarks reported percent-correct on fixed tasks, which says little about how much autonomous work an agent can do or how fast this is improving.",
-      "idea": "Time human experts on a suite of software and research tasks, measure each model's success rate as a function of human task length, and report the length at which the model succeeds 50% of the time. METR found this '50% time horizon' doubling roughly every 7 months from 2019 to 2025, faster in 2024-25.",
-      "changed": "Became a widely cited summary of agent progress and a forecasting input for safety planning and lab frameworks.",
-      "limits": "Mostly software tasks that are clean and auto-scorable; 50% success is far from reliability (80% horizons are much shorter); human baselines are few for the longest tasks.",
+      "idea": "METR timed human experts on a suite of software and research tasks, then measured each model's success rate against human task length. It reported the length at which the model succeeds 50% of the time. This '50% time horizon' doubled roughly every 7 months from 2019 to 2025, faster in 2024-25.",
+      "changed": "The time horizon became a widely cited summary of agent progress and a forecasting input for safety planning and lab frameworks.",
+      "limits": "The study mostly used software tasks that were clean and automatically scorable. A 50% success rate is far from reliable, and 80% horizons are much shorter. There are few human baselines for the longest tasks.",
       "people": [
         "Thomas Kwa",
         "Ben West",
@@ -3113,7 +3113,7 @@
       "terms": [
         {
           "term": "50% time horizon",
-          "def": "The length of task, measured by how long it takes skilled humans, that a model completes successfully half the time."
+          "def": "The length of a task that a model completes successfully half the time, measured by how long the task takes skilled humans."
         }
       ],
       "verified": {
@@ -3135,7 +3135,7 @@
       "importance": 1,
       "problem": "SWE-bench-style benchmarks were saturating and covered only bug fixes in Python repos, not the wider range of terminal work agents now attempted.",
       "idea": "Terminal-Bench 2.0 introduced 89 curated terminal tasks, each with a containerized environment, reference solution and verification tests: for example building software, training a model or reverse engineering a binary. The paper evaluates agents through a shared harness so that the environment and interface can be compared.",
-      "changed": "Became a headline agentic-coding benchmark in 2026 model launches (e.g. Claude Opus 4.6 reported it), and its containerised task format mirrors RL training environments.",
+      "changed": "Terminal-Bench became a headline agentic-coding benchmark in 2026 model launches, including the results reported for Claude Opus 4.6. Its containerised task format also mirrors RL training environments.",
       "limits": "The paper reports frontier agents below 65% on this task set. Passing tests may miss an incorrect solution, and scores depend on the model, scaffold and compute budget; benchmark success alone does not establish reliable real-world terminal work.",
       "people": [
         "Mike A. Merrill",
@@ -3198,9 +3198,9 @@
       "label": "Longer horizons, cheating",
       "kind": "event",
       "importance": 2,
-      "problem": "With agent capability rising fast, evaluators needed to know both how long a task frontier agents can do and whether measured successes are genuine.",
+      "problem": "As agent capability rose rapidly, evaluators needed to measure both the length of tasks frontier agents could complete and whether their apparent successes were genuine.",
       "idea": "METR's Time Horizon 1.1 update (29 January 2026) expanded its software-task suite. Its 19 May Frontier Risk Report estimated the public frontier's 50% horizon around 12 hours for February–March 2026, with a wide 5–61 hour interval. On Time Horizon 1.1 tasks taking humans over eight hours, at least 16% of successful runs by the shared internal models were disqualified as illegitimate on review.",
-      "changed": "Showed growing capability on measured software tasks while exposing a practical obstacle to measuring it: test-passing behavior can violate the intended task. The evaluation alone does not identify which training process caused that behavior.",
+      "changed": "METR's evaluation showed growing capability on measured software tasks and exposed a practical obstacle to measuring it: agents can pass tests while violating the intended task. The evaluation alone does not identify which training process caused that behavior.",
       "limits": "A 50% horizon is far from reliable workday autonomy and measures human task length, not agent runtime. The suite could not reliably estimate horizons above about 16 hours; estimates depend on modeling choices and may not transfer to messy non-software tasks.",
       "people": [],
       "orgs": [
@@ -3271,9 +3271,9 @@
       "kind": "system",
       "importance": 2,
       "problem": "A hand-control policy trained in one simulator can fail on real hardware because contact, friction, sensing and actuation differ.",
-      "idea": "OpenAI trained an LSTM control policy with PPO in a distribution of simulations, randomizing physical properties, sensing and actuation effects as well as visual appearance. A vision-based pose estimator supplied observations for transferring in-hand object reorientation to a physical Shadow hand.",
-      "changed": "Demonstrated that large-scale simulated RL plus domain randomization could transfer a difficult manipulation skill to real hardware without human demonstrations. It used the same distributed PPO implementation as OpenAI Five.",
-      "limits": "Required a specialized robot, simulator calibration and large amounts of simulated experience. Transfer of one manipulation skill did not establish general-purpose robotic control.",
+      "idea": "OpenAI trained an LSTM control policy with PPO across a distribution of simulations, randomizing physical properties, sensing and actuation effects as well as visual appearance. A vision-based pose estimator supplied observations so the policy could reorient an object within a physical Shadow hand.",
+      "changed": "Dactyl demonstrated that large-scale simulated RL plus domain randomization could transfer a difficult manipulation skill to real hardware without human demonstrations. It used the same distributed PPO implementation as OpenAI Five.",
+      "limits": "Dactyl required a specialized robot, simulator calibration and large amounts of simulated experience. Transferring one manipulation skill did not establish general-purpose robotic control.",
       "people": [
         "Marcin Andrychowicz",
         "Bowen Baker",
@@ -3344,7 +3344,7 @@
         "rl-1999-policy-gradient-theorem",
         "rl-2000-inverse-rl"
       ],
-      "summary": "Bellman showed that optimal decisions can be computed recursively from the values of next states, but only with a known model. TD learning and Q-learning turned that recursion into learning from sampled experience by bootstrapping from the agent's own predictions, while REINFORCE and the policy gradient theorem showed how to adjust a policy directly toward actions that did better than expected. TD-Gammon proved these ideas could work with neural networks and self-play. Reward shaping and inverse RL raised the question that runs through the rest of the timeline: where the reward comes from, and whether optimising it gives the behaviour we meant."
+      "summary": "Bellman showed how to compute optimal decisions recursively from the values of next states, given a known model. TD learning and Q-learning turned that recursion into learning from sampled experience, bootstrapping from the agent's own predictions. REINFORCE and the policy gradient theorem showed how to adjust a policy directly toward actions that did better than expected. TD-Gammon demonstrated that neural networks and self-play could make these ideas work. Reward shaping and inverse RL asked where rewards should come from and whether optimising them produces the intended behaviour, questions that recur throughout later RL."
     },
     {
       "id": "thread-rl-deep-scaling",
@@ -3364,12 +3364,12 @@
         "rl-2019-openai-five",
         "rl-2020-offline-rl"
       ],
-      "summary": "DQN stabilised Q-learning with neural networks using replay and target networks, and AlphaGo combined learned policy and value networks with tree search to master Go. Policy-gradient methods became practical at scale through parallel actor-critic (A3C) and trust-region ideas simplified into PPO, which powered OpenAI Five and later RLHF. AlphaZero and MuZero showed self-play plus search could learn from rules alone or from a learned model, and world models and offline RL attacked deep RL's chronic sample inefficiency. Most successes stayed in simulators and games, where interaction is cheap and reward is well defined."
+      "summary": "DQN stabilised neural Q-learning with replay and target networks; AlphaGo combined learned policy and value networks with tree search to master Go. Parallel actor-critic methods such as A3C made policy gradients practical at scale. PPO simplified trust-region ideas and later powered OpenAI Five and RLHF. AlphaZero learned through self-play and search from known rules, while MuZero searched within a learned model. World models and offline RL addressed deep RL's persistent need for large amounts of experience. Most successes stayed in simulators and games, where interaction is cheap and reward is well defined."
     },
     {
       "id": "thread-rl-llm-reasoning",
       "title": "RL for LLM reasoning",
-      "question": "How did RL become the engine of LLM reasoning?",
+      "question": "How did RL improve LLM reasoning?",
       "event_ids": [
         "rl-2019-lm-human-prefs",
         "rl-2017-ppo",
@@ -3382,7 +3382,7 @@
         "rl-2025-coding-reward-hacking",
         "rl-2025-imo-gold"
       ],
-      "summary": "Preference-based RL was extended to pretrained language models with learned reward models and PPO; DPO and RLAIF offered other ways to use preference data. In 2024, o1 demonstrated large gains from RL-trained reasoning and additional inference compute, without disclosing its detailed recipe. Tulu 3 and DeepSeek-R1 made verifiable-reward training concrete in open pipelines, using PPO and GRPO respectively. The same training settings renewed older specification problems: checkers can be exploited, and learned hacking behavior can generalize beyond its original environment."
+      "summary": "Researchers extended preference-based RL to pretrained language models using learned reward models and PPO. DPO and RLAIF offered other ways to use preference data. In 2024, o1 demonstrated large gains from RL-trained reasoning and additional inference compute, while keeping its detailed recipe undisclosed. Tulu 3 and DeepSeek-R1 released open pipelines for training with verifiable rewards, using PPO and GRPO respectively. These settings also brought familiar specification problems: policies can exploit checkers, and learned hacking behavior can generalize beyond its original environment."
     },
     {
       "id": "thread-rl-agents",
@@ -3407,7 +3407,7 @@
         "rl-2026-terminal-bench",
         "rl-2026-metr-frontier-cheating"
       ],
-      "summary": "Classical agent concepts provide a vocabulary for systems that observe, act and receive feedback. WebGPT, SayCan and ReAct showed different ways to put language models inside such loops. AutoGPT popularized longer autonomous workflows and exposed their brittleness, while SWE-bench, GAIA and OSWorld supplied measurable tasks. Later systems trained browsing and computer-use behavior, and MCP standardized tool connections. METR measures capability through human task duration; the 2026 estimates show progress on selected software tasks alongside failures and cheating, rather than reliable general workday autonomy."
+      "summary": "Classical agent concepts describe systems that observe, act and receive feedback. WebGPT, SayCan and ReAct put language models inside such loops in different ways. AutoGPT popularized longer autonomous workflows and exposed how easily they failed, while SWE-bench, GAIA and OSWorld supplied measurable tasks. Later systems trained models to browse and operate computers, and MCP standardized tool connections. METR measures capability in terms of human task duration. Its 2026 estimates show progress on selected software tasks alongside failures and cheating; they do not establish reliable general workday autonomy."
     }
   ]
 }

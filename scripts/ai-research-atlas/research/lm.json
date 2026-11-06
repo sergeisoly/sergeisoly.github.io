@@ -13,8 +13,8 @@
       "kind": "event",
       "importance": 3,
       "problem": "Work on thinking machines was scattered across cybernetics, logic, information theory and early computing, with no shared name or agenda.",
-      "idea": "McCarthy, Minsky, Rochester and Shannon proposed (Aug 1955) a two-month summer study in 1956 on the conjecture that every feature of learning or intelligence can be described precisely enough for a machine to simulate it; the proposal coined 'artificial intelligence'.",
-      "changed": "Gave the field its name, its founding community and its early optimism. The listed topics (language use, abstraction, self-improvement, neuron nets) are still the research agenda.",
+      "idea": "In Aug 1955, McCarthy, Minsky, Rochester and Shannon proposed a two-month summer study in 1956. Their conjecture was that every feature of learning or intelligence can be described precisely enough for a machine to simulate it. The proposal coined 'artificial intelligence'.",
+      "changed": "The workshop gave the field its name, founding community and early optimism. Its listed topics (language use, abstraction, self-improvement, neuron nets) remain on the research agenda.",
       "limits": "The workshop itself produced few concrete results, and its time estimates were far too optimistic. Early AI after Dartmouth was mostly symbolic, not learning-based.",
       "people": [
         "John McCarthy",
@@ -69,8 +69,8 @@
       "kind": "paper",
       "importance": 2,
       "problem": "It was unclear whether a machine could learn to classify patterns from examples rather than being programmed with rules.",
-      "idea": "Rosenblatt described the perceptron, a network of threshold units whose weights are adjusted by an error-driven rule, with a convergence guarantee for linearly separable data; it was later built in hardware (Mark I).",
-      "changed": "Brought trainable neural classifiers to wide attention and helped establish learning adjustable weights as an alternative to programming every rule.",
+      "idea": "Rosenblatt described the perceptron, a network of threshold units whose weights are adjusted by an error-driven rule. The rule has a convergence guarantee for linearly separable data. The design was later built in hardware (Mark I).",
+      "changed": "The perceptron brought trainable neural classifiers to wide attention and helped establish learning by adjusting weights as an alternative to programming every rule.",
       "limits": "A single layer of trainable weights can only learn linearly separable functions, and there was no method for training hidden layers. Press coverage greatly overstated what it could do.",
       "people": [
         "Frank Rosenblatt"
@@ -119,10 +119,10 @@
       "label": "Perceptrons and AI winters",
       "kind": "book",
       "importance": 2,
-      "problem": "Neural network claims ran ahead of any theory of what such networks could compute.",
+      "problem": "Claims about neural networks outpaced the theory of what they could compute.",
       "idea": "Minsky and Papert proved that single-layer perceptrons cannot compute some simple predicates (parity, connectedness; XOR is the textbook case) without impractically large or global connections.",
-      "changed": "Highlighted limitations of restricted perceptron architectures. The book became associated with the first AI winter, alongside unmet promises and the UK Lighthill report (written in 1972, published in 1973); its independent role in funding cuts is disputed. A second downturn followed the expert-systems market contraction in the late 1980s.",
-      "limits": "The results applied to single-layer networks; multilayer networks were not ruled out, they just could not yet be trained. How much the book alone caused the downturn is disputed.",
+      "changed": "The book documented limitations of restricted perceptron architectures. It became associated with the first AI winter, alongside unmet promises and the UK Lighthill report (written in 1972, published in 1973); its independent role in funding cuts is disputed. A second downturn followed the expert-systems market contraction in the late 1980s.",
+      "limits": "The results applied to single-layer networks. They did not rule out multilayer networks, but researchers could not yet train those. How much the book alone caused the downturn is disputed.",
       "people": [
         "Marvin Minsky",
         "Seymour Papert",
@@ -158,7 +158,7 @@
         {
           "to": "lm-1986-backprop",
           "type": "enables",
-          "note": "backprop answered the 'how to train hidden layers' gap"
+          "note": "backprop supplied a method for training hidden layers"
         }
       ],
       "tags": [
@@ -191,8 +191,8 @@
       "importance": 3,
       "problem": "Multilayer networks could represent much more than perceptrons, but there was no widely accepted, practical way to train their hidden units.",
       "idea": "Rumelhart, Hinton and Williams showed that gradient descent with errors propagated backward through the layers (the chain rule) lets hidden units learn useful internal representations.",
-      "changed": "Revived connectionism in the late 1980s and is still how essentially every neural network, including LLMs, is trained.",
-      "limits": "Not the first derivation: reverse-mode differentiation (Linnainmaa 1970) and its application to networks (Werbos 1974) came earlier. Deep or recurrent nets still trained poorly because of vanishing gradients, small data and slow hardware.",
+      "changed": "The paper revived connectionism in the late 1980s. Backpropagation is still used to train essentially every neural network, including LLMs.",
+      "limits": "Earlier work derived reverse-mode differentiation (Linnainmaa 1970) and applied it to networks (Werbos 1974). Deep or recurrent nets still trained poorly because of vanishing gradients, small data and slow hardware.",
       "people": [
         "David Rumelhart",
         "Geoffrey Hinton",
@@ -249,9 +249,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Fully connected nets ignore the spatial structure of images, so they need too many parameters and too much data.",
-      "idea": "Trained a network with local receptive fields and shared weights (convolutions) end-to-end by backprop on zip-code digits. The 1998 'Gradient-based learning' paper (LeNet-5) consolidated the design for document recognition.",
-      "changed": "Established convolutional networks and the idea of building domain structure into the architecture; LeNet-style systems read a sizeable share of US bank cheques in the late 1990s.",
-      "limits": "Did not scale beyond small images on the hardware of the time; in the 2000s SVMs and hand-engineered features dominated vision benchmarks.",
+      "idea": "The team trained a network with local receptive fields and shared weights (convolutions) end-to-end by backprop on zip-code digits. The 1998 'Gradient-based learning' paper (LeNet-5) consolidated the design for document recognition.",
+      "changed": "The work established convolutional networks and the idea of building domain structure into the architecture. LeNet-style systems read a sizeable share of US bank cheques in the late 1990s.",
+      "limits": "On the hardware of the time, the design did not scale beyond small images. In the 2000s, SVMs and hand-engineered features dominated vision benchmarks.",
       "people": [
         "Yann LeCun",
         "Léon Bottou",
@@ -315,7 +315,7 @@
       "problem": "Recurrent networks could not learn dependencies over more than a few time steps because gradients vanish or explode when propagated back through time (Hochreiter 1991; Bengio et al. 1994).",
       "idea": "Hochreiter and Schmidhuber added a memory cell with an additive self-connection (the 'constant error carousel') and multiplicative gates controlling what is written and read; a forget gate was added by Gers et al. in 2000.",
       "changed": "LSTMs became the default sequence model from about 2013 to 2017, powering speech recognition, seq2seq translation and ELMo.",
-      "limits": "Still processes tokens one at a time, so training cannot be parallelised across the sequence, and very long-range information still degrades. Transformers displaced it for most language work after 2017.",
+      "limits": "LSTMs still process tokens one at a time, so training cannot be parallelised across the sequence, and very long-range information still degrades. Transformers displaced them for most language work after 2017.",
       "people": [
         "Sepp Hochreiter",
         "Jürgen Schmidhuber"
@@ -372,9 +372,9 @@
       "kind": "paper",
       "importance": 1,
       "problem": "Count-based n-gram models needed smoothing to handle rare or unseen word combinations, and longer contexts required rapidly growing tables. Could learned distributed representations share statistical strength across similar contexts?",
-      "idea": "Bengio et al. learned a dense vector per word jointly with a neural network that predicts the next word from the previous words' vectors, so similar words share statistical strength.",
-      "changed": "Helped establish jointly learned word representations and neural next-word prediction, an important ancestor of today's autoregressive language models.",
-      "limits": "Far slower to train than n-grams on 2003 hardware and still a fixed, short context window; n-gram models stayed dominant in production for another decade.",
+      "idea": "Bengio et al. jointly learned a dense vector for each word and a neural network that predicts the next word from the previous words' vectors. Similar words could then share statistical strength.",
+      "changed": "The work helped establish jointly learned word representations and neural next-word prediction, an important ancestor of today's autoregressive language models.",
+      "limits": "Training was far slower than for n-grams on 2003 hardware, and the model still had a fixed, short context window. N-gram models stayed dominant in production for another decade.",
       "people": [
         "Yoshua Bengio",
         "Réjean Ducharme",
@@ -432,9 +432,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Networks with many layers trained by backprop from random initialisation got stuck in poor solutions, so 'deep' networks were widely considered impractical.",
-      "idea": "Hinton, Osindero and Teh trained a deep generative network greedily, one layer at a time, as stacked restricted Boltzmann machines, then fine-tuned the whole stack; a companion Science paper (Hinton and Salakhutdinov, Jul 2006) applied it to deep autoencoders.",
-      "changed": "Helped revive interest in training deep networks and demonstrated useful layer-wise unsupervised initialization. The pretrain-then-fine-tune pattern influenced later approaches, although the RBM recipe itself was largely displaced.",
-      "limits": "The specific RBM pretraining recipe was soon unnecessary: ReLUs, better initialisation, GPUs and more labelled data made plain supervised backprop work by 2010-2012.",
+      "idea": "Hinton, Osindero and Teh trained a deep generative network greedily, one layer at a time, as stacked restricted Boltzmann machines, then fine-tuned the whole stack. A companion Science paper (Hinton and Salakhutdinov, Jul 2006) applied the approach to deep autoencoders.",
+      "changed": "The work helped revive interest in training deep networks and demonstrated useful layer-wise unsupervised initialization. The pretrain-then-fine-tune pattern influenced later approaches, although the RBM recipe itself was largely displaced.",
+      "limits": "By 2010-2012, ReLUs, better initialisation, GPUs and more labelled data made plain supervised backprop work without the specific RBM pretraining recipe.",
       "people": [
         "Geoffrey Hinton",
         "Simon Osindero",
@@ -491,7 +491,7 @@
       "importance": 2,
       "problem": "Vision datasets had thousands to tens of thousands of images, too small to train high-capacity models or to separate methods convincingly.",
       "idea": "Deng, Fei-Fei Li and colleagues labelled millions of images over WordNet categories using crowd workers (Amazon Mechanical Turk); the yearly ILSVRC challenge (1,000 classes, about 1.2M training images) started in 2010.",
-      "changed": "Supplied the data that made large neural nets pay off and set the pattern of progress measured on a shared benchmark. 'Data is a first-class ingredient' carried straight into web-scale text corpora.",
+      "changed": "ImageNet supplied the data that made large neural nets pay off and established a shared benchmark for measuring progress. Its emphasis on data as a central ingredient carried into web-scale text corpora.",
       "limits": "Labels contain errors and cultural biases (the person categories were later pruned), and benchmark-chasing can reward overfitting to one test set.",
       "people": [
         "Jia Deng",
@@ -542,8 +542,8 @@
       "importance": 3,
       "problem": "Computer vision ran on hand-designed features plus shallow classifiers, and many researchers doubted that neural nets could beat them on real images.",
       "idea": "Krizhevsky, Sutskever and Hinton trained a large CNN (about 60M parameters) on two GPUs with ReLUs, dropout and data augmentation, winning ILSVRC-2012 with 15.3% top-5 error against 26.2% for the runner-up.",
-      "changed": "A landmark in the shift toward GPU-trained deep learning for computer vision. Its large ImageNet gain encouraged much wider use of convolutional networks and investment in deep-learning research.",
-      "limits": "Required large labelled datasets; the models were opaque, brittle to distribution shift and vulnerable to adversarial examples (shown in 2013).",
+      "changed": "AlexNet's large ImageNet gain encouraged much wider use of convolutional networks and investment in deep-learning research, as computer vision shifted toward GPU-trained deep learning.",
+      "limits": "AlexNet required large labelled datasets. The models were opaque, brittle to distribution shift and vulnerable to adversarial examples (shown in 2013).",
       "people": [
         "Alex Krizhevsky",
         "Ilya Sutskever",
@@ -609,9 +609,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Neural language models learned good word vectors but were too expensive to train on billions of words.",
-      "idea": "Mikolov et al. dropped the hidden layer and trained shallow models (CBOW, skip-gram) to predict nearby words; vectors showed linear analogies such as king - man + woman close to queen.",
-      "changed": "Made pretrained word vectors practical and widely used as inputs to NLP systems, accelerating transfer of representations learned from unlabeled text.",
-      "limits": "One static vector per word, regardless of context ('bank' has one vector), and embeddings absorbed social biases from the corpus.",
+      "idea": "Mikolov et al. dropped the hidden layer and trained shallow models (CBOW, skip-gram) on nearby-word prediction. Their vectors showed linear analogies such as king - man + woman close to queen.",
+      "changed": "word2vec made pretrained word vectors practical and widely used as inputs to NLP systems, accelerating transfer of representations learned from unlabeled text.",
+      "limits": "Each word had one static vector regardless of context ('bank' has one vector). The embeddings also absorbed social biases from the corpus.",
       "people": [
         "Tomas Mikolov",
         "Kai Chen",
@@ -663,8 +663,8 @@
       "importance": 1,
       "problem": "Deep generative models of images needed intractable likelihoods or slow sampling procedures.",
       "idea": "Goodfellow et al. trained a generator against a discriminator in a two-player game: the discriminator learns to tell real from generated samples, the generator learns to fool it.",
-      "changed": "Dominated image generation from about 2015 to 2020 (StyleGAN and deepfakes) and made synthetic media a policy topic.",
-      "limits": "Training is unstable and prone to mode collapse; diffusion models largely replaced GANs for image generation after 2020. Not part of the LLM lineage.",
+      "changed": "GANs dominated image generation from about 2015 to 2020 (StyleGAN and deepfakes) and made synthetic media a policy topic.",
+      "limits": "GAN training is unstable and prone to mode collapse. Diffusion models largely replaced GANs for image generation after 2020. GANs are not part of the LLM lineage.",
       "people": [
         "Ian Goodfellow",
         "Yoshua Bengio"
@@ -702,9 +702,9 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Encoder-decoder RNNs squeezed the whole source sentence into one fixed-length vector, and quality fell on long sentences.",
-      "idea": "Bahdanau, Cho and Bengio let the decoder compute, at every output step, a learned weighting over all encoder states and read a weighted sum of them (soft alignment).",
-      "changed": "Attention became standard in neural MT (Google's GNMT in 2016) and is the mechanism the Transformer kept while discarding recurrence.",
-      "limits": "Still wrapped around a sequential RNN, so slow to train; attention weights are often read as explanations, which later work showed is unreliable.",
+      "idea": "At every output step, the decoder in Bahdanau, Cho and Bengio's model computes a learned weighting over all encoder states and reads their weighted sum (soft alignment).",
+      "changed": "Attention became standard in neural MT (Google's GNMT in 2016). The Transformer later kept this mechanism while discarding recurrence.",
+      "limits": "The attention mechanism still sat within a sequential RNN, so training remained slow. Later work also showed that treating attention weights as explanations is unreliable.",
       "people": [
         "Dzmitry Bahdanau",
         "Kyunghyun Cho",
@@ -761,7 +761,7 @@
       "importance": 2,
       "problem": "Deep nets mapped fixed-size inputs to fixed-size outputs; tasks like translation map variable-length sequences to variable-length sequences.",
       "idea": "Sutskever, Vinyals and Le encoded the source with a deep LSTM into a vector and decoded the target with another LSTM, reaching 34.8 BLEU on WMT'14 English-French, competitive with phrase-based systems.",
-      "changed": "Showed one end-to-end neural architecture could replace a complex statistical MT pipeline, and framed many NLP tasks as text-in, text-out.",
+      "changed": "The work showed that one end-to-end neural architecture could replace a complex statistical MT pipeline. It also framed many NLP tasks as text-in, text-out.",
       "limits": "The fixed-size bottleneck hurt long inputs (fixed by attention), and decoding was sequential and slow.",
       "people": [
         "Ilya Sutskever",
@@ -813,7 +813,7 @@
       "importance": 1,
       "problem": "Plain SGD needed careful per-problem learning-rate tuning and handled badly scaled or sparse gradients poorly.",
       "idea": "Kingma and Ba combined momentum with per-parameter step sizes from running estimates of the first and second moments of the gradient, with bias correction.",
-      "changed": "Became a widely used adaptive optimizer for deep learning. Its decoupled-weight-decay variant AdamW (2017) became common in language-model training.",
+      "changed": "Adam became a widely used adaptive optimizer for deep learning. Its decoupled-weight-decay variant AdamW (2017) became common in language-model training.",
       "limits": "The original convergence proof was later shown to be flawed (Reddi et al. 2018), and Adam can generalise worse than SGD on some vision tasks. Its two extra state tensors add memory cost at LLM scale.",
       "people": [
         "Diederik P. Kingma",
@@ -860,7 +860,7 @@
       "kind": "paper",
       "importance": 2,
       "problem": "Beyond about 20-30 layers, adding depth made even training error worse (the degradation problem), and deep nets were slow and fragile to train.",
-      "idea": "He et al. made each block learn a residual F(x) added to an identity shortcut, training 152-layer networks that won ILSVRC-2015. Normalization layers stabilised training: batch norm (Ioffe and Szegedy, Feb 2015) for CNNs, layer norm (Ba, Kiros, Hinton, Jul 2016) for sequence models.",
+      "idea": "He et al. made each block learn a residual F(x) added to an identity shortcut, training 152-layer networks that won ILSVRC-2015. In related work, normalization layers stabilised training: batch norm (Ioffe and Szegedy, Feb 2015) for CNNs and layer norm (Ba, Kiros, Hinton, Jul 2016) for sequence models.",
       "changed": "Residual connections and normalization became standard ingredients of deep networks, including Transformer blocks, making much deeper stacks practical to train.",
       "limits": "Why residual nets work so well is still only partly understood. Batch norm depends on batch statistics, which is why Transformers use layer norm (later RMSNorm).",
       "people": [
@@ -939,9 +939,9 @@
       "label": "Mixture of experts",
       "kind": "paper",
       "importance": 1,
-      "problem": "Model capacity was tied to compute: every parameter was used for every token, so bigger models cost proportionally more per token.",
+      "problem": "Increasing model capacity also increased compute: every parameter was used for every token, so bigger models cost proportionally more per token.",
       "idea": "Shazeer et al. inserted layers of many expert sub-networks with a learned router that sends each token to only a few experts, reaching over 100B parameters at modest compute per token.",
-      "changed": "Conditional computation became a main route to scale: Switch Transformer (Jan 2021), Mixtral (Dec 2023/Jan 2024), Gemini 1.5 and DeepSeek-V3 are MoE, and several closed frontier models are reported to be.",
+      "changed": "Conditional computation became a main way to scale models. Switch Transformer (Jan 2021), Mixtral (Dec 2023/Jan 2024), Gemini 1.5 and DeepSeek-V3 use MoE; several closed frontier models are also reported to use it.",
       "limits": "Routing is hard to balance (auxiliary losses, dropped tokens), training can be unstable, and total memory stays large. Parameter counts of MoE and dense models are not directly comparable.",
       "people": [
         "Noam Shazeer",
@@ -1010,9 +1010,9 @@
       "kind": "paper",
       "importance": 3,
       "problem": "RNN-based models process tokens sequentially, which limits parallel training on GPUs and makes long-range dependencies hard.",
-      "idea": "Vaswani et al. built an encoder-decoder entirely from multi-head self-attention and feed-forward layers, with positional encodings, residual connections and layer norm; it set MT records (28.4 BLEU En-De) at lower training cost.",
-      "changed": "Became the architecture for nearly all later language, vision and multimodal foundation models, because it parallelises across the sequence and keeps improving as it is scaled.",
-      "limits": "Self-attention cost grows quadratically with sequence length, it has no built-in recurrence or memory beyond the context window, and it is data- and compute-hungry.",
+      "idea": "Vaswani et al. built an encoder-decoder entirely from multi-head self-attention and feed-forward layers, with positional encodings, residual connections and layer norm. It set MT records (28.4 BLEU En-De) at lower training cost.",
+      "changed": "The Transformer became the architecture for nearly all later language, vision and multimodal foundation models because it parallelises across the sequence and keeps improving as it is scaled.",
+      "limits": "Self-attention cost grows quadratically with sequence length. The architecture has no built-in recurrence or memory beyond the context window and requires large amounts of data and compute.",
       "people": [
         "Ashish Vaswani",
         "Noam Shazeer",
@@ -1084,7 +1084,7 @@
       "importance": 1,
       "problem": "Static word vectors give a word the same representation in every sentence.",
       "idea": "Peters et al. took internal states of a pretrained bidirectional LSTM language model as context-dependent word features and added them to task models, improving six benchmarks.",
-      "changed": "Showed that a language model's internal representations transfer broadly; with ULMFiT (Jan 2018) it opened the 2018 shift to pretrained LMs.",
+      "changed": "The results showed that a language model's internal representations transfer broadly. ELMo, together with ULMFiT (Jan 2018), opened the 2018 shift to pretrained LMs.",
       "limits": "Features were plugged into separate task architectures rather than fine-tuning one model, and the LSTM base was soon outscaled by Transformers.",
       "people": [
         "Matthew E. Peters",
@@ -1136,8 +1136,8 @@
       "importance": 2,
       "problem": "Labelled data for each NLP task is scarce, while unlabelled text is abundant; how best to use the latter was unsettled.",
       "idea": "Radford et al. pretrained a 12-layer decoder-only Transformer (about 117M parameters) on BooksCorpus with next-token prediction, then fine-tuned it with minimal task-specific changes.",
-      "changed": "Set the template of generative pretraining plus fine-tuning on a decoder-only Transformer, the line that leads to GPT-2, GPT-3 and ChatGPT.",
-      "limits": "Still needed supervised fine-tuning per task, and BERT outperformed it on understanding benchmarks months later.",
+      "changed": "GPT set the template of generative pretraining plus fine-tuning on a decoder-only Transformer, the line that leads to GPT-2, GPT-3 and ChatGPT.",
+      "limits": "GPT still needed supervised fine-tuning per task, and BERT outperformed it on understanding benchmarks months later.",
       "people": [
         "Alec Radford",
         "Karthik Narasimhan",
@@ -1199,8 +1199,8 @@
       "importance": 3,
       "problem": "Left-to-right LMs see only preceding context, which is a poor fit for understanding tasks where the whole sentence is available.",
       "idea": "Devlin et al. pretrained a Transformer encoder with masked-token prediction (plus next-sentence prediction), then fine-tuned it, setting state of the art on 11 tasks including GLUE and SQuAD.",
-      "changed": "Pretrain-then-fine-tune became standard NLP practice almost overnight; BERT went into Google Search (2019) and spawned many variants (RoBERTa, ALBERT).",
-      "limits": "Encoder-only models do not generate text naturally, and the 2020s frontier went to decoder-only LMs. Its benchmark gains partly reflected dataset artefacts.",
+      "changed": "With BERT, pretrain-then-fine-tune rapidly became standard NLP practice. BERT entered Google Search (2019) and spawned many variants (RoBERTa, ALBERT).",
+      "limits": "Encoder-only models do not generate text naturally, and the 2020s frontier shifted toward decoder-only LMs. BERT's benchmark gains partly reflected dataset artefacts.",
       "people": [
         "Jacob Devlin",
         "Ming-Wei Chang",
@@ -1264,8 +1264,8 @@
       "importance": 3,
       "problem": "It was unclear how far language-model task ability would improve with larger datasets and models, and how access decisions should respond to possible misuse.",
       "idea": "OpenAI trained a 1.5B-parameter decoder on 40GB of web text (WebText) and showed coherent long-form generation and zero-shot ability on several tasks. Citing misuse concerns, it withheld the full model and released progressively larger versions, ending with 1.5B on 5 Nov 2019.",
-      "changed": "Made staged model release for misuse concerns a prominent public case. It intensified discussion of publication and access norms while demonstrating strong generation and zero-shot task performance from a larger pretrained LM.",
-      "limits": "Still unreliable on many tasks and prone to fabrication and bias. A staged release could inform an access decision, but did not by itself establish how much real-world misuse the model would cause.",
+      "changed": "GPT-2 demonstrated strong generation and zero-shot task performance from a larger pretrained LM. OpenAI's staged release became a prominent public case of restricting access over misuse concerns and intensified discussion of publication and access norms.",
+      "limits": "GPT-2 remained unreliable on many tasks and prone to fabrication and bias. A staged release could inform an access decision, but did not by itself establish how much real-world misuse the model would cause.",
       "people": [
         "Alec Radford",
         "Jeffrey Wu",
@@ -1344,7 +1344,7 @@
       "importance": 1,
       "problem": "Many pretraining objectives, architectures and datasets were proposed, each compared under different setups.",
       "idea": "Raffel et al. cast every task as text-to-text, ran a large controlled comparison, released the C4 web corpus and scaled an encoder-decoder to 11B parameters.",
-      "changed": "Made 'every task is text in, text out' the default framing that instruction tuning (T0, FLAN-T5) built on; C4 became a standard corpus.",
+      "changed": "T5 made 'every task is text in, text out' the default framing that instruction tuning (T0, FLAN-T5) built on. C4 became a standard corpus.",
       "limits": "Encoder-decoder models were later outpaced by decoder-only LMs for general-purpose use; C4 filtering removed some dialects and minority-group text.",
       "people": [
         "Colin Raffel",
@@ -1402,9 +1402,9 @@
       "kind": "paper",
       "importance": 3,
       "problem": "Labs needed a quantitative way to trade off model size, training data and compute when planning larger language-model runs.",
-      "idea": "Kaplan et al. found test loss falls as a smooth power law in parameters, data and compute over many orders of magnitude, with architecture details mattering little, and derived a compute-optimal allocation favouring large models trained on relatively little data.",
-      "changed": "Provided empirical curves for planning and extrapolating language-model training loss, helping motivate larger runs such as GPT-3. The safety implication is a forecasting question: how does predictable average loss relate to specific capabilities and risks?",
-      "limits": "Predicts loss, not specific capabilities. The data-vs-parameters split was revised by Chinchilla, and the laws assume no data limits and a fixed recipe.",
+      "idea": "Kaplan et al. found that test loss falls as a smooth power law in parameters, data and compute over many orders of magnitude, with architecture details mattering little. They derived a compute-optimal allocation favouring large models trained on relatively little data.",
+      "changed": "The paper provided empirical curves for planning and extrapolating language-model training loss, helping motivate larger runs such as GPT-3. The safety implication is a forecasting question: how does predictable average loss relate to specific capabilities and risks?",
+      "limits": "These laws predict loss, not specific capabilities. Chinchilla revised the data-vs-parameters split, and the laws assume no data limits and a fixed recipe.",
       "people": [
         "Jared Kaplan",
         "Sam McCandlish",
@@ -1479,7 +1479,7 @@
       "importance": 3,
       "problem": "Many NLP tasks required task-specific fine-tuning; earlier zero-shot models suggested that a larger pretrained LM might adapt to more tasks through its prompt alone.",
       "idea": "Brown et al. trained a 175B-parameter decoder and showed it could do many tasks from an instruction and a few examples placed in the prompt, without any weight updates.",
-      "changed": "Made few-shot in-context learning and prompting central to general-purpose language-model use. GPT-3 became a base for InstructGPT, while the API offered a way to use the model without training a task-specific system.",
+      "changed": "GPT-3 made few-shot in-context learning and prompting central to general-purpose language-model use. It became a base for InstructGPT, while the API offered a way to use the model without training a task-specific system.",
       "limits": "Few-shot results were uneven, and the model fabricated facts, followed instructions poorly and reproduced biases from web text. Later work showed it was undertrained for its size.",
       "people": [
         "Tom B. Brown",
@@ -1549,9 +1549,9 @@
       "label": "Instruction tuning",
       "kind": "paper",
       "importance": 2,
-      "problem": "Raw pretrained LMs respond to prompts inconsistently; good zero-shot use needed careful prompt engineering.",
-      "idea": "FLAN (Wei et al.) fine-tuned a 137B LM on 60+ NLP datasets phrased as natural-language instructions, beating zero-shot GPT-3 on 20 of 25 unseen tasks. T0 (Sanh et al., 15 Oct 2021, BigScience) did the same with a multitask prompted T5.",
-      "changed": "Showed that supervised multitask instruction tuning can improve performance on held-out tasks. This is related to, but distinct from, the human demonstration fine-tuning used in InstructGPT and dialogue assistants.",
+      "problem": "Raw pretrained LMs responded to prompts inconsistently; effective zero-shot use required careful prompt engineering.",
+      "idea": "FLAN (Wei et al.) fine-tuned a 137B LM on 60+ NLP datasets phrased as natural-language instructions. It beat zero-shot GPT-3 on 20 of 25 unseen tasks. T0 (Sanh et al., 15 Oct 2021, BigScience) applied the approach with a multitask prompted T5.",
+      "changed": "The results showed that supervised multitask instruction tuning can improve performance on held-out tasks. This is related to, but distinct from, the human demonstration fine-tuning used in InstructGPT and dialogue assistants.",
       "limits": "Academic task templates are narrow compared with real user requests, and gains depended on model scale. Instruction following alone does not make a model honest or safe.",
       "people": [
         "Jason Wei",
@@ -1630,7 +1630,7 @@
       "importance": 3,
       "problem": "LLMs did badly on multi-step arithmetic and reasoning when asked for the answer directly.",
       "idea": "Wei et al. put a few worked examples with intermediate reasoning steps in the prompt; with PaLM 540B and eight such exemplars this reached state of the art on GSM8K. The gains appeared mainly in large models.",
-      "changed": "Made 'let the model think in text' a core technique; it led to self-consistency, zero-shot 'let's think step by step' and eventually RL-trained reasoning models (o1, R1). Visible reasoning also became an object of safety research (CoT monitoring, faithfulness).",
+      "changed": "Writing intermediate reasoning steps became a core prompting technique, leading to self-consistency, zero-shot 'let's think step by step' and eventually RL-trained reasoning models (o1, R1). Visible reasoning also became an object of safety research (CoT monitoring, faithfulness).",
       "limits": "Written reasoning is not necessarily the computation that produced the answer (later unfaithfulness results), and gains on small models were weak or negative.",
       "people": [
         "Jason Wei",
@@ -1699,8 +1699,8 @@
       "importance": 3,
       "problem": "Following Kaplan et al., labs grew parameter counts (GPT-3 175B, Gopher 280B) while keeping training data around 300B tokens.",
       "idea": "Hoffmann et al. trained 400+ models and found parameters and tokens should be scaled equally (roughly 20 tokens per parameter). Chinchilla, 70B parameters on 1.4T tokens with Gopher's compute, outperformed Gopher, GPT-3 and larger models.",
-      "changed": "Shifted the bottleneck from parameters to data, set the recipe for LLaMA and later models, and made high-quality training tokens a central resource.",
-      "limits": "Compute-optimal for training only; once inference cost matters, labs deliberately 'overtrain' smaller models far past 20 tokens per parameter. The fitted coefficients were later questioned in replication attempts.",
+      "changed": "Chinchilla shifted the bottleneck from parameters to data, set the recipe for LLaMA and later models, and made high-quality training tokens a central resource.",
+      "limits": "The allocation is compute-optimal for training alone. When inference cost matters, labs deliberately 'overtrain' smaller models far past 20 tokens per parameter. The fitted coefficients were later questioned in replication attempts.",
       "people": [
         "Jordan Hoffmann",
         "Sebastian Borgeaud",
@@ -1759,8 +1759,8 @@
       "importance": 2,
       "problem": "Loss falls smoothly with scale, yet some task scores seemed to jump from chance to well above chance at a particular model size.",
       "idea": "Wei et al. catalogued such 'emergent' abilities, absent in smaller models and present in larger ones. Schaeffer, Miranda and Koyejo (28 Apr 2023) argued many jumps come from nonlinear or discontinuous metrics like exact match, and that continuous metrics show smooth improvement.",
-      "changed": "Framed a key forecasting question for safety: can dangerous capabilities appear suddenly and unpredictably? The debate pushed toward continuous metrics and dedicated capability evaluations.",
-      "limits": "Not settled: metric choice explains many cases, but users experience thresholds (a task is either usable or not), and abrupt gains from new post-training methods are a separate issue.",
+      "changed": "The debate framed a forecasting question for safety: can dangerous capabilities appear suddenly and unpredictably? It encouraged continuous metrics and dedicated capability evaluations.",
+      "limits": "The issue remains unsettled. Metric choice explains many cases, but users experience thresholds (a task is either usable or not), and abrupt gains from new post-training methods are a separate issue.",
       "people": [
         "Jason Wei",
         "Yi Tay",
@@ -1828,7 +1828,7 @@
       "importance": 3,
       "problem": "Capable LMs were accessed through APIs and prompt engineering; the general public had no easy way to use them.",
       "idea": "OpenAI released a free chat interface to a GPT-3.5 model fine-tuned for dialogue with supervised data and RLHF, described as a sibling of InstructGPT.",
-      "changed": "Brought instruction-following language models to a broad public through an accessible dialogue interface and intensified competition and policy attention. These developments form context for later frontier-AI governance, rather than a single demonstrated cause of each policy change.",
+      "changed": "ChatGPT brought instruction-following language models to a broad public through an accessible dialogue interface and intensified competition and policy attention. These developments form context for later frontier-AI governance, rather than a single demonstrated cause of each policy change.",
       "limits": "It could hallucinate confidently and was vulnerable to jailbreaks. Preference optimization can reinforce approval-seeking and refusal patterns, so helpful conversational behavior does not establish honesty or robustness.",
       "people": [
         "John Schulman"
@@ -1862,7 +1862,7 @@
         {
           "to": "lm-2021-flan",
           "type": "parallel",
-          "note": "related instruction-following research rather than an asserted direct training dependency"
+          "note": "related instruction-following research; a direct training dependency is not established"
         },
         {
           "to": "gov-2023-cais-statement",
@@ -1899,8 +1899,8 @@
       "kind": "system",
       "importance": 3,
       "problem": "Many leading LLMs were available only through APIs, limiting outside study of their weights and low-cost adaptation.",
-      "idea": "Meta released LLaMA (7B-65B) trained only on public data, with LLaMA-13B beating GPT-3 on most benchmarks; weights went to researchers under a non-commercial licence and leaked publicly within days.",
-      "changed": "Accelerated the open-weights ecosystem: Alpaca/Vicuna fine-tunes, Llama 2 (July 2023, with commercial-use terms), and later families including Mistral, Qwen and DeepSeek. It expanded outside experimentation and sharpened safety debates about releasing weights.",
+      "idea": "Meta released LLaMA (7B-65B), trained only on public data, with LLaMA-13B beating GPT-3 on most benchmarks. Its weights went to researchers under a non-commercial licence and leaked publicly within days.",
+      "changed": "LLaMA accelerated the open-weights ecosystem: Alpaca/Vicuna fine-tunes, Llama 2 (July 2023, with commercial-use terms), and later families including Mistral, Qwen and DeepSeek. It expanded outside experimentation and sharpened safety debates about releasing weights.",
       "limits": "Licences restricted use, so 'open source' is disputed for weights-only releases. Released weights cannot be recalled, and safety fine-tuning can be cheaply removed.",
       "people": [
         "Hugo Touvron",
@@ -1977,8 +1977,8 @@
       "kind": "system",
       "importance": 3,
       "problem": "GPT-3.5-class models failed professional-level tasks and could not take image input.",
-      "idea": "OpenAI released a large multimodal (text and image input) model reported to score around the top 10% on a simulated bar exam, with a technical report that withheld architecture, size, data and compute, and a system card describing pre-release red teaming.",
-      "changed": "Became a widely used frontier reference and an important subject of the 2023 risk debate. Its report paired limited architectural disclosure with a system card and external red teaming, making the tradeoff between capability evaluation and technical transparency especially visible.",
+      "idea": "OpenAI released a large multimodal model with text and image input, reported to score around the top 10% on a simulated bar exam. Its technical report withheld architecture, size, data and compute; a system card described pre-release red teaming.",
+      "changed": "GPT-4 became a widely used frontier reference and an important subject of the 2023 risk debate. Its report paired limited architectural disclosure with a system card and external red teaming, making the tradeoff between capability evaluation and technical transparency especially visible.",
       "limits": "Its secrecy limited outside scrutiny; it still hallucinated and was jailbreakable. Benchmark contamination and the meaning of exam scores were disputed.",
       "people": [],
       "orgs": [
@@ -2044,7 +2044,7 @@
       "importance": 2,
       "problem": "Most multimodal LLMs bolted a vision encoder onto a text model, and context windows (a few thousand to 32K tokens) limited work on long documents, code or video.",
       "idea": "Google DeepMind's Gemini 1.0 was trained multimodally from the start. Gemini 1.5 (15 Feb 2024), an MoE model, offered up to 1M tokens of context (10M in research tests) with near-perfect needle-in-a-haystack retrieval.",
-      "changed": "Native multimodality and long context became standard frontier features: Anthropic (Claude, launched 14 Mar 2023; Claude 3 with 200K context on 4 Mar 2024) and OpenAI (GPT-4o, 13 May 2024, real-time audio and vision) competed on the same axes. Google became a full frontier competitor.",
+      "changed": "Native multimodality and long context became standard features of frontier models. Anthropic (Claude, launched 14 Mar 2023; Claude 3 with 200K context on 4 Mar 2024) and OpenAI (GPT-4o, 13 May 2024, real-time audio and vision) competed on the same capabilities. Google became a full frontier competitor.",
       "limits": "Retrieval tests overstate real long-context reasoning, which degrades on harder multi-hop tasks. Gemini 1.0's launch demo video was criticised as edited.",
       "people": [
         "Demis Hassabis",
@@ -2133,7 +2133,7 @@
       "importance": 2,
       "problem": "Frontier performance was assumed to require the largest US labs' budgets and unrestricted access to top GPUs.",
       "idea": "DeepSeek released an open-weights MoE model (671B total, 37B active per token, 14.8T tokens) with multi-head latent attention, auxiliary-loss-free load balancing, multi-token prediction and FP8 training. The report states 2.788M H800 GPU-hours for the full training.",
-      "changed": "Reported competitive benchmark performance from an open-weights MoE with an efficient training recipe. Alongside R1 a month later, it intensified discussion of training costs, compute efficiency and the competitiveness of open models.",
+      "changed": "DeepSeek reported competitive benchmark performance from an open-weights MoE with an efficient training recipe. Alongside R1 a month later, DeepSeek-V3 intensified discussion of training costs, compute efficiency and the competitiveness of open models.",
       "limits": "The cost figure covers only the final training run, not research, ablations or hardware purchases, and was widely misquoted as total cost. Questions about distillation from other labs' outputs and censorship of politically sensitive topics followed.",
       "people": [
         "Liang Wenfeng"
@@ -2194,8 +2194,8 @@
       "kind": "system",
       "importance": 2,
       "problem": "Models were moving from chat to long autonomous coding and agent tasks, and lab safety frameworks had not yet been triggered at a higher level in practice.",
-      "idea": "Anthropic released Claude Opus 4 and Sonnet 4, built for hours-long agentic coding (72.5% on SWE-bench Verified claimed for Opus 4) and made Claude Code generally available. Opus 4 shipped under ASL-3 protections from its Responsible Scaling Policy as a precaution.",
-      "changed": "Paired a major agentic-coding release with Anthropic's precautionary activation of ASL-3 protections for Opus 4, showing how its scaling policy affected deployment when a capability threshold could not be ruled out.",
+      "idea": "Anthropic released Claude Opus 4 and Sonnet 4 for hours-long agentic coding, claiming 72.5% on SWE-bench Verified for Opus 4. It also made Claude Code generally available. Opus 4 shipped under ASL-3 protections from its Responsible Scaling Policy as a precaution.",
+      "changed": "Anthropic paired a major agentic-coding release with its precautionary activation of ASL-3 protections for Opus 4, showing how its scaling policy affected deployment when a capability threshold could not be ruled out.",
       "limits": "ASL-3 was applied because risk could not be excluded, not because it was demonstrated. The system card's reports of blackmail-like behaviour in contrived agentic tests drew attention to how hard such evaluations are to interpret.",
       "people": [],
       "orgs": [
@@ -2248,8 +2248,8 @@
       "kind": "system",
       "importance": 2,
       "problem": "Users had to choose between fast chat models and slower reasoning models (o-series), and the product line was confusing.",
-      "idea": "OpenAI shipped GPT-5 as one system: a fast model, a deeper 'thinking' model and a real-time router that decides which to use, available to all ChatGPT users.",
-      "changed": "Brought test-time reasoning to the default consumer experience, making reasoning models the norm rather than a specialist tier.",
+      "idea": "OpenAI shipped GPT-5 as a system combining a fast model, a deeper 'thinking' model and a real-time router that decides which to use. The system was available to all ChatGPT users.",
+      "changed": "GPT-5 brought test-time reasoning to the default consumer experience, making reasoning models a standard offering rather than a specialist tier.",
       "limits": "Routing combines different behavior and latency profiles, so a single product label does not specify one fixed model or inference budget. Vendor benchmarks do not settle reliability on a user's particular task.",
       "people": [],
       "orgs": [
@@ -2292,14 +2292,14 @@
       "date": "2026-04-07",
       "date_precision": "day",
       "date_basis": "blog post",
-      "date_context": "7 April 2026 Project Glasswing announcement. The card focuses on that access decision rather than later model-release dates.",
+      "date_context": "7 April 2026 Project Glasswing announcement; this date marks the access decision, not a later model release.",
       "title": "Claude Mythos Preview withheld; Project Glasswing",
       "label": "Mythos Preview withheld",
       "kind": "system",
       "importance": 2,
       "problem": "Frontier models had become strong at finding and exploiting software vulnerabilities, which helps defenders and attackers alike.",
-      "idea": "Anthropic announced Claude Mythos Preview, a frontier model it said it does not plan to make generally available, and gave access only to a coalition of major software and security organisations (Project Glasswing) to find and fix vulnerabilities in critical software.",
-      "changed": "A prominent later case of restricted model access on misuse grounds, this time organized around defensive cybersecurity work. It raised questions about who can access powerful vulnerability-discovery systems and how the effects of restricted access can be measured.",
+      "idea": "Anthropic announced Claude Mythos Preview, saying it does not plan to make the frontier model generally available. It gave access only to a coalition of major software and security organisations (Project Glasswing) to find and fix vulnerabilities in critical software.",
+      "changed": "Anthropic restricted model access on misuse grounds, organizing the decision around defensive cybersecurity work. The decision raised questions about who can access powerful vulnerability-discovery systems and how the effects of restricted access can be measured.",
       "limits": "Capability claims come mostly from Anthropic and partners; the long-run effect on vulnerability balance is unknown. Restricted access concentrates powerful capabilities in a few large firms.",
       "people": [],
       "orgs": [
@@ -2351,9 +2351,9 @@
       "label": "GPT-6",
       "kind": "system",
       "importance": 1,
-      "problem": "By 2026 the frontier contest was over long-horizon agentic work (computer use, software engineering, science workflows) more than chat quality.",
-      "idea": "OpenAI released GPT-6 Astra, starting with limited organisations and then paid ChatGPT plans and the API, presenting it as combining pretraining, RL and alignment advances. It reported near-ceiling scores on several hard benchmarks, including cybersecurity ones; GPT-6 Sol and Luna followed on 22 Sep 2026.",
-      "changed": "Too recent to judge. It is one of the September-October 2026 cluster of frontier releases (Claude Opus 5.5 on 22 Sep 2026 among them) in which saturating benchmarks and agentic, cyber-relevant capability dominate both marketing and safety evaluation.",
+      "problem": "By 2026, frontier labs were competing more on long-horizon agentic work (computer use, software engineering, science workflows) than on chat quality.",
+      "idea": "OpenAI released GPT-6 Astra, starting with limited organisations and then paid ChatGPT plans and the API, presenting it as combining pretraining, RL and alignment advances. It reported near-ceiling scores on several hard benchmarks, including cybersecurity ones. GPT-6 Sol and Luna followed on 22 Sep 2026.",
+      "changed": "The release is too recent to assess. It belongs to a cluster of frontier releases in September-October 2026, including Claude Opus 5.5 on 22 Sep 2026. Across these releases, saturating benchmarks and agentic, cyber-relevant capabilities dominate both marketing and safety evaluation.",
       "limits": "All figures are vendor-reported, several benchmarks are new or near saturation, and the page gives no technical detail on architecture or training.",
       "people": [],
       "orgs": [
@@ -2409,7 +2409,7 @@
       "title": "Expert systems, connectionist revival, second winter",
       "start": "1980",
       "end": "1993",
-      "summary": "Commercial expert systems boom and then collapse in the late 1980s. In parallel, backpropagation revives neural networks and yields CNNs and early RNNs, and temporal-difference RL is formalised."
+      "summary": "Commercial expert systems boom and then collapse in the late 1980s. In parallel, backpropagation revives neural networks and yields CNNs and early RNNs. Temporal-difference RL is also formalised."
     },
     {
       "id": "era-statistical-ml",
@@ -2430,14 +2430,14 @@
       "title": "Transformers and scaling",
       "start": "2017",
       "end": "2022",
-      "summary": "Transformers and large-scale self-supervised pretraining reshaped NLP through different objectives, including GPT-style causal modeling and BERT-style masking. Scaling laws made training loss easier to forecast, while GPT-3 made in-context learning prominent and alignment research expanded alongside capability work."
+      "summary": "Transformers and large-scale self-supervised pretraining reshaped NLP through different objectives, including GPT-style causal modeling and BERT-style masking. Scaling laws made training loss easier to forecast. GPT-3 brought in-context learning to wider attention, while alignment research expanded alongside capability work."
     },
     {
       "id": "era-assistants",
       "title": "Assistants and RLHF",
       "start": "2022",
       "end": "2024",
-      "summary": "Instruction tuning and RLHF turn pretrained LMs into assistants; ChatGPT makes them a mass product. GPT-4, Claude, Gemini and open-weights LLaMA spread capability while governments respond with summits, statements and the EU AI Act."
+      "summary": "Instruction tuning and RLHF turn pretrained LMs into assistants, and ChatGPT makes them a mass product. GPT-4, Claude, Gemini and open-weights LLaMA make these capabilities more widely available. Governments respond with summits, statements and the EU AI Act."
     },
     {
       "id": "era-reasoning-agents",
@@ -2463,7 +2463,7 @@
         "lm-2012-alexnet",
         "lm-2015-resnet"
       ],
-      "summary": "Perceptron limitations and the funding downturn formed part of the background to neural networks' later revival; the book alone did not determine that history. Backpropagation made hidden-layer learning practical, and CNNs and LSTMs supplied useful structures for images and sequences. Unsupervised layer-wise pretraining demonstrated deeper networks before large labeled datasets and GPUs helped AlexNet achieve a decisive vision result. Residual connections and normalization then made very deep networks easier to train."
+      "summary": "Perceptron limitations and the funding downturn formed part of the background to neural networks' later revival; the book alone did not determine that history. Backpropagation made hidden-layer learning practical, while CNNs and LSTMs provided structures suited to images and sequences. Unsupervised layer-wise pretraining showed that deeper networks could be trained before large labeled datasets and GPUs helped AlexNet achieve a decisive vision result. Residual connections and normalization then made very deep networks easier to train."
     },
     {
       "id": "thread-transformers-win",
@@ -2497,7 +2497,7 @@
         "lm-2024-deepseek-v3",
         "lm-2025-gpt-5"
       ],
-      "summary": "GPT-2 and GPT-3 showed broad generation and task ability from larger autoregressive LMs. Scaling laws related average loss to parameters, data and compute; Chinchilla revised their compute-optimal allocation. MoE and efficient open models offered other ways to spend compute. Smooth loss trends still do not directly predict every capability, factual reliability or alignment. Post-training and inference-time reasoning added further axes of improvement, whose contribution varies by system and task."
+      "summary": "GPT-2 and GPT-3 demonstrated broad text generation and task performance in larger autoregressive LMs. Scaling laws related average loss to parameters, data and compute; Chinchilla revised their compute-optimal allocation. MoE and efficient open models offered other ways to spend compute. Smooth loss trends still do not directly predict every capability, factual reliability or alignment. Post-training and inference-time reasoning added further sources of improvement, whose contribution varies by system and task."
     },
     {
       "id": "thread-assistant",
@@ -2514,7 +2514,7 @@
         "rl-2024-o1",
         "lm-2025-claude-4"
       ],
-      "summary": "GPT-3 could adapt through prompting, but raw pretraining did not reliably produce an instruction-following assistant. Multitask instruction tuning and demonstration fine-tuning improved that behavior; learned-preference rewards and RLHF added human-rated objectives. ChatGPT brought dialogue assistants to broad use. Chain-of-thought prompting and RL-trained reasoning offered stronger multi-step problem solving, and tool-enabled scaffolds made assistants into agents. Gains in helpfulness do not automatically establish honesty or robustness."
+      "summary": "GPT-3 could adapt through prompting, but raw pretraining did not reliably produce an instruction-following assistant. Multitask instruction tuning and demonstration fine-tuning improved that behavior; rewards learned from preferences and RLHF added human-rated objectives. ChatGPT brought dialogue assistants to broad use. Chain-of-thought prompting and RL-trained reasoning offered stronger multi-step problem solving, and systems that paired assistants with tools turned them into agents. Gains in helpfulness do not automatically establish honesty or robustness."
     }
   ]
 }

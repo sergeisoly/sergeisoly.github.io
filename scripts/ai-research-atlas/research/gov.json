@@ -12,10 +12,10 @@
       "label": "SIAI / MIRI founded",
       "kind": "org",
       "importance": 3,
-      "problem": "Research specifically about beneficial superhuman AI had little institutional support. SIAI provided a small independent home for this line of work.",
-      "idea": "Eliezer Yudkowsky, Brian Atkins and Sabine Atkins founded the Singularity Institute. Its early Friendly AI programme investigated how a more capable AI could retain goals beneficial to humans; the organisation later became MIRI.",
-      "changed": "An early independent organisation concerned with superhuman AI that developed the Friendly AI agenda. Its writing and research helped form the community around later alignment work; it became MIRI in 2013.",
-      "limits": "Its theoretical agenda (decision theory, agent foundations) had little influence on mainstream ML. Since about 2023 MIRI has said that alignment research is not on track, and it now works mainly on public communication and policy, arguing for a halt to frontier development.",
+      "problem": "Research on beneficial superhuman AI had little institutional support. SIAI was a small independent organisation dedicated to this work.",
+      "idea": "Eliezer Yudkowsky, Brian Atkins and Sabine Atkins founded the Singularity Institute. Its early Friendly AI programme investigated how a more capable AI could retain goals beneficial to humans. The organisation later became MIRI.",
+      "changed": "SIAI developed the Friendly AI agenda. Its writing and research helped bring together the community that later worked on alignment. It became MIRI in 2013.",
+      "limits": "Its theoretical work on decision theory and agent foundations had little influence on mainstream ML. Since about 2023 MIRI has said that alignment research is not on track. It now works mainly on public communication and policy, arguing for a halt to frontier development.",
       "people": [
         "Eliezer Yudkowsky",
         "Brian Atkins",
@@ -72,10 +72,10 @@
       "label": "FHI founded",
       "kind": "org",
       "importance": 2,
-      "problem": "Existential-risk and long-term AI questions were dispersed across disciplines. FHI aimed to provide an academic institution where they could be investigated together.",
-      "idea": "Nick Bostrom founded the Future of Humanity Institute within Oxford's Faculty of Philosophy, initially as a 3-year project, to study big-picture questions about humanity's long-term future.",
-      "changed": "Provided an influential academic home for existential-risk research, including Bostrom's Superintelligence and early AI-governance work. GovAI originated as an FHI programme before becoming independent.",
-      "limits": "Its research ranged from philosophy and strategy to technical questions. The institute's retrospective attributes its closure to administrative constraints, including a 2020 hiring and fundraising freeze; that account is an institutional perspective.",
+      "problem": "Existential-risk and long-term AI questions were spread across disciplines. FHI aimed to bring researchers on these questions into one academic institution.",
+      "idea": "Nick Bostrom founded the Future of Humanity Institute within Oxford's Faculty of Philosophy, initially as a 3-year project, to study humanity's long-term future.",
+      "changed": "FHI provided an academic base for existential-risk research. Bostrom wrote Superintelligence there, and its early AI-governance work included the programme that later became the independent GovAI.",
+      "limits": "Its research ranged from philosophy and strategy to technical questions. The institute's retrospective attributes its closure to administrative constraints, including a 2020 hiring and fundraising freeze. This is the institute's own account.",
       "people": [
         "Nick Bostrom"
       ],
@@ -118,7 +118,7 @@
         "urls": true,
         "note": "FHI final site opened 6 Nov 2026: established in 2005, initially for three years; closed 16 April 2024. Unsupported November precision removed."
       },
-      "date_context": "FHI's retrospective confirms 2005; the previously supplied month was not supported and is omitted."
+      "date_context": "FHI's retrospective confirms 2005 but does not support the previously supplied month."
     },
     {
       "id": "gov-2010-deepmind-founded",
@@ -130,10 +130,10 @@
       "label": "DeepMind founded",
       "kind": "org",
       "importance": 3,
-      "problem": "Building general AI was an ambitious research-company goal rather than a clearly established product category. DeepMind combined that goal with learning-based systems and game benchmarks.",
+      "problem": "Building general AI was an ambitious research-company goal without a clearly established product category. DeepMind pursued it with learning-based systems and game benchmarks.",
       "idea": "Demis Hassabis, Shane Legg and Mustafa Suleyman founded DeepMind in London with the explicit mission to build general AI. Legg had written about AGI risk before founding it.",
-      "changed": "Became a major AGI-focused lab, producing DQN and AlphaGo. Google acquired it in 2014; in April 2023 it merged with Google Brain to form Google DeepMind, whose later safety work includes the Frontier Safety Framework.",
-      "limits": "An AGI mission and safety research do not establish that resulting systems are safe. Claims about an independent ethics-board condition in the Google acquisition are press-reported and should not be read as evidence of effective oversight.",
+      "changed": "DeepMind became a major AGI-focused lab, producing DQN and AlphaGo. Google acquired it in 2014. In April 2023 it merged with Google Brain to form Google DeepMind, whose later safety work includes the Frontier Safety Framework.",
+      "limits": "An AGI mission and safety research do not establish that the resulting systems are safe. Reports that the Google acquisition required an independent ethics board come from the press; they do not establish that oversight was effective.",
       "people": [
         "Demis Hassabis",
         "Shane Legg",
@@ -197,8 +197,8 @@
       "kind": "org",
       "importance": 2,
       "problem": "AI-risk researchers wanted wider contact with mainstream ML researchers and a source of support for beneficial-AI research.",
-      "idea": "Max Tegmark, Jaan Tallinn, Viktoriya Krakovna, Anthony Aguirre and Meia Chita-Tegmark founded FLI (launch event at MIT). In January 2015 it convened AI researchers in Puerto Rico, published an open letter on research priorities for robust and beneficial AI, and Elon Musk funded its first grant programme.",
-      "changed": "Helped connect AI-risk discussions to mainstream researchers through convenings and a 2015 research-grant programme. It later organised the Asilomar Principles and the 2023 pause letter, and continued policy and advocacy work.",
+      "idea": "Max Tegmark, Jaan Tallinn, Viktoriya Krakovna, Anthony Aguirre and Meia Chita-Tegmark founded FLI, with a launch event at MIT. In January 2015 it convened AI researchers in Puerto Rico and published an open letter on research priorities for robust and beneficial AI. Elon Musk funded its first grant programme.",
+      "changed": "FLI connected AI-risk discussions with mainstream researchers through meetings and a 2015 research-grant programme. It later organised the Asilomar Principles and the 2023 pause letter, and continued policy and advocacy work.",
       "limits": "Convenings, grants and open letters have different effects. The letters and principles were voluntary; signatures alone do not demonstrate changes in model development or deployment.",
       "people": [
         "Max Tegmark",
@@ -255,7 +255,7 @@
       "importance": 3,
       "problem": "The founders argued that a leading AI research institution should prioritise broad public benefit as machine intelligence became more capable.",
       "idea": "Greg Brockman, Ilya Sutskever, Sam Altman, Elon Musk and others announced OpenAI as a non-profit research company, with over $1 billion pledged and a mission to make AGI benefit all of humanity.",
-      "changed": "Grew into a major frontier lab that developed GPT models, large-scale RLHF and ChatGPT. Its changing corporate structure and the 2023 board crisis made it an important case for examining mission-driven governance under commercial pressure.",
+      "changed": "OpenAI grew into a major frontier lab that developed GPT models, large-scale RLHF and ChatGPT. Its changing corporate structure and the 2023 board crisis exposed questions about how mission-driven governance works under commercial pressure.",
       "limits": "The initial commitment to broadly sharing research changed as systems became more capable, including staged release of GPT-2. A public-benefit mission and a non-profit board do not by themselves establish effective oversight.",
       "people": [
         "Sam Altman",
@@ -312,9 +312,9 @@
       "label": "Open Phil prioritises AI risk",
       "kind": "policy",
       "importance": 2,
-      "problem": "Karnofsky argued that advanced-AI risk was important and neglected, and that long-term philanthropy could support more technically informed research and institution building.",
+      "problem": "Karnofsky argued that advanced-AI risk was important and neglected, and that long-term philanthropy could support technically informed research and new institutions.",
       "idea": "Holden Karnofsky announced that Open Philanthropy (funded mainly by Dustin Moskovitz and Cari Tuna) would treat potential risks from advanced AI as a major priority, aiming to grow the number of technically strong people working on it.",
-      "changed": "Became a major funder of AI-safety research, organisations and fellowships, including CHAI, OpenAI and later independent groups. It changed its name to Coefficient Giving on 18 November 2025.",
+      "changed": "Open Philanthropy became a major funder of AI-safety research, organisations and fellowships, including CHAI, OpenAI and later independent groups. It changed its name to Coefficient Giving on 18 November 2025.",
       "limits": "Concentrated funding from one donor gave a small network outsized influence on research agendas; critics also point to close personal ties between funders and grantee labs.",
       "people": [
         "Holden Karnofsky",
@@ -372,9 +372,9 @@
       "kind": "org",
       "importance": 2,
       "problem": "Russell and collaborators wanted a sustained academic programme focused on AI systems that learn human preferences and remain beneficial as capabilities grow.",
-      "idea": "UC Berkeley launched CHAI under Stuart Russell, with a $5.5M Open Philanthropy grant plus FLI and Leverhulme funding, to reorient AI toward 'provably beneficial' systems that are uncertain about human preferences and learn them (e.g. via inverse reinforcement learning).",
-      "changed": "Created a sustained beneficial-AI research programme in a major ML department. Its students later worked across academia and frontier labs, and Russell's Human Compatible popularised the assistance-game framing.",
-      "limits": "Its assistance-game formalism is elegant but has been hard to scale to LLM-era systems; most frontier alignment work took a more empirical route.",
+      "idea": "UC Berkeley launched CHAI under Stuart Russell, with a $5.5M Open Philanthropy grant plus FLI and Leverhulme funding. It aimed to reorient AI toward 'provably beneficial' systems that remain uncertain about human preferences and learn them, for example through inverse reinforcement learning.",
+      "changed": "CHAI established a sustained beneficial-AI research programme in a major ML department. Its students later worked across academia and frontier labs, and Russell's Human Compatible popularised the assistance-game framing.",
+      "limits": "The assistance-game formalism has been hard to scale to LLM-era systems. Most frontier alignment work took a more empirical route.",
       "people": [
         "Stuart Russell"
       ],
@@ -431,8 +431,8 @@
       "importance": 2,
       "problem": "After the 2015 open letter there was still no shared, concrete statement of norms that AI researchers and industry leaders would sign.",
       "idea": "At FLI's Beneficial AI 2017 conference in Asilomar (early January 2017), participants agreed 23 principles covering research, ethics and values, and longer-term issues such as recursive self-improvement and avoiding an AGI arms race.",
-      "changed": "One of the earliest widely signed AI governance texts, signed by leaders from DeepMind, OpenAI and academia. California's legislature endorsed it in 2018, and its language echoes in later lab principles and summit declarations.",
-      "limits": "Entirely voluntary, with no mechanism for monitoring or enforcement; several principles (e.g. avoiding arms races) were plainly not followed in the years after.",
+      "changed": "The principles were among the earliest widely signed AI governance texts. Signatories included leaders from DeepMind, OpenAI and academia. California's legislature endorsed them in 2018, and their language echoes in later lab principles and summit declarations.",
+      "limits": "The principles were entirely voluntary, with no monitoring or enforcement mechanism. Several, such as avoiding arms races, were plainly not followed in the years after.",
       "people": [
         "Max Tegmark",
         "Stuart Russell",
@@ -484,7 +484,7 @@
       "importance": 2,
       "problem": "Christiano wanted an independent organisation for research on aligning advanced AI systems with human intent.",
       "idea": "After leaving OpenAI in January 2021, Paul Christiano announced ARC, a non-profit for theoretical 'intent alignment' research (e.g. eliciting latent knowledge).",
-      "changed": "ARC incubated ARC Evals (2022), which ran the pre-release dangerous-capability tests for GPT-4 and Claude and became METR. Its evaluations-plus-thresholds idea fed directly into responsible scaling policies.",
+      "changed": "ARC incubated ARC Evals (2022), which ran pre-release dangerous-capability tests for GPT-4 and Claude and became METR. Its proposal to combine evaluations with capability thresholds fed directly into responsible scaling policies.",
       "limits": "Its theoretical agenda investigates how explanations and supervision might generalise to much stronger systems. Those methods should not be treated as validated deployment guarantees.",
       "people": [
         "Paul Christiano",
@@ -542,8 +542,8 @@
       "importance": 3,
       "problem": "Former OpenAI researchers wanted to investigate the reliability, steerability and interpretability of large-scale models in a new organisation.",
       "idea": "Dario and Daniela Amodei and colleagues announced Anthropic, a public-benefit corporation, with a $124M Series A to build 'reliable, steerable' AI and study safety at the frontier.",
-      "changed": "Became a major frontier lab and safety-research employer, with work on Constitutional AI, superposition, dictionary learning and alignment science, alongside experiments in corporate governance and responsible scaling.",
-      "limits": "Critics argue a safety-focused lab racing at the frontier still accelerates the race. Its 2026 RSP rewrite and its conflict with the US Department of War show how commercial and political pressure shapes safety commitments.",
+      "changed": "Anthropic became a major frontier lab and safety-research employer. Its research includes Constitutional AI, superposition, dictionary learning and alignment science. It also experimented with corporate governance and responsible scaling.",
+      "limits": "Critics argue that a safety-focused lab racing at the frontier still accelerates the race. Its 2026 RSP rewrite and conflict with the US Department of War show how commercial and political pressure shapes safety commitments.",
       "people": [
         "Dario Amodei",
         "Daniela Amodei",
@@ -620,8 +620,8 @@
       "kind": "org",
       "importance": 2,
       "problem": "Few groups outside the big labs did hands-on empirical alignment work on real language models.",
-      "idea": "Buck Shlegeris, Nate Thomas and Bill Zito founded Redwood Research in Berkeley, first working on adversarial training for high-stakes reliability, then interpretability (causal scrubbing) and running the MLAB / REMIX training programmes.",
-      "changed": "Redwood became the home of 'AI control' (2023): designing protocols that stay safe even if the model is trying to subvert them. Control is now part of lab and government safety cases. It also co-authored the 2024 alignment-faking study with Anthropic.",
+      "idea": "Buck Shlegeris, Nate Thomas and Bill Zito founded Redwood Research in Berkeley. It first worked on adversarial training for high-stakes reliability, then interpretability through causal scrubbing, and ran the MLAB / REMIX training programmes.",
+      "changed": "Redwood developed 'AI control' (2023): protocols designed to stay safe even if the model tries to subvert them. Control is now part of lab and government safety cases. Redwood also co-authored the 2024 alignment-faking study with Anthropic.",
       "limits": "Its early adversarial-training project did not reach its reliability target, which Redwood itself reported. Control assumes trusted monitoring models remain available and may not scale to much stronger systems.",
       "people": [
         "Buck Shlegeris",
@@ -680,9 +680,9 @@
       "label": "FLI pause letter",
       "kind": "policy",
       "importance": 3,
-      "problem": "GPT-4 (14 March 2023) arrived a few months after ChatGPT; capabilities were moving faster than any oversight process, and labs were racing.",
+      "problem": "GPT-4 arrived on 14 March 2023, a few months after ChatGPT. Capabilities were moving faster than oversight processes, and labs were racing.",
       "idea": "FLI's letter called on all labs to pause training of systems more powerful than GPT-4 for at least six months, and to use the time for shared safety protocols and governance. It gathered tens of thousands of signatures, including Bengio, Russell and Musk.",
-      "changed": "A prominent public intervention in the 2023 debate about frontier AI. The CAIS statement, Senate hearings and Bletchley summit followed, but temporal sequence alone does not establish that the letter caused them.",
+      "changed": "The letter was a prominent public intervention in the 2023 frontier-AI debate. The CAIS statement, Senate hearings and Bletchley summit followed, but their timing alone does not establish that the letter caused them.",
       "limits": "The letter did not impose a binding pause or an enforcement mechanism. Signatures and public attention are different from verified changes to training plans.",
       "people": [
         "Max Tegmark",
@@ -735,9 +735,9 @@
       "kind": "org",
       "importance": 2,
       "problem": "Independent evaluators were beginning to test frontier models. Apollo proposed a specialised focus on deception and the capabilities that could support it.",
-      "idea": "A starting team led by Marius Hobbhahn announced Apollo Research in London to develop behavioural evaluations and interpretability tools for detecting deceptive alignment. The announcement named researchers and engineers including Lee Sharkey, Lucius Bushnaq, Dan Braun and Mikita Balesni, with Jérémy Scheurer due to join later.",
+      "idea": "A starting team led by Marius Hobbhahn announced Apollo Research in London to develop behavioural evaluations and interpretability tools for detecting deceptive alignment. The announcement named researchers and engineers including Lee Sharkey, Lucius Bushnaq, Dan Braun and Mikita Balesni. Jérémy Scheurer was due to join later.",
       "changed": "Apollo ran pre-deployment scheming evaluations for frontier labs (e.g. OpenAI's o1 in 2024), published evidence of in-context scheming, and co-ran anti-scheming studies with OpenAI (2025). It became a Public Benefit Corporation and opened a San Francisco office in 2026.",
-      "limits": "Behavioural evals can only show that a capability exists, not that it is absent; models that detect evaluation settings make results harder to interpret.",
+      "limits": "Behavioural evaluations can demonstrate a capability, but cannot establish its absence. Models that detect evaluation settings make the results harder to interpret.",
       "people": [
         "Marius Hobbhahn",
         "Lee Sharkey",
@@ -800,8 +800,8 @@
       "importance": 3,
       "problem": "The organisers sought a short public statement about catastrophic AI risk that people with different technical and policy views could endorse.",
       "idea": "The Center for AI Safety published a one-sentence statement saying that mitigating the risk of extinction from AI should be a global priority alongside pandemics and nuclear war. Signers included Hinton, Bengio, Altman, Hassabis and Amodei.",
-      "changed": "Made a concise catastrophic-risk position publicly attributable to prominent scientists and lab leaders. It formed part of the public debate preceding the Bletchley summit; the statement alone does not identify what caused subsequent government decisions.",
-      "limits": "It said nothing about what to do. Critics argued it distracted from present harms, and that CEOs signing while racing ahead was inconsistent.",
+      "changed": "The statement put prominent scientists and lab leaders on record about catastrophic AI risk. It was part of the public debate before the Bletchley summit, but does not by itself establish what caused later government decisions.",
+      "limits": "It proposed no actions. Critics argued that it distracted from present harms and that CEOs signing while racing ahead was inconsistent.",
       "people": [
         "Dan Hendrycks",
         "Geoffrey Hinton",
@@ -860,8 +860,8 @@
       "kind": "event",
       "importance": 2,
       "problem": "Humans may be unable to reliably judge future systems' work on difficult tasks. OpenAI proposed research beyond direct human supervision for aligning substantially stronger models.",
-      "idea": "OpenAI created a team co-led by Ilya Sutskever and Jan Leike, promising 20% of its secured compute over four years, to solve superintelligence alignment, with a plan to build a roughly human-level 'automated alignment researcher'.",
-      "changed": "It produced the weak-to-strong generalisation paper and a $10M fast-grants programme, and made 'automated alignment research' a named goal that Anthropic and others later adopted.",
+      "idea": "OpenAI created a team co-led by Ilya Sutskever and Jan Leike to solve superintelligence alignment. It promised 20% of its secured compute over four years and planned to build a roughly human-level 'automated alignment researcher'.",
+      "changed": "The team produced the weak-to-strong generalisation paper and a $10M fast-grants programme. It made 'automated alignment research' an explicit goal that Anthropic and others later adopted.",
       "limits": "The team lost both leaders and was dissolved within ten months; Leike said it struggled for compute. The 20% pledge was never publicly verified.",
       "people": [
         "Ilya Sutskever",
@@ -917,8 +917,8 @@
       "kind": "policy",
       "importance": 2,
       "problem": "The US administration sought commitments that companies could adopt quickly while wider AI legislation and standards were still being debated.",
-      "idea": "Seven companies (Amazon, Anthropic, Google, Inflection, Meta, Microsoft, OpenAI) committed to pre-release internal and external security testing, information sharing, watermarking research and reporting capabilities and limitations. Eight more joined in September 2023.",
-      "changed": "An early coordinated set of company commitments on testing and disclosure, followed by EO 14110 and later international safety commitments.",
+      "idea": "Seven companies (Amazon, Anthropic, Google, Inflection, Meta, Microsoft, OpenAI) committed to internal and external security testing before release, information sharing, watermarking research and reporting capabilities and limitations. Eight more joined in September 2023.",
+      "changed": "The commitments coordinated early company promises on testing and disclosure. EO 14110 and later international safety commitments followed.",
       "limits": "Voluntary commitments do not provide the enforcement powers of legislation. Their implementation and continuity depend on company conduct and government policy; signing alone is not evidence of compliance.",
       "people": [
         "Joe Biden"
@@ -979,9 +979,9 @@
       "kind": "policy",
       "importance": 3,
       "problem": "Anthropic wanted a public framework linking increasing model capabilities to stronger security and deployment safeguards.",
-      "idea": "Anthropic defined AI Safety Levels (ASL-1 to ASL-4+, modelled on biosafety levels): capability thresholds checked by evaluations that trigger required security and deployment safeguards, with an implied pause if safeguards are not ready. The idea came from ARC Evals' 'responsible scaling' proposal.",
-      "changed": "Published a concrete conditional framework linking model capabilities to safeguards. OpenAI and Google DeepMind subsequently introduced related frameworks, while Seoul commitments and later transparency laws encouraged public risk-management policies.",
-      "limits": "Self-written and self-enforced; thresholds were vague and could be redefined. Anthropic's own 2026 rewrite (v3) said thresholds proved more ambiguous than expected and dropped the hard commitment to pause, which critics called a weakening.",
+      "idea": "Anthropic defined AI Safety Levels (ASL-1 to ASL-4+, modelled on biosafety levels). Evaluations check capability thresholds that trigger required security and deployment safeguards, with an implied pause if safeguards are not ready. The idea came from ARC Evals' 'responsible scaling' proposal.",
+      "changed": "The policy linked model capabilities to specific safeguards. OpenAI and Google DeepMind subsequently introduced related frameworks. Seoul commitments and later transparency laws encouraged public risk-management policies.",
+      "limits": "Anthropic wrote and enforced the policy itself; thresholds were vague and could be redefined. Its own 2026 rewrite (v3) said thresholds proved more ambiguous than expected and dropped the hard commitment to pause, which critics called a weakening.",
       "people": [
         "Dario Amodei",
         "Sam McCandlish"
@@ -1047,9 +1047,9 @@
       "kind": "policy",
       "importance": 3,
       "problem": "The administration sought formal reporting about powerful model development and security testing, alongside government work on evaluation standards.",
-      "idea": "President Biden's order used the Defense Production Act to require developers of models above a compute threshold (10^26 operations) to report training runs and red-team results to the government, and directed NIST to build evaluation standards (leading to the US AI Safety Institute).",
-      "changed": "Used training-compute thresholds as one trigger for federal reporting about powerful models. The EU AI Act and later state proposals used related threshold-based approaches under different legal regimes.",
-      "limits": "An executive order, not a law: it was revoked on 20 January 2025. Reporting requirements were light and enforcement untested.",
+      "idea": "President Biden's order used the Defense Production Act to require developers of models above a compute threshold (10^26 operations) to report training runs and red-team results to the government. It also directed NIST to build evaluation standards, leading to the US AI Safety Institute.",
+      "changed": "The order used training-compute thresholds as one trigger for federal reporting about powerful models. The EU AI Act and later state proposals used related threshold-based approaches under different legal regimes.",
+      "limits": "The measure was an executive order, not a law, and was revoked on 20 January 2025. Reporting requirements were light and enforcement untested.",
       "people": [
         "Joe Biden"
       ],
@@ -1105,8 +1105,8 @@
       "kind": "event",
       "importance": 3,
       "problem": "Governments wanted a dedicated forum for risks from frontier AI, including catastrophic risks, and a shared international statement.",
-      "idea": "The UK hosted 28 countries plus the EU on 1–2 November 2023. They signed the Bletchley Declaration recognising potentially catastrophic risks from frontier AI, and agreed to a state-of-the-science report chaired by Yoshua Bengio. Labs agreed to pre-deployment testing with governments.",
-      "changed": "Began a continuing summit series and commissioned the International AI Safety Report. It also supported the development of government evaluation institutes and international cooperation on frontier-model testing.",
+      "idea": "The UK hosted 28 countries plus the EU on 1–2 November 2023. They signed the Bletchley Declaration recognising potentially catastrophic risks from frontier AI and agreed to a state-of-the-science report chaired by Yoshua Bengio. Labs agreed to pre-deployment testing with governments.",
+      "changed": "The summit began a continuing series and commissioned the International AI Safety Report. It also supported the development of government evaluation institutes and international cooperation on frontier-model testing.",
       "limits": "The declaration was non-binding. Later summits shifted toward 'action', 'impact' and economic opportunity, and the safety focus weakened.",
       "people": [
         "Rishi Sunak",
@@ -1167,8 +1167,8 @@
       "kind": "org",
       "importance": 3,
       "problem": "Governments wanted their own technical capability to evaluate frontier models rather than relying entirely on developer assessments.",
-      "idea": "The UK turned its Frontier AI Taskforce (set up in 2023 under Ian Hogarth) into the AI Safety Institute, a state body that evaluates frontier models before and after release, staffed with ML researchers recruited from labs. The US announced its own AISI within NIST the same week.",
-      "changed": "Established a prominent government programme for technical frontier-model evaluations, later including the open-source Inspect framework and research on safeguards, alignment and control. It was renamed the AI Security Institute in February 2025.",
+      "idea": "The UK turned its Frontier AI Taskforce, set up in 2023 under Ian Hogarth, into the AI Safety Institute. This state body evaluates frontier models before and after release, with ML researchers recruited from labs. The US announced its own AISI within NIST the same week.",
+      "changed": "The institute established a government programme for technical frontier-model evaluations. Its later work included the open-source Inspect framework and research on safeguards, alignment and control. It was renamed the AI Security Institute in February 2025.",
       "limits": "Access to models depends on voluntary lab cooperation; it has no power to block a release.",
       "people": [
         "Rishi Sunak",
@@ -1226,8 +1226,8 @@
       "importance": 3,
       "problem": "OpenAI's non-profit board was meant to be able to overrule commercial interests for safety, but the mechanism had never been tested.",
       "idea": "On 17 Nov 2023 the board (including Ilya Sutskever, Helen Toner and Tasha McCauley) removed Altman, saying he had not been consistently candid. After nearly all staff threatened to leave for Microsoft, Altman returned within days and most of the board was replaced.",
-      "changed": "Revealed practical constraints on the non-profit board's authority when staff and commercial partners opposed its decision. The episode became a case study in the difference between formal control and the ability to exercise it.",
-      "limits": "The board's full reasons were never fully public; an outside law-firm review commissioned afterwards did not find grounds requiring removal. Interpretations remain contested.",
+      "changed": "The crisis exposed limits on the non-profit board's authority when staff and commercial partners opposed its decision. It became a case study in the gap between having formal control and being able to exercise it.",
+      "limits": "The board's full reasons were never made public. A later commissioned review by an outside law firm did not find grounds requiring removal. Interpretations remain contested.",
       "people": [
         "Sam Altman",
         "Ilya Sutskever",
@@ -1281,10 +1281,10 @@
       "label": "ARC Evals becomes METR",
       "kind": "org",
       "importance": 2,
-      "problem": "Frontier labs were starting to need independent dangerous-capability testing, but the main evaluator was a project inside a theory non-profit.",
+      "problem": "Frontier labs were starting to need independent dangerous-capability testing, but the main evaluator was a project inside a non-profit focused on theoretical research.",
       "idea": "ARC Evals, started in 2022 by Beth Barnes inside ARC, became an independent non-profit, METR (Model Evaluation & Threat Research).",
-      "changed": "METR evaluates autonomy and AI R&D capabilities for major labs, and its 'time horizon' measurements of how long a task agents can complete became a widely cited trend line. It does not take money from AI companies.",
-      "limits": "Evaluations depend on what access labs grant and on elicitation quality; METR itself warns that results are lower bounds on capability.",
+      "changed": "METR evaluates autonomy and AI R&D capabilities for major labs. Its 'time horizon' measurements track the length of tasks agents can complete and became a widely cited trend line. It does not take money from AI companies.",
+      "limits": "Evaluations depend on the access labs grant and how well evaluators elicit model capabilities. METR itself warns that the results are lower bounds on capability.",
       "people": [
         "Beth Barnes"
       ],
@@ -1344,9 +1344,9 @@
       "kind": "policy",
       "importance": 2,
       "problem": "OpenAI had no published rule for when catastrophic-risk capabilities should block deployment.",
-      "idea": "OpenAI published a beta framework that scores models Low/Medium/High/Critical in cybersecurity, CBRN, persuasion and model autonomy; only models at 'Medium' or below post-mitigation can be deployed.",
-      "changed": "OpenAI's analogue of the RSP. Version 2 (15 April 2025) narrowed tracked categories to bio/chem, cyber and AI self-improvement and dropped persuasion.",
-      "limits": "An internal, revisable framework. The 2025 revision says OpenAI may adjust requirements after a competitor releases a high-risk system, subject to publicly acknowledging the change and assessing its risk implications.",
+      "idea": "OpenAI published a beta framework that scores models Low/Medium/High/Critical in cybersecurity, CBRN, persuasion and model autonomy. Only models rated 'Medium' or below after mitigation can be deployed.",
+      "changed": "The framework was OpenAI's counterpart to the RSP. Version 2 (15 April 2025) narrowed the tracked categories to bio/chem, cyber and AI self-improvement, dropping persuasion.",
+      "limits": "OpenAI can revise this internal framework. The 2025 revision says it may adjust requirements after a competitor releases a high-risk system, subject to publicly acknowledging the change and assessing its risk implications.",
       "people": [
         "Aleksander Madry"
       ],
@@ -1400,8 +1400,8 @@
       "kind": "policy",
       "importance": 3,
       "problem": "The EU sought a broad AI-specific framework with different duties for different risks, including provisions for general-purpose models.",
-      "idea": "The European Parliament adopted the AI Act on 13 March 2024 (Council approval 21 May; entry into force 1 Aug 2024). It is a risk-tiered law: banned practices, high-risk systems, transparency duties, and a late-added chapter on general-purpose AI models, with extra duties for models with 'systemic risk' (presumed above 10^25 training FLOP).",
-      "changed": "Established a broad binding EU framework covering prohibited practices, high-risk systems and general-purpose models. GPAI and systemic-risk provisions include duties concerning documentation, evaluation, risk management and incident reporting, with phased application and enforcement.",
+      "idea": "The European Parliament adopted the AI Act on 13 March 2024; Council approval followed on 21 May and entry into force on 1 Aug 2024. The law sets duties by risk: it bans certain practices, regulates high-risk systems and requires transparency. A late-added chapter covers general-purpose AI models, with extra duties for models with 'systemic risk' (presumed above 10^25 training FLOP).",
+      "changed": "The Act established binding EU rules for prohibited practices, high-risk systems and general-purpose models. Its GPAI and systemic-risk provisions include documentation, evaluation, risk-management and incident-reporting duties, with phased application and enforcement.",
       "limits": "Application and enforcement were phased, with details developed through standards, guidance and codes. The 2026 AI Omnibus later changed high-risk deadlines; having legal duties is distinct from demonstrating effective compliance.",
       "people": [
         "Thierry Breton",
@@ -1474,8 +1474,8 @@
       "importance": 1,
       "problem": "FHI had been under an Oxford Faculty of Philosophy hiring and fundraising freeze since 2020.",
       "idea": "The university closed FHI on 16 April 2024 after 19 years.",
-      "changed": "Closed an influential academic centre for long-term risk research. Its research questions and alumni continued across academic groups, nonprofits, labs and government; the closure did not end philosophical work on these issues.",
-      "limits": "Exact reasons are disputed; FHI's final report blames administrative conflict, and Bostrom had faced controversy over an old email in 2023.",
+      "changed": "The closure ended FHI's work as an academic centre for long-term risk research. Its research questions and alumni continued across academic groups, nonprofits, labs and government, including philosophical work on these issues.",
+      "limits": "The reasons are disputed. FHI's final report blames administrative conflict, and Bostrom had faced controversy over an old email in 2023.",
       "people": [
         "Nick Bostrom"
       ],
@@ -1520,7 +1520,7 @@
       "importance": 2,
       "problem": "The superalignment team depended on leadership support and compute that, by spring 2024, were in doubt.",
       "idea": "Ilya Sutskever announced his departure on 14 May 2024; Jan Leike resigned and on 17 May wrote that safety culture had 'taken a backseat to shiny products'. OpenAI confirmed it was folding the team into other groups.",
-      "changed": "A prominent example of safety-team leadership leaving a frontier lab: Leike joined Anthropic and Sutskever co-founded Safe Superintelligence. It contributed to public debate about safety governance and employee protections.",
+      "changed": "The departures drew public attention to safety-team leadership leaving a frontier lab. Leike joined Anthropic and Sutskever co-founded Safe Superintelligence. The episode contributed to debate about safety governance and employee protections.",
       "limits": "OpenAI says safety work continued elsewhere in the company; how much compute the team actually received is not public.",
       "people": [
         "Jan Leike",
@@ -1576,9 +1576,9 @@
       "kind": "policy",
       "importance": 2,
       "problem": "Google DeepMind had safety teams but no public threshold-based policy like Anthropic's RSP.",
-      "idea": "Anca Dragan, Helen King and Allan Dafoe introduced Critical Capability Levels in autonomy, biosecurity, cybersecurity and ML R&D, checked by early-warning evaluations that trigger security and deployment mitigations.",
-      "changed": "Added Google DeepMind's published capability-threshold framework to those already released by Anthropic and OpenAI before the Seoul summit. It made the lab's proposed risk categories and mitigation process available for public comparison.",
-      "limits": "Described by Google itself as exploratory; commitments are internal and revisable, without outside enforcement.",
+      "idea": "Anca Dragan, Helen King and Allan Dafoe introduced Critical Capability Levels in autonomy, biosecurity, cybersecurity and ML R&D. Early-warning evaluations check for these levels, triggering security and deployment mitigations.",
+      "changed": "Google DeepMind published its capability-threshold framework before the Seoul summit, joining Anthropic and OpenAI. Readers could now compare the labs' proposed risk categories and mitigation processes.",
+      "limits": "Google described the framework as exploratory. Its commitments are internal and revisable, with no outside enforcement.",
       "people": [
         "Anca Dragan",
         "Helen King",
@@ -1633,8 +1633,8 @@
       "kind": "event",
       "importance": 2,
       "problem": "Governments sought wider company commitments to publish risk thresholds, safeguards and procedures for severe frontier-AI risks.",
-      "idea": "Co-hosted by South Korea and the UK on 21–22 May 2024. Sixteen companies, including OpenAI, Google, Anthropic, Meta, xAI, Mistral and Zhipu AI, pledged to publish safety frameworks with risk thresholds and, in extreme cases, not to develop or deploy a model if risks could not be kept below them. Countries launched an international network of AI safety institutes.",
-      "changed": "Turned the RSP idea into a cross-industry norm; by 2025, 12 companies had published frameworks (per the 2026 International AI Safety Report).",
+      "idea": "South Korea and the UK co-hosted the summit on 21–22 May 2024. Sixteen companies, including OpenAI, Google, Anthropic, Meta, xAI, Mistral and Zhipu AI, pledged to publish safety frameworks with risk thresholds. In extreme cases, they pledged not to develop or deploy a model if risks could not be kept below those thresholds. Countries launched an international network of AI safety institutes.",
+      "changed": "The summit extended the RSP approach across the industry. By 2025, 12 companies had published frameworks, according to the 2026 International AI Safety Report.",
       "limits": "The commitments are voluntary. Publishing a framework does not by itself establish the quality of evaluations or that a company will follow it under pressure.",
       "people": [],
       "orgs": [
@@ -1694,9 +1694,9 @@
       "kind": "policy",
       "importance": 2,
       "problem": "No US law placed safety duties on developers of the largest models.",
-      "idea": "SB 1047 (Senator Scott Wiener) would have required developers of very large models to adopt safety protocols, be able to shut models down, and take reasonable care against critical harms, with liability. It passed the legislature but Gov. Newsom vetoed it, arguing it targeted model size rather than risky use.",
-      "changed": "The fight split the AI industry (Anthropic cautiously supported the final version; OpenAI, Meta and many investors opposed it) and became the template for the narrower SB 53.",
-      "limits": "The veto left no US frontier-safety statute in 2024; critics say the size-based approach was crude, supporters say liability was the point.",
+      "idea": "SB 1047, introduced by Senator Scott Wiener, would have required developers of very large models to adopt safety protocols, be able to shut models down and take reasonable care against critical harms, with liability. It passed the legislature. Gov. Newsom vetoed it, arguing that it targeted model size rather than risky use.",
+      "changed": "The dispute split the AI industry. Anthropic cautiously supported the final version; OpenAI, Meta and many investors opposed it. The bill became the template for the narrower SB 53.",
+      "limits": "The veto left no US frontier-safety statute in 2024. Critics say the size-based approach was crude; supporters say liability was the point.",
       "people": [
         "Scott Wiener",
         "Gavin Newsom"
@@ -1741,8 +1741,8 @@
       "kind": "policy",
       "importance": 2,
       "problem": "The incoming administration saw Biden's AI order as a barrier to innovation.",
-      "idea": "On his first day, President Trump revoked EO 14110 (via EO 14148, 'Initial Rescissions'), and on 23 Jan 2025 issued EO 14179 calling for an AI Action Plan focused on US dominance.",
-      "changed": "Ended the US reporting regime for frontier training runs and shifted federal policy from 'safety' to 'security and innovation', which led to the CAISI rename and the July 2025 AI Action Plan.",
+      "idea": "On his first day, President Trump revoked EO 14110 through EO 14148, 'Initial Rescissions'. On 23 Jan 2025 he issued EO 14179, calling for an AI Action Plan focused on US dominance.",
+      "changed": "The revocation ended the US reporting regime for frontier training runs and shifted federal policy from 'safety' to 'security and innovation'. The shift led to the CAISI rename and the July 2025 AI Action Plan.",
       "limits": "Some evaluation work survived in NIST/CAISI and in voluntary lab agreements.",
       "people": [
         "Donald Trump"
@@ -1790,10 +1790,10 @@
       "label": "International AI Safety Report",
       "kind": "policy",
       "importance": 3,
-      "problem": "Governments lacked a shared, independent summary of evidence on what general-purpose AI can do and how risky it is, the way the IPCC serves climate policy.",
-      "idea": "Commissioned at Bletchley and chaired by Yoshua Bengio, about 100 experts nominated by 30 countries plus the UN, OECD and EU summarised evidence on capabilities, risks (malicious use, malfunction, systemic) and mitigations, ahead of the Paris summit.",
-      "changed": "Became the reference document for policymakers; a second edition followed in Feb 2026 and interim 'key updates' in between.",
-      "limits": "It deliberately makes no policy recommendations, and it reports deep expert disagreement on timelines and loss-of-control risk rather than resolving it.",
+      "problem": "Governments lacked a shared, independent summary of evidence on general-purpose AI capabilities and risks, comparable to the IPCC reports used in climate policy.",
+      "idea": "Commissioned at Bletchley and chaired by Yoshua Bengio, the report brought together about 100 experts nominated by 30 countries plus the UN, OECD and EU. Ahead of the Paris summit, they summarised evidence on capabilities, risks from malicious use, malfunction and systemic effects, and possible mitigations.",
+      "changed": "The report became a reference for policymakers. Interim 'key updates' followed, then a second edition in Feb 2026.",
+      "limits": "The report deliberately makes no policy recommendations. It records deep expert disagreement on timelines and loss-of-control risk without resolving it.",
       "people": [
         "Yoshua Bengio"
       ],
@@ -1853,8 +1853,8 @@
       "kind": "event",
       "importance": 2,
       "problem": "The summit series had to decide whether to stay focused on frontier safety or broaden to adoption and economics.",
-      "idea": "France and India co-chaired the summit on 10–11 Feb 2025. The final statement on 'inclusive and sustainable' AI was signed by about 60 countries including China, but not the US or UK. US Vice President Vance criticised 'excessive regulation'.",
-      "changed": "Marked a clear shift in the summit series away from safety; the UK renamed its institute to 'Security' days later.",
+      "idea": "France and India co-chaired the summit on 10–11 Feb 2025. About 60 countries, including China, signed the final statement on 'inclusive and sustainable' AI. The US and UK did not sign. US Vice President Vance criticised 'excessive regulation'.",
+      "changed": "The summit series shifted away from safety. Days later, the UK renamed its institute to 'Security'.",
       "limits": "Safety advocates called it a missed opportunity; others say broadening was needed to keep developing countries involved.",
       "people": [
         "Emmanuel Macron",
@@ -1906,9 +1906,9 @@
       "kind": "policy",
       "importance": 2,
       "problem": "UK and US governments reframed their evaluation institutions around security, standards and innovation, while retaining technical testing functions.",
-      "idea": "On 14 Feb 2025 the UK renamed its institute the AI Security Institute, focusing on national-security and crime risks (bio/chem, cyber, fraud, CSAM) and saying it would not focus on bias or free speech. On 3 Jun 2025 the US Commerce Secretary turned the US AI Safety Institute into the Center for AI Standards and Innovation (CAISI) at NIST, focused on voluntary standards, national-security evaluations and competition with foreign models.",
-      "changed": "Both bodies kept doing technical evaluations; the UK one kept and expanded alignment and control research. The rename signalled a political reframing of the same work from 'safety' to 'security'.",
-      "limits": "Names and priorities can change without ending the underlying evaluation work. The current NIST page uses CAISSI; its further rename date was not established, so this card remains anchored to the 2025 changes.",
+      "idea": "On 14 Feb 2025 the UK renamed its institute the AI Security Institute. It focused on national-security and crime risks (bio/chem, cyber, fraud, CSAM) and said it would not focus on bias or free speech. On 3 Jun 2025 the US Commerce Secretary turned the US AI Safety Institute into the Center for AI Standards and Innovation (CAISI) at NIST. Its focus was voluntary standards, national-security evaluations and competition with foreign models.",
+      "changed": "Both bodies continued technical evaluations. The UK institute also continued and expanded alignment and control research. The names signalled a political reframing of this work from 'safety' to 'security'.",
+      "limits": "New names and priorities can leave the underlying evaluation work in place. The current NIST page uses CAISSI, but the date of that further rename was not established. The event date here refers to the 2025 changes.",
       "people": [
         "Peter Kyle",
         "Howard Lutnick"
@@ -1975,8 +1975,8 @@
       "kind": "policy",
       "importance": 2,
       "problem": "The AI Act's GPAI duties were abstract; providers needed a concrete way to show compliance.",
-      "idea": "Independent experts drafted, and the Commission published on 10 July 2025, a voluntary Code with three chapters: transparency, copyright, and safety & security (for systemic-risk models, effectively requiring a frontier safety framework, evaluations and incident reporting). GPAI obligations began applying on 2 Aug 2025.",
-      "changed": "Most frontier labs signed (OpenAI, Anthropic, Google, Microsoft, Mistral, Amazon; xAI only the safety chapter). It turned RSP-style practice into an EU compliance route.",
+      "idea": "Independent experts drafted a voluntary Code, which the Commission published on 10 July 2025. Its three chapters cover transparency, copyright, and safety & security. The last applies to systemic-risk models, effectively requiring a frontier safety framework, evaluations and incident reporting. GPAI obligations began applying on 2 Aug 2025.",
+      "changed": "Most frontier labs signed: OpenAI, Anthropic, Google, Microsoft, Mistral and Amazon; xAI signed only the safety chapter. The Code made RSP-style practice a route to EU compliance.",
       "limits": "Meta refused to sign. The Commission's enforcement powers over GPAI start only from Aug 2026, so early compliance is largely self-reported.",
       "people": [],
       "orgs": [
@@ -2032,9 +2032,9 @@
       "kind": "policy",
       "importance": 3,
       "problem": "After the SB 1047 veto there was still no US law on frontier-model safety.",
-      "idea": "Newsom signed Senator Wiener's narrower bill: large frontier developers must publish a safety framework and transparency reports at release, report critical safety incidents to the state within 15 days, and protect whistleblowers; it also starts a public compute consortium (CalCompute). In force 1 Jan 2026.",
-      "changed": "Made publication of frontier safety frameworks and other transparency measures statutory requirements in California. It is a concrete example of public law building on practices that developers had previously set voluntarily.",
-      "limits": "Mostly disclosure: no mandatory third-party audits or shutdown capability; enforcement is by civil penalty. A federal preemption push could limit state laws.",
+      "idea": "Newsom signed Senator Wiener's narrower bill. Large frontier developers must publish a safety framework and transparency reports at release, report critical safety incidents to the state within 15 days, and protect whistleblowers. The law also starts a public compute consortium, CalCompute. It entered into force on 1 Jan 2026.",
+      "changed": "California law now required publication of frontier safety frameworks and other transparency measures, building on practices developers had previously set voluntarily.",
+      "limits": "The law mainly requires disclosure, with no mandatory third-party audits or shutdown capability. Enforcement is by civil penalty. A federal preemption push could limit state laws.",
       "people": [
         "Scott Wiener",
         "Gavin Newsom"
@@ -2084,10 +2084,10 @@
       "label": "OpenAI recapitalisation",
       "kind": "event",
       "importance": 1,
-      "problem": "OpenAI's capped-profit structure under a non-profit made raising capital hard, and its 2024–25 plan to drop non-profit control met legal and public opposition.",
+      "problem": "OpenAI's capped-profit structure under a non-profit made raising capital hard. Its 2024–25 plan to drop non-profit control met legal and public opposition.",
       "idea": "OpenAI completed a restructuring in which the non-profit OpenAI Foundation retained control of the for-profit OpenAI Group PBC. The arrangement combines a public-benefit corporate form with non-profit governance and an equity stake in the business.",
-      "changed": "Retained formal non-profit control in a new corporate structure, leaving practical oversight an ongoing question. In September 2026 Paul Christiano joined the Foundation board and its Safety and Security Committee.",
-      "limits": "Critics argue non-profit control is weaker in practice once most value sits with investors; state attorneys general negotiated conditions.",
+      "changed": "The new structure retained formal non-profit control, while leaving practical oversight an ongoing question. In September 2026 Paul Christiano joined the Foundation board and its Safety and Security Committee.",
+      "limits": "Critics argue that non-profit control is weaker in practice once most value sits with investors. State attorneys general negotiated conditions.",
       "people": [
         "Sam Altman",
         "Bret Taylor"
@@ -2142,10 +2142,10 @@
       "label": "AI Safety Report 2026",
       "kind": "policy",
       "importance": 2,
-      "problem": "One year on, capabilities (reasoning models, agents) and evidence of risks had moved fast.",
-      "idea": "Bengio's panel, over 100 experts backed by 30+ countries and organisations, reported jagged but rapid capability gains (IMO gold-level maths, multi-hour agentic coding), growing real-world evidence of misuse, models that can tell tests from deployment, and that 12 companies had published or updated frontier safety frameworks in 2025.",
-      "changed": "Supplied the evidence base for the New Delhi summit and flagged evaluation awareness as a problem for safety testing.",
-      "limits": "Still no recommendations; it found most risk management remains voluntary and that safeguards have significant limits.",
+      "problem": "Over the preceding year, reasoning models and agents had gained capabilities rapidly. Evidence about their risks was also changing quickly.",
+      "idea": "Bengio's panel included over 100 experts backed by 30+ countries and organisations. It reported rapid but uneven capability gains, including IMO gold-level maths and multi-hour agentic coding, alongside growing real-world evidence of misuse. It also described models that can tell tests from deployment and reported that 12 companies had published or updated frontier safety frameworks in 2025.",
+      "changed": "The report supplied evidence for the New Delhi summit and identified evaluation awareness as a problem for safety testing.",
+      "limits": "The report still made no recommendations. It found that most risk management remains voluntary and safeguards have significant limits.",
       "people": [
         "Yoshua Bengio"
       ],
@@ -2199,8 +2199,8 @@
       "kind": "event",
       "importance": 1,
       "problem": "The summit series continued in India with a broad AI-impact agenda, including international cooperation and access.",
-      "idea": "India hosted the AI Impact Summit in February 2026 and announced the New Delhi Declaration on AI Impact. Public accounts also describe company commitments, but their detailed content and complete signatory lists are not independently established in this record.",
-      "changed": "Continued the international summit series with greater emphasis on AI's economic and social impact. A common declaration is a cooperation milestone rather than evidence that national policies or evaluation capacity have converged.",
+      "idea": "India hosted the AI Impact Summit in February 2026 and announced the New Delhi Declaration on AI Impact. Public accounts also describe company commitments, but their detailed content and complete signatory lists were not independently established for this timeline.",
+      "changed": "The summit continued the international series with greater emphasis on AI's economic and social impact. The common declaration records cooperation, but does not establish that national policies or evaluation capacity have converged.",
       "limits": "Participation and endorsement do not establish implementation. Exact event-day ranges and counts vary with the sessions and signatories being counted, so the timeline uses month precision.",
       "people": [
         "Narendra Modi"
@@ -2250,9 +2250,9 @@
       "label": "Anthropic RSP v3",
       "kind": "policy",
       "importance": 2,
-      "problem": "Anthropic found its if-then thresholds 'far more ambiguous' than expected, and higher safeguard levels (e.g. top-tier weight security) possibly impossible for one company alone.",
-      "idea": "RSP v3 separates what Anthropic will do regardless of others from a recommended industry-wide map of capabilities to mitigations; it adds a public Frontier Safety Roadmap and Risk Reports every 3–6 months, with external review in some cases.",
-      "changed": "Changed the structure of Anthropic's policy toward explicit unilateral commitments, an industry-wide capability-to-mitigation map, and more public reporting. This makes the content and strength of particular commitments important to compare across policy versions.",
+      "problem": "Anthropic found its if-then thresholds 'far more ambiguous' than expected. It also found that higher safeguard levels, such as top-tier weight security, might be impossible for one company alone.",
+      "idea": "RSP v3 separates what Anthropic will do regardless of others from a recommended industry-wide map of capabilities to mitigations. It adds a public Frontier Safety Roadmap and Risk Reports every 3–6 months, with external review in some cases.",
+      "changed": "The revision sets out Anthropic's unilateral commitments separately from its recommendations for industry-wide safeguards and adds more public reporting. Comparing versions requires checking the content and strength of each commitment.",
       "limits": "A public roadmap and risk reports do not provide the same assurance as enforceable safeguards. Whether the revision improves accountability or weakens restraint depends on its specific commitments and implementation.",
       "people": [
         "Dario Amodei",
@@ -2301,10 +2301,10 @@
       "label": "Anthropic–Pentagon dispute",
       "kind": "event",
       "importance": 2,
-      "problem": "Anthropic's restrictions on military uses came into conflict with a government customer's demands, testing the practical force of developer use policies.",
-      "idea": "After Anthropic maintained restrictions on mass domestic surveillance and fully autonomous weapons, the President announced that federal agencies should stop using its models and Hegseth announced a supply-chain-risk designation. Anthropic says it received written notice on 4 March 2026. The designation and related government actions led to litigation.",
-      "changed": "Made the conflict between a lab's use restrictions and a government customer's demands concrete. It illustrates that state procurement and security powers can exert pressure on developer policies.",
-      "limits": "Anthropic contests the designation's legality and scope. September press reports describe different outcomes in D.C. and California proceedings; this card does not independently certify those court holdings or a final legal outcome.",
+      "problem": "Anthropic's restrictions on military uses conflicted with a government customer's demands. The dispute tested whether the developer could uphold its use policies.",
+      "idea": "After Anthropic maintained restrictions on mass domestic surveillance and fully autonomous weapons, the President announced that federal agencies should stop using its models. Hegseth announced a supply-chain-risk designation. Anthropic says it received written notice on 4 March 2026. The designation and related government actions led to litigation.",
+      "changed": "The dispute showed how state procurement and security powers can pressure a lab to change its use restrictions when they conflict with a government customer's demands.",
+      "limits": "Anthropic contests the designation's legality and scope. September press reports describe different outcomes in D.C. and California proceedings. Those court holdings and a final legal outcome were not independently verified for this timeline.",
       "people": [
         "Dario Amodei",
         "Pete Hegseth",
@@ -2362,9 +2362,9 @@
       "kind": "policy",
       "importance": 1,
       "problem": "Industry and member states said high-risk AI Act obligations due 2 Aug 2026 were unworkable without finished standards.",
-      "idea": "EU institutions reached a political agreement on 7 May 2026 to amend the AI Act's implementation timetable, including later dates for high-risk requirements and a ban on certain non-consensual sexual-image systems. Parliament adopted its position on 16 June, Council acted on 29 June, and the amendment entered into force on 27 July 2026.",
-      "changed": "Changed high-risk implementation dates to 2 December 2027 for Annex III systems and 2 August 2028 for product-related systems. It demonstrates that implementation timetables can be revised after a law is adopted.",
-      "limits": "The amendment changes selected obligations and deadlines rather than replacing the AI Act. Effects on compliance and enforcement depend on later implementation; delay alone does not measure safety outcomes.",
+      "idea": "EU institutions reached a political agreement on 7 May 2026 to amend the AI Act's implementation timetable. The agreement included later dates for high-risk requirements and a ban on certain non-consensual sexual-image systems. Parliament adopted its position on 16 June, Council acted on 29 June, and the amendment entered into force on 27 July 2026.",
+      "changed": "The amendment moved high-risk implementation dates to 2 December 2027 for Annex III systems and 2 August 2028 for product-related systems. It revised the timetable after the law had been adopted.",
+      "limits": "The amendment changes selected obligations and deadlines; the AI Act remains in place. Effects on compliance and enforcement depend on later implementation. Delay alone does not measure safety outcomes.",
       "people": [],
       "orgs": [
         "European Parliament",
@@ -2424,9 +2424,9 @@
       "kind": "policy",
       "importance": 2,
       "problem": "Frontier-model cyber capabilities raised national-security concerns, while the administration sought cooperation with industry without a licensing regime.",
-      "idea": "The order creates a classified cyber-capability benchmark run by Treasury, NSA and CISA; the NSA Director designates 'covered frontier models'; developers may voluntarily give the government up to 30 days of pre-release access and coordinate trusted early access for critical-infrastructure partners. It states it creates no licensing or preclearance requirement.",
-      "changed": "Added a voluntary, cyber-focused process for government access and coordination around covered frontier models. This differs from EO 14110's earlier reporting requirements.",
-      "limits": "Voluntary; no safety testing mandate and no power to block release.",
+      "idea": "The order creates a classified cyber-capability benchmark run by Treasury, NSA and CISA. The NSA Director designates 'covered frontier models'. Developers may voluntarily give the government up to 30 days of pre-release access and coordinate trusted early access for critical-infrastructure partners. The order states that it creates no licensing or preclearance requirement.",
+      "changed": "The order added a voluntary, cyber-focused process for government access and coordination around covered frontier models. EO 14110 had instead required reporting.",
+      "limits": "Participation is voluntary. The order mandates no safety testing and gives no power to block release.",
       "people": [
         "Donald Trump"
       ],
@@ -2483,8 +2483,8 @@
       "kind": "org",
       "importance": 2,
       "problem": "CHERI sought to support new researchers through mentored projects and a shared research environment; the 2024 programme moved that fellowship activity to London.",
-      "idea": "The Swiss Existential Risk Initiative (CHERI), which had run summer research fellowships since 2021, renamed itself Pivotal Research and ran its fourth fellowship (9 weeks, 1 Jul–30 Aug 2024) at the LISA offices in London, alongside groups such as Apollo Research, BlueDot and the MATS extension.",
-      "changed": "Developed into a longer mentor-led fellowship covering technical AI safety, governance and biosecurity. Its public page schedules a 15-week AI Safety Fellowship for 18 January–30 April 2027 at LISA in London.",
+      "idea": "The Swiss Existential Risk Initiative (CHERI) had run summer research fellowships since 2021. It renamed itself Pivotal Research and ran its fourth fellowship (9 weeks, 1 Jul–30 Aug 2024) at the LISA offices in London, alongside groups such as Apollo Research, BlueDot and the MATS extension.",
+      "changed": "The programme developed into a longer mentor-led fellowship covering technical AI safety, governance and biosecurity. Its public page schedules a 15-week AI Safety Fellowship for 18 January–30 April 2027 at LISA in London.",
       "limits": "Fellowships produce mostly short projects; impact depends on mentor quality and on fellows finding jobs afterwards.",
       "people": [
         "Tobias Häberli",
@@ -2540,7 +2540,7 @@
         "Sabine Atkins"
       ],
       "kind": "nonprofit research",
-      "historical_role": "An early independent home for Friendly AI and agent-foundations research, including corrigibility and decision theory; its community contributed to later alignment work.",
+      "historical_role": "An early independent organisation researching Friendly AI and agent foundations, including corrigibility and decision theory. Its community contributed to later alignment work.",
       "research_focus": [
         "agent foundations",
         "corrigibility",
@@ -2572,7 +2572,7 @@
         "Nick Bostrom"
       ],
       "kind": "academic",
-      "historical_role": "An influential academic home for existential-risk, macrostrategy and AI-governance work; Bostrom wrote Superintelligence there, and GovAI originated as an FHI programme.",
+      "historical_role": "An academic institute for existential-risk, macrostrategy and AI-governance research. Bostrom wrote Superintelligence there, and GovAI began as an FHI programme.",
       "research_focus": [
         "existential risk",
         "macrostrategy",
@@ -2601,7 +2601,7 @@
         "Mustafa Suleyman"
       ],
       "kind": "lab",
-      "historical_role": "An AGI-focused lab that produced DQN and AlphaGo; acquired by Google in 2014 and merged with Google Brain in 2023. Research includes alignment, evaluations and interpretability.",
+      "historical_role": "An AGI-focused lab that produced DQN and AlphaGo. Google acquired it in 2014 and merged it with Google Brain in 2023. Its research includes alignment, evaluations and interpretability.",
       "research_focus": [
         "AGI safety and alignment",
         "mechanistic interpretability",
@@ -2614,7 +2614,7 @@
         "rl-2013-dqn",
         "rl-2016-alphago"
       ],
-      "status_as_of_2026_11": "Google DeepMind publishes alignment and interpretability research and a Frontier Safety Framework. Formal frameworks and research outputs are evidence to inspect, rather than guarantees of safety.",
+      "status_as_of_2026_11": "Google DeepMind publishes alignment and interpretability research and a Frontier Safety Framework. These show what the lab researches and commits to; they do not guarantee safety.",
       "sources": [
         {
           "label": "Google DeepMind: About",
@@ -2638,7 +2638,7 @@
         "Meia Chita-Tegmark"
       ],
       "kind": "nonprofit research",
-      "historical_role": "Bridged AI-risk concerns to mainstream researchers (Puerto Rico 2015, Asilomar 2017) and to the public (2023 pause letter); funded early safety grants.",
+      "historical_role": "Brought AI-risk discussions to mainstream researchers through Puerto Rico 2015 and Asilomar 2017, and to the public through the 2023 pause letter. It also funded early safety grants.",
       "research_focus": [
         "policy advocacy",
         "grantmaking",
@@ -2671,7 +2671,7 @@
         "others"
       ],
       "kind": "lab",
-      "historical_role": "A major frontier lab behind GPT models, scaled RLHF and ChatGPT. Its corporate governance and safety-team history provide cases for analysing mission and commercial incentives.",
+      "historical_role": "A major frontier lab behind GPT models, scaled RLHF and ChatGPT. Its corporate governance and safety-team history illustrate tensions between its mission and commercial incentives.",
       "research_focus": [
         "frontier models",
         "RLHF/alignment",
@@ -2744,7 +2744,7 @@
         "Stuart Russell"
       ],
       "kind": "academic",
-      "historical_role": "An academic centre that developed assistance-game and preference-learning approaches to beneficial AI and trained researchers who later worked across the field.",
+      "historical_role": "An academic centre that developed assistance-game and preference-learning approaches to beneficial AI. It trained researchers who later worked across the field.",
       "research_focus": [
         "assistance games",
         "value learning",
@@ -2771,7 +2771,7 @@
         "Leo Gao"
       ],
       "kind": "nonprofit research",
-      "historical_role": "Open models, datasets and training-analysis tools such as GPT-Neo/NeoX, the Pile and Pythia expanded access to language-model research outside large commercial labs.",
+      "historical_role": "Its open models, datasets and training-analysis tools, including GPT-Neo/NeoX, the Pile and Pythia, expanded access to language-model research outside large commercial labs.",
       "research_focus": [
         "open models",
         "interpretability",
@@ -2804,7 +2804,7 @@
         "others"
       ],
       "kind": "lab",
-      "historical_role": "A frontier lab founded by former OpenAI researchers, with contributions to Constitutional AI, interpretability and alignment science and an influential responsible-scaling policy.",
+      "historical_role": "A frontier lab founded by former OpenAI researchers. It contributed to Constitutional AI, interpretability and alignment science, and published a responsible-scaling policy that influenced other labs.",
       "research_focus": [
         "interpretability",
         "alignment science",
@@ -2842,7 +2842,7 @@
         "Paul Christiano"
       ],
       "kind": "nonprofit research",
-      "historical_role": "A theoretical alignment organisation that incubated ARC Evals, which became METR; its research includes eliciting latent knowledge and mechanistic estimation.",
+      "historical_role": "A theoretical alignment organisation that incubated ARC Evals, which became METR. Its research includes eliciting latent knowledge and mechanistic estimation.",
       "research_focus": [
         "eliciting latent knowledge",
         "heuristic explanations",
@@ -2853,7 +2853,7 @@
         "gov-2023-metr",
         "safety-2018-ida"
       ],
-      "status_as_of_2026_11": "Active in theoretical alignment research: its website lists May and June 2026 work on mechanistic estimation and a White-Box Estimation Challenge.",
+      "status_as_of_2026_11": "Continues theoretical alignment research. Its website lists May and June 2026 work on mechanistic estimation and a White-Box Estimation Challenge.",
       "sources": [
         {
           "label": "Christiano: Announcing ARC",
@@ -2876,7 +2876,7 @@
         "Bill Zito"
       ],
       "kind": "nonprofit research",
-      "historical_role": "Empirical alignment lab that created the 'AI control' agenda and co-authored the alignment-faking study.",
+      "historical_role": "An empirical alignment lab that created the 'AI control' agenda and co-authored the alignment-faking study.",
       "research_focus": [
         "AI control",
         "alignment faking",
@@ -2887,7 +2887,7 @@
         "safety-2023-ai-control",
         "safety-2024-alignment-faking"
       ],
-      "status_as_of_2026_11": "Active in AI control, strategic-deception research and applied advice on misalignment risks; its public work includes control safety cases with UK AISI.",
+      "status_as_of_2026_11": "Researches AI control and strategic deception, and gives applied advice on misalignment risks. Its public work includes control safety cases with UK AISI.",
       "sources": [
         {
           "label": "Redwood Research",
@@ -2907,7 +2907,7 @@
         "SERI MATS founding team (individual founders not established here)"
       ],
       "kind": "fellowship",
-      "historical_role": "A research-mentorship programme connecting new researchers with alignment, interpretability and security mentors; alumni have joined or founded research organisations.",
+      "historical_role": "A research-mentorship programme connecting new researchers with alignment, interpretability and security mentors. Alumni have joined or founded research organisations.",
       "research_focus": [
         "alignment",
         "interpretability",
@@ -2933,14 +2933,14 @@
         "Gabriel Alfour"
       ],
       "kind": "lab",
-      "historical_role": "A London alignment company founded by EleutherAI alumni; pursued Cognitive Emulation, interpretability and policy advocacy.",
+      "historical_role": "A London alignment company founded by EleutherAI alumni. It pursued Cognitive Emulation, interpretability and policy advocacy.",
       "research_focus": [
         "cognitive emulation",
         "interpretability (early)",
         "policy advocacy"
       ],
       "key_event_ids": [],
-      "status_as_of_2026_11": "Its website presents a Cognitive Emulation agenda. ControlAI identifies founder Connor Leahy as its US Executive Director; Conjecture's claimed wind-down date and current operations remain unverified.",
+      "status_as_of_2026_11": "Its website presents a Cognitive Emulation agenda. ControlAI identifies founder Connor Leahy as its US Executive Director. Conjecture's claimed wind-down date and current operations remain unverified.",
       "sources": [
         {
           "label": "ControlAI: Connor Leahy",
@@ -2961,14 +2961,14 @@
         "Karl Berzins"
       ],
       "kind": "nonprofit research",
-      "historical_role": "Research and field-building non-profit (robustness, adversarial attacks on superhuman Go AIs, deception probes) that runs the Alignment Workshop series and FAR.Labs co-working space.",
+      "historical_role": "A non-profit researching robustness, adversarial attacks on superhuman Go AIs and deception probes. It also runs the Alignment Workshop series and FAR.Labs co-working space.",
       "research_focus": [
         "adversarial robustness",
         "deception detection",
         "events and grantmaking"
       ],
       "key_event_ids": [],
-      "status_as_of_2026_11": "An AI-security research and adoption nonprofit, combining foundational and applied work with workshops, grantmaking and engagement with developers and governments.",
+      "status_as_of_2026_11": "An AI-security research and adoption nonprofit. It combines foundational and applied work with workshops, grantmaking and work with developers and governments.",
       "sources": [
         {
           "label": "FAR.AI",
@@ -2989,7 +2989,7 @@
         "Oliver Zhang"
       ],
       "kind": "nonprofit research",
-      "historical_role": "A research and field-building nonprofit behind the 2023 AI-risk statement, researcher compute support and evaluation work such as WMDP. Its director also co-authored MMLU before CAIS was founded.",
+      "historical_role": "A nonprofit behind the 2023 AI-risk statement, compute support for researchers and evaluations such as WMDP. Its director also co-authored MMLU before CAIS was founded.",
       "research_focus": [
         "robustness and benchmarks",
         "representation engineering",
@@ -2998,7 +2998,7 @@
       "key_event_ids": [
         "gov-2023-cais-statement"
       ],
-      "status_as_of_2026_11": "A nonprofit directed by Dan Hendrycks and Oliver Zhang, conducting AI-risk research, evaluations and field-building.",
+      "status_as_of_2026_11": "A nonprofit directed by Dan Hendrycks and Oliver Zhang. It conducts AI-risk research and evaluations and supports the research community.",
       "sources": [
         {
           "label": "CAIS: About",
@@ -3018,7 +3018,7 @@
         "Marius Hobbhahn (co-founder; starting team documented in 2023 announcement)"
       ],
       "kind": "lab",
-      "historical_role": "Third-party evaluator focused on scheming and deceptive alignment; ran pre-deployment tests for frontier labs.",
+      "historical_role": "A third-party evaluator focused on scheming and deceptive alignment that ran pre-deployment tests for frontier labs.",
       "research_focus": [
         "scheming evaluations",
         "science of scheming",
@@ -3028,7 +3028,7 @@
         "gov-2023-apollo-founded",
         "rl-2024-o1"
       ],
-      "status_as_of_2026_11": "Now a Public Benefit Corporation, with London and San Francisco offices. Research focuses on scheming evaluations and mitigation; Watcher applies monitoring to frontier agents.",
+      "status_as_of_2026_11": "A Public Benefit Corporation with London and San Francisco offices. It researches scheming evaluations and mitigation; Watcher applies monitoring to frontier agents.",
       "sources": [
         {
           "label": "Apollo Research: About",
@@ -3049,7 +3049,7 @@
         "UK Government (DSIT); built from the Frontier AI Taskforce under Ian Hogarth"
       ],
       "kind": "government",
-      "historical_role": "A government programme for technical frontier-model evaluations and research on safeguards, alignment and control; an early participant in international institute cooperation.",
+      "historical_role": "A government programme evaluating frontier models and researching safeguards, alignment and control. It participated early in international cooperation between evaluation institutes.",
       "research_focus": [
         "pre-deployment evaluations",
         "cyber/chem-bio risk",
@@ -3061,7 +3061,7 @@
         "gov-2023-bletchley",
         "gov-2025-aisi-rebrands"
       ],
-      "status_as_of_2026_11": "Operates as the AI Security Institute. Its research covers model evaluations, cyber and biological risks, safeguards, alignment and control.",
+      "status_as_of_2026_11": "Now the AI Security Institute. Its research covers model evaluations, cyber and biological risks, safeguards, alignment and control.",
       "sources": [
         {
           "label": "AI Security Institute",
@@ -3081,7 +3081,7 @@
         "US Department of Commerce / NIST under EO 14110"
       ],
       "kind": "government",
-      "historical_role": "US government evaluator created under EO 14110; rebranded in 2025 toward standards, national-security evaluations and assessing foreign models.",
+      "historical_role": "A US government evaluator created under EO 14110. Its 2025 rebrand emphasised standards, national-security evaluations and assessment of foreign models.",
       "research_focus": [
         "national-security evaluations (cyber, bio, chem)",
         "agent security standards",
@@ -3091,7 +3091,7 @@
         "gov-2023-eo-14110",
         "gov-2025-aisi-rebrands"
       ],
-      "status_as_of_2026_11": "The NIST page formerly at /caisi now redirects to /caissi and uses the name Center for Advancing Innovation and Standards for Super Intelligence (CAISSI). The rename date was not established; its public remit includes voluntary standards and national-security evaluations.",
+      "status_as_of_2026_11": "The NIST page formerly at /caisi now redirects to /caissi and uses the name Center for Advancing Innovation and Standards for Super Intelligence (CAISSI). The rename date was not established. Its public remit includes voluntary standards and national-security evaluations.",
       "sources": [
         {
           "label": "NIST: CAISI",
@@ -3112,7 +3112,7 @@
         "Beth Barnes"
       ],
       "kind": "nonprofit research",
-      "historical_role": "Pioneered third-party dangerous-capability and autonomy evaluations (GPT-4, Claude) and the time-horizon trend measure; its ideas underpin lab scaling policies.",
+      "historical_role": "Helped establish third-party dangerous-capability and autonomy evaluations for models including GPT-4 and Claude, and developed the time-horizon trend measure. Its ideas underpin lab scaling policies.",
       "research_focus": [
         "autonomy and AI R&D evaluations",
         "time-horizon measurement",
@@ -3141,7 +3141,7 @@
         "Tom McGrath"
       ],
       "kind": "lab",
-      "historical_role": "Venture-backed interpretability company, a sign that mechanistic interpretability became commercially fundable.",
+      "historical_role": "A venture-backed interpretability company, illustrating commercial funding for mechanistic interpretability.",
       "research_focus": [
         "mechanistic interpretability",
         "model editing",
@@ -3151,7 +3151,7 @@
         "safety-2023-towards-monosemanticity",
         "safety-2026-vpd"
       ],
-      "status_as_of_2026_11": "An interpretability company working on model understanding and interventions; its May 2026 VPD work analysed a small language model's parameter components.",
+      "status_as_of_2026_11": "An interpretability company working on model understanding and interventions. Its May 2026 VPD work analysed a small language model's parameter components.",
       "sources": [
         {
           "label": "Goodfire",
@@ -3173,7 +3173,7 @@
         "Sarah Schwettmann"
       ],
       "kind": "nonprofit research",
-      "historical_role": "Non-profit building open, AI-agent-driven interpretability and behaviour-elicitation tools so that labs are not the only judges of their own models.",
+      "historical_role": "A non-profit building open, AI-agent-driven tools for interpretability and eliciting model behaviour, intended to help people outside labs examine models.",
       "research_focus": [
         "automated interpretability",
         "behaviour elicitation",
@@ -3222,7 +3222,7 @@
           "url": "https://www.pivotal-research.org/fellowships/ai-safety-fellowship"
         }
       ],
-      "founded_context": "CHERI fellowship documented from 2021; Pivotal name announced 2024",
+      "founded_context": "CHERI fellowships are documented from 2021; the Pivotal name was announced in 2024.",
       "activity_since": "2021"
     },
     {
@@ -3233,7 +3233,7 @@
         "Yann LeCun (founding director)"
       ],
       "kind": "lab",
-      "historical_role": "A research lab associated with self-supervised learning and the LLaMA open-weight models. Its approach is relevant to debates about open model access and risk management.",
+      "historical_role": "A research lab known for self-supervised learning and the LLaMA open-weight models. Its work is part of debates about open model access and risk management.",
       "research_focus": [
         "open models",
         "world models",
@@ -3242,7 +3242,7 @@
       "key_event_ids": [
         "lm-2023-llama"
       ],
-      "status_as_of_2026_11": "Meta's July 2025 earnings remarks placed FAIR within Meta Superintelligence Labs. FAIR's public research releases include agents, robustness, safety and model architectures; this record does not assert a current leadership roster.",
+      "status_as_of_2026_11": "Meta's July 2025 earnings remarks placed FAIR within Meta Superintelligence Labs. FAIR's public research releases cover agents, robustness, safety and model architectures. A current leadership roster is not established here.",
       "sources": [
         {
           "label": "Meta Q2 2025 prepared remarks (30 July 2025)",
@@ -3262,7 +3262,7 @@
         "Yoshua Bengio"
       ],
       "kind": "nonprofit research",
-      "historical_role": "Bengio's safe-by-design non-profit, building a non-agentic 'Scientist AI' intended to act as a guardrail on AI agents.",
+      "historical_role": "Bengio's safe-by-design non-profit, building a non-agentic 'Scientist AI' intended as a guardrail for AI agents.",
       "research_focus": [
         "non-agentic AI",
         "guardrails",
@@ -3281,7 +3281,7 @@
   "people": [
     {
       "name": "Stuart Russell",
-      "known_for": "Co-author of the standard AI textbook who turned to the control problem and founded CHAI ('Human Compatible', 2019).",
+      "known_for": "Co-author of the standard AI textbook who turned to the control problem and founded CHAI. Wrote 'Human Compatible' (2019).",
       "affiliations": [
         {
           "org": "UC Berkeley",
@@ -3332,7 +3332,7 @@
     },
     {
       "name": "Paul Christiano",
-      "known_for": "Alignment researcher associated with preference-based RL and iterated amplification; founded ARC, worked at US AISI/CAISI, and joined the OpenAI Foundation board in September 2026.",
+      "known_for": "Alignment researcher known for preference-based RL and iterated amplification. Founded ARC, worked at US AISI/CAISI, and joined the OpenAI Foundation board in September 2026.",
       "affiliations": [
         {
           "org": "OpenAI (alignment research)",
@@ -3371,7 +3371,7 @@
     },
     {
       "name": "Jan Leike",
-      "known_for": "Co-led OpenAI Superalignment; resigned in May 2024 citing deprioritised safety and now leads alignment science at Anthropic.",
+      "known_for": "Co-led OpenAI Superalignment and resigned in May 2024, citing deprioritised safety. Now leads alignment science at Anthropic.",
       "affiliations": [
         {
           "org": "DeepMind",
@@ -3399,7 +3399,7 @@
     },
     {
       "name": "Dario Amodei",
-      "known_for": "Led research at OpenAI (GPT-2/3, 'Concrete Problems'), then co-founded Anthropic as CEO.",
+      "known_for": "Led research at OpenAI on GPT-2/3 and 'Concrete Problems', then co-founded Anthropic as CEO.",
       "affiliations": [
         {
           "org": "Baidu",
@@ -3458,7 +3458,7 @@
     },
     {
       "name": "Ilya Sutskever",
-      "known_for": "OpenAI co-founder and chief scientist; voted to remove Altman in 2023, co-led Superalignment, then founded Safe Superintelligence.",
+      "known_for": "OpenAI co-founder and chief scientist who voted to remove Altman in 2023. Co-led Superalignment, then founded Safe Superintelligence.",
       "affiliations": [
         {
           "org": "Google Brain",
@@ -3485,7 +3485,7 @@
     },
     {
       "name": "Shane Legg",
-      "known_for": "DeepMind co-founder who wrote about AGI risk before founding it; Chief AGI Scientist.",
+      "known_for": "DeepMind co-founder and Chief AGI Scientist who wrote about AGI risk before founding the lab.",
       "affiliations": [
         {
           "org": "DeepMind / Google DeepMind",
@@ -3499,7 +3499,7 @@
     },
     {
       "name": "Demis Hassabis",
-      "known_for": "DeepMind co-founder and CEO of Google DeepMind; 2024 Nobel in Chemistry for AlphaFold.",
+      "known_for": "DeepMind co-founder and CEO of Google DeepMind. Received the 2024 Nobel in Chemistry for AlphaFold.",
       "affiliations": [
         {
           "org": "DeepMind / Google DeepMind (CEO)",
@@ -3515,7 +3515,7 @@
     },
     {
       "name": "Geoffrey Hinton",
-      "known_for": "Deep-learning pioneer who left Google in 2023 to speak freely about AI risk; 2024 Nobel in Physics.",
+      "known_for": "Deep-learning pioneer who left Google in 2023 to speak freely about AI risk. Received the 2024 Nobel in Physics.",
       "affiliations": [
         {
           "org": "University of Toronto",
@@ -3534,7 +3534,7 @@
     },
     {
       "name": "Yoshua Bengio",
-      "known_for": "Deep-learning pioneer who became a leading voice on catastrophic risk; chairs the International AI Safety Report and founded LawZero.",
+      "known_for": "Deep-learning pioneer and prominent voice on catastrophic risk. Chairs the International AI Safety Report and founded LawZero.",
       "affiliations": [
         {
           "org": "Université de Montréal / Mila",
@@ -3561,7 +3561,7 @@
     },
     {
       "name": "Richard Sutton",
-      "known_for": "Founder of modern RL (TD learning, 'The Bitter Lesson'); 2024 Turing Award; sceptical of AI-doom framing.",
+      "known_for": "Founder of modern RL, known for TD learning and 'The Bitter Lesson'. Received the 2024 Turing Award and is sceptical of AI-doom framing.",
       "affiliations": [
         {
           "org": "University of Alberta",
@@ -3608,7 +3608,7 @@
     },
     {
       "name": "Evan Hubinger",
-      "known_for": "Lead author of Risks from Learned Optimization and an Anthropic alignment researcher associated with sleeper agents, alignment faking and stress-testing.",
+      "known_for": "Lead author of Risks from Learned Optimization and an Anthropic alignment researcher. His work includes sleeper agents, alignment faking and stress-testing.",
       "affiliations": [
         {
           "org": "MIRI",
@@ -3677,7 +3677,7 @@
     },
     {
       "name": "Rohin Shah",
-      "known_for": "CHAI PhD and Alignment Newsletter author; researches technical AGI safety and alignment at Google DeepMind.",
+      "known_for": "CHAI PhD and Alignment Newsletter author who researches technical AGI safety and alignment at Google DeepMind.",
       "affiliations": [
         {
           "org": "CHAI (PhD)",
@@ -3704,7 +3704,7 @@
     },
     {
       "name": "Neel Nanda",
-      "known_for": "Mechanistic interpretability researcher and mentor (TransformerLens); leads the Google DeepMind mech-interp team.",
+      "known_for": "Mechanistic interpretability researcher and mentor known for TransformerLens. Leads the Google DeepMind mech-interp team.",
       "affiliations": [
         {
           "org": "Anthropic",
@@ -3740,7 +3740,7 @@
     },
     {
       "name": "Holden Karnofsky",
-      "known_for": "Co-founded GiveWell and Open Philanthropy, which made AI risk its major priority in 2016; joined Anthropic in 2025 working on the RSP.",
+      "known_for": "Co-founded GiveWell and Open Philanthropy, which made AI risk its major priority in 2016. Joined Anthropic in 2025 to work on the RSP.",
       "affiliations": [
         {
           "org": "Open Philanthropy (co-CEO)",
@@ -3810,7 +3810,7 @@
     {
       "id": "gov-thread-institutional-field",
       "title": "How did AI safety become an institutional field?",
-      "question": "How did a mailing-list concern in 2000 become a set of labs, non-profits, funders, fellowships and government institutes by 2026?",
+      "question": "How did AI safety grow from a mailing-list concern in 2000 into labs, non-profits, funders, fellowships and government institutes by 2026?",
       "event_ids": [
         "gov-2000-siai-founded",
         "gov-2005-fhi-founded",
@@ -3836,12 +3836,12 @@
         "gov-2025-openai-recapitalization",
         "gov-2026-rsp-v3"
       ],
-      "summary": "Early independent and academic groups such as SIAI/MIRI and FHI developed long-term AI-risk arguments. DeepMind and OpenAI pursued general AI through research labs; FLI, philanthropic funding and CHAI widened the research community, while Concrete Problems in 2016 articulated an empirical agenda. From 2021, organisations including Anthropic, ARC, Redwood, Apollo and METR developed different combinations of alignment research, evaluations and control. Fellowships and government institutes expanded entry routes. The OpenAI board crisis, safety-team departures and revisions to scaling policies illustrate continuing tensions between formal commitments and practical incentives."
+      "summary": "Early independent and academic groups such as SIAI/MIRI and FHI developed arguments about long-term AI risk. DeepMind and OpenAI built research labs to pursue general AI. FLI, philanthropic funding and CHAI brought more researchers into the field, while Concrete Problems in 2016 set out an empirical research agenda. From 2021, Anthropic, ARC, Redwood, Apollo and METR combined alignment research, evaluations and control in different ways. Fellowships and government institutes offered further routes into this work. The OpenAI board crisis, safety-team departures and revisions to scaling policies show the continuing tension between formal commitments and practical incentives."
     },
     {
       "id": "gov-thread-government-response",
       "title": "How did governments start to respond?",
-      "question": "When and how did states move from ignoring frontier AI risk to testing models and passing laws, and how far did that go?",
+      "question": "When did governments start testing frontier models and passing laws to address their risks, and how far did those measures go?",
       "event_ids": [
         "gov-2017-asilomar-principles",
         "gov-2023-fli-pause-letter",
@@ -3865,7 +3865,7 @@
         "gov-2026-eu-ai-omnibus",
         "gov-2026-us-eo-14409"
       ],
-      "summary": "The selected milestones trace a frontier-risk policy strand, not the beginning of all AI governance. The 2023 company commitments, EO 14110 and Bletchley summit connected model testing with government attention. The EU AI Act and California SB 53 added different legal duties; Seoul promoted public company frameworks. Later US policy revoked EO 14110 and emphasised voluntary, security-focused cooperation, while the EU amended high-risk implementation dates. The Anthropic–Pentagon dispute illustrates a separate issue: government pressure on a developer's use restrictions. These measures differ in legal force, and their existence does not establish effective enforcement or reduced risk."
+      "summary": "These events trace policy on frontier risk; AI governance began earlier. The 2023 company commitments, EO 14110 and Bletchley summit brought model testing to government attention. The EU AI Act and California SB 53 imposed different legal duties, while Seoul encouraged companies to publish safety frameworks. Later US policy revoked EO 14110 and emphasised voluntary, security-focused cooperation. The EU amended high-risk implementation dates. The Anthropic–Pentagon dispute concerns a separate issue: government pressure on a developer's use restrictions. These measures differ in legal force. Their existence does not establish that enforcement works or risks have fallen."
     }
   ]
 }
