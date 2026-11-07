@@ -292,6 +292,9 @@
 /* Keep the map and its reading context in one workspace. The page owns vertical scrolling. */
 .atlas .timeline-workspace { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(25rem, 1fr); gap: 1.6rem; align-items: start; }
 .atlas .chart-column { min-width: 0; position: sticky; top: var(--chart-top, 1rem); align-self: start; }
+/* The sticky chart must not be a scroll anchor: when the reader column grows (Connections unfolding), the
+   browser would otherwise scroll the page to keep the shifting chart in place and the view would jump. */
+.atlas .chart-column { overflow-anchor: none; }
 .atlas .reader-column { min-width: 0; border-left: 1px solid var(--rule); padding-left: 1.5rem; }
 .atlas .reader-column .pane { display: block; padding-top: 1rem; }
 .atlas .reader-column .pane .head { margin-bottom: 1.2rem; }
