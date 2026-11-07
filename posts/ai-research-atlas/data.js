@@ -1590,6 +1590,59 @@ window.TIMELINE_DATA = {
    "date_sort": "2013-01-16"
   },
   {
+   "id": "gov-2013-fair-founded",
+   "lane": "gov",
+   "date": "2013-12",
+   "date_precision": "month",
+   "date_basis": "conference announcement",
+   "date_context": "Announced at the NeurIPS (then NIPS) conference in December 2013; LeCun joined Facebook that month.",
+   "title": "Facebook AI Research (FAIR) launched with Yann LeCun as director",
+   "label": "FAIR founded",
+   "kind": "org",
+   "importance": 2,
+   "problem": "By 2013 deep learning was drawing heavy industry interest, and the competition among companies for the few researchers who knew it well was fierce.",
+   "idea": "Facebook launched its Fundamental AI Research lab, FAIR, in late 2013. Mark Zuckerberg went to the NeurIPS conference himself to recruit for it, and Yann LeCun, a pioneer of convolutional networks, joined Facebook that December to lead it while keeping a part-time professorship at New York University. The lab was set up to publish its research openly.",
+   "changed": "FAIR became one of the main industrial AI research labs. Its LLaMA models of 2023 began a wave of open-weight language models and put Meta at the centre of the debate over releasing model weights. By July 2025 Meta had placed FAIR inside Meta Superintelligence Labs.",
+   "limits": "",
+   "people": [
+    "Yann LeCun",
+    "Mark Zuckerberg"
+   ],
+   "orgs": [
+    "Meta AI"
+   ],
+   "sources": [
+    {
+     "label": "Meta: Ten years of FAIR (30 November 2023)",
+     "url": "https://ai.meta.com/blog/fair-10-year-anniversary-open-science-meta/",
+     "kind": "primary"
+    },
+    {
+     "label": "Meta AI: Yann LeCun profile",
+     "url": "https://ai.meta.com/people/yann-lecun/",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "lm-2023-llama",
+     "type": "enables",
+     "note": "FAIR released the LLaMA models."
+    }
+   ],
+   "tags": [
+    "founding",
+    "industry lab",
+    "open research"
+   ],
+   "terms": [],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2013-12-01"
+  },
+  {
    "id": "rl-2013-dqn",
    "lane": "rl",
    "date": "2013-12-19",
@@ -1772,6 +1825,56 @@ window.TIMELINE_DATA = {
    },
    "date_context": "Published in the UK in July 2014.",
    "date_sort": "2014-07-01"
+  },
+  {
+   "id": "gov-2014-open-philanthropy-named",
+   "lane": "gov",
+   "date": "2014-08-20",
+   "date_precision": "day",
+   "date_basis": "blog post",
+   "date_context": "GiveWell blog post by Holden Karnofsky, 20 Aug 2014.",
+   "title": "GiveWell Labs becomes the Open Philanthropy Project",
+   "label": "Open Philanthropy named",
+   "kind": "org",
+   "importance": 2,
+   "problem": "GiveWell recommended charities with strong evidence behind them. Its research arm, GiveWell Labs, looked further afield for causes where giving could do the most good, in partnership with Good Ventures, the foundation of Dustin Moskovitz and Cari Tuna, and it needed a name that belonged to neither partner alone.",
+   "idea": "On 20 August 2014 GiveWell and Good Ventures launched a website for the Open Philanthropy Project, the new name for GiveWell Labs. The announcement explained that 'open' had two meanings: open to many possible causes, and open about its reasoning and findings.",
+   "changed": "In 2016 Open Philanthropy made risks from advanced AI one of its major priorities. It became a major funder of AI-safety research, governance work and researcher training, and several organisations on this map, among them CHAI and MATS, were set up or grown with its grants. It was renamed Coefficient Giving in November 2025.",
+   "limits": "",
+   "people": [
+    "Holden Karnofsky",
+    "Dustin Moskovitz",
+    "Cari Tuna"
+   ],
+   "orgs": [
+    "Open Philanthropy",
+    "Coefficient Giving"
+   ],
+   "sources": [
+    {
+     "label": "GiveWell: Open Philanthropy Project (formerly GiveWell Labs), 20 August 2014",
+     "url": "https://blog.givewell.org/2014/08/20/open-philanthropy-project-formerly-givewell-labs/",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2016-open-phil-ai",
+     "type": "enables",
+     "note": "Open Philanthropy's 2016 decision to make AI risk a major priority."
+    }
+   ],
+   "tags": [
+    "founding",
+    "funding",
+    "philanthropy"
+   ],
+   "terms": [],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2014-08-20"
   },
   {
    "id": "lm-2014-bahdanau-attention",
@@ -4100,6 +4203,69 @@ window.TIMELINE_DATA = {
    "date_sort": "2021-01-01"
   },
   {
+   "id": "gov-2021-cheri-summer-programme",
+   "lane": "gov",
+   "date": "2021",
+   "date_precision": "year",
+   "date_basis": "programme reports",
+   "date_context": "Fellows' EA Forum posts of 22 Aug 2021 were written during CHERI's 2021 Summer Research Program; the 2024 fellowship was its fourth.",
+   "title": "Swiss Existential Risk Initiative (CHERI) runs its first summer research programme",
+   "label": "CHERI summer programme",
+   "kind": "org",
+   "importance": 1,
+   "problem": "Switzerland had only a small network of researchers working on global catastrophic risks, and students there had few ways to try such research.",
+   "idea": "CHERI, a Swiss initiative founded by Naomi Nederlof, ran a summer research programme in 2021 in which students worked on catastrophic-risk topics with a mentor. Fellows' write-ups that August ranged from a way of visualising catastrophic risks to how economists could help prepare for pandemics, one of them written jointly with a fellow at Stanford's SERI.",
+   "changed": "The programme ran again each summer. By 2022 CHERI, Stanford's SERI and Cambridge's CERI were the three largest existential-risk initiatives, each running a summer fellowship that matched fellows with mentors. In 2024 CHERI renamed itself Pivotal Research and moved its fellowship to London.",
+   "limits": "",
+   "people": [
+    "Naomi Nederlof"
+   ],
+   "orgs": [
+    "CHERI",
+    "Pivotal Research"
+   ],
+   "sources": [
+    {
+     "label": "Catastrophic rectangles, written in CHERI's 2021 Summer Research Program (22 August 2021)",
+     "url": "https://forum.effectivealtruism.org/posts/hspJ8KbZuSSnAAL8H/catastrophic-rectangles-visualising-catastrophic-risks",
+     "kind": "primary"
+    },
+    {
+     "label": "How can economists best contribute to pandemic prevention and preparedness? (CHERI and SERI, 22 August 2021)",
+     "url": "https://forum.effectivealtruism.org/posts/vCf8vo9YyczEC7JKX/how-can-economists-best-contribute-to-pandemic-prevention",
+     "kind": "primary"
+    },
+    {
+     "label": "Assessing SERI/CHERI/CERI summer program impact by surveying fellows (September 2022)",
+     "url": "https://forum.effectivealtruism.org/posts/yeDRczoJuJZMbJvrq/assessing-seri-cheri-ceri-summer-program-impact-by-surveying",
+     "kind": "explainer"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2024-pivotal-founded",
+     "type": "enables",
+     "note": "CHERI renamed itself Pivotal Research in 2024 and moved its fellowship to London."
+    },
+    {
+     "to": "gov-2021-mats-founded",
+     "type": "parallel",
+     "note": "SERI MATS also grew out of a 2021 existential-risk initiative, Stanford's SERI."
+    }
+   ],
+   "tags": [
+    "founding",
+    "fellowship",
+    "field-building"
+   ],
+   "terms": [],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2021-01-01"
+  },
+  {
    "id": "gov-2021-arc-founded",
    "lane": "gov",
    "date": "2021-04-26",
@@ -4496,6 +4662,59 @@ window.TIMELINE_DATA = {
    "date_sort": "2021-12-17"
   },
   {
+   "id": "gov-2022-cais-founded",
+   "lane": "gov",
+   "date": "2022",
+   "date_precision": "year",
+   "date_basis": "website archive",
+   "date_context": "Founding year as reported; the safe.ai site was live by 12 Aug 2022 (Wayback Machine).",
+   "title": "Center for AI Safety (CAIS) founded",
+   "label": "CAIS founded",
+   "kind": "org",
+   "importance": 2,
+   "problem": "",
+   "idea": "Dan Hendrycks and Oliver Zhang set up the Center for AI Safety as a non-profit for 'reducing high-consequence risks from artificial intelligence through technical research and field-building', in the words of its 2022 website. That first site already advertised a trojan-detection competition at NeurIPS and an ML Safety community for researchers.",
+   "changed": "In May 2023 CAIS organised the one-sentence Statement on AI Risk, signed by leading researchers and the heads of frontier labs. It also gives safety researchers access to compute and builds evaluations such as WMDP.",
+   "limits": "",
+   "people": [
+    "Dan Hendrycks",
+    "Oliver Zhang"
+   ],
+   "orgs": [
+    "Center for AI Safety"
+   ],
+   "sources": [
+    {
+     "label": "CAIS website as archived on 12 August 2022",
+     "url": "https://web.archive.org/web/20220812111437/https://safe.ai/",
+     "kind": "primary"
+    },
+    {
+     "label": "CAIS: About",
+     "url": "https://safe.ai/about",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2023-cais-statement",
+     "type": "enables",
+     "note": "CAIS organised the 2023 Statement on AI Risk."
+    }
+   ],
+   "tags": [
+    "founding",
+    "field-building",
+    "benchmarks"
+   ],
+   "terms": [],
+   "verified": {
+    "date": false,
+    "urls": true
+   },
+   "date_sort": "2022-01-01"
+  },
+  {
    "id": "safety-2022-instructgpt",
    "lane": "safety",
    "date": "2022-01-27",
@@ -4888,6 +5107,62 @@ window.TIMELINE_DATA = {
     "urls": true
    },
    "date_sort": "2022-06-15"
+  },
+  {
+   "id": "gov-2022-far-founded",
+   "lane": "gov",
+   "date": "2022-07-06",
+   "date_precision": "day",
+   "date_basis": "founding announcement",
+   "date_context": "Launch post on the EA Forum, cross-posted to LessWrong, 6 Jul 2022.",
+   "title": "Fund for Alignment Research (FAR, now FAR.AI) launched",
+   "label": "FAR.AI founded",
+   "kind": "org",
+   "importance": 1,
+   "problem": "Many academic and independent safety researchers wanted more collaborators but lacked the institutional framework and hiring pipeline to get them, while many capable people who wanted to work on AI safety had no way into the field.",
+   "idea": "Adam Gleave, Ethan Perez, Scott Emmons and Claudia Shi announced the Fund for Alignment Research, a non-profit that recruits, manages and trains its own engineers to work on safety researchers' agendas, 'a technical team as a service' in their words. It began with its leaders' own projects and a trial with the labs of David Krueger and Jacob Steinhardt.",
+   "changed": "Its early work included learning from language feedback and the Inverse Scaling Prize. Renamed FAR.AI, it became a research organisation known for adversarial policies that beat superhuman Go programs, and it runs the Alignment Workshop series, makes grants and works with developers and governments.",
+   "limits": "",
+   "people": [
+    "Adam Gleave",
+    "Karl Berzins",
+    "Ethan Perez",
+    "Scott Emmons",
+    "Claudia Shi"
+   ],
+   "orgs": [
+    "FAR.AI"
+   ],
+   "sources": [
+    {
+     "label": "Introducing the Fund for Alignment Research (EA Forum, 6 July 2022)",
+     "url": "https://forum.effectivealtruism.org/posts/gNHjEmLeKM47FDdqM/introducing-the-fund-for-alignment-research-we-re-hiring-1",
+     "kind": "primary"
+    },
+    {
+     "label": "FAR.AI: Team",
+     "url": "https://www.far.ai/team",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2021-redwood-founded",
+     "type": "parallel",
+     "note": "Both are non-profits doing empirical alignment research outside the frontier labs."
+    }
+   ],
+   "tags": [
+    "founding",
+    "empirical alignment",
+    "research engineering"
+   ],
+   "terms": [],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2022-07-06"
   },
   {
    "id": "safety-2022-toy-models-superposition",
@@ -10364,6 +10639,7 @@ window.TIMELINE_DATA = {
     "biosecurity"
    ],
    "key_event_ids": [
+    "gov-2014-open-philanthropy-named",
     "gov-2016-open-phil-ai",
     "gov-2016-chai-founded",
     "gov-2021-mats-founded"
@@ -10614,7 +10890,9 @@ window.TIMELINE_DATA = {
     "deception detection",
     "events and grantmaking"
    ],
-   "key_event_ids": [],
+   "key_event_ids": [
+    "gov-2022-far-founded"
+   ],
    "status_as_of_2026_11": "A nonprofit for AI-security research and adoption. Alongside basic and applied research, it runs workshops, makes grants and works with developers and governments.",
    "sources": [
     {
@@ -10647,6 +10925,7 @@ window.TIMELINE_DATA = {
     "policy"
    ],
    "key_event_ids": [
+    "gov-2022-cais-founded",
     "gov-2023-cais-statement"
    ],
    "status_as_of_2026_11": "A nonprofit directed by Dan Hendrycks and Oliver Zhang. Its 'research, field-building, and advocacy' aim to reduce societal-scale risks.",
@@ -10812,7 +11091,6 @@ window.TIMELINE_DATA = {
     "interpretability tooling"
    ],
    "key_event_ids": [
-    "safety-2023-towards-monosemanticity",
     "safety-2025-spd",
     "safety-2026-vpd"
    ],
@@ -10878,6 +11156,7 @@ window.TIMELINE_DATA = {
     "biodefense"
    ],
    "key_event_ids": [
+    "gov-2021-cheri-summer-programme",
     "gov-2024-pivotal-founded"
    ],
    "status_as_of_2026_11": "Pivotal Research Ltd, a UK non-profit company limited by guarantee, led by co-directors Tobias Häberli and Tilman Räuker. Its AI Safety Fellowship grew from nine weeks and a £5,000 stipend in 2024 to 15 weeks and £15,000–18,000 for the January–April 2027 cohort. It also runs a Frontier Biodefense Fellowship.",
@@ -10915,6 +11194,7 @@ window.TIMELINE_DATA = {
     "self-supervised learning"
    ],
    "key_event_ids": [
+    "gov-2013-fair-founded",
     "lm-2023-llama"
    ],
    "status_as_of_2026_11": "Meta's July 2025 earnings remarks placed FAIR within Meta Superintelligence Labs. FAIR's public research releases cover agents, robustness, safety and model architectures.",
