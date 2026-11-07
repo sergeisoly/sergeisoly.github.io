@@ -213,6 +213,8 @@
   .atlas .map-labels .lab.num span { display: block; font-size: .75rem; }
   .atlas .map-labels .lab .compute-unit { display: block; font-size: .75rem; }
   .atlas .map-labels .lab b { font-size: .85rem; }
+  /* The narrow label column holds only the FLOP scale; H100 time stays on model labels and in tooltips. */
+  .atlas .map-labels .h100 { display: none; }
   .atlas .conn li { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .atlas .idx li { grid-template-columns: 4.6rem 12px minmax(0, 1fr); }
 }
@@ -275,6 +277,7 @@
 .atlas .map .cmp-dot.conf-speculative { stroke-dasharray: 1.5 1; }
 
 .atlas .map-labels .compute-heading b { font-size: .85rem; line-height: 1.1; }
+.atlas .map-labels .h100 { font-style: normal; }
 .atlas .map-labels .compute-heading .compute-unit { font-size: .75rem; line-height: 1.1; }
 
 /* Keep the map and its reading context in one workspace. The page owns vertical scrolling. */

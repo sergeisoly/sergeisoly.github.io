@@ -316,6 +316,20 @@
     });
 
     // Curated estimates are dots; the envelope is computed from the pinned source population.
+    // FLOP are also read as H100 time: 40% of the H100 SXM dense BF16 peak (989 TFLOP/s; NVIDIA lists 1,979 with
+    // sparsity). Llama 3.1 405B reports 3.8e25 FLOP and 30.84M H100 hours, which is about 35%.
+    const H100_FLOPS = 989e12 * 0.4;
+    const h100 = (flop) => {
+      const sec = flop / H100_FLOPS, h = sec / 3600, r = (n) => (n >= 10 ? String(Math.round(n)) : n.toFixed(1).replace(/\.0$/, ""));
+      if (h >= 1e6) return r(h / 1e6) + "M h";
+      if (h >= 1e3) return r(h / 1e3) + "k h";
+      if (h >= 1) return r(h) + " h";
+      if (sec >= 60) return r(sec / 60) + " min";
+      if (sec >= 1) return r(sec) + " s";
+      if (sec >= 1e-3) return r(sec * 1e3) + " ms";
+      if (sec >= 1e-6) return r(sec * 1e6) + " µs";
+      return r(sec * 1e9) + " ns";
+    };
     const compute = D.compute || {}, C = compute.points || [], F = compute.frontier_points || [];
     const plotted = [...C, ...F].filter((p) => p.flop > 0 && yearOfStr(p.date) >= Y0);
     const logs = plotted.map((p) => Math.log10(p.flop));
@@ -334,7 +348,7 @@
       front.forEach((p) => {
         const dot = el("circle", { cx: p.x, cy: p.y, r: 5, class: "cmp-frontier-hit" }, svg);
         // No SVG <title> here: the browser would show it as a second tooltip next to ours.
-        dot.addEventListener("mouseenter", (ev) => showTip(ev, `${esc(p.model)} · envelope estimate<br>${esc(p.flop.toExponential(1))} FLOP · ${esc(p.confidence || "confidence not supplied")}`));
+        dot.addEventListener("mouseenter", (ev) => showTip(ev, `${esc(p.model)} · envelope estimate<br>${esc(p.flop.toExponential(1))} FLOP · ${esc(p.confidence || "confidence not supplied")}<br>≈ ${h100(p.flop)} on one H100 at 40% utilization`));
         dot.addEventListener("mousemove", moveTip); dot.addEventListener("mouseleave", hideTip);
       });
     }
@@ -343,12 +357,22 @@
       const x = X(yr), y = CMP_TOP + CMP_H + 4;
       el("path", { d: `M${x - 5},${y + 4} l4,-8 M${x},${y + 4} l4,-8`, class: "ax-break" }, svg);
     });
+    const placed = [];
     pts.forEach((p) => {
       const lab = [...LABELED].some((n) => n && p.model.startsWith(n.replace(/ \(.*?$/, "")) && (n === p.model || p.model.startsWith(n)));
       const c = el("circle", { cx: p.x, cy: p.y, r: lab ? 3.4 : 2.6, class: "cmp-dot conf-" + String(p.confidence || "unknown").toLowerCase().replace(/[^a-z]/g, "") + (lab ? " lab" : "") }, svg);
-      c.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(p.model)}</b><br>${esc(p.date.slice(0, 7))} · ${esc(p.flop.toExponential(1))} estimated FLOP<br>Epoch confidence: ${esc(p.confidence || "not supplied")}`));
+      c.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(p.model)}</b><br>${esc(p.date.slice(0, 7))} · ${esc(p.flop.toExponential(1))} estimated FLOP<br>≈ ${h100(p.flop)} on one H100 at 40% utilization<br>Epoch confidence: ${esc(p.confidence || "not supplied")}`));
       c.addEventListener("mousemove", moveTip); c.addEventListener("mouseleave", hideTip);
-      if (lab) el("text", { x: p.x + 6, y: p.y + 4, class: "cmp-text" }, svg, p.model.replace(/ \(.*\)$/, "").replace(" 175B", ""));
+      if (lab) {
+        // Labels that would run past the right edge sit to the left of their dot; one that would cover an
+        // earlier label moves down a line.
+        const text = p.model.replace(/ \(.*\)$/, "").replace(" 175B", "") + " · " + h100(p.flop), w = textW(text, 12), left = p.x + 6 + w > width - 4;
+        const x1 = left ? p.x - 6 - w : p.x + 6;
+        let y = p.y + 4;
+        while (placed.some((q) => x1 < q.x2 && x1 + w > q.x1 && Math.abs(y - q.y) < 12)) y += 13;
+        placed.push({ x1, x2: x1 + w, y });
+        el("text", { x: left ? p.x - 6 : p.x + 6, y, class: "cmp-text", ...(left ? { "text-anchor": "end" } : {}) }, svg, text);
+      }
     });
 
     // axis
@@ -368,8 +392,11 @@
     // lane rules + labels column
     labelsCol.innerHTML = "";
     labelsCol.style.height = height + "px";
-    const ticks = computeTicks.map((p) => `<div class="lab num" style="top:${cy(10 ** p) - 8}px;text-align:right"><span>10<sup>${p}</sup></span></div>`).join("");
-    labelsCol.insertAdjacentHTML("beforeend", `<div class="lab compute-heading" style="top:0px"><b>Compute</b><span class="compute-unit">est. FLOP</span></div>${ticks}`);
+    const ticks = computeTicks.map((p) => `<div class="lab num" style="top:${cy(10 ** p) - 8}px;text-align:right"><span>10<sup>${p}</sup><i class="h100"> · ${h100(10 ** p)}</i></span></div>`).join("");
+    labelsCol.insertAdjacentHTML("beforeend", `<div class="lab compute-heading" style="top:0px"><b>Compute</b><span class="compute-unit">FLOP<i class="h100"> · H100 h</i></span></div>${ticks}`);
+    labelsCol.querySelector(".compute-heading").addEventListener("mouseenter", (ev) => showTip(ev, "Training compute as estimated FLOP and as time on one H100 GPU at 40% utilization (989 TFLOP/s dense BF16 peak). Divide by the number of GPUs for wall-clock time."));
+    labelsCol.querySelector(".compute-heading").addEventListener("mousemove", moveTip);
+    labelsCol.querySelector(".compute-heading").addEventListener("mouseleave", hideTip);
     lanes.forEach((L) => {
       el("line", { x1: 0, x2: width, y1: L.top, y2: L.top, class: "lane-rule" }, svg);
       labelsCol.insertAdjacentHTML("beforeend", `<div class="lab" style="top:${L.top + 8}px"><b style="color:${lc(L.lane.id)}">${esc(L.lane.short || L.lane.title)}</b></div>`);
@@ -787,7 +814,7 @@
     m.innerHTML = `<div class="controls"></div><div class="context"></div><nav class="workspace-switch" aria-label="Timeline reading"><button type="button" class="text-button" data-act="locate">↑ Map</button><button type="button" class="card-chip" hidden></button></nav><div class="timeline-workspace"><section class="chart-column" aria-label="History map">
       <div class="era-nav" id="every-event-by-era"></div><div class="navigator"><span class="window-years sr-only"></span><svg class="overview" viewBox="0 0 1000 52" preserveAspectRatio="none" role="img" aria-label="Whole timeline and current map window"></svg><div class="overview-axis" aria-hidden="true">${[1960, 1980, 2000, 2020].filter((y) => y >= Y0).map((y) => `<span style="left:${1.2 + (y - Y0) / (2027.1 - Y0) * 97.6}%">${y}</span>`).join("")}</div><div class="overview-range"><label for="atlas-year" class="sr-only">Jump to year</label><input id="atlas-year" type="range" min="${Math.ceil(Y0)}" max="2026" step="1" value="2017"></div></div>
       <div class="map"><div class="map-labels"></div><div class="map-scroll" tabindex="0" aria-label="Timeline, scroll sideways"><svg role="group" aria-label="Timeline of AI in four lanes. Use the left and right arrow keys to move between events."></svg></div></div>
-      ${D.compute ? `<p class="map-credit">Compute estimates: <a href="${esc(D.compute.source_url || "https://epoch.ai/data/ai-models")}" target="_blank" rel="noopener">Epoch AI</a>, CC BY 4.0</p>` : ""}</section><section class="reader-column" aria-label="Event browser and selected event"><div class="search-results"></div><div class="profile-dock" hidden></div><div class="pane-host"></div></section></div><div class="tip" id="atlas-preview" role="tooltip" hidden></div><div class="sr-only" aria-live="polite"></div>`;
+      ${D.compute ? `<p class="map-credit">Compute estimates: <a href="${esc(D.compute.source_url || "https://epoch.ai/data/ai-models")}" target="_blank" rel="noopener">Epoch AI</a>, CC BY 4.0. H100 time assumes 40% of the H100 SXM dense BF16 peak of 989 TFLOP/s; real runs reach roughly 30–45% (Llama 3.1 405B: 3.8×10<sup>25</sup> FLOP in 30.84M H100 hours, about 35%).</p>` : ""}</section><section class="reader-column" aria-label="Event browser and selected event"><div class="search-results"></div><div class="profile-dock" hidden></div><div class="pane-host"></div></section></div><div class="tip" id="atlas-preview" role="tooltip" hidden></div><div class="sr-only" aria-live="polite"></div>`;
     $(".card-chip", m).addEventListener("click", readSelected);
     let chipRaf = 0; addEventListener("scroll", () => { if (!chipRaf) chipRaf = requestAnimationFrame(() => { chipRaf = 0; updateChip(); updateSwitchInset(); }); }, { passive: true });
     document.getElementById("quarto-header")?.addEventListener("transitionend", updateSwitchInset);
