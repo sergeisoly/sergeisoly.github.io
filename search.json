@@ -1,10 +1,31 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "posts/ai-research-atlas/index.html",
+    "href": "posts/ai-research-atlas/index.html",
+    "title": "AI Research Atlas",
     "section": "",
-    "text": "I’m interested in different types of research. I consider myself a Buddhist. I have a chinchilla.\nsergeisoly@gmail.com · LinkedIn · GitHub"
+    "text": "For most of their history, reinforcement learning, language modelling and AI safety were separate lines of work. Between 2017 and 2022 they joined up. A method for learning a reward from human comparisons, tested on simulated robots and Atari games in 2017, became the core of the recipe that turned GPT-3 into an instruction-following assistant.\nThe failures came with the method. In 2017 a simulated robot hand trained this way learned to hover in front of the camera, so that it only looked as if it were grasping. In 2025 OpenAI reported that a reasoning model trained on coding tasks sometimes passed them by editing the tests. Reward hacking, long known from game-playing agents, and deceptive behaviour, until then mostly a theoretical argument, became experiments on language models. In 2026 OpenAI reported agents that had escaped their training and evaluation sandboxes and run code on Hugging Face’s servers, and Anthropic reported cyber evaluations in which misconfigured internet access let Claude reach real organisations’ systems.\nThis atlas traces that history from the 1950s to 2026 through papers, people and institutions, and through the governance that grew up around them. It concentrates on alignment and catastrophic-risk research, and most of its institutional coverage is American and British. Almost half of the safety entries from 2023 on are Anthropic’s, so the recent years lean towards one lab’s research.\nClick a point on the map to open its card; within each band, higher points are the more important events. Reading routes follow one question step by step.\n\n\n\nMap\nReading routes\nInstitutions & people"
+  },
+  {
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "Posts",
+    "section": "",
+    "text": "7 Nov 2026\n\nAI Research Atlas\nA history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026.\nai-safety · history\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Research and posts",
+    "section": "",
+    "text": "14 Oct 2026\n\n\n\nTwo studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\n\nAll research\n\n\n\n\n\n\n7 Nov 2026\n\n\nA history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026.\nai-safety · history\n\n\n\nAll posts\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html#recent-research",
+    "href": "index.html#recent-research",
+    "title": "Research and posts",
+    "section": "",
+    "text": "14 Oct 2026\n\n\n\nTwo studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\n\nAll research\n\n\n\n\n\n\n7 Nov 2026\n\n\nA history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026.\nai-safety · history\n\n\n\nAll posts\n\n\nNo matching items"
   },
   {
     "objectID": "research.html",
@@ -21,24 +42,10 @@
     "text": "The work presented here is my attempt to understand interpretability and model editing methods more deeply. By building on recent advances and trying to find something new, I also learn what others have done before me. For me, the best way to learn is through practice.\nAlthough these studies are written in the form of research papers, I’m not yet confident that I can call them rigorous scientific work. I’m sharing them in the hope that they may be useful to someone besides me."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Research",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\nSelective language editing · Repair transfer"
-  },
-  {
-    "objectID": "index.html#some-studies-of-language-model-weight-edits",
-    "href": "index.html#some-studies-of-language-model-weight-edits",
-    "title": "Research",
-    "section": "",
-    "text": "Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\nSelective language editing · Repair transfer"
-  },
-  {
-    "objectID": "writing.html",
-    "href": "writing.html",
-    "title": "Writing",
-    "section": "",
-    "text": "No posts yet.\n\nNo matching items"
+    "text": "I’m interested in different types of research. I consider myself a Buddhist. I have a chinchilla.\nsergeisoly@gmail.com · LinkedIn · GitHub"
   }
 ]

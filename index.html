@@ -8,7 +8,7 @@
 
 <meta name="description" content="Research and writing by Sergei Solovev.">
 
-<title>Research – Sergei Solovev</title>
+<title>Research and posts – Sergei Solovev</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -88,9 +88,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: [{ data: ['index'] },{ data: ['categories'] }],
+      valueNames: ['listing-project','listing-website','listing-format','listing-execute','listing-engines','listing-language','listing-author','listing-toc','listing-freeze','listing-date-format','listing-title','listing-description','listing-date','listing-kind','listing-body-classes','listing-categories','listing-resources','listing-path','listing-outputHref','listing-date-modified','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
       
-      searchColumns: [],
+      searchColumns: ["listing-project","listing-website","listing-format","listing-execute","listing-engines","listing-language","listing-author","listing-toc","listing-freeze","listing-date-format","listing-title","listing-description","listing-date","listing-kind","listing-body-classes","listing-categories","listing-resources","listing-path","listing-outputHref","listing-date-modified","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -111,13 +111,13 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Research – Sergei Solovev">
+<meta property="og:title" content="Research and posts – Sergei Solovev">
 <meta property="og:description" content="Research and writing by Sergei Solovev.">
 <meta property="og:image" content="https://sergeisoly.github.io/social-card.png">
 <meta property="og:site_name" content="Sergei Solovev">
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
-<meta name="twitter:title" content="Research – Sergei Solovev">
+<meta name="twitter:title" content="Research and posts – Sergei Solovev">
 <meta name="twitter:description" content="Research and writing by Sergei Solovev.">
 <meta name="twitter:image" content="https://sergeisoly.github.io/social-card.png">
 <meta name="twitter:image-height" content="630">
@@ -147,8 +147,8 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./writing.html"> 
-<span class="menu-text">Writing</span></a>
+    <a class="nav-link" href="./posts.html"> 
+<span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
@@ -171,7 +171,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Research</h1>
+<h1 class="title">Research and posts</h1>
 </div>
 
 <div>
@@ -193,20 +193,48 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="some-studies-of-language-model-weight-edits" class="level2 featured-work">
-<h2 class="anchored" data-anchor-id="some-studies-of-language-model-weight-edits"><a href="./interesearch/">Some Studies of Language Model Weight Edits</a></h2>
+<section id="recent-research" class="level2">
+<h2 class="anchored" data-anchor-id="recent-research">Recent research</h2>
+<div class="writing-entry home-research-entry">
+<p class="entry-meta">
+<time datetime="2026-10-14">14 Oct 2026</time>
+</p>
+<section id="some-studies-of-language-model-weight-edits" class="level3">
+<h3 class="anchored" data-anchor-id="some-studies-of-language-model-weight-edits"><a href="./interesearch/">Some Studies of Language Model Weight Edits</a></h3>
 <p>Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.</p>
-<div class="study-links">
-<p><a href="./interesearch/selective-editing/explainer.html">Selective language editing</a> · <a href="./interesearch/repair-transfer/explainer.html">Repair transfer</a></p>
-</div>
 </section>
+</div>
+<p><a href="./research.html" class="section-link">All research</a></p>
 <div id="listing-recent-writing" class="quarto-listing quarto-listing-container-custom">
 
+<h2 class="anchored">Recent posts</h2>
+<div class="writing-entries list">
+
+<article class="writing-entry" data-categories="YWktc2FmZXR5JTJDaGlzdG9yeQ==">
+<p class="entry-meta"><span>7 Nov 2026</span></p>
+
+<h3 class="listing-title anchored"><a href="./posts/ai-research-atlas/index.html">AI Research Atlas</a></h3>
+<p>A history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026.</p>
+<p class="entry-topics">ai-safety · history</p>
+</article>
+
+</div>
+<p><a class="section-link" href="./posts.html">All posts</a></p>
+
+<script>
+// Quarto applies nonempty category hashes; clear the filter when Back removes one.
+window.addEventListener("hashchange", () => {
+  if (!new URLSearchParams(location.hash.slice(1)).get("category")) {
+    Object.values(window["quarto-listings"] || {}).forEach(list => list.filter());
+  }
+});
+</script>
 <div class="listing-no-matching d-none">No matching items</div>
 </div>
 
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -621,7 +649,7 @@ ul.task-list li input[type="checkbox"] {
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="./writing.xml">
+    <a class="nav-link" href="./posts.xml">
 <p>RSS</p>
 </a>
   </li>  

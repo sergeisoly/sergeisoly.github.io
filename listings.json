@@ -1,10 +1,14 @@
 [
   {
-    "listing": "/index.html",
-    "items": []
+    "listing": "/posts.html",
+    "items": [
+      "/posts/ai-research-atlas/index.html"
+    ]
   },
   {
-    "listing": "/writing.html",
-    "items": []
+    "listing": "/index.html",
+    "items": [
+      "/posts/ai-research-atlas/index.html"
+    ]
   }
 ]

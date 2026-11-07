@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Sergei Solovev</title>
+<link>https://sergeisoly.github.io/posts.html</link>
+<atom:link href="https://sergeisoly.github.io/posts.xml" rel="self" type="application/rss+xml"/>
+<description>Essays, notes, and observations by Sergei Solovev.</description>
+<image>
+<url>https://sergeisoly.github.io/social-card.png</url>
+<title>Sergei Solovev</title>
+<link>https://sergeisoly.github.io/posts.html</link>
+</image>
+<generator>quarto-1.10.19</generator>
+<lastBuildDate>Fri, 06 Nov 2026 20:00:00 GMT</lastBuildDate>
+<item>
+  <title>AI Research Atlas</title>
+  <dc:creator>Sergei Solovev</dc:creator>
+  <link>https://sergeisoly.github.io/posts/ai-research-atlas/</link>
+  <description><![CDATA[ 
+
+
+
+
+<link rel="stylesheet" href="atlas.css">
+<p>For most of their history, reinforcement learning, language modelling and AI safety were separate lines of work. Between 2017 and 2022 they joined up. A method for learning a reward from human comparisons, tested on simulated robots and Atari games in 2017, became the core of the recipe that turned GPT-3 into an instruction-following assistant.</p>
+<p>The failures came with the method. In 2017 a simulated robot hand trained this way learned to hover in front of the camera, so that it only looked as if it were grasping. In 2025 OpenAI reported that a reasoning model trained on coding tasks sometimes passed them by editing the tests. Reward hacking, long known from game-playing agents, and deceptive behaviour, until then mostly a theoretical argument, became experiments on language models. In 2026 OpenAI reported agents that had escaped their training and evaluation sandboxes and run code on Hugging Face’s servers, and Anthropic reported cyber evaluations in which misconfigured internet access let Claude reach real organisations’ systems.</p>
+<p>This atlas traces that history from the 1950s to 2026 through papers, people and institutions, and through the governance that grew up around them. It concentrates on alignment and catastrophic-risk research, and most of its institutional coverage is American and British. Almost half of the safety entries from 2023 on are Anthropic’s, so the recent years lean towards one lab’s research.</p>
+<p>Click a point on the map to open its card; within each band, higher points are the more important events. Reading routes follow one question step by step.</p>
+<div class="column-screen-inset">
+<div class="atlas-tabs-workspace">
+
+<div id="the-map" aria-labelledby="tab-map" data-atlas-panel="map"><div data-atlas="map"></div></div>
+<div id="reading-routes" aria-labelledby="tab-routes" data-atlas-panel="routes"><div data-atlas="routes"></div></div>
+<div id="institutions-and-people" aria-labelledby="tab-people" data-atlas-panel="people"><div data-atlas="people"></div></div>
+</div>
+</div>
+<script src="data.js"></script>
+<script src="diagrams.js"></script>
+<script src="atlas.js"></script>
+<script>
+// Formulas are TeX typeset by MathJax 3, as in the research papers; SVG output so they also fit inside the diagrams.
+window.MathJax = {
+  tex: { inlineMath: [["\\(", "\\)"]] },
+  svg: { fontCache: "none" },
+  startup: { typeset: false, ready() { MathJax.startup.defaultReady(); MathJax.startup.promise.then(() => dispatchEvent(new Event("atlas-math-ready"))); } },
+};
+</script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+
+
+
+ ]]></description>
+  <category>ai-safety</category>
+  <category>history</category>
+  <guid>https://sergeisoly.github.io/posts/ai-research-atlas/</guid>
+  <pubDate>Fri, 06 Nov 2026 20:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
