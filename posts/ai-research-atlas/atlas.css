@@ -1,6 +1,6 @@
 /* Paths to Alignment — interactive post styles.
    Layout concept: a research atlas inside a blog post. One wide map (compute band + four lanes),
-   an adjacent event browser and reading pane, then question routes, institutions and a glossary.
+   an adjacent event browser and reading pane, then question routes and institutions.
    Palette and type follow sergeisoly.github.io and interesearch. Everything is scoped to .atlas. */
 .atlas {
   --paper: #faf9f5;
@@ -85,7 +85,8 @@
 .atlas .map .route { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 2 5; stroke-linecap: round; opacity: .8; }
 /* Step numbers sit over the row above; clicks pass through to the dots and the map. */
 .atlas .map .badge { pointer-events: none; }
-.atlas .map .badge circle { fill: var(--ink); }
+.atlas .map .badge circle { fill: var(--ink); stroke-width: 2; }
+.atlas .atlas-btn[aria-disabled="true"], .atlas .atlas-btn[aria-disabled="true"]:hover { opacity: .4; cursor: default; border-color: var(--rule-2); }
 .atlas .map .badge text { fill: #fff; font-size: 10px; font-weight: 700; stroke: none; }
 .atlas .map .cmp-dot { fill: var(--line); }
 .atlas .map .cmp-dot.lab { fill: var(--ink); }
@@ -198,7 +199,7 @@
 .atlas .org .now { color: var(--muted); font-size: .85rem; margin-top: .4rem; }
 .atlas .org .acts { margin-top: .4rem; font-size: .85rem; display: flex; gap: 1rem; flex-wrap: wrap; }
 
-/* Index and glossary */
+/* Index */
 .atlas details { border-top: 1px solid var(--rule); padding: .7rem 0; }
 .atlas details:last-of-type { border-bottom: 1px solid var(--rule); }
 .atlas summary { color: var(--ink); cursor: pointer; font: 500 1.1rem/1.3 var(--serif); list-style-position: inside; }
@@ -208,11 +209,6 @@
 .atlas .idx .d { color: var(--muted); font-size: .85rem; font-variant-numeric: tabular-nums; }
 .atlas .idx .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
 .atlas .idx .s { color: var(--muted); }
-.atlas .gloss { columns: 2 22rem; column-gap: 2.5rem; margin-top: .8rem; }
-.atlas .gloss div { break-inside: avoid; margin-bottom: .8rem; font-size: .92rem; }
-.atlas .gloss b { font-family: var(--serif); font-weight: 500; font-size: 1.1rem; }
-.atlas .gloss p { margin: .05rem 0 0; color: var(--ink-2); }
-.atlas .gloss a { font-size: .85rem; }
 
 .atlas .tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: #fff; font-size: .85rem; line-height: 1.4; padding: .4rem .55rem; border-radius: 4px; max-width: 18rem; }
 .atlas .tip[hidden] { display: none; }
@@ -492,7 +488,6 @@
 .atlas .context { scroll-margin-top: 1rem; }
 @media (max-width: 1050px) { .atlas .context { scroll-margin-top: 4rem; } }
 /* Glossary terms read across in columns on wide screens instead of one long list. */
-@media (min-width: 1050px) { .atlas .gloss { columns: 3 15rem; } }
 .atlas .map-credit { margin: .4rem 0 0; font-size: .75rem; color: var(--muted); }
 /* Table of contents styled as in the interesearch papers (page-level, outside .atlas). */
 

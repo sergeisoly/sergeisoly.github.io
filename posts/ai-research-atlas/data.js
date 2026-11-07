@@ -1282,7 +1282,7 @@ window.TIMELINE_DATA = {
    "problem": "Questions about existential risk, meaning threats that could wipe out humanity or permanently cripple its potential, were scattered across many disciplines. So were questions about where AI might lead in the long run. No academic institution was devoted to them.",
    "idea": "Nick Bostrom founded the Future of Humanity Institute (FHI) inside Oxford's Faculty of Philosophy to study humanity's long-term future. It started as a project meant to run for three years.",
    "changed": "Bostrom wrote his book Superintelligence at FHI, and GovAI began there as a programme on AI governance.",
-   "limits": "Oxford closed FHI on 16 April 2024, after 19 years. The institute's own retrospective blames 'administrative headwinds' in the faculty, including a freeze on hiring and fundraising imposed in 2020. Bostrom had also faced controversy in 2023 over an old email.",
+   "limits": "Oxford closed FHI on 16 April 2024, after 19 years. The institute's own retrospective blames 'administrative headwinds' in the faculty, including a freeze on hiring and fundraising imposed in 2020.",
    "people": [
     "Nick Bostrom"
    ],
@@ -3212,7 +3212,7 @@ window.TIMELINE_DATA = {
    "links": [
     {
      "to": "safety-2017-deep-rl-human-prefs",
-     "type": "builds_on",
+     "type": "parallel",
      "note": "Addresses the human-judgement bottleneck of RLHF."
     },
     {
@@ -5504,7 +5504,7 @@ window.TIMELINE_DATA = {
    "links": [
     {
      "to": "rl-2021-webgpt",
-     "type": "responds_to",
+     "type": "parallel",
      "note": "Toolformer learns tool use without the human demonstrations WebGPT relied on."
     }
    ],
@@ -6598,7 +6598,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Many neurons are polysemantic: they respond to mixtures of unrelated inputs, so explaining a model one neuron at a time leaves gaps.",
    "idea": "Bricken, Templeton and Anthropic colleagues trained a sparse autoencoder on the MLP activations of a one-layer transformer. A sparse autoencoder is a weak form of dictionary learning: it rebuilds each activation from a few entries in a much larger set of learned features. Its thousands of features were more monosemantic than the neurons, each responding to one coherent concept, such as DNA sequences, base64 text, Arabic script or Hebrew. The features also supported basic circuit analysis.",
-   "changed": "Sparse autoencoders became the main route for studying superposition, and Anthropic later scaled the method up.",
+   "changed": "Cunningham and colleagues had independently reported a similar sparse-autoencoder approach in September 2023. Sparse autoencoders became the main route for studying superposition, and Anthropic later scaled the method up.",
    "limits": "Bricken and colleagues worked with a single-layer model. Their autoencoder does not reconstruct activations perfectly, so some of the computation is missed. Features also 'split' into finer ones as the dictionary grows, which raises doubts about whether they are the model's own units.",
    "people": [
     "Trenton Bricken",
@@ -6613,6 +6613,11 @@ window.TIMELINE_DATA = {
     {
      "label": "transformer-circuits.pub article",
      "url": "https://transformer-circuits.pub/2023/monosemantic-features",
+     "kind": "primary"
+    },
+    {
+     "label": "Cunningham et al., Sparse Autoencoders Find Highly Interpretable Features in Language Models (arXiv)",
+     "url": "https://arxiv.org/abs/2309.08600",
      "kind": "primary"
     }
    ],
@@ -8805,7 +8810,7 @@ window.TIMELINE_DATA = {
    "links": [
     {
      "to": "safety-2021-goal-misgeneralization",
-     "type": "builds_on",
+     "type": "parallel",
      "note": "Another case of training generalising in unintended ways."
     }
    ],
@@ -10629,7 +10634,7 @@ window.TIMELINE_DATA = {
    "links": [
     {
      "to": "safety-2025-cot-monitoring-reward-hacking",
-     "type": "builds_on",
+     "type": "parallel",
      "note": "Reward hacking in OpenAI's RL, now reaching outside systems. The response again relies on CoT monitoring."
     },
     {
@@ -10845,7 +10850,7 @@ window.TIMELINE_DATA = {
    "links": [
     {
      "to": "safety-2026-hugging-face-incident",
-     "type": "builds_on",
+     "type": "responds_to",
      "note": "OpenAI says such an incident would take the extended-investigation track."
     }
    ],

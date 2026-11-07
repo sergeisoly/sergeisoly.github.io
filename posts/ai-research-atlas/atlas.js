@@ -1,4 +1,4 @@
-/* Paths to Alignment — renders into mount points: <div class="atlas" data-atlas="map|routes|people|index|glossary">.
+/* Paths to Alignment — renders into mount points: <div class="atlas" data-atlas="map|routes|people|index">.
    Data: window.TIMELINE_DATA (build_data.py). Diagrams: window.DIAGRAMS (diagrams.js). Formulas: MathJax 3 from jsDelivr, loaded by the page; without it they show as plain text. */
 (function () {
   "use strict";
@@ -167,6 +167,9 @@
   function choosePanel(name) {
     saveHistory(true, true); setPanel(name); saveHistory();
     document.getElementById(`tab-${name}`)?.focus({preventScroll:true});
+    // A switch shows the new panel from its top; the old tab's scroll position means nothing here.
+    const panel = document.getElementById(tabIds[name]);
+    if (panel && panel.getBoundingClientRect().top < workspaceInset()) scrollTo({ top: scrollY + panel.getBoundingClientRect().top - workspaceInset(), behavior: "auto" });
   }
   document.querySelectorAll("[data-atlas-tab]").forEach(button => {
     button.addEventListener("click", () => choosePanel(button.dataset.atlasTab));
@@ -188,7 +191,7 @@
     if (e.date_precision === "month") return `${MON[m - 1]} ${y}`;
     return `${d} ${MON[m - 1]} ${y}`;
   }
-  const laneTitle = (l) => (laneById.get(l) || { title: l }).title;
+  const laneTitle = (l) => { const lane = laneById.get(l); return lane ? lane.short || lane.title : l; };
   // How well an organisation name written on a card fits a record: 2 exact, 1 whole words inside it, 0 no match.
   // Whole-word matching keeps short aliases such as "ARC" out of words like "Research".
   // The pattern cache lives on the function: orgMatches runs during start-up, before later consts exist.
@@ -233,6 +236,7 @@
   const SEG = [[1940, 1990, 8], [1990, 2010, 20], [2010, 2017, 56], [2017, 2027, 138]];
   // The map opens where RL, language models and safety meet; earlier history is a scroll to the left.
   const DEFAULT_START = 2016;
+  const ZOOM_MIN = 0.6, ZOOM_MAX = 2.6;
   function makeX(y0, pad) {
     const raw = (y) => { let x = 0; for (const [a, b, p] of SEG) { if (y <= a) break; x += (Math.min(y, b) - a) * p * state.zoom; if (y <= b) break; } return x; };
     const o = raw(y0);
@@ -481,8 +485,10 @@
       const r = [0, 3, 4.2, 5.6][imp];
       el("circle", { r: r + 3.5, class: "ring" }, g);
       el("circle", { r, style: imp === 1 ? `fill:var(--paper);stroke:${lc(e.lane)};stroke-width:1.5` : `fill:${lc(e.lane)}` }, g);
-      if (p.label) { const text = p.reserve ? e.label : fitLabel(e.label, p.room - r - 12, imp === 3); if (text) el("text", { x: r + 5, y: 4 }, g, text); }
-      else if (state.route && related.has(e.id)) el("text", { x: r + 5, y: 4, class: "connection-label" }, g, e.label);
+      // A route number (radius 7.5) covers the dot, so its label starts clear of the number.
+      const lx = routeIds && routeIds.includes(e.id) ? 12 : r + 5;
+      if (p.label) { const text = p.reserve ? e.label : fitLabel(e.label, p.room - lx - 7, imp === 3); if (text) el("text", { x: lx, y: 4 }, g, text); }
+      else if (state.route && related.has(e.id)) el("text", { x: lx, y: 4, class: "connection-label" }, g, e.label);
       g.dataset.eventId = e.id;
       g.addEventListener("focus", () => { state.focus = e.id; });
       g.addEventListener("click", (ev) => { ev.stopPropagation(); select(e.id); });
@@ -495,8 +501,9 @@
     }
     if (routeIds) routeIds.forEach((id) => {
       const p = pos.get(id);
-      const g = el("g", { class: "badge", transform: `translate(${p.x},${p.y - 15})` }, gN);
-      el("circle", { r: 7.5 }, g);
+      // The number covers its own dot (ringed in the lane colour); placed above, it hid the labels of the row above.
+      const g = el("g", { class: "badge", transform: `translate(${p.x},${p.y})` }, gN);
+      el("circle", { r: 7.5, style: `stroke:${lc(byId.get(id).lane)}` }, g);
       el("text", { "text-anchor": "middle", y: 3.5 }, g, state.route.event_ids.indexOf(id) + 1);
     });
     renderContext(); renderOverview(); renderEraNav(); renderSearchResults(); updateConnectionAccent(); updateWorkspaceSticky();
@@ -777,7 +784,7 @@
       </div>
       <div class="side">
         ${(e.sources || []).length ? `<div class="reads"><div class="eyebrow">Read next</div>${e.sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label || s.url)}</a>`).join("")}</div>` : ""}
-        ${routes.length ? `<div class="reads"><div class="eyebrow">On the routes</div>${routes.map((t) => `<a href="#" data-route="${esc(t.id)}">${esc(t.question || t.title)}</a>`).join("")}</div>` : ""}
+        ${routes.length ? `<div class="reads"><div class="eyebrow">On the routes</div>${routes.map((t) => `<a href="#${esc(t.id)}" data-route="${esc(t.id)}">${esc(t.question || t.title)}</a>`).join("")}</div>` : ""}
         ${conns.length ? `<details class="conn-group"${conns.some((c) => c.key === state.connection) ? " open" : ""}><summary><span class="eyebrow">Connections</span><span class="conn-count num">${conns.length}</span></summary><ul class="conn">${conns.map((c) => { const o = byId.get(c.id); return `<li data-connection-row="${esc(c.key)}"><span class="rel">${esc(c.rel)}</span><span><a href="#${esc(c.id)}" data-ev="${esc(c.id)}">${esc(o.title)}</a> <span class="num" style="color:var(--muted)">${o.date_sort.slice(0, 4)}</span>${c.note ? `<span class="why">${esc(c.note)}</span>` : ""}<button type="button" class="text-button connection-explain" data-explain-connection="${esc(c.key)}" aria-expanded="${state.connection === c.key}" aria-controls="atlas-connection-detail" aria-label="Explain: ${esc(connectionLabel(c))}">Explain this connection</button></span></li>`; }).join("")}</ul></details>` : ""}
       </div>
       <div class="foot"><span><button type="button" class="text-button" data-nav="-1">← Earlier</button> &nbsp; <button type="button" class="text-button" data-nav="1">Later →</button></span><button type="button" class="text-button" data-act="locate">Show on map ↑</button></div>
@@ -799,7 +806,7 @@
       listScrollTop: $(".event-scroll-list", mounts.map)?.scrollTop || 0, era: state.era, profile: state.profile, profileDock: state.profileDock, affiliationIndex: state.affiliationIndex, routeShown: state.routeShown };
   }
   function saveHistory(replace = false, preserveUrl = false) {
-    const url = preserveUrl ? location.href : `${location.pathname}${location.search}${state.tab !== "map" ? "#" + tabIds[state.tab] : state.profile && state.profileDock === "timeline" ? "#" + profileHash(state.profile) : state.selected ? "#" + state.selected : "#the-map"}`;
+    const url = preserveUrl ? location.href : `${location.pathname}${location.search}${state.tab === "people" && state.profile && state.profileDock === "people" ? "#" + profileHash(state.profile) : state.tab !== "map" ? "#" + tabIds[state.tab] : state.profile && state.profileDock === "timeline" ? "#" + profileHash(state.profile) : state.selected ? "#" + state.selected : "#the-map"}`;
     const snap = snapshot();
     // A transition that changed nothing (the active tab clicked again, a second reset) would leave a Back step that does nothing.
     if (!replace && new URL(url, location.href).href === location.href && JSON.stringify(history.state?.atlas) === JSON.stringify(snap)) return;
@@ -824,7 +831,7 @@
     syncControls(); renderMap(); renderPane();
     scrollMapTo(id, false); updateOverview();
     if (hadFocus || opts.focus) { const n = mapSvg.querySelector(".node.sel"); if (n) n.focus({ preventScroll: true }); }
-    if (opts.history !== false) saveHistory(previous === id);
+    if (opts.history !== false) saveHistory(previous === id || Boolean(opts.replace && previous));
     if (opts.card) readSelected();
     else if (opts.reveal) mounts.map.scrollIntoView({ behavior: SMOOTH, block: "start" });
   }
@@ -870,6 +877,8 @@
   function syncControls() {
     const q = $("#atlas-search"); if (q && q.value !== state.queryInput) q.value = state.queryInput;
     document.querySelectorAll("[data-lane]").forEach((b) => b.setAttribute("aria-pressed", state.lanes.has(b.dataset.lane)));
+    // aria-disabled keeps the button focusable at a limit, so keyboard focus does not drop out of the toolbar.
+    mounts.map?.querySelectorAll("[data-zoom]").forEach((b) => b.setAttribute("aria-disabled", String(Number(b.dataset.zoom) > 0 ? state.zoom >= ZOOM_MAX : state.zoom <= ZOOM_MIN)));
   }
 
   function mountMap() {
@@ -929,7 +938,7 @@
       <div class="route-body">
         <h3 tabindex="-1">${esc(t.question || t.title)}</h3>
         <p class="summary">${esc(t.summary || "")}</p>
-        <p><a href="#" data-route="${esc(t.id)}">Trace this route on the map ↑</a></p>
+        <p><a href="#${esc(t.id)}" data-route="${esc(t.id)}">Trace this route on the map ↑</a></p>
         <ol class="steps">${ids.map((id, i) => {
           const e = byId.get(id), prev = ids[i - 1];
           let rel = "";
@@ -1157,19 +1166,10 @@
     showTip(ev, profilePreview(trigger.dataset.profile, trigger.dataset.affiliation)); trigger.setAttribute("aria-describedby", "atlas-preview");
   }
 
-  /* ---------- index by era & glossary ---------- */
+  /* ---------- index by era ---------- */
   function renderIndex() {
     // Compatibility for older source posts: the chronological browser now lives beside the map.
     if (mounts.index) mounts.index.innerHTML = '<p><a href="#every-event-by-era">Browse events by era above the map ↑</a></p>';
-  }
-  function renderGlossary() {
-    const m = mounts.glossary;
-    if (!m) return;
-    const seen = new Map();
-    D.events.forEach((e) => (e.terms || []).forEach((t) => { const k = t.term.toLowerCase(); if (!seen.has(k)) seen.set(k, { ...t, ev: e }); }));
-    const q = "";
-    const list = [...seen.values()].sort((a, b) => plainText(a.term).localeCompare(plainText(b.term)));
-    m.innerHTML = `<details${q ? " open" : ""}><summary>All terms<span class="eyebrow">${list.length}</span></summary><div class="gloss">${list.map((t) => `<div><b>${prose(t.term)}</b><p>${prose(t.def)} <a href="#${esc(t.ev.id)}" data-ev-reveal="${esc(t.ev.id)}">${esc(t.ev.label)}, ${t.ev.date_sort.slice(0, 4)}</a></p></div>`).join("")}</div></details>`;
   }
 
   /* ---------- events ---------- */
@@ -1198,9 +1198,10 @@
       if (!state.lanes.size) state.lanes.add(d.lane);
       const closed = reconcileSelection(); syncControls(); renderMap(); renderPane(); saveHistory(!closed);
     } else if (d.zoom) {
+      if (t.getAttribute("aria-disabled") === "true") return;
       const center = yearAtX(mapScroll.scrollLeft + mapScroll.clientWidth / 2);
-      state.zoom = Math.max(0.6, Math.min(2.6, state.zoom * (d.zoom > 0 ? 1.25 : 0.8)));
-      renderMap(); jumpYear(center); saveHistory(true);
+      state.zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, state.zoom * (d.zoom > 0 ? 1.25 : 0.8)));
+      renderMap(); syncControls(); jumpYear(center); saveHistory(true);
     } else if (d.routeShow) {
       state.routeShown = d.routeShow; renderRoutes(); saveHistory(true, true);
       const heading = $(".route-body h3", mounts.routes), rect = heading.getBoundingClientRect();
@@ -1211,16 +1212,7 @@
     }
     else if (d.route) {
       const route = D.threads.find((x) => x.id === d.route); if (!route) return;
-      saveHistory(true, true); state.route = route; state.org = null; state.query = ""; state.queryInput = ""; state.selected = null; state.connection = null; connectionHover = null; connectionFocus = null; state.focus = route.event_ids[0]; state.era = null;
-      if (state.profile && state.profileDock === "timeline") { state.profile = null; state.affiliationIndex = null; renderProfile(); }
-      route.event_ids.forEach((id) => { const e = byId.get(id); if (e) state.lanes.add(e.lane); });
-      const first = routeAvailable()[0];
-      if (first) select(first, { history: false, keepEra: true });
-      else { syncControls(); renderMap(); renderPane(); }
-      updateOverview(); saveHistory();
-      $(".controls", mounts.map).scrollIntoView({ behavior: SMOOTH, block: "start" });
-      const firstNode = mapSvg.querySelector('.node[tabindex="0"]'); if (firstNode) firstNode.focus({ preventScroll: true });
-      hideTip();
+      traceRoute(route);
     } else if (d.org) {
       const org = orgById.get(d.org); if (!org) return;
       saveHistory(true, true); setPanel("map"); state.org = org; state.route = null; state.query = ""; state.queryInput = ""; state.selected = null; state.era = null; state.profile = null; renderProfile();
@@ -1242,6 +1234,21 @@
       const node = mapSvg.querySelector(".node.sel"); if (node) node.focus({ preventScroll: true });
     }
   });
+  // A route lights its events on the map and opens its first stop. From a link it scrolls to the map; from the URL it only sets state.
+  function traceRoute(route, opts = {}) {
+    if (opts.history !== false) saveHistory(true, true);
+    state.route = route; state.org = null; state.query = ""; state.queryInput = ""; state.selected = null; state.connection = null; connectionHover = null; connectionFocus = null; state.focus = route.event_ids[0]; state.era = null;
+    if (state.profile && state.profileDock === "timeline") { state.profile = null; state.affiliationIndex = null; renderProfile(); }
+    route.event_ids.forEach((id) => { const e = byId.get(id); if (e) state.lanes.add(e.lane); });
+    const first = routeAvailable()[0];
+    if (first) select(first, { history: false, keepEra: true });
+    else { syncControls(); renderMap(); renderPane(); }
+    updateOverview(); if (opts.history !== false) saveHistory();
+    if (opts.scroll === false) return;
+    $(".controls", mounts.map).scrollIntoView({ behavior: SMOOTH, block: "start" });
+    const firstNode = mapSvg.querySelector('.node[tabindex="0"]'); if (firstNode) firstNode.focus({ preventScroll: true });
+    hideTip();
+  }
   const connectionControl = (target) => target.closest(".connection-hit, [data-connection-row]");
   document.addEventListener("pointerover", (ev) => { if (ev.pointerType === "touch") return; const n = connectionControl(ev.target); if (n && !n.contains(ev.relatedTarget)) { connectionHover = n.dataset.connection || n.dataset.connectionRow; hideTip(); updateConnectionAccent(); } });
   document.addEventListener("pointerout", (ev) => { const n = connectionControl(ev.target); if (n && !n.contains(ev.relatedTarget)) { connectionHover = null; updateConnectionAccent(); } });
@@ -1268,15 +1275,18 @@
     if (profileControl && !/^(A|BUTTON)$/.test(profileControl.tagName) && ["Enter", " "].includes(ev.key)) { ev.preventDefault(); profileControl.dispatchEvent(new MouseEvent("click", { bubbles: true })); return; }
     if (!mapScroll || !mapScroll.contains(ev.target) || /INPUT|SELECT|TEXTAREA/.test(ev.target.tagName)) return;
     const node = ev.target.closest(".node"), from = node ? node.dataset.eventId : state.selected || state.focus;
-    if (ev.key === "ArrowRight" || ev.key === "ArrowLeft") { ev.preventDefault(); step(ev.key === "ArrowRight" ? 1 : -1, from); }
-    if (ev.key === "Home" || ev.key === "End") { const seq = stepSequence(); if (seq.length) { ev.preventDefault(); select(seq[ev.key === "Home" ? 0 : seq.length - 1], { focus: true, keepEra: Boolean(state.route) }); } }
+    // Arrow keys walk the map one event at a time; after the first open card they rewrite one history entry, so Back skips the walk.
+    if (ev.key === "ArrowRight" || ev.key === "ArrowLeft") { ev.preventDefault(); step(ev.key === "ArrowRight" ? 1 : -1, from, { focus: true, replace: true }); }
+    if (ev.key === "Home" || ev.key === "End") { const seq = stepSequence(); if (seq.length) { ev.preventDefault(); select(seq[ev.key === "Home" ? 0 : seq.length - 1], { focus: true, keepEra: Boolean(state.route), replace: true }); } }
   });
 
-  mountMap(); renderRoutes(); renderPeople(); renderIndex(); renderGlossary();
+  mountMap(); renderRoutes(); renderPeople(); renderIndex();
   function fromHash() {
     let id; try { id = decodeURIComponent(location.hash.slice(1)); } catch (_) { return; }
     const section = Object.keys(tabIds).find(k => tabIds[k] === id);
     if (section) { setPanel(section); return; }
+    const route = D.threads.find((t) => t.id === id);
+    if (route) { if (state.route !== route) traceRoute(route, { history: false, scroll: false }); return; }
     const profile = profileFromHash(id);
     if (profile && profileRecord(profile) && state.profile !== profile) openProfile(profile, { history: false, focus: false, reveal: true, dock: "people" });
     else if (byId.has(id) && (id !== state.selected || (state.profile && state.profileDock === "timeline") || state.tab !== "map")) select(id, { history: false, card: true });
@@ -1302,7 +1312,7 @@
   addEventListener("popstate", (ev) => { if (!restoreSnapshot(ev.state && ev.state.atlas)) fromHash(); });
   addEventListener("hashchange", () => { fromHash(); saveHistory(true, true); });
   // MathJax loads after this script: once it is ready, redraw the parts that show formulas.
-  addEventListener("atlas-math-ready", () => { document.head.appendChild(MathJax.svgStylesheet()); renderPane(); renderGlossary(); });
+  addEventListener("atlas-math-ready", () => { document.head.appendChild(MathJax.svgStylesheet()); renderPane(); });
   setPanel("map");
   restoreSnapshot(history.state && history.state.atlas);
   fromHash(); saveHistory(true, true);
