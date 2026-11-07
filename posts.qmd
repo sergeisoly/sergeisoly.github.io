@@ -9,6 +9,9 @@ listing:
   feed: true
   date-format: "D MMM YYYY"
 body-classes: personal-page
+# The page was public as /writing.html before it was renamed.
+aliases:
+  - writing.html
 ---
 
 ::: {#all-posts}

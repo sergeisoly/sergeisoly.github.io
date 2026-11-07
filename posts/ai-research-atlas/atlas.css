@@ -83,6 +83,8 @@
 .atlas .map .arc { fill: none; stroke: var(--ink); stroke-width: 1.4; opacity: .7; }
 .atlas .map .arc.parallel { stroke-dasharray: 4 4; }
 .atlas .map .route { fill: none; stroke: var(--ink); stroke-width: 2; stroke-dasharray: 2 5; stroke-linecap: round; opacity: .8; }
+/* Step numbers sit over the row above; clicks pass through to the dots and the map. */
+.atlas .map .badge { pointer-events: none; }
 .atlas .map .badge circle { fill: var(--ink); }
 .atlas .map .badge text { fill: #fff; font-size: 10px; font-weight: 700; stroke: none; }
 .atlas .map .cmp-dot { fill: var(--line); }
@@ -116,6 +118,8 @@
 /* width/height auto fall back to the ex sizes MathJax writes on the svg; the selectors outrank the diagram and map rules. */
 .atlas figure.diagram mjx-container > svg, .atlas .map mjx-container > svg { display: inline; width: auto; height: auto; min-width: 0; max-width: none; }
 .atlas mjx-container[jax="SVG"] { white-space: nowrap; }
+/* A long inline formula (the Q-learning update) shrinks to the paragraph instead of widening the page on phones. */
+.atlas .prose mjx-container[jax="SVG"] > svg { max-width: 100%; height: auto; }
 .atlas .tex-fallback { white-space: nowrap; }
 .atlas .diagram-viewport { overflow-x: auto; }
 .atlas .diagram-viewport:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }

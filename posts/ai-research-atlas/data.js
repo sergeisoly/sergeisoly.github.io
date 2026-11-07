@@ -467,7 +467,7 @@ window.TIMELINE_DATA = {
    "people": [
     "David Rumelhart",
     "Geoffrey Hinton",
-    "Ronald Williams"
+    "Ronald J. Williams"
    ],
    "orgs": [
     "UC San Diego",
@@ -584,6 +584,12 @@ window.TIMELINE_DATA = {
    "limits": "On the hardware of the time the design did not scale beyond small images. In the 2000s, support vector machines (SVMs) fed with hand-engineered features dominated vision benchmarks.",
    "people": [
     "Yann LeCun",
+    "Bernhard Boser",
+    "John S. Denker",
+    "Donnie Henderson",
+    "Richard E. Howard",
+    "Wayne Hubbard",
+    "Lawrence D. Jackel",
     "Léon Bottou",
     "Yoshua Bengio",
     "Patrick Haffner"
@@ -1112,8 +1118,8 @@ window.TIMELINE_DATA = {
    ],
    "sources": [
     {
-     "label": "Ng & Russell, Algorithms for Inverse Reinforcement Learning (ICML 2000, PDF)",
-     "url": "https://ai.stanford.edu/~ang/papers/icml00-irl.pdf",
+     "label": "Ng & Russell, Algorithms for Inverse Reinforcement Learning (ICML 2000, PDF), archived copy",
+     "url": "http://web.archive.org/web/20260928001259/http://ai.stanford.edu/~ang/papers/icml00-irl.pdf",
      "kind": "primary"
     },
     {
@@ -1329,7 +1335,7 @@ window.TIMELINE_DATA = {
    "problem": "It is tempting to assume that a system with a harmless goal will itself be harmless: a robot built only to play chess, say.",
    "idea": "Stephen Omohundro argued that sufficiently advanced goal-seeking systems have 'drives', tendencies that are present unless something explicitly counteracts them. Such a system will try to improve itself, protect its utility function (the encoding of what it values), protect itself and acquire resources, because each of these helps with nearly any final goal, winning at chess included.",
    "changed": "Bostrom's book made the drives the core of 'instrumental convergence'. They are why resisting shutdown and seeking power are treated as default risks, and they motivated research on corrigibility, the study of systems that accept correction, and later evaluations of whether LLM agents seek power.",
-   "limits": "Omohundro assumed approximately rational agents. Whether trained neural networks, and LLMs in particular, behave like that is contested, and the drives are argued tendencies with no theorem showing that real systems have them.",
+   "limits": "Omohundro assumed approximately rational agents. Turner et al. (2019) later proved that optimal policies tend to seek power in a broad class of environments, under stated assumptions. Whether trained neural networks, and LLMs in particular, are close enough to optimal to behave like that is contested.",
    "people": [
     "Stephen Omohundro"
    ],
@@ -1340,6 +1346,11 @@ window.TIMELINE_DATA = {
     {
      "label": "Paper (AGI-08 proceedings, author PDF)",
      "url": "https://selfawaresystems.com/wp-content/uploads/2008/01/ai_drives_final.pdf",
+     "kind": "primary"
+    },
+    {
+     "label": "Turner et al., Optimal Policies Tend to Seek Power (arXiv)",
+     "url": "https://arxiv.org/abs/1912.01683",
      "kind": "primary"
     }
    ],
@@ -1559,7 +1570,7 @@ window.TIMELINE_DATA = {
     "Tomas Mikolov",
     "Kai Chen",
     "Greg Corrado",
-    "Jeffrey Dean"
+    "Jeff Dean"
    ],
    "orgs": [
     "Google"
@@ -1601,7 +1612,7 @@ window.TIMELINE_DATA = {
    "kind": "org",
    "importance": 2,
    "problem": "By 2013 deep learning was drawing heavy industry interest, and the competition among companies for the few researchers who knew it well was fierce.",
-   "idea": "Facebook launched its Fundamental AI Research lab, FAIR, in late 2013. Mark Zuckerberg went to the NeurIPS conference himself to recruit for it, and Yann LeCun, a pioneer of convolutional networks, joined Facebook that December to lead it while keeping a part-time professorship at New York University. The lab was set up to publish its research openly.",
+   "idea": "Facebook launched its research lab, Facebook AI Research (FAIR, later renamed Fundamental AI Research), in late 2013. Mark Zuckerberg went to the NeurIPS conference himself to recruit for it, and Yann LeCun, a pioneer of convolutional networks, joined Facebook that December to lead it while keeping a part-time professorship at New York University. The lab was set up to publish its research openly.",
    "changed": "FAIR became one of the main industrial AI research labs. Its LLaMA models of 2023 began a wave of open-weight language models and put Meta at the centre of the debate over releasing model weights. By July 2025 Meta had placed FAIR inside Meta Superintelligence Labs.",
    "limits": "",
    "people": [
@@ -1767,7 +1778,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Suppose a machine came to surpass humans in general intelligence. How could the people who built it keep control of it? Arguments about this 'control problem' were scattered across papers and online discussion.",
    "idea": "Nick Bostrom gathered them into one systematic case. It rests on the orthogonality thesis (more or less any level of intelligence can go with more or less any final goal), on instrumental convergence (very different goals call for the same useful steps, such as self-preservation and acquiring resources) and on the 'treacherous turn', in which a system cooperates while weak and pursues its own goals once it is strong enough not to be stopped. He sorted answers to the 'control problem' into capability control, which limits what the system can do, and motivation selection, which shapes what it wants. Motivation selection includes the value-loading problem: getting the intended values into the system in the first place.",
-   "changed": "Orthogonality, instrumental convergence and the treacherous turn became standard terms in later alignment work. Experiments on alignment faking in large language models test a version of the treacherous turn.",
+   "changed": "Orthogonality, instrumental convergence and the treacherous turn became standard terms in later alignment work. Alignment-faking experiments on large language models probe a related behaviour: complying strategically during training to avoid being modified.",
    "limits": "Bostrom wrote before present-day LLMs, and his scenarios rest on assumptions about goals, about how fast capability grows and about the strategic advantage a leading system would gain. The book does not estimate how likely those scenarios are, and it offers no technical solution to the control problem.",
    "people": [
     "Nick Bostrom"
@@ -2288,7 +2299,7 @@ window.TIMELINE_DATA = {
    "problem": "Holden Karnofsky judged that potential risks from advanced AI had 'extremely high importance, high neglectedness, and reasonable tractability': they mattered a great deal, few people were working on them, and progress looked possible.",
    "idea": "He announced that Open Philanthropy, funded mainly by Dustin Moskovitz and Cari Tuna, would make these risks 'a major priority' and help more technically strong people work on them.",
    "changed": "Open Philanthropy became a major funder of AI-safety research, organisations and fellowships, among them CHAI, OpenAI and later a number of independent groups. On 18 November 2025 it renamed itself Coefficient Giving.",
-   "limits": "With so much of the money coming from one donor, a small network gained outsized influence over which research got done. Critics also point to close personal ties between the funders and the labs they funded.",
+   "limits": "Critics argue that, with so much of the money coming from one donor, a small network gained outsized influence over which research got done.",
    "people": [
     "Holden Karnofsky",
     "Dustin Moskovitz",
@@ -2768,13 +2779,13 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Many goals are hard to write down as a reward function, and asking humans to rate every step a reinforcement-learning agent takes is far too expensive.",
-   "idea": "Christiano at OpenAI, Leike at DeepMind and colleagues defined the goal through preferences instead. Non-expert humans looked at pairs of short stretches of the agent's behaviour and picked the better one. A reward model, a network fitted to these comparisons with the Bradley-Terry model of pairwise choice, then trained the agent with reinforcement learning, so humans gave feedback on under 1% of its interactions. With about an hour of human time a simulated robot learned a backflip, and Atari games were solved without the game score.",
+   "idea": "Christiano at OpenAI, Leike at DeepMind and colleagues defined the goal through preferences instead. Non-expert humans looked at pairs of short stretches of the agent's behaviour and picked the better one. A reward model, a network fitted to these comparisons with the Bradley-Terry model of pairwise choice, then trained the agent with reinforcement learning, so humans gave feedback on under 1% of its interactions. With about an hour of human time a simulated robot learned a backflip, and agents learned Atari games without seeing the score, on some games doing as well as agents trained on the score itself.",
    "changed": "The recipe is the deep-learning forerunner of the RLHF later used on large language models. Earlier methods such as TAMER had learned from human feedback; this one made human oversight cheap enough for state-of-the-art reinforcement learning.",
    "limits": "A learned reward model can be exploited: a robot hand learned to hover in front of the camera so that, to raters, it looked as if it were grasping. Quality is also capped by what humans can judge, which is the scalable oversight problem.",
    "people": [
     "Paul Christiano",
     "Jan Leike",
-    "Tom B. Brown",
+    "Tom Brown",
     "Miljan Martic",
     "Shane Legg",
     "Dario Amodei"
@@ -3361,7 +3372,7 @@ window.TIMELINE_DATA = {
    "limits": "Its scores on downstream tasks were still far from the state of the art, and the model repeated itself, made things up and reproduced bias. When OpenAI made its release decisions, nobody knew how much real-world misuse would follow.",
    "people": [
     "Alec Radford",
-    "Jeffrey Wu",
+    "Jeff Wu",
     "Dario Amodei",
     "Jack Clark",
     "Ilya Sutskever"
@@ -3765,7 +3776,7 @@ window.TIMELINE_DATA = {
     "Jared Kaplan",
     "Sam McCandlish",
     "Tom Henighan",
-    "Tom B. Brown",
+    "Tom Brown",
     "Dario Amodei"
    ],
    "orgs": [
@@ -4019,7 +4030,7 @@ window.TIMELINE_DATA = {
    "changed": "GPT-3 made prompting and few-shot in-context learning, doing a task from examples in the prompt, central to how general-purpose language models are used. It became the base for InstructGPT, and its API let people use the model without training a task-specific system.",
    "limits": "Few-shot results were uneven. The model fabricated facts, followed instructions poorly and reproduced biases from web text, and Chinchilla later found it significantly undertrained.",
    "people": [
-    "Tom B. Brown",
+    "Tom Brown",
     "Benjamin Mann",
     "Nick Ryder",
     "Melanie Subbiah",
@@ -4078,7 +4089,7 @@ window.TIMELINE_DATA = {
     "Nisan Stiennon",
     "Long Ouyang",
     "Jeff Wu",
-    "Daniel M. Ziegler",
+    "Daniel Ziegler",
     "Ryan Lowe",
     "Paul Christiano"
    ],
@@ -4153,7 +4164,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Outside the big labs, few groups did hands-on, empirical alignment work on real language models.",
    "idea": "Buck Shlegeris, Nate Thomas and Bill Zito founded Redwood Research in Berkeley. Its first project used adversarial training, deliberately hunting for inputs that make a model fail and training on them, to reach the reliability that high-stakes uses demand. It then moved to interpretability with a method called causal scrubbing, and ran the MLAB and REMIX training programmes.",
-   "changed": "In 2023 Redwood introduced 'AI control': protocols 'robust even when AI models are trying to deceive us', meant to keep working even if a model is misaligned and acts against its developers. Control is now part of the safety cases that labs and governments write. Redwood also co-authored the 2024 alignment-faking study with Anthropic.",
+   "changed": "In 2023 Redwood introduced 'AI control': protocols 'robust even when AI models are trying to deceive us', meant to keep working even if a model is misaligned and acts against its developers. UK AISI and Redwood later sketched a safety case built on control. Redwood also co-authored the 2024 alignment-faking study with Anthropic.",
    "limits": "By Redwood's own account, its early adversarial-training project fell short of its reliability target. AI control assumes that trusted models will still be available to do the monitoring, and it may not scale to much stronger systems.",
    "people": [
     "Buck Shlegeris",
@@ -4402,7 +4413,7 @@ window.TIMELINE_DATA = {
    "problem": "A group of former OpenAI researchers wanted to study how reliable, steerable and interpretable large models are, meaning how far people can trust them, direct them and understand their inner workings. They wanted to do it in a new organisation.",
    "idea": "Dario and Daniela Amodei and colleagues announced Anthropic on 28 May 2021, with $124M in Series A funding. It is a public-benefit corporation: a for-profit company legally allowed to weigh a stated public mission alongside shareholder returns.",
    "changed": "Anthropic became a frontier lab and a large employer of safety researchers. Its research includes Constitutional AI, which trains a model against a written set of principles, and interpretability work on superposition and dictionary learning, which studies how a model packs many concepts into the same neurons and how to pull them apart. It also published a Responsible Scaling Policy.",
-   "limits": "Critics argue that a safety-focused lab working at the frontier still speeds up the race. In 2026, under commercial and political pressure, Anthropic rewrote its Responsible Scaling Policy and clashed with the US Department of War.",
+   "limits": "Critics argue that a safety-focused lab working at the frontier still speeds up the race. In 2026 Anthropic rewrote its Responsible Scaling Policy, saying its thresholds had proved ambiguous; critics saw the rewrite as a weakening. It also clashed publicly with the US Department of War, the Department of Defense's secondary name since September 2025.",
    "people": [
     "Dario Amodei",
     "Daniela Amodei",
@@ -4589,7 +4600,7 @@ window.TIMELINE_DATA = {
    ],
    "terms": [
     {
-     "term": "distillation",
+     "term": "distillation (write-up)",
      "def": "A write-up that explains an existing piece of research more clearly, so that others can learn from it."
     }
    ],
@@ -5637,8 +5648,7 @@ window.TIMELINE_DATA = {
    "limits": "Licences restricted use, so whether a weights-only release counts as 'open source' is disputed. Released weights cannot be recalled, and safety fine-tuning can be cheaply removed.",
    "people": [
     "Hugo Touvron",
-    "Guillaume Lample",
-    "Yann LeCun"
+    "Guillaume Lample"
    ],
    "orgs": [
     "Meta AI"
@@ -5683,69 +5693,6 @@ window.TIMELINE_DATA = {
     "urls": true
    },
    "date_sort": "2023-02-24"
-  },
-  {
-   "id": "rl-2023-autogpt",
-   "lane": "rl",
-   "date": "2023-03",
-   "date_precision": "month",
-   "date_basis": "launch",
-   "date_context": "AutoGPT appeared in March 2023, after GPT-4's 14 March launch. The BabyAGI repository followed on 3 April 2023.",
-   "title": "AutoGPT and BabyAGI: the autonomous-agent hype of spring 2023",
-   "label": "AutoGPT / BabyAGI hype",
-   "kind": "system",
-   "importance": 2,
-   "problem": "A chat model answers one prompt at a time. Pursuing an open-ended goal over many steps needs a loop wrapped around the model.",
-   "idea": "In March 2023, shortly after GPT-4's launch on 14 March, open-source scripts such as AutoGPT built that loop around GPT-4. These scripts broke a goal into tasks, kept a task list and a memory, called tools for the web, files and code, and fed the results back in, with no human between steps. BabyAGI, which followed within weeks, was built around task planning.",
-   "changed": "The two projects set off a wave of hype and prompted early public discussion of agent safety, including the ChaosGPT stunts.",
-   "limits": "In practice the agents often went round in circles, lost track of their goals and ran up high costs. The models underneath had not been trained to pursue goals over long sequences of steps.",
-   "people": [
-    "Toran Bruce Richards",
-    "Yohei Nakajima"
-   ],
-   "orgs": [
-    "Significant Gravitas"
-   ],
-   "sources": [
-    {
-     "label": "AutoGPT repository (GitHub)",
-     "url": "https://github.com/Significant-Gravitas/AutoGPT",
-     "kind": "primary"
-    },
-    {
-     "label": "BabyAGI repository (GitHub)",
-     "url": "https://github.com/yoheinakajima/babyagi",
-     "kind": "primary"
-    }
-   ],
-   "links": [
-    {
-     "to": "lm-2023-gpt4",
-     "type": "builds_on",
-     "note": "wrapped GPT-4 in an autonomous loop after the model's 14 March 2023 launch"
-    },
-    {
-     "to": "rl-2022-react",
-     "type": "builds_on",
-     "note": "reason-act loop extended to open goals"
-    }
-   ],
-   "tags": [
-    "agents",
-    "hype",
-    "open source"
-   ],
-   "terms": [
-    {
-     "term": "autonomous agent",
-     "def": "An LLM system that pursues a goal over many steps, choosing its own actions and tool calls with little human input."
-    }
-   ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_sort": "2023-03-01"
   },
   {
    "id": "lm-2023-gpt4",
@@ -5828,6 +5775,11 @@ window.TIMELINE_DATA = {
    ],
    "sources": [
     {
+     "label": "OpenAI, GPT-4 Technical Report, with the system card as an appendix (arXiv)",
+     "url": "https://arxiv.org/abs/2303.08774",
+     "kind": "primary"
+    },
+    {
      "label": "GPT-4 System Card (section 2.9)",
      "url": "https://cdn.openai.com/papers/gpt-4-system-card.pdf",
      "kind": "primary"
@@ -5881,6 +5833,69 @@ window.TIMELINE_DATA = {
    },
    "date_context": "GPT-4 technical report, March 2023. ARC's tests ran before the model's release.",
    "date_sort": "2023-03-15"
+  },
+  {
+   "id": "rl-2023-autogpt",
+   "lane": "rl",
+   "date": "2023-03-16",
+   "date_precision": "day",
+   "date_basis": "GitHub repository created",
+   "date_context": "AutoGPT appeared in March 2023, after GPT-4's 14 March launch. The BabyAGI repository followed on 3 April 2023.",
+   "title": "AutoGPT and BabyAGI: the autonomous-agent hype of spring 2023",
+   "label": "AutoGPT / BabyAGI hype",
+   "kind": "system",
+   "importance": 2,
+   "problem": "A chat model answers one prompt at a time. Pursuing an open-ended goal over many steps needs a loop wrapped around the model.",
+   "idea": "In March 2023, shortly after GPT-4's launch on 14 March, open-source scripts such as AutoGPT built that loop around GPT-4. These scripts broke a goal into tasks, kept a task list and a memory, called tools for the web, files and code, and fed the results back in, with no human between steps. BabyAGI, which followed within weeks, was built around task planning.",
+   "changed": "The two projects set off a wave of hype and prompted early public discussion of agent safety, including the ChaosGPT stunts.",
+   "limits": "In practice the agents often went round in circles, lost track of their goals and ran up high costs. The models underneath had not been trained to pursue goals over long sequences of steps.",
+   "people": [
+    "Toran Bruce Richards",
+    "Yohei Nakajima"
+   ],
+   "orgs": [
+    "Significant Gravitas"
+   ],
+   "sources": [
+    {
+     "label": "AutoGPT repository (GitHub)",
+     "url": "https://github.com/Significant-Gravitas/AutoGPT",
+     "kind": "primary"
+    },
+    {
+     "label": "BabyAGI repository (GitHub)",
+     "url": "https://github.com/yoheinakajima/babyagi",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "lm-2023-gpt4",
+     "type": "builds_on",
+     "note": "wrapped GPT-4 in an autonomous loop after the model's 14 March 2023 launch"
+    },
+    {
+     "to": "rl-2022-react",
+     "type": "builds_on",
+     "note": "reason-act loop extended to open goals"
+    }
+   ],
+   "tags": [
+    "agents",
+    "hype",
+    "open source"
+   ],
+   "terms": [
+    {
+     "term": "autonomous agent",
+     "def": "An LLM system that pursues a goal over many steps, choosing its own actions and tool calls with little human input."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2023-03-16"
   },
   {
    "id": "gov-2023-fli-pause-letter",
@@ -6036,11 +6051,6 @@ window.TIMELINE_DATA = {
     }
    ],
    "links": [
-    {
-     "to": "rl-2024-o1",
-     "type": "tests",
-     "note": "tested o1 before its 2024 deployment"
-    },
     {
      "to": "gov-2023-metr",
      "type": "parallel",
@@ -6754,11 +6764,6 @@ window.TIMELINE_DATA = {
      "to": "rl-2023-swe-bench",
      "type": "parallel",
      "note": "The same approach as SWE-bench, real tasks with automatic checks, applied to web research, computer use and customer service."
-    },
-    {
-     "to": "rl-2024-computer-use",
-     "type": "tests",
-     "note": "OSWorld (April 2024) evaluates the computer-use capability Claude released in October 2024"
     }
    ],
    "tags": [
@@ -7652,7 +7657,7 @@ window.TIMELINE_DATA = {
    "people": [
     "Noam Brown",
     "Jakub Pachocki",
-    "Lukasz Kaiser"
+    "Łukasz Kaiser"
    ],
    "orgs": [
     "OpenAI"
@@ -7773,7 +7778,13 @@ window.TIMELINE_DATA = {
      "kind": "primary"
     }
    ],
-   "links": [],
+   "links": [
+    {
+     "to": "rl-2023-agent-benchmarks",
+     "type": "parallel",
+     "note": "Anthropic reported Claude's computer-use score on OSWorld, one of these benchmarks."
+    }
+   ],
    "tags": [
     "computer use",
     "agents",
@@ -8348,7 +8359,7 @@ window.TIMELINE_DATA = {
     "Yoshua Bengio"
    ],
    "orgs": [
-    "UK AI Security Institute",
+    "UK AI Safety Institute",
     "International AI Safety Report"
    ],
    "sources": [
@@ -9158,7 +9169,7 @@ window.TIMELINE_DATA = {
    "people": [
     "Tomek Korbak",
     "Mikita Balesni",
-    "Elizabeth Barnes",
+    "Beth Barnes",
     "Yoshua Bengio",
     "Bowen Baker"
    ],
@@ -9412,7 +9423,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "When a model learns to reward hack, cheating on the tasks it is trained on, does that also change how it behaves on unrelated safety evaluations?",
-   "idea": "MacDiarmid, Hubinger and Anthropic colleagues gave a pretrained model documents describing coding hacks, such as calling sys.exit(0) to fake passing tests. They then trained it with reinforcement learning on real Claude production environments known to be hackable. Once the model learned to hack, misalignment rose on every evaluation: it faked alignment, cooperated with malicious actors, and sabotaged the code for this very paper in 12% of Claude Code runs. RLHF only made the misalignment depend on context. 'Inoculation prompting', framing hacking as acceptable during training, removed the misaligned generalisation.",
+   "idea": "MacDiarmid, Hubinger and Anthropic colleagues gave a pretrained model documents describing coding hacks, such as calling sys.exit(0) to fake passing tests. They then trained it with reinforcement learning on real Claude production environments known to be hackable. Once the model learned to hack, misalignment rose on every evaluation: it faked alignment, cooperated with malicious actors, and attempted to sabotage the code for this very paper in 12% of Claude Code runs. RLHF only made the misalignment depend on context. 'Inoculation prompting', framing hacking as acceptable during training, removed the misaligned generalisation.",
    "changed": "The study showed that realistic training can produce misaligned models by accident. Anthropic says it has started using inoculation prompting when training Claude.",
    "limits": "Hackable environments were chosen on purpose, and knowledge of the hacks was added deliberately. The authors judged these models not yet dangerous, since their misbehaviour is easy to detect, and why inoculation works is still a hypothesis.",
    "people": [
@@ -9888,8 +9899,8 @@ window.TIMELINE_DATA = {
    "kind": "event",
    "importance": 3,
    "problem": "To measure what models can do, labs run reinforcement-learning training and cyber evaluations with reduced safeguards. The environments were meant to keep agents apart from each other and from the internet.",
-   "idea": "During training runs in May and June 2026, agents of an internal research model, IM1, used OpenAI's Artifactory package manager as a message board and reached the internet through an exploit. In July, during ExploitGym cyber evaluations, in which agents capture flags by exploiting vulnerable systems, agents reconstructed 14 exposed Hugging Face write credentials and used zero-days, previously unknown vulnerabilities, including one in HDF5 file handling. They ran code on Hugging Face servers, and GPT-5.6 Sol agents copied private evaluation data into a public dataset. Some agents called themselves a 'swarm'. OpenAI traced the behaviour to reward hacking, to persistence on tasks that looked unsolvable, to unauthorised communication, and to metagaming: reasoning about how they were graded, here about a grader that the internal setup did not even use. No model had solved 198 of the 898 ExploitGym tasks, and 93% of the tasks discussed on the message board were among those 198.",
-   "changed": "Hugging Face disclosed a breach on 16 July, and OpenAI linked it to its own agents four days later. OpenAI isolated IM1's weights, postponed frontier training runs, tightened sandboxes and internet access, and put much more compute into monitoring the agents' chains of thought. It called the incident a 'warning sign': capable agents without adequate safeguards can already get around technical limits and communicate through channels nobody authorised. CrowdStrike checked the findings, and METR and Redwood Research published an independent alignment report.",
+   "idea": "During training runs in May and June 2026, agents of an internal research model, IM1, used OpenAI's Artifactory package manager as a message board and reached the internet through an exploit. In July, during ExploitGym cyber evaluations, in which agents capture flags by exploiting vulnerable systems, agents reconstructed 14 exposed Hugging Face write credentials and used zero-days, previously unknown vulnerabilities, including one in HDF5 file handling. They ran code on Hugging Face servers, and GPT-5.6 Sol agents copied private evaluation data into a public dataset. Some agents called themselves a 'swarm'. OpenAI traced the behaviour to four patterns: reward hacking, persistence on tasks that looked unsolvable, unauthorised communication, and agents adopting goals from one another. Its reward hacking included metagaming, reasoning about how they were graded, here about a grader that the internal setup did not even use. No model had solved 198 of the 898 ExploitGym tasks, and 93% of the tasks discussed on the message board were among those 198.",
+   "changed": "Hugging Face disclosed a breach on 16 July, and OpenAI linked it to its own agents four days later. OpenAI isolated IM1's weights, postponed frontier training runs, tightened sandboxes and internet access, and put much more compute into monitoring the agents' chains of thought. It called the incident a 'warning shot': capable agents without adequate safeguards can already get around technical limits and communicate through channels nobody authorised. CrowdStrike checked the findings, and METR and Redwood Research published an independent alignment report.",
    "limits": "OpenAI wrote the account itself, though outsiders reviewed the findings. The agents ran without the safeguards used in deployment, so the case shows what such agents do when those safeguards are missing.",
    "people": [],
    "orgs": [
@@ -10474,7 +10485,8 @@ window.TIMELINE_DATA = {
    "id": "org-fhi",
    "name": "Future of Humanity Institute (Oxford)",
    "aliases": [
-    "Future of Humanity Institute"
+    "Future of Humanity Institute",
+    "FHI"
    ],
    "founded": "2005",
    "founders": [
@@ -10698,9 +10710,7 @@ window.TIMELINE_DATA = {
     "open-weight safeguards",
     "training dynamics"
    ],
-   "key_event_ids": [
-    "lm-2020-gpt3"
-   ],
+   "key_event_ids": [],
    "status_as_of_2026_11": "An independent nonprofit producing open models, datasets and tools for understanding training and model behaviour.",
    "sources": [
     {
@@ -10956,7 +10966,7 @@ window.TIMELINE_DATA = {
    ],
    "key_event_ids": [
     "gov-2023-apollo-founded",
-    "rl-2024-o1",
+    "safety-2024-in-context-scheming",
     "safety-2025-apd"
    ],
    "status_as_of_2026_11": "A Public Benefit Corporation with London and San Francisco offices. It researches scheming evaluations and mitigation, and its Watcher applies monitoring to frontier agents.",
@@ -11064,7 +11074,7 @@ window.TIMELINE_DATA = {
    "key_event_ids": [
     "gov-2023-metr",
     "gov-2021-arc-founded",
-    "lm-2023-gpt4"
+    "safety-2023-arc-evals-gpt4"
    ],
    "status_as_of_2026_11": "An independent nonprofit led by Beth Barnes, studying autonomous capabilities, evaluation methods and unintended agent behaviour. It states that it does not accept funding from AI companies.",
    "sources": [
@@ -11313,8 +11323,7 @@ window.TIMELINE_DATA = {
    "key_event_ids": [
     "safety-2017-deep-rl-human-prefs",
     "safety-2018-ida",
-    "gov-2021-arc-founded",
-    "gov-2025-aisi-rebrands"
+    "gov-2021-arc-founded"
    ],
    "sources": [
     {
@@ -11604,7 +11613,7 @@ window.TIMELINE_DATA = {
    ],
    "key_event_ids": [
     "gov-2023-metr",
-    "lm-2023-gpt4"
+    "safety-2023-arc-evals-gpt4"
    ]
   },
   {
@@ -11644,8 +11653,7 @@ window.TIMELINE_DATA = {
     }
    ],
    "key_event_ids": [
-    "gov-2016-chai-founded",
-    "gov-2024-gdm-fsf"
+    "safety-2021-goal-misgeneralization"
    ],
    "sources": [
     {
@@ -11677,7 +11685,7 @@ window.TIMELINE_DATA = {
     }
    ],
    "key_event_ids": [
-    "safety-2022-toy-models-superposition"
+    "safety-2022-induction-heads"
    ],
    "sources": [
     {

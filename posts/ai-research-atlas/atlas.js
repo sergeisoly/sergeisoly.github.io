@@ -98,8 +98,10 @@
   const REL_IN = { builds_on: "Built on by", responds_to: "Answered by", enables: "Enabled by", tests: "Tested by", critiques: "Critiqued by", parallel: "Compare with" };
   const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+  // The map places events in exactly three importance bands; anything else in the data falls back to the middle band.
+  D.events.forEach((e) => { const n = Math.round(Number(e.importance)); e.importance = n >= 1 && n <= 3 ? n : 2; });
   const byId = new Map(D.events.map((e) => [e.id, e]));
-  const personId = (p) => p.id || p.name.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const personId = (p) => p.id || p.name.toLowerCase().replace(/\u0142/g, "l").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const personById = new Map(D.people.map((p) => [personId(p), p]));
   D.events.forEach((e) => (e.people || []).forEach((name) => { const id = personId({ name }); if (!personById.has(id)) personById.set(id, { name, key_event_ids: D.events.filter((event) => (event.people || []).includes(name)).map((event) => event.id) }); }));
   const orgById = new Map(D.orgs.map((o) => [o.id, o]));
@@ -241,9 +243,10 @@
   function browseEra(index) {
     saveHistory(true, true); state.era = index;
     const list = browseEvents();
+    // Choosing an era moves the window and lists its events; it opens a card only inside a route, where the era's first stop is the next thing to read.
     if (!list.some((e) => e.id === state.selected)) {
       state.selected = null; state.focus = null;
-      if (list.length) select(list[0].id, { history: false, keepEra: true });
+      if (state.route && list.length) select(list[0].id, { history: false, keepEra: true });
       else { renderMap(); renderPane(); }
     } else renderMap();
     if (index != null && layout) { const [a, b] = eraRange(index); mapScroll.scrollLeft = Math.max(0, layout.X(a) - 12); if (layout.X(b) - layout.X(a) < mapScroll.clientWidth) jumpYear((a + b) / 2); }
@@ -546,7 +549,13 @@
   function inspectConnection(key, trigger) {
     if (!connectionByKey.has(key)) return;
     const c = connectionByKey.get(key); if (![c.from, c.to].includes(state.selected)) return;
-    if (state.connection !== key) { saveHistory(true, true); state.connection = key; saveHistory(); }
+    // The explanation lives in the event card, which a timeline profile covers; close the profile so it can be seen.
+    const coveringProfile = state.profile && state.profileDock === "timeline";
+    if (state.connection !== key || coveringProfile) {
+      saveHistory(true, true);
+      if (coveringProfile) { state.profile = null; state.affiliationIndex = null; renderProfile(); }
+      state.connection = key; saveHistory();
+    }
     connectionTrigger = trigger; connectionHover = null; connectionFocus = null; hideTip(); renderConnectionDetail();
     const host = $(".connection-detail", mounts.map), rect = host.getBoundingClientRect(), inset = workspaceInset();
     if (rect.top < inset) scrollBy({ top: rect.top - inset, behavior: "auto" });
@@ -681,7 +690,9 @@
   }
   function updateChip() {
     const chip = $(".card-chip", mounts.map); if (!chip) return;
-    const e = state.selected && byId.get(state.selected); chip.hidden = !e;
+    // While a timeline profile covers the card, the chip has nothing visible to jump to.
+    const e = state.selected && byId.get(state.selected), covered = state.profile && state.profileDock === "timeline";
+    chip.hidden = !e || covered;
     if (e) chip.textContent = `Read: ${e.label} ↓`;
   }
   function revealReaderTarget(target) {
@@ -773,7 +784,10 @@
   }
   function saveHistory(replace = false, preserveUrl = false) {
     const url = preserveUrl ? location.href : `${location.pathname}${location.search}${state.tab !== "map" ? "#" + tabIds[state.tab] : state.profile && state.profileDock === "timeline" ? "#" + profileHash(state.profile) : state.selected ? "#" + state.selected : "#the-map"}`;
-    history[replace ? "replaceState" : "pushState"]({ ...(history.state || {}), atlas: snapshot() }, "", url);
+    const snap = snapshot();
+    // A transition that changed nothing (the active tab clicked again, a second reset) would leave a Back step that does nothing.
+    if (!replace && new URL(url, location.href).href === location.href && JSON.stringify(history.state?.atlas) === JSON.stringify(snap)) return;
+    history[replace ? "replaceState" : "pushState"]({ ...(history.state || {}), atlas: snap }, "", url);
   }
   function select(id, opts = {}) {
     if (!byId.has(id)) return;
@@ -813,8 +827,10 @@
     renderMap(); renderPane(); saveHistory();
     if (focusMap) mapSvg.querySelector('.node[tabindex="0"]')?.focus({ preventScroll: true });
   }
+  // Returns true when the edit closed the open card; that step gets its own history entry so Back can reopen it.
   function reconcileSelection() {
-    if (state.selected && !matches().some((e) => e.id === state.selected)) { state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; }
+    if (state.selected && !matches().some((e) => e.id === state.selected)) { state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; return true; }
+    return false;
   }
   function resetView() {
     state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; state.route = null; state.org = null; state.query = ""; state.queryInput = "";
@@ -833,7 +849,7 @@
       <button type="button" class="text-button reset-view" data-act="clear" style="visibility:hidden">Reset view</button>
       `;
     syncControls();
-    $("#atlas-search").addEventListener("input", (ev) => { state.queryInput = ev.target.value; state.query = state.queryInput.trim(); state.era = null; reconcileSelection(); syncControls(); renderMap(); renderPane(); saveHistory(true); });
+    $("#atlas-search").addEventListener("input", (ev) => { state.queryInput = ev.target.value; state.query = state.queryInput.trim(); state.era = null; const closed = reconcileSelection(); syncControls(); renderMap(); renderPane(); saveHistory(!closed); });
   }
   function syncControls() {
     const q = $("#atlas-search"); if (q && q.value !== state.queryInput) q.value = state.queryInput;
@@ -858,11 +874,11 @@
     // Mobile browsers fire resize when the address bar or keyboard moves; the people chart depends on width only,
     // and rebuilding it then would drop the search field's focus and the chart's scroll position.
     let peopleWidth = innerWidth;
-    addEventListener("resize", () => { updateOverview(); updateChip(); updateWorkspaceSticky(); updateDiagramHints(); if (innerWidth !== peopleWidth) { peopleWidth = innerWidth; renderPeople(); } });
+    addEventListener("resize", () => { updateOverview(); updateChip(); updateWorkspaceSticky(); updateDiagramHints(); if (innerWidth !== peopleWidth && mounts.people?.clientWidth) { peopleWidth = innerWidth; renderPeople(); } });
     if (window.ResizeObserver) new ResizeObserver(updateWorkspaceSticky).observe($(".chart-column", m));
     // drag to pan
     let drag = null;
-    mapScroll.addEventListener("pointerdown", (ev) => { if (ev.target.closest(".node, .connection-hit") || ev.pointerType !== "mouse") return; drag = { x: ev.clientX, s: mapScroll.scrollLeft, moved: false }; });
+    mapScroll.addEventListener("pointerdown", (ev) => { dragMoved = false; if (ev.target.closest(".node, .connection-hit") || ev.pointerType !== "mouse") return; drag = { x: ev.clientX, s: mapScroll.scrollLeft, moved: false }; });
     // A button released outside the window sends no pointerup; end the drag on the next plain move.
     addEventListener("pointermove", (ev) => { if (!drag) return; if (!(ev.buttons & 1)) { drag = null; mapScroll.classList.remove("dragging"); return; } const dx = ev.clientX - drag.x; if (Math.abs(dx) > 3) { drag.moved = true; mapScroll.classList.add("dragging"); } mapScroll.scrollLeft = drag.s - dx; });
     let dragMoved = false;
@@ -941,8 +957,10 @@
     const chartScroll = $(".people-chart", m)?.scrollLeft || 0, searchFocused = document.activeElement === $("#atlas-org-search", m);
     // On wide screens the profile column is always reserved, so opening or closing a profile never reflows the chart.
     const split = innerWidth > 1050;
-    const available = m.clientWidth - 25.6;
-    const chartWidth = split ? available - Math.max(368, available / 2.55) : m.clientWidth;
+    // A hidden panel measures 0 wide; size it from the map's mount, which shares the column, and redraw when the tab opens.
+    const mountWidth = m.clientWidth || mounts.map?.clientWidth || innerWidth;
+    const available = mountWidth - 25.6;
+    const chartWidth = split ? available - Math.max(368, available / 2.55) : mountWidth;
     const A = 1995, NOW = 2026.85, NAME = 148, W = Math.round(innerWidth > 1050 ? chartWidth : Math.max(680, chartWidth)), BAR = 15, GAP = 4;
     const px = (y) => NAME + ((Math.max(A, Math.min(NOW, y)) - A) / (NOW - A)) * (W - NAME - 46);
     const span = (a) => { const f = yearOfStr(a.from || A); let t = a.to ? yearOfStr(a.to) : NOW; if (a.to && /^\d{4}\??$/.test(String(a.to))) t += 1; if (!isFinite(t)) t = NOW; return [isFinite(f) ? f : A, Math.max(t, f + 0.25)]; };
@@ -1056,7 +1074,7 @@
     dock.appendChild(profilePanel); if (timelineDock) {
       timelineDock.hidden = dock !== timelineDock || !active;
       timelineDock.querySelector(".profile-return")?.remove();
-      $(".pane-host", mounts.map).hidden = active && dock === timelineDock;
+      $(".pane-host", mounts.map).hidden = active && dock === timelineDock; updateChip();
       if (active && dock === timelineDock) {
         const back = document.createElement("button"); back.type = "button"; back.className = "text-button profile-return"; back.dataset.act = "return-event";
         back.textContent = state.selected ? `← Return to ${byId.get(state.selected).title}` : "← Return to event browser";
@@ -1157,7 +1175,7 @@
     else if (d.lane) {
       state.lanes.has(d.lane) ? state.lanes.delete(d.lane) : state.lanes.add(d.lane);
       if (!state.lanes.size) state.lanes.add(d.lane);
-      reconcileSelection(); syncControls(); renderMap(); renderPane(); saveHistory(true);
+      const closed = reconcileSelection(); syncControls(); renderMap(); renderPane(); saveHistory(!closed);
     } else if (d.zoom) {
       const center = yearAtX(mapScroll.scrollLeft + mapScroll.clientWidth / 2);
       state.zoom = Math.max(0.6, Math.min(2.6, state.zoom * (d.zoom > 0 ? 1.25 : 0.8)));
@@ -1215,6 +1233,8 @@
   document.addEventListener("keydown", (ev) => {
     if (ev.key === "Escape") {
       hideTip();
+      // In a field with text, Escape first clears the field (the browser does this for search inputs) and nothing else.
+      if (/INPUT|TEXTAREA/.test(ev.target.tagName) && ev.target.value) return;
       // Escape acts only on what is on screen: the profile's own tab, and connections on the map tab.
       const profileShown = state.profile && state.tab === (state.profileDock === "timeline" ? "map" : "people");
       if (profileShown) { ev.preventDefault(); closeProfile(); return; }
