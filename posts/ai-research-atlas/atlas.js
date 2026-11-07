@@ -264,6 +264,7 @@
     const lanesTop = CMP_TOP + CMP_H + AX_H + 6;
     let y = lanesTop;
     const lanes = [], pos = new Map();
+    let labelsEnd = 0;
     const routeIds = state.route ? new Set(state.route.event_ids) : null;
     const selectedIds = state.selected && !state.query && !state.route && !state.org ? new Set([
       state.selected, ...(byId.get(state.selected).links || []).map((l) => l.to), ...(incoming.get(state.selected) || []).map((l) => l.from),
@@ -271,29 +272,42 @@
     for (const lane of D.lanes) {
       if (!state.lanes.has(lane.id)) continue;
       const items = evs.filter((e) => e.lane === lane.id).sort((a, b) => yearOf(a) - yearOf(b));
-      const rows = [];
-      for (const e of items) {
-        const x = X(yearOf(e));
-        const imp = e.importance || 2;
-        const label = e.id === state.selected || (routeIds ? routeIds.has(e.id) : selectedIds ? selectedIds.has(e.id) : (state.query || state.org ? lit(e) : true) && imp >= labelMin);
-        // Rows are packed for the labels the map shows with no card open, so opening or closing a card
-        // never moves a dot or changes the map's height; it only changes which labels are drawn.
-        const reserve = routeIds ? routeIds.has(e.id) : (state.query || state.org ? lit(e) : true) && imp >= labelMin;
-        const w = reserve ? textW(e.label, 12, imp === 3) + 20 : 14;
-        let r = rows.findIndex((end) => end < x - 4);
-        if (r === -1) { if (rows.length < 9) { r = rows.length; rows.push(0); } else r = rows.indexOf(Math.min(...rows)); }
-        rows[r] = x + w;
-        pos.set(e.id, { x, row: r, label, reserve, room: Infinity });
+      // Height inside a lane reads as importance: key events fill the top band, standard ones the middle,
+      // details the bottom. Each band packs its own rows by date and keeps at least one row, so every
+      // lane shows the same order even when a band is empty.
+      const bands = [];
+      let offset = 0;
+      for (const level of [3, 2, 1]) {
+        const rows = [];
+        for (const e of items) {
+          const imp = e.importance || 2;
+          if (imp !== level) continue;
+          const x = X(yearOf(e));
+          const label = e.id === state.selected || (routeIds ? routeIds.has(e.id) : selectedIds ? selectedIds.has(e.id) : (state.query || state.org ? lit(e) : true) && imp >= labelMin);
+          // Rows are packed for the labels the map shows with no card open, so opening or closing a card
+          // never moves a dot or changes the map's height; it only changes which labels are drawn.
+          const reserve = routeIds ? routeIds.has(e.id) : (state.query || state.org ? lit(e) : true) && imp >= labelMin;
+          const w = reserve ? textW(e.label, 12, imp === 3) + 20 : 14;
+          let r = rows.findIndex((end) => end < x - 4);
+          if (r === -1) { if (rows.length < 9) { r = rows.length; rows.push(0); } else r = rows.indexOf(Math.min(...rows)); }
+          rows[r] = x + w;
+          labelsEnd = Math.max(labelsEnd, x + w);
+          pos.set(e.id, { x, row: offset + r, label, reserve, room: Infinity });
+        }
+        const n = Math.max(rows.length, 1);
+        bands.push({ level, first: offset, rows: n });
+        offset += n;
       }
       // Room before the next dot in the same row, for labels drawn without reserved space (a card's neighbours).
       const lastInRow = new Map();
       for (const e of items) { const p = pos.get(e.id), prev = lastInRow.get(p.row); if (prev) prev.room = p.x - prev.x; lastInRow.set(p.row, p); }
-      const h = Math.max(rows.length, 3) * ROW + 26;
-      lanes.push({ lane, top: y, h });
+      const h = offset * ROW + 26;
+      lanes.push({ lane, top: y, h, bands });
       items.forEach((e) => { const p = pos.get(e.id); p.y = y + 18 + p.row * ROW; });
       y += h;
     }
-    return { evs, X, width, height: y + 6, lanes, pos, lanesTop };
+    // Widen the map when the latest labels run past the end of the time scale.
+    return { evs, X, width: Math.max(width, Math.ceil(labelsEnd + 8)), height: y + 6, lanes, pos, lanesTop };
   }
 
   function renderMap() {
@@ -397,9 +411,17 @@
     labelsCol.querySelector(".compute-heading").addEventListener("mouseenter", (ev) => showTip(ev, "Training compute as estimated FLOP and as time on one H100 GPU at 40% utilization (989 TFLOP/s dense BF16 peak). Divide by the number of GPUs for wall-clock time."));
     labelsCol.querySelector(".compute-heading").addEventListener("mousemove", moveTip);
     labelsCol.querySelector(".compute-heading").addEventListener("mouseleave", hideTip);
+    const BAND_NAMES = { 3: "Key events", 2: "Standard events", 1: "Details" };
     lanes.forEach((L) => {
       el("line", { x1: 0, x2: width, y1: L.top, y2: L.top, class: "lane-rule" }, svg);
       labelsCol.insertAdjacentHTML("beforeend", `<div class="lab" style="top:${L.top + 8}px"><b style="color:${lc(L.lane.id)}">${esc(L.lane.short || L.lane.title)}</b></div>`);
+      L.bands.forEach((B, i) => {
+        // A faint rule between bands, and a dot of the band's size at the right edge of the labels column.
+        const mid = L.top + 18 + B.first * ROW;
+        if (i) el("line", { x1: 0, x2: width, y1: mid - ROW / 2, y2: mid - ROW / 2, class: "band-rule" }, svg);
+        const r = [0, 3, 4.2, 5.6][B.level];
+        labelsCol.insertAdjacentHTML("beforeend", `<span class="band-key imp${B.level}" style="top:${mid - r}px;--r:${r}px;--c:${lc(L.lane.id)}" title="${BAND_NAMES[B.level]}" aria-hidden="true"></span>`);
+      });
     });
     labelsCol.insertAdjacentHTML("beforeend", `<div style="position:absolute;left:0;right:0;top:${lanesTop - 1}px;border-top:1px solid var(--rule)"></div>`);
 

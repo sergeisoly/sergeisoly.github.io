@@ -69,6 +69,9 @@
 .atlas .map .ax line { stroke: var(--rule); }
 .atlas .map .era-name { fill: var(--muted); font: italic 13px var(--serif); }
 .atlas .map .lane-rule { stroke: var(--rule); }
+.atlas .map .band-rule { stroke: var(--rule); stroke-dasharray: 2 5; opacity: .7; }
+.atlas .map-labels .band-key { position: absolute; right: .7rem; width: calc(var(--r) * 2); height: calc(var(--r) * 2); border-radius: 50%; background: var(--c); opacity: .55; }
+.atlas .map-labels .band-key.imp1 { background: var(--paper); border: 1.5px solid var(--c); box-sizing: border-box; }
 .atlas .map .node { cursor: pointer; }
 .atlas .map .node text { font-size: 12px; fill: var(--ink); paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
 .atlas .map .node.imp3 text { font-weight: 600; }
@@ -221,6 +224,7 @@
   .atlas .map { grid-template-columns: 4.6rem minmax(0, 1fr); }
   .atlas .map-labels .lab:not(.num) span:not(.compute-unit) { display: none; }
   .atlas .map-labels .lab.num span { display: block; font-size: .75rem; }
+  .atlas .map-labels .band-key { display: none; }
   .atlas .map-labels .lab .compute-unit { display: block; font-size: .75rem; }
   .atlas .map-labels .lab b { font-size: .85rem; }
   /* The narrow label column holds only the FLOP scale; H100 time stays on model labels and in tooltips. */
