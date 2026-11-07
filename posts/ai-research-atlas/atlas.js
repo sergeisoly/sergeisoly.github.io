@@ -562,7 +562,7 @@
     const globalCount = D.events.filter((e) => state.lanes.has(e.lane) && lit(e)).length;
     host.dataset.total = list.length; host.dataset.globalTotal = globalCount;
     if (state.route) { renderRouteStepper(host); return; }
-    host.innerHTML = `<div class="browser-heading"><h3 tabindex="-1">${era ? esc(era.title) : "Events across the history"}</h3></div>${era && era.summary ? `<details class="era-summary"><summary>About this era</summary><p>${esc(era.summary)}</p></details>` : ""}${state.query && era ? `<p>${globalCount} search match${globalCount === 1 ? "" : "es"} across all eras. <button class="text-button" data-era="all">Show all matches</button></p>` : ""}${list.length ? `<ol class="event-scroll-list" tabindex="0" aria-label="Events in the selected scope">${list.map((e) => `<li${state.selected === e.id ? ' class="current"' : ""}><span class="num result-date">${esc(fmtDate(e))}</span><a href="#${esc(e.id)}" data-ev-card="${esc(e.id)}"${state.selected === e.id ? ' aria-current="true"' : ""}>${esc(e.title)}</a><span class="result-lane" style="color:${lc(e.lane)}">${esc(laneTitle(e.lane))}</span></li>`).join("")}</ol>` : `<p>No events ${era ? "in this era " : ""}match the active lanes${scoped ? " and search or scope" : ""}. ${scoped ? '<button type="button" class="text-button" data-act="clear">Reset view</button>' : '<button type="button" class="text-button" data-era="all">Browse all eras</button>'}</p>`}`;
+    host.innerHTML = `<div class="browser-heading"><h3 tabindex="-1">${era ? esc(era.title) : "Events across the history"}</h3>${list.length > 1 ? `<span class="num">${list.length} events</span>` : ""}</div>${era && era.summary ? `<details class="era-summary"><summary>About this era</summary><p>${esc(era.summary)}</p></details>` : ""}${state.query && era ? `<p>${globalCount} search match${globalCount === 1 ? "" : "es"} across all eras. <button class="text-button" data-era="all">Show all matches</button></p>` : ""}${list.length ? `<ol class="event-scroll-list" tabindex="0" aria-label="Events in the selected scope">${list.map((e) => `<li${state.selected === e.id ? ' class="current"' : ""}><span class="num result-date">${esc(fmtDate(e))}</span><a href="#${esc(e.id)}" data-ev-card="${esc(e.id)}"${state.selected === e.id ? ' aria-current="true"' : ""}>${esc(e.title)}</a><span class="result-lane" style="color:${lc(e.lane)}">${esc(laneTitle(e.lane))}</span></li>`).join("")}</ol>` : `<p>No events ${era ? "in this era " : ""}match the active lanes${scoped ? " and search or scope" : ""}. ${scoped ? '<button type="button" class="text-button" data-act="clear">Reset view</button>' : '<button type="button" class="text-button" data-era="all">Browse all eras</button>'}</p>`}`;
     const scroller = $(".event-scroll-list", host);
     if (scroller) {
       scroller.scrollTop = sameList ? previousScroll : 0;
@@ -572,6 +572,14 @@
         if (top < scroller.scrollTop) scroller.scrollTop = top;
         else if (top + current.offsetHeight > scroller.scrollTop + scroller.clientHeight) scroller.scrollTop = top + current.offsetHeight - scroller.clientHeight;
       }
+      // Fade the edge that has more rows behind it, so the list reads as scrollable.
+      const edges = () => {
+        const max = scroller.scrollHeight - scroller.clientHeight;
+        scroller.classList.toggle("more-above", scroller.scrollTop > 2);
+        scroller.classList.toggle("more-below", scroller.scrollTop < max - 2);
+      };
+      edges();
+      scroller.addEventListener("scroll", edges, { passive: true });
     }
   }
 

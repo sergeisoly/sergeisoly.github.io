@@ -506,6 +506,21 @@
 @media(max-width: 560px) { .atlas-tabs button { font-size: .8rem; padding: .6rem .25rem; } }
 
 .atlas .search-results > .event-scroll-list { position: relative; max-height: clamp(16rem, 36vh, 23rem); overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding-right: .5rem; }
+/* Scroll cue: rows fade out at an edge that has more behind it, and the scrollbar stays visible
+   (macOS hides overlay scrollbars until you scroll). The mask leaves the scrollbar strip unfaded. */
+.atlas .search-results > .event-scroll-list {
+  --fade-top: 0px; --fade-bottom: 0px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--fade-top), #000 calc(100% - var(--fade-bottom)), transparent 100%), linear-gradient(#000, #000);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--fade-top), #000 calc(100% - var(--fade-bottom)), transparent 100%), linear-gradient(#000, #000);
+  -webkit-mask-size: calc(100% - 10px) 100%, 10px 100%; mask-size: calc(100% - 10px) 100%, 10px 100%;
+  -webkit-mask-position: 0 0, 100% 0; mask-position: 0 0, 100% 0;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+.atlas .search-results > .event-scroll-list.more-above { --fade-top: 2.2rem; }
+.atlas .search-results > .event-scroll-list.more-below { --fade-bottom: 3.2rem; }
+.atlas .search-results > .event-scroll-list::-webkit-scrollbar { width: 6px; }
+.atlas .search-results > .event-scroll-list::-webkit-scrollbar-track { background: var(--rule); border-radius: 3px; }
+.atlas .search-results > .event-scroll-list::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
 .atlas .era-buttons { flex-wrap: nowrap; gap: clamp(.3rem, .6vw, .7rem); overflow-x: auto; scrollbar-width: thin; }
 .atlas .era-buttons button { flex: 0 0 auto; white-space: nowrap; font-size: clamp(.72rem, .85vw, .85rem); }
 .atlas-tabs button:hover { background: #f0f2f3; }
