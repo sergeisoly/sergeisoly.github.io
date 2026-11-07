@@ -119,6 +119,15 @@
 .atlas .diagram-pan-hint[hidden] { display: none; }
 .atlas figure.diagram figcaption { text-align: left; font-style: normal; color: var(--muted); font-size: .85rem; line-height: 1.55; margin-top: .6rem; }
 .atlas .conn { list-style: none; margin: .3rem 0 0; padding: 0; }
+/* Connections are secondary to the reading list, so they start folded. */
+.atlas .pane details.conn-group { border: 0; padding: 0; }
+.atlas .pane details.conn-group summary { display: flex; align-items: baseline; gap: .45rem; list-style: none; font: inherit; }
+.atlas .pane details.conn-group summary::-webkit-details-marker { display: none; }
+.atlas .pane details.conn-group summary::before { content: "▸"; color: var(--muted); font-size: .75rem; transition: transform .15s; }
+.atlas .pane details.conn-group[open] summary::before { transform: rotate(90deg); }
+.atlas .pane details.conn-group summary .eyebrow { margin: 0; }
+.atlas .pane .conn-count { color: var(--muted); font-size: .75rem; }
+.atlas .pane details.conn-group summary:hover .eyebrow { color: var(--ink); }
 .atlas .conn li { display: grid; grid-template-columns: 6.2rem minmax(0, 1fr); gap: .6rem; padding: .45rem 0; border-top: 1px solid var(--rule); font-size: .92rem; }
 .atlas .conn li:last-child { border-bottom: 1px solid var(--rule); }
 .atlas .conn .rel { color: var(--muted); font-size: .85rem; padding-top: .1rem; }
