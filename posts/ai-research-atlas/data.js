@@ -8005,12 +8005,13 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Sparse autoencoders split a network's activations into features. That shows what the network represents on an input, but not which weights do the computing, and there was no agreed way to cut the parameters themselves into mechanisms.",
-   "idea": "Braun, Bushnaq, Sharkey and colleagues at Apollo Research wrote a network's parameters as a sum of components, each a vector the size of the whole parameter set. The components must add up to the original weights, as few of them as possible may be needed on any one input, and each is pushed to be simple, close to low rank. Gradient attributions choose the top-k components that matter for an input, and those alone have to reproduce the network's output.",
+   "idea": "Braun, Bushnaq, Heimersheim, Mendel and Sharkey at Apollo Research wrote a network's parameters as a sum of components, each a vector the size of the whole parameter set. The components must add up to the original weights, as few of them as possible may be needed on any one input, and each is pushed to be simple, close to low rank. Gradient attributions choose the top-k components that matter for an input, and those alone have to reproduce the network's output.",
    "changed": "On toy models whose mechanisms were known in advance, APD recovered features stored in superposition, separated computations compressed into fewer neurons and found representations spread across layers. It made the case for treating mechanisms in the weights, rather than directions in activation space, as the unit of interpretation.",
    "limits": "Each component is as large as the whole network, so memory grows with every component added. The authors' follow-up, SPD, also reported that APD found the right mechanisms only in a narrow range of hyperparameters, needed the top-k value chosen in advance and relied on gradient attributions, which estimate causal importance poorly. Every test used a toy model.",
    "people": [
     "Dan Braun",
     "Lucius Bushnaq",
+    "Stefan Heimersheim",
     "Jake Mendel",
     "Lee Sharkey"
    ],
@@ -10859,17 +10860,17 @@ window.TIMELINE_DATA = {
   },
   {
    "id": "org-pivotal",
-   "name": "Pivotal Research (ex-Swiss Existential Risk Initiative, CHERI)",
+   "name": "Pivotal Research (formerly CHERI, the Swiss Existential Risk Initiative)",
    "aliases": [
     "Pivotal Research",
     "CHERI"
    ],
-   "founded": null,
+   "founded": "2021",
    "founders": [
     "Naomi Nederlof"
    ],
    "kind": "fellowship",
-   "historical_role": "A London-based research fellowship descended from CHERI, supporting mentored projects in technical AI safety, AI governance and biosecurity.",
+   "historical_role": "A mentored research fellowship that began in 2021 as the Swiss Existential Risk Initiative (CHERI). In April 2024 it took the name Pivotal Research and moved its fellowship to the LISA offices in London. Fellows work with a mentor on technical AI safety, AI governance or biosecurity.",
    "research_focus": [
     "technical AI safety",
     "AI governance and policy",
@@ -10879,7 +10880,7 @@ window.TIMELINE_DATA = {
    "key_event_ids": [
     "gov-2024-pivotal-founded"
    ],
-   "status_as_of_2026_11": "Runs research fellowships in London as Pivotal Research Ltd, a UK non-profit company limited by guarantee.",
+   "status_as_of_2026_11": "Pivotal Research Ltd, a UK non-profit company limited by guarantee, led by co-directors Tobias Häberli and Tilman Räuker. Its AI Safety Fellowship grew from nine weeks and a £5,000 stipend in 2024 to 15 weeks and £15,000–18,000 for the January–April 2027 cohort. It also runs a Frontier Biodefense Fellowship.",
    "sources": [
     {
      "label": "Pivotal: About",
@@ -10888,10 +10889,12 @@ window.TIMELINE_DATA = {
     {
      "label": "Pivotal: AI Safety Fellowship",
      "url": "https://www.pivotal-research.org/fellowships/ai-safety-fellowship"
+    },
+    {
+     "label": "Announcing the Pivotal Research Fellowship (April 2024)",
+     "url": "https://forum.effectivealtruism.org/posts/9oZzj8MiMASRzZnMw/announcing-the-pivotal-research-fellowship-apply-now"
     }
-   ],
-   "founded_context": "CHERI ran fellowships from 2021 and took the name Pivotal Research in April 2024.",
-   "activity_since": "2021"
+   ]
   },
   {
    "id": "org-meta-fair",
