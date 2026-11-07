@@ -212,7 +212,7 @@
     if (!q) return true;
     const organisations = D.orgs.filter((o) => orgMatches(e, o)).flatMap((o) => [o.name, ...(o.aliases || []), o.historical_role]);
     const researchers = D.people.filter((p) => (p.key_event_ids || []).includes(e.id)).map((p) => p.name);
-    const hay = [e.title, e.label, plainText(e.problem), plainText(e.idea), plainText(e.changed), plainText(e.limits), e.date_context,
+    const hay = [e.title, e.label, plainText(e.problem), plainText(e.idea), plainText(e.changed), plainText(e.limits),
       ...(e.people || []), ...(e.orgs || []), ...(e.tags || []), ...(e.terms || []).flatMap((t) => [plainText(t.term), plainText(t.def)]),
       ...organisations, ...researchers].filter(Boolean).join(" ").toLowerCase();
     return q.toLowerCase().split(/\s+/).every((w) => hay.includes(w));

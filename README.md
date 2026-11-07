@@ -7,7 +7,7 @@ Site address: `https://sergeisoly.github.io/`.
 
 - `index.qmd`: selected research with two direct study links; the latest three entries appear when posts are published.
 - `research.qmd`: research catalogue entries with a project description and a link to each project's overview.
-- `writing.qmd`: all essays, notes, and observations in reverse chronological order.
+- `posts.qmd`: all essays, notes, and observations in reverse chronological order.
 - `about.qmd`: the author's chosen personal introduction and contact links.
 - `posts/<slug>/index.qmd`: one entry, with any supporting images beside it.
 
@@ -53,9 +53,9 @@ Use `kind: Note`, `Essay`, or `Observation` when helpful. Categories describe to
 These labels do not require separate sections or a minimum length. Write the entry below the metadata.
 Keep `draft: true` until author review is complete; then remove it and use the actual publication date.
 
-The writing archive and home page update automatically. `_writing-list.ejs.md` handles both empty and
+The posts archive and home page update automatically. `_writing-list.ejs.md` handles both empty and
 populated listings without client-side filtering. The home page shows recent writing only when there is
-a published entry. `writing.xml` is the RSS feed. Add filters or topic pages only when the archive needs them.
+a published entry. `posts.xml` is the RSS feed; the old `writing.html` address redirects to `posts.html`. Add filters or topic pages only when the archive needs them.
 
 ## Add a research project
 

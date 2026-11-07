@@ -16,7 +16,6 @@ listing:
 ## Recent research
 
 ::: {.writing-entry .home-research-entry}
-<!-- Initial project release: interesearch v0.1.0 and gh-pages b1fa056, 14 Oct 2026 (Asia/Yerevan). -->
 <p class="entry-meta"><time datetime="2026-10-14">14 Oct 2026</time></p>
 
 ### [Some Studies of Language Model Weight Edits](/interesearch/)

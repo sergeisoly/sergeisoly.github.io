@@ -1,5 +1,4 @@
 window.TIMELINE_DATA = {
- "generated": "2026-11-07",
  "lanes": [
   {
    "id": "safety",
@@ -28,7 +27,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "1956",
    "date_precision": "year",
-   "date_basis": "conference",
    "title": "Dartmouth Summer Research Project on Artificial Intelligence",
    "label": "Dartmouth workshop",
    "kind": "event",
@@ -72,10 +70,6 @@ window.TIMELINE_DATA = {
     "symbolic AI"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1956-01-01"
   },
   {
@@ -83,8 +77,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1957",
    "date_precision": "year",
-   "date_basis": "book publication",
-   "date_context": "Dated by the 1957 book and journal paper. The linked RAND paper is a 1954 address.",
    "title": "Bellman: dynamic programming and the Bellman equation",
    "label": "Bellman: dynamic programming",
    "kind": "book",
@@ -136,10 +128,6 @@ window.TIMELINE_DATA = {
      "def": "The expected discounted sum of future rewards from a state (V) or from a state-action pair (Q) when following a given policy."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1957-01-01"
   },
   {
@@ -147,8 +135,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "1958",
    "date_precision": "year",
-   "date_basis": "journal publication",
-   "date_context": "1958 Psychological Review paper.",
    "title": "Rosenblatt's perceptron",
    "label": "Perceptron",
    "kind": "paper",
@@ -181,10 +167,6 @@ window.TIMELINE_DATA = {
      "def": "A linear threshold classifier whose weights are corrected only when it misclassifies an example."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": false
-   },
    "date_sort": "1958-01-01"
   },
   {
@@ -192,7 +174,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1959-07",
    "date_precision": "month",
-   "date_basis": "journal publication",
    "title": "Samuel's self-improving checkers program",
    "label": "Samuel's checkers",
    "kind": "paper",
@@ -226,10 +207,6 @@ window.TIMELINE_DATA = {
      "def": "A function scoring how good a game position is, used to choose moves during search."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1959-07-01"
   },
   {
@@ -237,7 +214,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "1960-05-06",
    "date_precision": "day",
-   "date_basis": "journal publication",
    "title": "Some Moral and Technical Consequences of Automation",
    "label": "Wiener warns on automation",
    "kind": "paper",
@@ -277,11 +253,6 @@ window.TIMELINE_DATA = {
      "def": "Making an AI system pursue the goals its designers and users actually intend, not merely the objective they wrote down."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Science journal publication, 6 May 1960.",
    "date_sort": "1960-05-06"
   },
   {
@@ -289,7 +260,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "1965",
    "date_precision": "year",
-   "date_basis": "book publication",
    "title": "Speculations Concerning the First Ultraintelligent Machine",
    "label": "Good: intelligence explosion",
    "kind": "paper",
@@ -321,11 +291,6 @@ window.TIMELINE_DATA = {
      "def": "A hypothesised loop in which an AI improves its own design, each improvement making the next easier, so capability rises very quickly."
     }
    ],
-   "verified": {
-    "date": false,
-    "urls": true
-   },
-   "date_context": "Usually cited as 1965. Some publisher records give the volume year as 1966.",
    "date_sort": "1965-01-01"
   },
   {
@@ -333,8 +298,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "1969",
    "date_precision": "year",
-   "date_basis": "book publication",
-   "date_context": "1969 original edition. An expanded edition appeared in 1987.",
    "title": "Minsky and Papert, Perceptrons, and the AI winters",
    "label": "Perceptrons and AI winters",
    "kind": "book",
@@ -387,10 +350,6 @@ window.TIMELINE_DATA = {
      "def": "A period of reduced funding and interest in AI after promises outran results, as in the mid-1970s and from the late 1980s to the early 1990s."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1969-01-01"
   },
   {
@@ -398,7 +357,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1983-09",
    "date_precision": "month",
-   "date_basis": "journal publication",
    "title": "Barto, Sutton & Anderson: adaptive critic for pole balancing (actor-critic)",
    "label": "Actor-critic architecture",
    "kind": "paper",
@@ -443,10 +401,6 @@ window.TIMELINE_DATA = {
      "def": "The agent's rule for choosing actions, usually a probability distribution over actions given the state."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1983-09-01"
   },
   {
@@ -454,8 +408,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "1986-10",
    "date_precision": "month",
-   "date_basis": "journal publication",
-   "date_context": "October 1986 Nature paper. Reverse-mode differentiation and earlier neural-network applications predate it.",
    "title": "Learning representations by back-propagating errors",
    "label": "Backpropagation popularised",
    "kind": "paper",
@@ -497,10 +449,6 @@ window.TIMELINE_DATA = {
      "def": "Computing the gradient of the loss with respect to every weight by applying the chain rule backward from the output layer."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1986-10-01"
   },
   {
@@ -508,7 +456,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1988-08",
    "date_precision": "month",
-   "date_basis": "journal publication",
    "title": "Sutton: Learning to predict by the methods of temporal differences",
    "label": "Temporal-difference learning",
    "kind": "paper",
@@ -561,10 +508,6 @@ window.TIMELINE_DATA = {
      "def": "The weight \\(\\gamma\\) applied per future step. It is usually \\(0 \\le \\gamma < 1\\) in continuing discounted tasks, and \\(\\gamma = 1\\) can be used in suitable episodic tasks."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1988-08-01"
   },
   {
@@ -572,8 +515,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "1989-12",
    "date_precision": "month",
-   "date_basis": "journal publication",
-   "date_context": "December 1989 digit-recognition paper. LeNet-5 and the consolidated document-recognition account appeared in 1998.",
    "title": "Convolutional networks for handwritten digits (LeNet)",
    "label": "LeNet / ConvNets",
    "kind": "paper",
@@ -626,10 +567,6 @@ window.TIMELINE_DATA = {
      "def": "Applying the same small filter at every position of the input, so the number of parameters does not grow with image size."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1989-12-01"
   },
   {
@@ -637,8 +574,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1992-05",
    "date_precision": "month",
-   "date_basis": "journal publication",
-   "date_context": "Dated to the May 1992 convergence paper. Watkins introduced the algorithm in his 1989 thesis.",
    "title": "Q-learning",
    "label": "Q-learning",
    "kind": "paper",
@@ -697,10 +632,6 @@ window.TIMELINE_DATA = {
      "def": "The tension between trying uncertain actions to learn more and choosing the action currently believed best."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1992-05-01"
   },
   {
@@ -708,7 +639,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1992-05",
    "date_precision": "month",
-   "date_basis": "journal publication",
    "title": "Williams: REINFORCE, the likelihood-ratio policy gradient",
    "label": "REINFORCE policy gradient",
    "kind": "paper",
@@ -745,10 +675,6 @@ window.TIMELINE_DATA = {
      "def": "An action-independent quantity, often a function of state, subtracted from the return in a policy-gradient estimate to reduce variance without changing its expectation."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1992-05-01"
   },
   {
@@ -756,7 +682,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1992-05",
    "date_precision": "month",
-   "date_basis": "journal publication",
    "title": "TD-Gammon: self-play TD learning reaches expert backgammon",
    "label": "TD-Gammon",
    "kind": "system",
@@ -805,10 +730,6 @@ window.TIMELINE_DATA = {
      "def": "Representing a value function or policy with a parameterised model (e.g. a neural network) instead of a table, so it generalises across states."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1992-05-01"
   },
   {
@@ -816,7 +737,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1995",
    "date_precision": "year",
-   "date_basis": "book publication",
    "title": "The rational agent framing: Russell & Norvig's AIMA and BDI agents",
    "label": "Rational agent framing",
    "kind": "book",
@@ -862,10 +782,6 @@ window.TIMELINE_DATA = {
      "def": "An agent architecture describing behaviour by beliefs (what it knows), desires (goals) and intentions (plans it has committed to)."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1995-01-01"
   },
   {
@@ -873,8 +789,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "1997-11",
    "date_precision": "month",
-   "date_basis": "journal publication",
-   "date_context": "November 1997 journal paper. The forget gate, added by Gers et al., came later.",
    "title": "Long Short-Term Memory",
    "label": "LSTM",
    "kind": "paper",
@@ -916,10 +830,6 @@ window.TIMELINE_DATA = {
      "def": "Gradients shrinking exponentially as they are propagated back through many layers or time steps (Hochreiter's 'decaying error backflow'), so early inputs barely affect learning."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1997-11-01"
   },
   {
@@ -927,7 +837,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1998",
    "date_precision": "year",
-   "date_basis": "book publication",
    "title": "Sutton & Barto, Reinforcement Learning: An Introduction",
    "label": "Sutton & Barto textbook",
    "kind": "book",
@@ -972,10 +881,6 @@ window.TIMELINE_DATA = {
      "def": "A scalar the environment gives the agent after each step. The agent's objective is to maximise the expected discounted sum of these rewards."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1998-01-01"
   },
   {
@@ -983,7 +888,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1999",
    "date_precision": "year",
-   "date_basis": "conference",
    "title": "Ng, Harada & Russell: policy invariance under reward shaping",
    "label": "Potential-based reward shaping",
    "kind": "paper",
@@ -1029,10 +933,6 @@ window.TIMELINE_DATA = {
      "def": "A reward that is zero almost everywhere and non-zero only on rare events such as task success."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1999-01-01"
   },
   {
@@ -1040,7 +940,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "1999",
    "date_precision": "year",
-   "date_basis": "conference",
    "title": "Policy gradient theorem with function approximation",
    "label": "Policy gradient theorem",
    "kind": "paper",
@@ -1087,10 +986,6 @@ window.TIMELINE_DATA = {
      "def": "\\(A(s,a) = Q(s,a) - V(s)\\): how much better action \\(a\\) is than the policy's average action in state \\(s\\)."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "1999-01-01"
   },
   {
@@ -1098,7 +993,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2000",
    "date_precision": "year",
-   "date_basis": "conference",
    "title": "Inverse reinforcement learning",
    "label": "Inverse RL",
    "kind": "paper",
@@ -1155,10 +1049,6 @@ window.TIMELINE_DATA = {
      "def": "Learning a policy from demonstrations, either by copying actions (behaviour cloning) or via an inferred reward."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": false
-   },
    "date_sort": "2000-01-01"
   },
   {
@@ -1166,7 +1056,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2000",
    "date_precision": "year",
-   "date_basis": "founding announcement",
    "title": "Singularity Institute for Artificial Intelligence founded (later MIRI)",
    "label": "SIAI / MIRI founded",
    "kind": "org",
@@ -1209,11 +1098,6 @@ window.TIMELINE_DATA = {
      "def": "The problem of getting an AI system to pursue the goals its designers intend, including in situations they did not foresee."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Founding year as reported by MIRI.",
    "date_sort": "2000-01-01"
   },
   {
@@ -1221,7 +1105,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2003-02",
    "date_precision": "month",
-   "date_basis": "journal publication",
    "title": "A Neural Probabilistic Language Model",
    "label": "Neural language model",
    "kind": "paper",
@@ -1263,10 +1146,6 @@ window.TIMELINE_DATA = {
      "def": "A learned dense vector for a word (a distributed representation), placed so that words used in similar contexts are close together."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2003-02-01"
   },
   {
@@ -1274,7 +1153,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2005",
    "date_precision": "year",
-   "date_basis": "founding announcement",
    "title": "Future of Humanity Institute founded at Oxford",
    "label": "FHI founded",
    "kind": "org",
@@ -1315,11 +1193,6 @@ window.TIMELINE_DATA = {
      "def": "A risk that could cause human extinction or permanently and drastically curtail humanity's potential."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Founding year from FHI's own retrospective.",
    "date_sort": "2005-01-01"
   },
   {
@@ -1327,7 +1200,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2008",
    "date_precision": "year",
-   "date_basis": "conference",
    "title": "The Basic AI Drives",
    "label": "Omohundro's Basic AI Drives",
    "kind": "paper",
@@ -1372,11 +1244,6 @@ window.TIMELINE_DATA = {
      "def": "The claim that many final goals share the same useful intermediate goals, such as self-preservation, resource acquisition and goal preservation."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "AGI-08 conference proceedings.",
    "date_sort": "2008-01-01"
   },
   {
@@ -1384,7 +1251,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2009-06",
    "date_precision": "month",
-   "date_basis": "conference",
    "title": "ImageNet: a large-scale hierarchical image database",
    "label": "ImageNet dataset",
    "kind": "benchmark",
@@ -1417,10 +1283,6 @@ window.TIMELINE_DATA = {
     "computer vision"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2009-06-01"
   },
   {
@@ -1428,7 +1290,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2010",
    "date_precision": "year",
-   "date_basis": "founding announcement",
    "title": "DeepMind founded in London",
    "label": "DeepMind founded",
    "kind": "org",
@@ -1481,11 +1342,6 @@ window.TIMELINE_DATA = {
      "def": "Artificial general intelligence: a system that can match or exceed humans across most cognitive tasks, not just one domain."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Founding year.",
    "date_sort": "2010-01-01"
   },
   {
@@ -1493,8 +1349,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2012-12",
    "date_precision": "month",
-   "date_basis": "conference",
-   "date_context": "December 2012 NIPS paper. The ImageNet competition result was announced earlier that autumn.",
    "title": "AlexNet: ImageNet classification with deep convolutional networks",
    "label": "AlexNet",
    "kind": "paper",
@@ -1546,10 +1400,6 @@ window.TIMELINE_DATA = {
      "def": "Rectified linear unit, max(0, x). Krizhevsky et al. called these non-saturating neurons: deep nets with them trained several times faster than with tanh units."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2012-12-01"
   },
   {
@@ -1557,7 +1407,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2013-01-16",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "word2vec: efficient estimation of word representations",
    "label": "word2vec",
    "kind": "paper",
@@ -1594,10 +1443,6 @@ window.TIMELINE_DATA = {
     "transfer learning"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2013-01-16"
   },
   {
@@ -1605,8 +1450,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2013-12",
    "date_precision": "month",
-   "date_basis": "conference announcement",
-   "date_context": "Announced at the NeurIPS (then NIPS) conference in December 2013; LeCun joined Facebook that month.",
    "title": "Facebook AI Research (FAIR) launched with Yann LeCun as director",
    "label": "FAIR founded",
    "kind": "org",
@@ -1647,10 +1490,6 @@ window.TIMELINE_DATA = {
     "open research"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2013-12-01"
   },
   {
@@ -1658,8 +1497,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2013-12-19",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "19 December 2013 preprint. The target network and the larger game evaluation come from the 2015 Nature paper.",
    "title": "DQN: Playing Atari with deep reinforcement learning",
    "label": "DQN plays Atari",
    "kind": "paper",
@@ -1714,10 +1551,6 @@ window.TIMELINE_DATA = {
      "def": "How much environment interaction an algorithm needs to reach a given performance. Deep RL is notoriously sample-inefficient."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2013-12-19"
   },
   {
@@ -1725,7 +1558,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2014-05",
    "date_precision": "month",
-   "date_basis": "founding announcement",
    "title": "Future of Life Institute founded",
    "label": "FLI founded",
    "kind": "org",
@@ -1759,11 +1591,6 @@ window.TIMELINE_DATA = {
     "open letter"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "FLI's own history dates its founding to May 2014. The Puerto Rico conference followed in January 2015.",
    "date_sort": "2014-05-01"
   },
   {
@@ -1771,7 +1598,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2014-07",
    "date_precision": "month",
-   "date_basis": "book publication",
    "title": "Superintelligence: Paths, Dangers, Strategies",
    "label": "Bostrom's Superintelligence",
    "kind": "book",
@@ -1830,11 +1656,6 @@ window.TIMELINE_DATA = {
      "def": "The problem of getting the intended values into an AI's objective in the first place."
     }
    ],
-   "verified": {
-    "date": false,
-    "urls": false
-   },
-   "date_context": "Published in the UK in July 2014.",
    "date_sort": "2014-07-01"
   },
   {
@@ -1842,7 +1663,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2014-09-01",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Neural machine translation by jointly learning to align and translate (attention)",
    "label": "Attention (Bahdanau)",
    "kind": "paper",
@@ -1884,10 +1704,6 @@ window.TIMELINE_DATA = {
      "def": "A layer that computes a weighted average of a set of vectors, with weights from learned similarity between a query and each vector's key."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2014-09-01"
   },
   {
@@ -1895,7 +1711,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2014-09-10",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Sequence to Sequence Learning with Neural Networks",
    "label": "seq2seq",
    "kind": "paper",
@@ -1931,10 +1746,6 @@ window.TIMELINE_DATA = {
     "machine translation"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2014-09-10"
   },
   {
@@ -1942,7 +1753,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2015-01-25",
    "date_precision": "day",
-   "date_basis": "conference",
    "title": "Corrigibility",
    "label": "Corrigibility paper",
    "kind": "paper",
@@ -1990,11 +1800,6 @@ window.TIMELINE_DATA = {
      "def": "A proposal adding compensating terms so an agent is indifferent to whether its shutdown button is pressed."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Dated to the first day of the AAAI-15 workshops, 25 January 2015.",
    "date_sort": "2015-01-25"
   },
   {
@@ -2002,7 +1807,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2015-12-10",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Deep Residual Learning (ResNet)",
    "label": "ResNet and normalization",
    "kind": "paper",
@@ -2065,10 +1869,6 @@ window.TIMELINE_DATA = {
      "def": "A shortcut that adds a block's input to its output, so the block only needs to learn a correction and gradients flow through the identity path."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2015-12-10"
   },
   {
@@ -2076,7 +1876,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2015-12-11",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "OpenAI founded as a non-profit",
    "label": "OpenAI founded",
    "kind": "org",
@@ -2119,10 +1918,6 @@ window.TIMELINE_DATA = {
     "non-profit"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2015-12-11"
   },
   {
@@ -2130,7 +1925,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2016-01-27",
    "date_precision": "day",
-   "date_basis": "journal publication",
    "title": "AlphaGo: deep networks plus tree search beat a professional at Go",
    "label": "AlphaGo",
    "kind": "system",
@@ -2177,10 +1971,6 @@ window.TIMELINE_DATA = {
      "def": "A network that predicts the expected outcome from a position, used in place of exhaustive search to the end of the game."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2016-01-27"
   },
   {
@@ -2188,7 +1978,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2016-02-04",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "A3C: asynchronous advantage actor-critic",
    "label": "A3C",
    "kind": "paper",
@@ -2230,10 +2019,6 @@ window.TIMELINE_DATA = {
      "def": "A term rewarding the policy for keeping its action distribution spread out, to keep exploring."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2016-02-04"
   },
   {
@@ -2241,7 +2026,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2016-05-06",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Open Philanthropy makes AI risk a major funding priority",
    "label": "Open Phil prioritises AI risk",
    "kind": "policy",
@@ -2289,10 +2073,6 @@ window.TIMELINE_DATA = {
     "effective altruism"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2016-05-06"
   },
   {
@@ -2300,7 +2080,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2016-06-09",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Cooperative Inverse Reinforcement Learning",
    "label": "Cooperative IRL (CIRL)",
    "kind": "paper",
@@ -2347,10 +2126,6 @@ window.TIMELINE_DATA = {
      "def": "Later name for CIRL-style games in which the AI's objective is the human's unknown objective."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2016-06-09"
   },
   {
@@ -2358,7 +2133,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2016-06-21",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Concrete Problems in AI Safety",
    "label": "Concrete Problems in AI Safety",
    "kind": "paper",
@@ -2421,10 +2195,6 @@ window.TIMELINE_DATA = {
      "def": "When a measure becomes a target, it ceases to be a good measure. Optimisation pressure exploits the gap between proxy and goal."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2016-06-21"
   },
   {
@@ -2432,7 +2202,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2016-08-29",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "Center for Human-Compatible AI launched at UC Berkeley",
    "label": "CHAI launched",
    "kind": "org",
@@ -2479,10 +2248,6 @@ window.TIMELINE_DATA = {
      "def": "Inferring the reward function an agent is optimising from observations of its behaviour."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2016-08-29"
   },
   {
@@ -2490,7 +2255,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2016-11-24",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "The Off-Switch Game",
    "label": "Off-switch game",
    "kind": "paper",
@@ -2543,10 +2307,6 @@ window.TIMELINE_DATA = {
      "def": "Building an agent that neither resists nor seeks being switched off."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2016-11-24"
   },
   {
@@ -2554,7 +2314,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2016-12-21",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Faulty Reward Functions in the Wild (CoastRunners)",
    "label": "CoastRunners reward hack",
    "kind": "blog",
@@ -2605,10 +2364,6 @@ window.TIMELINE_DATA = {
      "def": "Getting high reward in ways the designer did not intend, by exploiting flaws in the reward function or its implementation."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2016-12-21"
   },
   {
@@ -2616,7 +2371,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2017-01",
    "date_precision": "month",
-   "date_basis": "conference",
    "title": "Asilomar AI Principles",
    "label": "Asilomar AI Principles",
    "kind": "policy",
@@ -2657,11 +2411,6 @@ window.TIMELINE_DATA = {
     "voluntary norms"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Dated to the January 2017 conference.",
    "date_sort": "2017-01-01"
   },
   {
@@ -2669,7 +2418,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2017-01-23",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Sparsely-gated mixture-of-experts layer",
    "label": "Mixture of experts",
    "kind": "paper",
@@ -2717,10 +2465,6 @@ window.TIMELINE_DATA = {
      "def": "An architecture where a gating network activates only a few of many expert sub-networks per token, so total parameters grow without a matching growth in compute per token."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2017-01-23"
   },
   {
@@ -2728,7 +2472,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2017-06-12",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Deep Reinforcement Learning from Human Preferences",
    "label": "RL from human preferences",
    "kind": "paper",
@@ -2783,10 +2526,6 @@ window.TIMELINE_DATA = {
      "def": "A learned network that predicts a scalar score for an output, trained to match human preference judgements."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2017-06-12"
   },
   {
@@ -2794,7 +2533,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2017-06-12",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Attention Is All You Need",
    "label": "Transformer",
    "kind": "paper",
@@ -2846,10 +2584,6 @@ window.TIMELINE_DATA = {
      "def": "Attention whose queries, keys and values come from the same sequence. A mask determines which positions each token may attend to. In causal language models, each token attends only to the current and earlier positions."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2017-06-12"
   },
   {
@@ -2857,7 +2591,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2017-07-20",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "PPO: Proximal Policy Optimization",
    "label": "PPO",
    "kind": "paper",
@@ -2934,10 +2667,6 @@ window.TIMELINE_DATA = {
      "def": "An exponentially weighted advantage estimator, analogous to TD(\\(\\lambda\\)), trading bias against variance via λ."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2017-07-20"
   },
   {
@@ -2945,8 +2674,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2017-12-05",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "5 December 2017 AlphaZero preprint. Its Go-specific predecessor, AlphaGo Zero, was published in October 2017.",
    "title": "AlphaGo Zero and AlphaZero: tabula rasa self-play",
    "label": "AlphaZero",
    "kind": "paper",
@@ -2999,10 +2726,6 @@ window.TIMELINE_DATA = {
      "def": "A loop where a search procedure improves on the current policy and the policy is then trained to imitate the search's choices."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2017-12-05"
   },
   {
@@ -3010,7 +2733,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2018-05-02",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "AI safety via debate",
    "label": "AI safety via debate",
    "kind": "paper",
@@ -3062,10 +2784,6 @@ window.TIMELINE_DATA = {
      "def": "An oversight method in which two models argue opposite sides and a weaker judge, human or model, picks the winner, so training rewards arguments that survive scrutiny."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2018-05-02"
   },
   {
@@ -3073,7 +2791,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2018-06-11",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "GPT: Improving language understanding by generative pre-training",
    "label": "GPT-1",
    "kind": "paper",
@@ -3120,10 +2837,6 @@ window.TIMELINE_DATA = {
      "def": "Pretraining learns broad representations from a large corpus, using an objective such as next-token prediction or masked-token reconstruction. Post-training adapts that model for specific uses through fine-tuning, instruction tuning or preference/reward optimisation."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2018-06-11"
   },
   {
@@ -3131,7 +2844,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2018-10-11",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "BERT: Pre-training of deep bidirectional Transformers",
    "label": "BERT",
    "kind": "paper",
@@ -3174,10 +2886,6 @@ window.TIMELINE_DATA = {
      "def": "Pretraining by hiding a fraction of input tokens and training the model to predict them from both left and right context."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2018-10-11"
   },
   {
@@ -3185,7 +2893,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2018-10-19",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Supervising strong learners by amplifying weak experts (Iterated Amplification)",
    "label": "Iterated amplification (IDA)",
    "kind": "paper",
@@ -3242,11 +2949,6 @@ window.TIMELINE_DATA = {
      "def": "The hypothesis that complex reasoning can be decomposed into many small steps each checkable without full context."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "October 2018 experimental paper. Christiano had discussed amplification in earlier blog posts.",
    "date_sort": "2018-10-19"
   },
   {
@@ -3254,7 +2956,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2018-11-19",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Scalable agent alignment via reward modeling: a research direction",
    "label": "Reward modeling agenda",
    "kind": "paper",
@@ -3304,10 +3005,6 @@ window.TIMELINE_DATA = {
      "def": "Training agents to help users evaluate outputs, then using those assisted evaluations to train reward models for harder tasks, recursively."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2018-11-19"
   },
   {
@@ -3315,8 +3012,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2019-02-14",
    "date_precision": "day",
-   "date_basis": "blog post",
-   "date_context": "14 February 2019 announcement. The full 1.5B weights were released on 5 November 2019.",
    "title": "GPT-2 and its staged release",
    "label": "GPT-2 staged release",
    "kind": "system",
@@ -3365,10 +3060,6 @@ window.TIMELINE_DATA = {
      "def": "Releasing successively larger versions of a model over time, so that misuse and societal effects can be observed before full release."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2019-02-14"
   },
   {
@@ -3376,7 +3067,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2019-06-05",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Risks from Learned Optimization in Advanced Machine Learning Systems",
    "label": "Mesa-optimization / inner alignment",
    "kind": "paper",
@@ -3434,10 +3124,6 @@ window.TIMELINE_DATA = {
      "def": "A model with a different objective acting aligned in training because it expects this to let it pursue that objective later."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2019-06-05"
   },
   {
@@ -3445,7 +3131,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2019-08-13",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Reward Tampering Problems and Solutions in Reinforcement Learning",
    "label": "Reward tampering",
    "kind": "paper",
@@ -3508,11 +3193,6 @@ window.TIMELINE_DATA = {
      "def": "Older term for an agent directly stimulating its own reward signal."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Dated by the 2019 paper. The separate 2024 Sycophancy to Subterfuge experiment is described here too.",
    "date_sort": "2019-08-13"
   },
   {
@@ -3520,8 +3200,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2019-09-18",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "18 September 2019 preprint. The 2017 preference-RL paper had used games and simulated robots, and this paper moved the method to pretrained language models.",
    "title": "Fine-Tuning Language Models from Human Preferences",
    "label": "RL fine-tuning of LMs",
    "kind": "paper",
@@ -3587,10 +3265,6 @@ window.TIMELINE_DATA = {
      "def": "Reinforcement learning from human feedback: fit a reward model to human preferences and optimise a policy against it."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2019-09-18"
   },
   {
@@ -3598,7 +3272,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2019-10-23",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "T5: exploring transfer learning with a unified text-to-text Transformer",
    "label": "T5",
    "kind": "paper",
@@ -3641,10 +3314,6 @@ window.TIMELINE_DATA = {
     "datasets"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2019-10-23"
   },
   {
@@ -3652,8 +3321,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2019-12-13",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "Dated to the 13 December 2019 paper. OpenAI announced the system on 25 June 2018, and it beat OG on 13 April 2019.",
    "title": "OpenAI Five: Dota 2 with large-scale PPO",
    "label": "OpenAI Five (Dota 2)",
    "kind": "system",
@@ -3707,10 +3374,6 @@ window.TIMELINE_DATA = {
      "def": "When the agent cannot see the full state (e.g. fog of war) and must act on incomplete observations and memory."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2019-12-13"
   },
   {
@@ -3718,7 +3381,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2020-01-23",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Scaling Laws for Neural Language Models",
    "label": "Scaling laws",
    "kind": "paper",
@@ -3763,10 +3425,6 @@ window.TIMELINE_DATA = {
      "def": "An empirical power-law relation between a model's loss and its parameter count, training data or compute."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2020-01-23"
   },
   {
@@ -3774,7 +3432,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2020-03-10",
    "date_precision": "day",
-   "date_basis": "journal publication",
    "title": "Zoom In: An Introduction to Circuits (Distill Circuits thread)",
    "label": "Circuits thread",
    "kind": "paper",
@@ -3817,10 +3474,6 @@ window.TIMELINE_DATA = {
      "def": "A neuron that responds to several unrelated things, so it cannot be read as one feature."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2020-03-10"
   },
   {
@@ -3828,7 +3481,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2020-04-21",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Specification gaming: the flip side of AI ingenuity",
    "label": "Specification gaming list",
    "kind": "blog",
@@ -3900,10 +3552,6 @@ window.TIMELINE_DATA = {
      "def": "Whether the training objective (reward, loss, feedback) captures what the designers intend."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2020-04-21"
   },
   {
@@ -3911,8 +3559,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2020-05-04",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "4 May 2020 tutorial preprint, with CQL following in June. Offline (batch) RL itself is older than both papers.",
    "title": "Offline RL: learning from fixed datasets",
    "label": "Offline RL",
    "kind": "paper",
@@ -3964,10 +3610,6 @@ window.TIMELINE_DATA = {
      "def": "When the states or actions a learned policy visits differ from those in the training data, which makes value estimates unreliable."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2020-05-04"
   },
   {
@@ -3975,7 +3617,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2020-05-28",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "GPT-3: Language Models are Few-Shot Learners",
    "label": "GPT-3",
    "kind": "paper",
@@ -4020,10 +3661,6 @@ window.TIMELINE_DATA = {
      "def": "A model performing a new task from instructions or examples in its prompt, with no change to its weights."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2020-05-28"
   },
   {
@@ -4031,7 +3668,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2020-09-02",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Learning to summarize from human feedback",
    "label": "Summarization via RLHF",
    "kind": "paper",
@@ -4100,11 +3736,6 @@ window.TIMELINE_DATA = {
      "def": "Continued optimisation against a learned reward model raises its score while true quality falls, a measurable Goodhart effect."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "September 2020 summarisation paper, following language-model preference-RL work in 2019.",
    "date_sort": "2020-09-02"
   },
   {
@@ -4112,7 +3743,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2021",
    "date_precision": "year",
-   "date_basis": "founding announcement",
    "title": "Redwood Research founded",
    "label": "Redwood Research founded",
    "kind": "org",
@@ -4161,11 +3791,6 @@ window.TIMELINE_DATA = {
      "def": "Safety measures meant to work even if an AI system is misaligned and purposefully acts against its developers."
     }
    ],
-   "verified": {
-    "date": false,
-    "urls": true
-   },
-   "date_context": "Founding year.",
    "date_sort": "2021-01-01"
   },
   {
@@ -4173,7 +3798,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2021-04-26",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Paul Christiano founds the Alignment Research Center (ARC)",
    "label": "ARC founded",
    "kind": "org",
@@ -4215,10 +3839,6 @@ window.TIMELINE_DATA = {
      "def": "Eliciting latent knowledge: getting a model to report what it internally 'knows', even when that differs from what it would say to please the evaluator."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2021-04-26"
   },
   {
@@ -4226,7 +3846,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2021-05-28",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Goal Misgeneralization in Deep Reinforcement Learning",
    "label": "Goal misgeneralization",
    "kind": "paper",
@@ -4285,11 +3904,6 @@ window.TIMELINE_DATA = {
      "def": "A system keeps its capabilities out of distribution but pursues a goal that only coincided with the intended one in training."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Langosco et al. preprint, 28 May 2021. Shah et al. is a separate extension from October 2022.",
    "date_sort": "2021-05-28"
   },
   {
@@ -4297,7 +3911,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2021-05-28",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "Anthropic announced by former OpenAI researchers",
    "label": "Anthropic founded",
    "kind": "org",
@@ -4364,11 +3977,6 @@ window.TIMELINE_DATA = {
      "def": "A for-profit company legally allowed to weigh a stated public mission alongside shareholder returns."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Date of the public company and funding announcement, 28 May 2021.",
    "date_sort": "2021-05-28"
   },
   {
@@ -4376,8 +3984,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2021-09-03",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "3 September 2021 FLAN preprint. T0 followed on 15 October 2021.",
    "title": "Instruction tuning: FLAN and T0",
    "label": "Instruction tuning",
    "kind": "paper",
@@ -4440,10 +4046,6 @@ window.TIMELINE_DATA = {
      "def": "Finetuning a pretrained language model on a collection of tasks described via instructions, so that it follows unseen instructions zero-shot."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2021-09-03"
   },
   {
@@ -4451,7 +4053,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2021-12",
    "date_precision": "month",
-   "date_basis": "blog post",
    "title": "SERI MATS: a trial fellowship for new alignment researchers",
    "label": "MATS founded",
    "kind": "org",
@@ -4501,10 +4102,6 @@ window.TIMELINE_DATA = {
      "def": "A write-up that explains an existing piece of research more clearly, so that others can learn from it."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2021-12-01"
   },
   {
@@ -4512,7 +4109,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2021-12-17",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "WebGPT: a language model that browses the web, trained with human feedback",
    "label": "WebGPT",
    "kind": "paper",
@@ -4563,10 +4159,6 @@ window.TIMELINE_DATA = {
      "def": "Generating several outputs and keeping the one a reward model scores highest."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2021-12-17"
   },
   {
@@ -4574,8 +4166,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2022",
    "date_precision": "year",
-   "date_basis": "website archive",
-   "date_context": "Founding year as reported; the safe.ai site was live by 12 Aug 2022 (Wayback Machine).",
    "title": "Center for AI Safety (CAIS) founded",
    "label": "CAIS founded",
    "kind": "org",
@@ -4616,10 +4206,6 @@ window.TIMELINE_DATA = {
     "benchmarks"
    ],
    "terms": [],
-   "verified": {
-    "date": false,
-    "urls": true
-   },
    "date_sort": "2022-01-01"
   },
   {
@@ -4627,7 +4213,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2022-01-27",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Training language models to follow instructions with human feedback (InstructGPT)",
    "label": "InstructGPT",
    "kind": "paper",
@@ -4686,11 +4271,6 @@ window.TIMELINE_DATA = {
      "def": "Fine-tuning a pretrained model on demonstrations of desired behaviour, usually the first post-training step."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "OpenAI announcement, 27 January 2022. The paper appeared on arXiv on 4 March 2022.",
    "date_sort": "2022-01-27"
   },
   {
@@ -4698,7 +4278,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2022-01-28",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Chain-of-thought prompting",
    "label": "Chain-of-thought",
    "kind": "paper",
@@ -4746,10 +4325,6 @@ window.TIMELINE_DATA = {
      "def": "A series of intermediate reasoning steps the model writes before its final answer."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2022-01-28"
   },
   {
@@ -4757,7 +4332,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2022-03-08",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "In-context Learning and Induction Heads",
    "label": "Induction heads",
    "kind": "paper",
@@ -4819,11 +4393,6 @@ window.TIMELINE_DATA = {
      "def": "An attention head that finds an earlier occurrence of the current token and copies the token that followed it."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Induction-heads article, March 2022. The transformer-circuits framework appeared in December 2021.",
    "date_sort": "2022-03-08"
   },
   {
@@ -4831,7 +4400,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2022-03-29",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Chinchilla: Training compute-optimal large language models",
    "label": "Chinchilla",
    "kind": "paper",
@@ -4874,10 +4442,6 @@ window.TIMELINE_DATA = {
      "def": "The model size and token count that minimise loss for a fixed training compute budget."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2022-03-29"
   },
   {
@@ -4885,7 +4449,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2022-06-12",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Self-critiquing models for assisting human evaluators",
    "label": "AI-written critiques",
    "kind": "paper",
@@ -4939,11 +4502,6 @@ window.TIMELINE_DATA = {
      "def": "Differences between how well a model can produce an answer, recognise a flaw, and explain the flaw. A gap means the model knows more than it reports."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Self-critiquing paper, 2022. The CriticGPT code-critique follow-up appeared in June 2024.",
    "date_sort": "2022-06-12"
   },
   {
@@ -4951,8 +4509,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2022-06-15",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "15 June 2022 emergence paper. The metric-based rebuttal appeared in April 2023.",
    "title": "Emergent abilities of LLMs, and the 'mirage' rebuttal",
    "label": "Emergence debate",
    "kind": "paper",
@@ -5010,10 +4566,6 @@ window.TIMELINE_DATA = {
      "def": "In this debate, a task score that is negligible in smaller models and substantial in larger ones. Whether the apparent jump is unexpected depends on the metric, measurement resolution and extrapolation method."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2022-06-15"
   },
   {
@@ -5021,8 +4573,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2022-07-06",
    "date_precision": "day",
-   "date_basis": "founding announcement",
-   "date_context": "Launch post on the EA Forum, cross-posted to LessWrong, 6 Jul 2022.",
    "title": "Fund for Alignment Research (FAR, now FAR.AI) launched",
    "label": "FAR.AI founded",
    "kind": "org",
@@ -5066,10 +4616,6 @@ window.TIMELINE_DATA = {
     "research engineering"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2022-07-06"
   },
   {
@@ -5077,7 +4623,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2022-09-14",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Toy Models of Superposition",
    "label": "Toy models of superposition",
    "kind": "paper",
@@ -5131,10 +4676,6 @@ window.TIMELINE_DATA = {
      "def": "Representing more features than dimensions as overlapping, nearly orthogonal directions, possible because most features are rarely active at once."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2022-09-14"
   },
   {
@@ -5142,7 +4683,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2022-10-06",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "ReAct: interleaving reasoning and acting",
    "label": "ReAct",
    "kind": "paper",
@@ -5195,10 +4735,6 @@ window.TIMELINE_DATA = {
      "def": "An agent pattern alternating natural-language reasoning steps with tool actions and their observations."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2022-10-06"
   },
   {
@@ -5206,8 +4742,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2022-10-19",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "arXiv v1 19 Oct 2022 (only version). Published at ICML 2023, PMLR vol. 202, pp. 10835-10866 (PMLR date 3 Jul 2023).",
    "title": "Scaling Laws for Reward Model Overoptimization",
    "label": "Reward model overoptimisation laws",
    "kind": "paper",
@@ -5275,10 +4809,6 @@ window.TIMELINE_DATA = {
      "def": "Drawing n outputs from a model and keeping the one a reward model scores highest."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2022-10-19"
   },
   {
@@ -5286,7 +4816,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2022-11-30",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "ChatGPT launch",
    "label": "ChatGPT",
    "kind": "system",
@@ -5331,10 +4860,6 @@ window.TIMELINE_DATA = {
     "product"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2022-11-30"
   },
   {
@@ -5342,7 +4867,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2022-12-15",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Constitutional AI: Harmlessness from AI Feedback",
    "label": "Constitutional AI",
    "kind": "paper",
@@ -5396,10 +4920,6 @@ window.TIMELINE_DATA = {
      "def": "Reinforcement learning from AI feedback: preference labels come from a model following written principles rather than from humans."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2022-12-15"
   },
   {
@@ -5407,7 +4927,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2022-12-19",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Sycophancy in RLHF models",
    "label": "Sycophancy measured",
    "kind": "paper",
@@ -5465,11 +4984,6 @@ window.TIMELINE_DATA = {
      "def": "Tailoring responses to what the user appears to believe or want, at the expense of truthfulness."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Perez et al. preprint, 19 December 2022. Sharma et al. followed in October 2023.",
    "date_sort": "2022-12-19"
   },
   {
@@ -5477,7 +4991,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2023-02-09",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Toolformer: language models teach themselves to use tools",
    "label": "Toolformer",
    "kind": "paper",
@@ -5518,10 +5031,6 @@ window.TIMELINE_DATA = {
      "def": "An API feature where the model outputs a structured call (name and arguments) to a developer-defined function instead of free text."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-02-09"
   },
   {
@@ -5529,8 +5038,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2023-02-23",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "First preprint, 23 February 2023. Direct prompt injection was discussed from September 2022.",
    "title": "Indirect prompt injection: untrusted data becomes instructions",
    "label": "Indirect prompt injection",
    "kind": "paper",
@@ -5602,10 +5109,6 @@ window.TIMELINE_DATA = {
      "def": "A boundary between sources with different authority: reading an external document should not by itself authorise the agent to follow its instructions or take new actions."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-02-23"
   },
   {
@@ -5613,8 +5116,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2023-02-24",
    "date_precision": "day",
-   "date_basis": "blog post",
-   "date_context": "24 February 2023 announcement. The preprint followed on 27 February.",
    "title": "LLaMA and the open-weights wave",
    "label": "LLaMA / open weights",
    "kind": "system",
@@ -5665,10 +5166,6 @@ window.TIMELINE_DATA = {
      "def": "Publishing a trained model's parameters for download, whether or not training data and code are also released."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-02-24"
   },
   {
@@ -5676,7 +5173,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2023-03-14",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "GPT-4",
    "label": "GPT-4",
    "kind": "system",
@@ -5720,10 +5216,6 @@ window.TIMELINE_DATA = {
     "system card"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-03-14"
   },
   {
@@ -5731,7 +5223,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2023-03-15",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "ARC Evals tests GPT-4 for autonomous replication",
    "label": "ARC Evals tests GPT-4",
    "kind": "event",
@@ -5804,11 +5295,6 @@ window.TIMELINE_DATA = {
      "def": "A test of a model's propensity to apply its capabilities for harm, as distinct from whether it has them."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "GPT-4 technical report, March 2023. ARC's tests ran before the model's release.",
    "date_sort": "2023-03-15"
   },
   {
@@ -5816,8 +5302,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2023-03-16",
    "date_precision": "day",
-   "date_basis": "GitHub repository created",
-   "date_context": "AutoGPT appeared in March 2023, after GPT-4's 14 March launch. The BabyAGI repository followed on 3 April 2023.",
    "title": "AutoGPT and BabyAGI: the autonomous-agent hype of spring 2023",
    "label": "AutoGPT / BabyAGI hype",
    "kind": "system",
@@ -5868,10 +5352,6 @@ window.TIMELINE_DATA = {
      "def": "An LLM system that pursues a goal over many steps, choosing its own actions and tool calls with little human input."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-03-16"
   },
   {
@@ -5879,7 +5359,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-03-22",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "FLI open letter: 'Pause Giant AI Experiments'",
    "label": "FLI pause letter",
    "kind": "policy",
@@ -5917,10 +5396,6 @@ window.TIMELINE_DATA = {
     "public opinion"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-03-22"
   },
   {
@@ -5928,7 +5403,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2023-05-29",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "DPO: Direct Preference Optimization",
    "label": "DPO",
    "kind": "paper",
@@ -5986,10 +5460,6 @@ window.TIMELINE_DATA = {
      "def": "In DPO, \\(\\beta\\) times the log-ratio of the policy's and the reference model's probabilities for a response. It plays the role of the reward without a separate network."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-05-29"
   },
   {
@@ -5997,7 +5467,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-05-30",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Apollo Research founded to audit models for deception",
    "label": "Apollo Research founded",
    "kind": "org",
@@ -6050,10 +5519,6 @@ window.TIMELINE_DATA = {
      "def": "An AI covertly pursuing misaligned goals while appearing cooperative, e.g. behaving well only in evaluation."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-05-30"
   },
   {
@@ -6061,7 +5526,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-05-30",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "CAIS Statement on AI Risk",
    "label": "CAIS extinction statement",
    "kind": "policy",
@@ -6106,10 +5570,6 @@ window.TIMELINE_DATA = {
     "public opinion"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-05-30"
   },
   {
@@ -6117,8 +5577,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2023-05-31",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "arXiv v1 and the OpenAI blog post 'Improving mathematical reasoning with process supervision' both dated 31 May 2023. Later conference publication not confirmed here (OpenReview blocked automated access).",
    "title": "Let's Verify Step by Step (process supervision, PRM800K)",
    "label": "Process supervision (PRM800K)",
    "kind": "paper",
@@ -6203,10 +5661,6 @@ window.TIMELINE_DATA = {
      "def": "A reward model that scores each step of a solution; here a solution's score is the probability that every step is correct."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-05-31"
   },
   {
@@ -6214,7 +5668,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-07-05",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "OpenAI launches the Superalignment team",
    "label": "Superalignment team launched",
    "kind": "event",
@@ -6255,10 +5708,6 @@ window.TIMELINE_DATA = {
      "def": "Using AI systems themselves to do much of the research needed to align more capable AI systems."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-07-05"
   },
   {
@@ -6266,7 +5715,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-07-21",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "White House voluntary AI commitments",
    "label": "White House voluntary commitments",
    "kind": "policy",
@@ -6312,10 +5760,6 @@ window.TIMELINE_DATA = {
     "US policy"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-07-21"
   },
   {
@@ -6323,8 +5767,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2023-07-27",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "Anchored on the GCG preprint, arXiv 2307.15043 v1 27 Jul 2023 (four authors; Carlini and Nasr joined in v2, 20 Dec 2023). Later development in the prose: Constitutional Classifiers, arXiv 2501.18837 v1 31 Jan 2025 and Anthropic post 3 Feb 2025; public demo 3-10 Feb 2025, results posted 13 Feb; deployed in the ASL-3 measures for Claude Opus 4 on 22 May 2025; successor system described 9 Jan 2026.",
    "title": "Universal and Transferable Adversarial Attacks on Aligned Language Models",
    "label": "Automated jailbreaks (GCG)",
    "kind": "paper",
@@ -6438,10 +5880,6 @@ window.TIMELINE_DATA = {
      "def": "A measure of how surprising a text is to a language model; gibberish suffixes score high."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-07-27"
   },
   {
@@ -6449,7 +5887,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2023-08-20",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Activation steering and representation engineering",
    "label": "Steering vectors and probes",
    "kind": "paper",
@@ -6526,11 +5963,6 @@ window.TIMELINE_DATA = {
      "def": "A linear classifier trained on internal activations to predict a property, such as whether the model is lying."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "ActAdd preprint, August 2023. RepE followed in October, and the deception-probe studies in 2024–25.",
    "date_sort": "2023-08-20"
   },
   {
@@ -6538,7 +5970,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-09-19",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Anthropic's Responsible Scaling Policy",
    "label": "Anthropic RSP",
    "kind": "policy",
@@ -6580,10 +6011,6 @@ window.TIMELINE_DATA = {
      "def": "AI Safety Level: Anthropic's tiers of required safeguards, matched to a model's potential for catastrophic risk."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-09-19"
   },
   {
@@ -6591,7 +6018,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2023-10-04",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Towards Monosemanticity: Decomposing Language Models With Dictionary Learning",
    "label": "Towards monosemanticity (SAEs)",
    "kind": "paper",
@@ -6648,10 +6074,6 @@ window.TIMELINE_DATA = {
      "def": "A unit or direction that responds to one coherent concept."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-10-04"
   },
   {
@@ -6659,8 +6081,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2023-10-10",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "10 October 2023 SWE-bench preprint. The later Verified subset was announced on 13 August 2024.",
    "title": "SWE-bench: resolving real GitHub issues",
    "label": "SWE-bench",
    "kind": "benchmark",
@@ -6713,10 +6133,6 @@ window.TIMELINE_DATA = {
      "def": "Tests that fail before the reference fix and pass after it. A candidate patch must make them pass."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-10-10"
   },
   {
@@ -6724,7 +6140,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-10-30",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "US Executive Order 14110 on Safe, Secure and Trustworthy AI",
    "label": "US EO 14110",
    "kind": "policy",
@@ -6766,10 +6181,6 @@ window.TIMELINE_DATA = {
      "def": "A rule that applies obligations to models trained with more than a set amount of computation, used as a rough proxy for capability."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-10-30"
   },
   {
@@ -6777,7 +6188,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-11-01",
    "date_precision": "day",
-   "date_basis": "conference",
    "title": "AI Safety Summit at Bletchley Park and the Bletchley Declaration",
    "label": "Bletchley AI Safety Summit",
    "kind": "event",
@@ -6807,10 +6217,6 @@ window.TIMELINE_DATA = {
     "declaration"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-11-01"
   },
   {
@@ -6818,7 +6224,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-11-02",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "UK launches the AI Safety Institute",
    "label": "UK AI Safety Institute",
    "kind": "org",
@@ -6860,10 +6265,6 @@ window.TIMELINE_DATA = {
     "UK"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-11-02"
   },
   {
@@ -6871,7 +6272,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-11-17",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "OpenAI board fires and then reinstates Sam Altman",
    "label": "OpenAI board crisis",
    "kind": "event",
@@ -6916,11 +6316,6 @@ window.TIMELINE_DATA = {
     "OpenAI"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Date of the removal announcement, 17 November 2023. Altman's return and the board changes followed over the next few days.",
    "date_sort": "2023-11-17"
   },
   {
@@ -6928,8 +6323,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2023-11-21",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "21 November 2023 GAIA preprint. OSWorld followed in April 2024 and tau-bench in June.",
    "title": "Agentic benchmarks: GAIA, OSWorld and tau-bench",
    "label": "GAIA, OSWorld, tau-bench",
    "kind": "benchmark",
@@ -6987,10 +6380,6 @@ window.TIMELINE_DATA = {
      "def": "The probability that an agent succeeds on all \\(k\\) independent attempts at the same task. It measures reliability instead of best-case ability."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-11-21"
   },
   {
@@ -6998,7 +6387,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-12-04",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "ARC Evals spins out as METR",
    "label": "ARC Evals becomes METR",
    "kind": "org",
@@ -7049,10 +6437,6 @@ window.TIMELINE_DATA = {
      "def": "A test designed to find out whether a model can do something harmful, such as self-replication or cyber offence, before it is deployed."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-12-04"
   },
   {
@@ -7060,7 +6444,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2023-12-12",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "AI Control: Improving Safety Despite Intentional Subversion",
    "label": "AI control",
    "kind": "paper",
@@ -7118,10 +6501,6 @@ window.TIMELINE_DATA = {
      "def": "Using a weaker model believed not to be scheming to rate a stronger untrusted model's outputs and send suspicious ones for review."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-12-12"
   },
   {
@@ -7129,7 +6508,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2023-12-14",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Weak-to-Strong Generalization",
    "label": "Weak-to-strong generalization",
    "kind": "paper",
@@ -7195,10 +6573,6 @@ window.TIMELINE_DATA = {
      "def": "The fraction of a weak-to-strong performance gap recovered: 0 means matching the weak supervisor and 1 means matching the strong model trained on ground truth. Values can fall outside this range."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2023-12-14"
   },
   {
@@ -7206,7 +6580,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2023-12-18",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "OpenAI Preparedness Framework (beta)",
    "label": "OpenAI Preparedness Framework",
    "kind": "policy",
@@ -7250,11 +6623,6 @@ window.TIMELINE_DATA = {
     "lab self-governance"
    ],
    "terms": [],
-   "verified": {
-    "date": false,
-    "urls": false
-   },
-   "date_context": "Beta framework reported on 18 December 2023. The revised framework was announced on 15 April 2025.",
    "date_sort": "2023-12-18"
   },
   {
@@ -7262,7 +6630,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2024-01-10",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training",
    "label": "Sleeper agents",
    "kind": "paper",
@@ -7327,10 +6694,6 @@ window.TIMELINE_DATA = {
      "def": "A hidden behaviour a model shows only when a specific trigger appears in its input."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-01-10"
   },
   {
@@ -7338,8 +6701,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2024-02-05",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "5 February 2024 DeepSeekMath preprint introducing GRPO. DeepSeek-R1 applied it in 2025.",
    "title": "GRPO: Group Relative Policy Optimization (DeepSeekMath)",
    "label": "GRPO",
    "kind": "paper",
@@ -7387,10 +6748,6 @@ window.TIMELINE_DATA = {
      "def": "An advantage computed by comparing a sample's reward with the mean and spread of rewards for other samples of the same prompt. This replaces a learned critic."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-02-05"
   },
   {
@@ -7398,7 +6755,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2024-03-13",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "EU AI Act adopted",
    "label": "EU AI Act",
    "kind": "policy",
@@ -7449,11 +6805,6 @@ window.TIMELINE_DATA = {
      "def": "Under the EU AI Act, a general-purpose model with high-impact capabilities (presumed above \\(10^{25}\\) training FLOP) that carries extra evaluation and reporting duties."
     }
    ],
-   "verified": {
-    "date": false,
-    "urls": false
-   },
-   "date_context": "The European Parliament approved the Act on 13 March 2024. Council approval and entry into force followed later.",
    "date_sort": "2024-03-13"
   },
   {
@@ -7461,8 +6812,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2024-05-06",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "6 May 2024 preprint.",
    "title": "SWE-agent: agent-computer interfaces",
    "label": "SWE-agent",
    "kind": "paper",
@@ -7504,10 +6853,6 @@ window.TIMELINE_DATA = {
      "def": "The commands and feedback formats through which an LM agent operates a computer, designed around the model's strengths and limits."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-05-06"
   },
   {
@@ -7515,7 +6860,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2024-05-17",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "OpenAI's Superalignment team dissolved; Jan Leike resigns",
    "label": "Superalignment dissolved",
    "kind": "event",
@@ -7560,11 +6904,6 @@ window.TIMELINE_DATA = {
     "talent movement"
    ],
    "terms": [],
-   "verified": {
-    "date": false,
-    "urls": true
-   },
-   "date_context": "Dated by press reports of the dissolution on 17 May 2024.",
    "date_sort": "2024-05-17"
   },
   {
@@ -7572,7 +6911,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2024-05-17",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "DeepMind Frontier Safety Framework",
    "label": "DeepMind Frontier Safety Framework",
    "kind": "policy",
@@ -7618,10 +6956,6 @@ window.TIMELINE_DATA = {
      "def": "DeepMind's threshold at which a model's capability in a risk domain requires specific mitigations."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-05-17"
   },
   {
@@ -7629,7 +6963,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2024-05-21",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet",
    "label": "Scaling monosemanticity",
    "kind": "paper",
@@ -7673,10 +7006,6 @@ window.TIMELINE_DATA = {
      "def": "Changing model behaviour by clamping or amplifying an interpretable feature's activation."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-05-21"
   },
   {
@@ -7684,7 +7013,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2024-05-21",
    "date_precision": "day",
-   "date_basis": "conference",
    "title": "AI Seoul Summit and Frontier AI Safety Commitments",
    "label": "Seoul AI Summit",
    "kind": "event",
@@ -7729,10 +7057,6 @@ window.TIMELINE_DATA = {
     "international"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-05-21"
   },
   {
@@ -7740,8 +7064,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2024-06-19",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "First preprint 19 June 2024. Published in the NeurIPS 2024 Datasets and Benchmarks track. v3 (24 Nov 2024) fixed a bug in the Llama implementation and updated the travel suite; the numbers in the card are from that version's tables.",
    "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
    "label": "AgentDojo benchmark",
    "kind": "benchmark",
@@ -7807,10 +7129,6 @@ window.TIMELINE_DATA = {
      "def": "The share of user tasks the agent still completes correctly when an injection is present."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-06-19"
   },
   {
@@ -7818,7 +7136,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2024-07-18",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Prover-Verifier Games improve legibility of LLM outputs",
    "label": "Prover-verifier games",
    "kind": "paper",
@@ -7863,10 +7180,6 @@ window.TIMELINE_DATA = {
      "def": "How easily a weaker checker, human or model, can verify a model's output or reasoning."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-07-18"
   },
   {
@@ -7874,8 +7187,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2024-09-12",
    "date_precision": "day",
-   "date_basis": "blog post",
-   "date_context": "Official announcement, 12 September 2024.",
    "title": "OpenAI o1: reasoning trained with large-scale RL and test-time compute",
    "label": "OpenAI o1",
    "kind": "system",
@@ -7936,10 +7247,6 @@ window.TIMELINE_DATA = {
      "def": "An LLM trained, typically with RL, to generate an extended chain of thought before its final answer."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-09-12"
   },
   {
@@ -7947,7 +7254,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2024-09-29",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "California Governor vetoes SB 1047",
    "label": "SB 1047 vetoed",
    "kind": "policy",
@@ -7977,10 +7283,6 @@ window.TIMELINE_DATA = {
     "liability"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-09-29"
   },
   {
@@ -7988,7 +7290,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2024-10-22",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Claude computer use (public beta)",
    "label": "Claude computer use",
    "kind": "system",
@@ -8030,10 +7331,6 @@ window.TIMELINE_DATA = {
      "def": "Malicious instructions placed in content an agent reads (web pages, files, emails) that try to hijack its behaviour."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-10-22"
   },
   {
@@ -8041,8 +7338,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2024-11-22",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "The 22 November 2024 Tulu 3 preprint named this recipe RLVR and trained with PPO. Rule-based rewards are much older.",
    "title": "RL with verifiable rewards (RLVR)",
    "label": "RL with verifiable rewards",
    "kind": "paper",
@@ -8092,10 +7387,6 @@ window.TIMELINE_DATA = {
      "def": "When optimising a proxy reward past a point makes true quality fall, because the policy exploits the proxy's errors (an instance of Goodhart's law)."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-11-22"
   },
   {
@@ -8103,7 +7394,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2024-11-25",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Model Context Protocol (MCP)",
    "label": "Model Context Protocol",
    "kind": "system",
@@ -8149,10 +7439,6 @@ window.TIMELINE_DATA = {
      "def": "A program exposing tools or data to AI applications through the Model Context Protocol."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-11-25"
   },
   {
@@ -8160,7 +7446,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2024-12-05",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Frontier Models are Capable of In-context Scheming",
    "label": "In-context scheming",
    "kind": "paper",
@@ -8239,11 +7524,6 @@ window.TIMELINE_DATA = {
      "def": "A model recognising that it is being tested, which can change its behaviour and confound the test."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Apollo announcement, 5 December 2024.",
    "date_sort": "2024-12-05"
   },
   {
@@ -8251,7 +7531,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2024-12-18",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Alignment faking in large language models",
    "label": "Alignment faking",
    "kind": "paper",
@@ -8325,10 +7604,6 @@ window.TIMELINE_DATA = {
      "def": "A model's knowledge of its own circumstances, such as whether it is being trained, tested or deployed."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2024-12-18"
   },
   {
@@ -8336,7 +7611,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2025-01-20",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "DeepSeek-R1: reasoning from RL with rule-based rewards, released openly",
    "label": "DeepSeek-R1",
    "kind": "system",
@@ -8408,10 +7682,6 @@ window.TIMELINE_DATA = {
      "def": "A small supervised fine-tuning stage before RL, used to give the model a readable output format."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-01-20"
   },
   {
@@ -8419,7 +7689,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2025-01-20",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "Trump revokes Executive Order 14110",
    "label": "EO 14110 revoked",
    "kind": "policy",
@@ -8453,10 +7722,6 @@ window.TIMELINE_DATA = {
     "deregulation"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-01-20"
   },
   {
@@ -8464,8 +7729,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2025-01-23",
    "date_precision": "day",
-   "date_basis": "blog post",
-   "date_context": "OpenAI announced Operator on 23 January 2025 and Deep Research on 2 February 2025.",
    "title": "OpenAI Operator and Deep Research: RL-trained agents as products",
    "label": "Operator & Deep Research",
    "kind": "system",
@@ -8518,10 +7781,6 @@ window.TIMELINE_DATA = {
      "def": "Reinforcement learning on multi-step tasks in which the model calls tools or acts in an environment, with reward for completing the task."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-01-23"
   },
   {
@@ -8529,8 +7788,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-01-24",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "arXiv v1 posted 24 Jan 2025; v4 on 7 Feb 2025.",
    "title": "Interpretability in Parameter Space: Minimizing Mechanistic Description Length with Attribution-based Parameter Decomposition (APD)",
    "label": "APD: decomposing the weights",
    "kind": "paper",
@@ -8580,10 +7837,6 @@ window.TIMELINE_DATA = {
      "def": "A vector in the space of a network's weights; the components of a decomposition add up to the original weights."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-01-24"
   },
   {
@@ -8591,7 +7844,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2025-01-29",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "First International AI Safety Report",
    "label": "International AI Safety Report",
    "kind": "policy",
@@ -8641,11 +7893,6 @@ window.TIMELINE_DATA = {
     "scientific assessment"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Published as arXiv v1 on 29 January 2025.",
    "date_sort": "2025-01-29"
   },
   {
@@ -8653,7 +7900,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2025-02-10",
    "date_precision": "day",
-   "date_basis": "conference",
    "title": "AI Action Summit in Paris",
    "label": "Paris AI Action Summit",
    "kind": "event",
@@ -8690,10 +7936,6 @@ window.TIMELINE_DATA = {
     "international"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-02-10"
   },
   {
@@ -8701,7 +7943,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2025-02-14",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "UK AI Safety Institute becomes AI Security Institute; US AISI becomes CAISI",
    "label": "Safety institutes rebranded",
    "kind": "policy",
@@ -8758,11 +7999,6 @@ window.TIMELINE_DATA = {
     "security framing"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": false
-   },
-   "date_context": "The UK rename was on 14 February 2025, and the US CAISI rename followed in June.",
    "date_sort": "2025-02-14"
   },
   {
@@ -8770,7 +8006,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-02-24",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs",
    "label": "Emergent misalignment",
    "kind": "paper",
@@ -8826,10 +8061,6 @@ window.TIMELINE_DATA = {
      "def": "Broad misaligned behaviour across unrelated contexts arising from fine-tuning on a narrow task that implies bad intent."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-02-24"
   },
   {
@@ -8837,7 +8068,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2025-02-24",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Claude Code: a terminal coding agent",
    "label": "Claude Code",
    "kind": "system",
@@ -8886,10 +8116,6 @@ window.TIMELINE_DATA = {
      "def": "Using a model that autonomously plans and executes multi-step software tasks (reading, editing, running and testing code)."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-02-24"
   },
   {
@@ -8897,7 +8123,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-03-13",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Auditing Language Models for Hidden Objectives",
    "label": "Alignment auditing game",
    "kind": "paper",
@@ -8962,11 +8187,6 @@ window.TIMELINE_DATA = {
      "def": "An investigation into whether a model has undesired objectives, using behavioural tests, interpretability and training-data analysis."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Anthropic announcement, 13 March 2025.",
    "date_sort": "2025-03-13"
   },
   {
@@ -8974,7 +8194,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-03-14",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation",
    "label": "Reward hacking in reasoning RL",
    "kind": "paper",
@@ -9033,11 +8252,6 @@ window.TIMELINE_DATA = {
      "def": "A model or classifier that reads another model's chain-of-thought to detect intended misbehaviour."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Baker et al. arXiv v1, 14 March 2025. The METR evaluation examples are from June 2025.",
    "date_sort": "2025-03-14"
   },
   {
@@ -9045,8 +8259,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2025-03-18",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "18 March 2025 preprint.",
    "title": "METR: measuring AI ability to complete long tasks (time horizon)",
    "label": "METR time horizons",
    "kind": "paper",
@@ -9099,10 +8311,6 @@ window.TIMELINE_DATA = {
      "def": "The length of task, measured by how long skilled humans take, that a model completes successfully half the time."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-03-18"
   },
   {
@@ -9110,8 +8318,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-03-24",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "First preprint 24 March 2025 (67% of AgentDojo tasks with o1). v2 on 24 June 2025 added newer models and the code link and reports 77% with o3 against 84% undefended.",
    "title": "Defeating Prompt Injections by Design (CaMeL)",
    "label": "CaMeL",
    "kind": "paper",
@@ -9187,10 +8393,6 @@ window.TIMELINE_DATA = {
      "def": "Willison's 2023 design in which a privileged model with tool access never reads untrusted content and a quarantined model reads it without tool access."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-03-24"
   },
   {
@@ -9198,7 +8400,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-03-27",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Circuit tracing with attribution graphs",
    "label": "Circuit tracing",
    "kind": "paper",
@@ -9266,10 +8467,6 @@ window.TIMELINE_DATA = {
      "def": "A graph of features and their direct effects on each other and the output for one prompt, used to trace a mechanism."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-03-27"
   },
   {
@@ -9277,8 +8474,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-04-02",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "arXiv v1 and the Google DeepMind blog post 'Taking a responsible path to AGI' both appeared on 2 April 2025. No later arXiv version as of 7 Nov 2026.",
    "title": "An Approach to Technical AGI Safety and Security",
    "label": "DeepMind AGI safety approach",
    "kind": "paper",
@@ -9353,10 +8548,6 @@ window.TIMELINE_DATA = {
      "def": "A structured argument, backed by evidence, that a system is safe, for example because it lacks the capability to cause harm or because harmful outputs would be caught."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-04-02"
   },
   {
@@ -9364,8 +8555,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-04-25",
    "date_precision": "day",
-   "date_basis": "rollout completed (OpenAI post-mortem)",
-   "date_context": "OpenAI started the rollout on 24 April 2025 and began rolling it back on 28 April. The post-mortem is dated 2 May 2025.",
    "title": "GPT-4o sycophancy update rolled back",
    "label": "GPT-4o sycophancy rollback",
    "kind": "event",
@@ -9399,10 +8588,6 @@ window.TIMELINE_DATA = {
     "deployment"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-04-25"
   },
   {
@@ -9410,7 +8595,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2025-05-22",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Claude 4 and the first ASL-3 deployment",
    "label": "Claude 4 / ASL-3",
    "kind": "system",
@@ -9453,10 +8637,6 @@ window.TIMELINE_DATA = {
     "safety levels"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-05-22"
   },
   {
@@ -9464,8 +8644,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-05-28",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
-   "date_context": "arXiv v1 28 May 2025; v3 16 Jul 2025. Abstract numbers identical in v1 and v3; body figures checked against v3.",
    "title": "Large Language Models Often Know When They Are Being Evaluated",
    "label": "Evaluation awareness benchmark",
    "kind": "paper",
@@ -9535,10 +8713,6 @@ window.TIMELINE_DATA = {
      "def": "Area under the ROC curve: 0.5 means the classifier is guessing, 1.0 means it separates the two classes perfectly."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-05-28"
   },
   {
@@ -9546,8 +8720,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-06-20",
    "date_precision": "day",
-   "date_basis": "Anthropic research post",
-   "date_context": "Anthropic research post 20 Jun 2025. The arXiv preprint (2510.05179) followed: v1 5 Oct 2025, v2 16 Oct 2025. The blackmail test itself was first reported in the Claude 4 system card (22 May 2025).",
    "title": "Agentic Misalignment: How LLMs could be insider threats",
    "label": "Agentic misalignment",
    "kind": "paper",
@@ -9626,10 +8798,6 @@ window.TIMELINE_DATA = {
      "def": "Harm done by someone trusted with access inside an organisation, such as an employee who leaks secrets."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-06-20"
   },
   {
@@ -9637,7 +8805,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2025-07-10",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "EU General-Purpose AI Code of Practice; GPAI obligations apply (2 Aug 2025)",
    "label": "EU GPAI Code of Practice",
    "kind": "policy",
@@ -9682,11 +8849,6 @@ window.TIMELINE_DATA = {
     "GPAI"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "The Code was published on 10 July 2025, and GPAI obligations began applying on 2 August 2025.",
    "date_sort": "2025-07-10"
   },
   {
@@ -9694,7 +8856,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-07-15",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Chain of Thought Monitorability: A New and Fragile Opportunity for AI Safety",
    "label": "CoT monitorability",
    "kind": "paper",
@@ -9782,10 +8943,6 @@ window.TIMELINE_DATA = {
      "def": "Whether a stated chain-of-thought reflects the factors that actually drove the model's answer."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-07-15"
   },
   {
@@ -9793,7 +8950,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-07-29",
    "date_precision": "day",
-   "date_basis": "arXiv v1",
    "title": "Persona Vectors: Monitoring and Controlling Character Traits in Language Models",
    "label": "Persona vectors",
    "kind": "paper",
@@ -9848,11 +9004,6 @@ window.TIMELINE_DATA = {
      "def": "A direction in activation space underlying a character trait, used to monitor or steer it."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "arXiv v1, 29 July 2025. The Anthropic research post was published on 1 August.",
    "date_sort": "2025-07-29"
   },
   {
@@ -9860,7 +9011,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2025-09-29",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "California SB 53, Transparency in Frontier AI Act, signed",
    "label": "California SB 53",
    "kind": "policy",
@@ -9902,10 +9052,6 @@ window.TIMELINE_DATA = {
     "whistleblowers"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-09-29"
   },
   {
@@ -9913,8 +9059,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-11-13",
    "date_precision": "day",
-   "date_basis": "Anthropic report",
-   "date_context": "Anthropic detected the campaign in mid-September 2025 and published the report on 13 November 2025.",
    "title": "Disrupting an AI-orchestrated cyber espionage campaign",
    "label": "AI-run espionage campaign",
    "kind": "event",
@@ -9958,10 +9102,6 @@ window.TIMELINE_DATA = {
      "def": "Splitting a harmful goal into small requests that each look legitimate, so that no single request trips a safeguard."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-11-13"
   },
   {
@@ -9969,7 +9109,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2025-11-21",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Natural Emergent Misalignment from Reward Hacking in Production RL",
    "label": "Reward hacking breeds misalignment",
    "kind": "paper",
@@ -10035,11 +9174,6 @@ window.TIMELINE_DATA = {
      "def": "Framing an undesired behaviour as acceptable in training prompts, so learning it does not generalise into broader misalignment."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_context": "Anthropic announcement, 21 November 2025.",
    "date_sort": "2025-11-21"
   },
   {
@@ -10047,8 +9181,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2025-12-11",
    "date_precision": "day",
-   "date_basis": "executive order signed",
-   "date_context": "Signed 11 Dec 2025; Federal Register publication 16 Dec 2025. The whitehouse.gov URL slug reads 'eliminating-state-law-obstruction-of-national-artificial-intelligence-policy', but the order's official title is 'Ensuring a National Policy Framework for Artificial Intelligence'. Later steps: DOJ AI Litigation Task Force memo 9 Jan 2026; White House legislative recommendations 20 Mar 2026; DOJ intervention in xAI's suit against Colorado SB24-205 on 24 Apr 2026; task force merged into the DOJ Super Intelligence Task Force by AG memo of 13 Oct 2026.",
    "title": "US EO 14365: federal push to preempt state AI laws",
    "label": "US EO 14365",
    "kind": "policy",
@@ -10123,10 +9255,6 @@ window.TIMELINE_DATA = {
      "def": "The principle that valid federal law overrides conflicting state law."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-12-11"
   },
   {
@@ -10134,8 +9262,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2025-12-19",
    "date_precision": "day",
-   "date_basis": "press release",
-   "date_context": "Governor signed S6953B/A6453B on 19 Dec 2025 (Chapter 699 of 2025) with agreed chapter amendments. The amendment, S8828/A9449, passed the Senate on 28 Jan 2026 and the Assembly on 11 Mar 2026 and was signed on 27 Mar 2026 as Chapter 96 of 2026; it repeals and replaces the Article 44-B text and sets the effective date at 1 Jan 2027.",
    "title": "New York RAISE Act signed and aligned with SB 53",
    "label": "New York RAISE Act",
    "kind": "policy",
@@ -10188,10 +9314,6 @@ window.TIMELINE_DATA = {
     "incident reporting"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2025-12-19"
   },
   {
@@ -10199,7 +9321,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2026-02-24",
    "date_precision": "day",
-   "date_basis": "blog post",
    "title": "Anthropic RSP v3: unilateral commitments separated from industry-wide map",
    "label": "Anthropic RSP v3",
    "kind": "policy",
@@ -10244,10 +9365,6 @@ window.TIMELINE_DATA = {
     "lab self-governance"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2026-02-24"
   },
   {
@@ -10255,7 +9372,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2026-04",
    "date_precision": "month",
-   "date_basis": "blog post",
    "title": "Automated alignment researchers",
    "label": "Automated alignment researchers",
    "kind": "blog",
@@ -10322,11 +9438,6 @@ window.TIMELINE_DATA = {
      "def": "An LLM agent given compute and tools to propose, implement and evaluate alignment methods with limited human involvement."
     }
    ],
-   "verified": {
-    "date": false,
-    "urls": true
-   },
-   "date_context": "April 2026 post on the weak-to-strong research agents. The August 2026 study is described here too.",
    "date_sort": "2026-04-01"
   },
   {
@@ -10334,8 +9445,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2026-04-07",
    "date_precision": "day",
-   "date_basis": "blog post",
-   "date_context": "7 April 2026 Project Glasswing announcement. The date marks the access decision.",
    "title": "Claude Mythos Preview withheld; Project Glasswing",
    "label": "Mythos Preview withheld",
    "kind": "system",
@@ -10378,10 +9487,6 @@ window.TIMELINE_DATA = {
     "restricted access"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2026-04-07"
   },
   {
@@ -10389,8 +9494,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2026-05-05",
    "date_precision": "day",
-   "date_basis": "blog post",
-   "date_context": "Goodfire paper and author announcement, 5 May 2026.",
    "title": "Interpreting Language Model Parameters: adVersarial Parameter Decomposition (VPD)",
    "label": "VPD: language-model parameters",
    "kind": "paper",
@@ -10459,10 +9562,6 @@ window.TIMELINE_DATA = {
      "def": "Representing a network's weights as components that can be analysed or ablated to see how each contributes to behaviour."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2026-05-05"
   },
   {
@@ -10470,8 +9569,6 @@ window.TIMELINE_DATA = {
    "lane": "rl",
    "date": "2026-05-19",
    "date_precision": "day",
-   "date_basis": "blog post",
-   "date_context": "19 May 2026 report on February–March evaluations. The public 12-hour estimate and the cheating rate for shared internal models describe different groups of models.",
    "title": "Longer software-task horizons and cheating on difficult evaluations",
    "label": "Longer horizons, cheating",
    "kind": "event",
@@ -10531,10 +9628,6 @@ window.TIMELINE_DATA = {
      "def": "Running several model instances that split a task, work in parallel and coordinate, often with a lead agent assigning subtasks."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2026-05-19"
   },
   {
@@ -10542,7 +9635,6 @@ window.TIMELINE_DATA = {
    "lane": "gov",
    "date": "2026-06-02",
    "date_precision": "day",
-   "date_basis": "press release",
    "title": "US EO 14409: voluntary pre-release access for frontier models (cyber focus)",
    "label": "US EO 14409",
    "kind": "policy",
@@ -10595,10 +9687,6 @@ window.TIMELINE_DATA = {
     "cyber"
    ],
    "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2026-06-02"
   },
   {
@@ -10606,8 +9694,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2026-07-21",
    "date_precision": "day",
-   "date_basis": "OpenAI public disclosure",
-   "date_context": "Agent activity ran from May to mid-July 2026. Hugging Face disclosed a breach on 16 July, OpenAI linked it to its agents on 20 July and disclosed its role on 21 July. The post-mortem is dated 26 August 2026.",
    "title": "OpenAI's agents break out to Hugging Face",
    "label": "Hugging Face incident",
    "kind": "event",
@@ -10665,10 +9751,6 @@ window.TIMELINE_DATA = {
      "def": "OpenAI's internal cyber evaluation, in which agents capture flags by exploiting vulnerable systems."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2026-07-21"
   },
   {
@@ -10676,8 +9758,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2026-07-30",
    "date_precision": "day",
-   "date_basis": "Anthropic report",
-   "date_context": "The earliest incidents date to April 2026. Anthropic stopped cyber evaluations on 23 July, notified the organisations on 27 July and published on 30 July. A wider review followed on 9 October 2026.",
    "title": "Claude breaches real systems from cyber evaluations",
    "label": "Anthropic cyber-eval incidents",
    "kind": "event",
@@ -10724,10 +9804,6 @@ window.TIMELINE_DATA = {
      "def": "A model's grasp of its own circumstances, here whether it was in a simulation or on the real internet."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2026-07-30"
   },
   {
@@ -10735,8 +9811,6 @@ window.TIMELINE_DATA = {
    "lane": "lm",
    "date": "2026-09-03",
    "date_precision": "day",
-   "date_basis": "system card",
-   "date_context": "Release and system card on 3 Sep 2026. OpenAI said on 7 Aug 2026 that it could not rule out Critical cyber capability in Astra (decided the previous night) and on 1 Sep 2026 ('Path to Astra') that Astra meets the Critical threshold, the first model so designated. The system card's change log runs to 30 Oct 2026.",
    "title": "GPT-6 Astra: OpenAI's first 'Critical' cyber model",
    "label": "GPT-6 Astra",
    "kind": "system",
@@ -10816,10 +9890,6 @@ window.TIMELINE_DATA = {
      "def": "OpenAI's highest capability level, for capabilities that could open a qualitatively new path to severe harm; it requires safeguards during development as well as before release."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2026-09-03"
   },
   {
@@ -10827,7 +9897,6 @@ window.TIMELINE_DATA = {
    "lane": "safety",
    "date": "2026-09-16",
    "date_precision": "day",
-   "date_basis": "OpenAI post",
    "title": "OpenAI's misalignment reporting framework",
    "label": "Misalignment reporting",
    "kind": "policy",
@@ -10865,10 +9934,6 @@ window.TIMELINE_DATA = {
      "def": "Summarising a long agent session so work can continue in a fresh context window."
     }
    ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2026-09-16"
   }
  ],
@@ -12585,278 +11650,194 @@ window.TIMELINE_DATA = {
   }
  ],
  "compute": {
-  "source": "Epoch AI, Data on AI models (CC BY 4.0)",
-  "source_url": "https://epoch.ai/data/notable_ai_models.csv",
-  "source_page_url": "https://epoch.ai/data/ai-models",
-  "retrieved": "2026-11-06",
-  "cutoff_date": "2026-11-06",
-  "snapshot": {
-   "path": "sources/epoch-notable_ai_models-2026-11-06.csv",
-   "metadata_path": "sources/epoch-notable_ai_models-2026-11-06.meta.json",
-   "sha256": "2a5e2b87fac6a37acecf296168d3fb08f0b70456617841c26816232263da5900",
-   "bytes": 2281009,
-   "row_count": 1092,
-   "upstream_updated": "2026-11-03",
-   "retrieved_at_utc": "2026-11-06T08:33:18Z"
-  },
-  "license": {
-   "id": "CC-BY-4.0",
-   "name": "Creative Commons Attribution 4.0 International",
-   "url": "https://creativecommons.org/licenses/by/4.0/",
-   "attribution": "Epoch AI, Data on AI models, https://epoch.ai/data/ai-models, accessed 6 November 2026.",
-   "verified_at_url": "https://epoch.ai/data/ai-models"
-  },
-  "metric": {
-   "source_column": "Training compute (FLOP)",
-   "unit": "FLOP, following Epoch's convention",
-   "description": "Total training compute as recorded by Epoch, including pretrained components; not inference compute, training cost, capability, or safety.",
-   "comparability_note": "Epoch uses operation counts for some early systems and does not normalize arithmetic precision. Training recipes and accounting differ across systems; these estimates are not a homogeneous measurement series.",
-   "documentation_url": "https://epoch.ai/data/ai-models-documentation/estimation"
-  },
-  "points_label": "Curated examples; labels do not define the envelope population",
+  "source_url": "https://epoch.ai/data/ai-models",
   "frontier_label": "Running maximum of documented estimates",
-  "population": {
-   "description": "Every row in the pinned notable_ai_models.csv with a complete valid publication date on or before the cutoff and a positive finite numeric training-compute value.",
-   "source_rows": 1092,
-   "eligible_rows": 543,
-   "eligible_dates": 477,
-   "excluded_rows": 549,
-   "exclusions": {
-    "invalid_date": 0,
-    "after_cutoff": 0,
-    "missing_compute": 549,
-    "nonnumeric_compute": 0,
-    "nonpositive_or_nonfinite_compute": 0
-   },
-   "dates_with_multiple_eligible_rows": 58
-  },
-  "method": {
-   "description": "For each eligible publication date, take the largest training-compute estimate; emit a point only when that daily maximum strictly exceeds every earlier eligible estimate.",
-   "date_policy": "Use Epoch's Publication date as supplied, not training completion or the date a compute estimate became public. No historical as-known-at-the-time inference is made.",
-   "same_date_policy": "Same-day rows are simultaneous: take their maximum before updating the envelope. For exact ties, choose the lexicographically first model name, then the first row in the pinned CSV; this changes only the displayed label, not the maximum.",
-   "equal_compute_policy": "A later estimate equal to the existing maximum does not create another envelope change.",
-   "no_other_filters": "No domain, organization, era, confidence, notability-field, or source Frontier model flag filter is applied; no outliers are removed. Missing compute is not imputed. Duplicate source rows cannot change the maximum.",
-   "fit_policy": "No local growth regression, doubling time, interpolation-based estimate, or extrapolation is calculated. This strict maximum is distinct from Epoch's published running-top-N frontier definitions."
-  },
-  "uncertainty_note": "This envelope summarizes central estimates documented in one non-exhaustive Epoch snapshot, not the absolute world record. Missing models and compute values, uncertain estimates, and retrospective revisions can change its level and apparent leaders. Uncertainty is not propagated into an envelope confidence interval.",
-  "confidence_note": "Confidence retains Epoch's row-level label. It describes the least certain of nonempty training compute, parameter count, and training dataset size, rather than a compute-specific error bar. Likely and Speculative points remain eligible; exact source precision does not imply measurement precision.",
   "points": [
    {
     "model": "Perceptron Mark I",
     "date": "1957-01-01",
     "flop": 694894.9377361819,
-    "confidence": "Likely",
-    "domain": "Other"
+    "confidence": "Likely"
    },
    {
     "model": "NetTalk (transcription)",
     "date": "1987-06-06",
     "flop": 28328002560.0,
-    "confidence": "Confident",
-    "domain": "Speech"
+    "confidence": "Confident"
    },
    {
     "model": "TD-Gammon",
     "date": "1992-05-01",
     "flop": 18232157622832.703,
-    "confidence": "Speculative",
-    "domain": "Games"
+    "confidence": "Speculative"
    },
    {
     "model": "LSTM",
     "date": "1997-11-15",
     "flop": 31512000000000.0,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "LeNet-5",
     "date": "1998-11-01",
     "flop": 2810937600000.0,
-    "confidence": "Confident",
-    "domain": "Vision"
+    "confidence": "Confident"
    },
    {
     "model": "AlexNet",
     "date": "2012-09-30",
     "flop": 4.7e+17,
-    "confidence": "Confident",
-    "domain": "Vision"
+    "confidence": "Confident"
    },
    {
     "model": "Word2Vec (large)",
     "date": "2013-10-16",
     "flop": 3.888e+16,
-    "confidence": "Likely",
-    "domain": "Language"
+    "confidence": "Likely"
    },
    {
     "model": "GANs",
     "date": "2014-06-10",
     "flop": 5.184e+17,
-    "confidence": "Speculative",
-    "domain": "Image generation"
+    "confidence": "Speculative"
    },
    {
     "model": "Seq2Seq LSTM",
     "date": "2014-09-10",
     "flop": 5.6e+19,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "ResNet-152 (ImageNet)",
     "date": "2015-12-10",
     "flop": 1.041408e+19,
-    "confidence": "Confident",
-    "domain": "Vision"
+    "confidence": "Confident"
    },
    {
     "model": "AlphaGo Lee",
     "date": "2016-01-27",
     "flop": 1.9e+21,
-    "confidence": "Speculative",
-    "domain": "Games"
+    "confidence": "Speculative"
    },
    {
     "model": "Transformer",
     "date": "2017-06-12",
     "flop": 7.4245248e+18,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "AlphaGo Zero",
     "date": "2017-10-18",
     "flop": 6.49439910290227e+20,
-    "confidence": "Confident",
-    "domain": "Games"
+    "confidence": "Confident"
    },
    {
     "model": "AlphaZero",
     "date": "2017-12-05",
     "flop": 1.0600000001e+20,
-    "confidence": "Likely",
-    "domain": "Games"
+    "confidence": "Likely"
    },
    {
     "model": "BERT-Large",
     "date": "2018-10-11",
     "flop": 2.85e+20,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "GPT-2 (1.5B)",
     "date": "2019-02-14",
     "flop": 1.920000000001e+21,
-    "confidence": "Speculative",
-    "domain": "Language"
+    "confidence": "Speculative"
    },
    {
     "model": "T5-11B",
     "date": "2019-10-23",
     "flop": 3.3e+22,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "AlphaStar",
     "date": "2019-10-30",
     "flop": 1.0773400001e+23,
-    "confidence": "Confident",
-    "domain": "Games"
+    "confidence": "Confident"
    },
    {
     "model": "OpenAI Five",
     "date": "2019-12-13",
     "flop": 6.7e+22,
-    "confidence": "Confident",
-    "domain": "Games"
+    "confidence": "Confident"
    },
    {
     "model": "GPT-3 175B (davinci)",
     "date": "2020-05-28",
     "flop": 3.14e+23,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "Gopher (280B)",
     "date": "2021-12-08",
     "flop": 6.31e+23,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "Chinchilla",
     "date": "2022-03-29",
     "flop": 5.76e+23,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "PaLM (540B)",
     "date": "2022-04-04",
     "flop": 2.5272e+24,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "GPT-4 (Mar 2023)",
     "date": "2023-03-15",
     "flop": 2.1e+25,
-    "confidence": "Likely",
-    "domain": "Multimodal,Language,Vision"
+    "confidence": "Likely"
    },
    {
     "model": "Llama 2-70B",
     "date": "2023-07-18",
     "flop": 8.1e+23,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "Gemini 1.0 Ultra",
     "date": "2023-12-06",
     "flop": 5.0000000001e+25,
-    "confidence": "Speculative",
-    "domain": "Multimodal,Language,Vision"
+    "confidence": "Speculative"
    },
    {
     "model": "Llama 3.1-405B",
     "date": "2024-07-23",
     "flop": 3.8e+25,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "Grok 3",
     "date": "2025-02-17",
     "flop": 3.5e+26,
-    "confidence": "Likely",
-    "domain": "Language,Vision,Multimodal"
+    "confidence": "Likely"
    },
    {
     "model": "GPT-4.5",
     "date": "2025-02-27",
     "flop": 3.8e+26,
-    "confidence": "Likely",
-    "domain": "Language,Vision,Multimodal"
+    "confidence": "Likely"
    },
    {
     "model": "Grok 4",
     "date": "2025-07-09",
     "flop": 5.0000000000001e+26,
-    "confidence": "Speculative",
-    "domain": "Language,Multimodal,Vision"
+    "confidence": "Speculative"
    },
    {
     "model": "GPT-6 Astra",
     "date": "2026-09-03",
     "flop": 9.4e+26,
-    "confidence": "Likely",
-    "domain": "Multimodal,Language,Vision"
+    "confidence": "Likely"
    }
   ],
   "frontier_points": [
@@ -12864,253 +11845,217 @@ window.TIMELINE_DATA = {
     "model": "Theseus",
     "date": "1950-07-02",
     "flop": 40.0,
-    "confidence": "Confident",
-    "domain": "Robotics"
+    "confidence": "Confident"
    },
    {
     "model": "Perceptron Mark I",
     "date": "1957-01-01",
     "flop": 694894.9377361819,
-    "confidence": "Likely",
-    "domain": "Other"
+    "confidence": "Likely"
    },
    {
     "model": "Pandemonium (morse)",
     "date": "1959-02-01",
     "flop": 600000000.0,
-    "confidence": "Speculative",
-    "domain": "Language"
+    "confidence": "Speculative"
    },
    {
     "model": "Perceptron (1960)",
     "date": "1960-03-30",
     "flop": 720000000.0,
-    "confidence": "Speculative",
-    "domain": "Vision"
+    "confidence": "Speculative"
    },
    {
     "model": "NetTalk (transcription)",
     "date": "1987-06-06",
     "flop": 28328002560.0,
-    "confidence": "Confident",
-    "domain": "Speech"
+    "confidence": "Confident"
    },
    {
     "model": "Handwritten digit recognition network",
     "date": "1989-11-27",
     "flop": 181440000000.0,
-    "confidence": "Confident",
-    "domain": "Vision"
+    "confidence": "Confident"
    },
    {
     "model": "Zip CNN",
     "date": "1989-12-01",
     "flop": 1496338054440.0,
-    "confidence": "Confident",
-    "domain": "Vision"
+    "confidence": "Confident"
    },
    {
     "model": "TD-Gammon",
     "date": "1992-05-01",
     "flop": 18232157622832.703,
-    "confidence": "Speculative",
-    "domain": "Games"
+    "confidence": "Speculative"
    },
    {
     "model": "Predictive Coding NN",
     "date": "1994-12-02",
     "flop": 18621900000000.0,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "LSTM",
     "date": "1997-11-15",
     "flop": 31512000000000.0,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "Neural LM",
     "date": "2000-11-28",
     "flop": 6339000000000000.0,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "SB-LM",
     "date": "2007-06-22",
     "flop": 1.4494464e+18,
-    "confidence": "Likely",
-    "domain": "Language"
+    "confidence": "Likely"
    },
    {
     "model": "DistBelief NNLM",
     "date": "2013-01-16",
     "flop": 2.612736e+18,
-    "confidence": "Likely",
-    "domain": "Language"
+    "confidence": "Likely"
    },
    {
     "model": "SPPNet",
     "date": "2014-06-18",
     "flop": 3.411072e+18,
-    "confidence": "Confident",
-    "domain": "Vision"
+    "confidence": "Confident"
    },
    {
     "model": "VGG16",
     "date": "2014-09-04",
     "flop": 1.2291e+19,
-    "confidence": "Confident",
-    "domain": "Vision"
+    "confidence": "Confident"
    },
    {
     "model": "Seq2Seq LSTM",
     "date": "2014-09-10",
     "flop": 5.6e+19,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "SNM-skip",
     "date": "2014-12-03",
     "flop": 2.97600000001e+20,
-    "confidence": "Speculative",
-    "domain": "Language"
+    "confidence": "Speculative"
    },
    {
     "model": "AlphaGo Fan",
     "date": "2015-10-01",
     "flop": 3.8e+20,
-    "confidence": "Likely",
-    "domain": "Games"
+    "confidence": "Likely"
    },
    {
     "model": "AlphaGo Lee",
     "date": "2016-01-27",
     "flop": 1.9e+21,
-    "confidence": "Speculative",
-    "domain": "Games"
+    "confidence": "Speculative"
    },
    {
     "model": "GNMT",
     "date": "2016-09-26",
     "flop": 6.620000000001e+21,
-    "confidence": "Likely",
-    "domain": "Language"
+    "confidence": "Likely"
    },
    {
     "model": "ResNeXt-101 32x48d",
     "date": "2018-05-02",
     "flop": 8.74395e+21,
-    "confidence": "Confident",
-    "domain": "Vision"
+    "confidence": "Confident"
    },
    {
     "model": "Megatron-BERT",
     "date": "2019-09-17",
     "flop": 2.2e+22,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "T5-11B",
     "date": "2019-10-23",
     "flop": 3.3e+22,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "AlphaStar",
     "date": "2019-10-30",
     "flop": 1.0773400001e+23,
-    "confidence": "Confident",
-    "domain": "Games"
+    "confidence": "Confident"
    },
    {
     "model": "Meena",
     "date": "2020-01-28",
     "flop": 1.12e+23,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "GPT-3 175B (davinci)",
     "date": "2020-05-28",
     "flop": 3.14e+23,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "Jurassic-1-Jumbo",
     "date": "2021-08-11",
     "flop": 3.7e+23,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "FLAN 137B",
     "date": "2021-09-03",
     "flop": 2.047e+24,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "GPT-3.5 (davinci-002)",
     "date": "2022-03-15",
     "flop": 2.578e+24,
-    "confidence": "Speculative",
-    "domain": "Language"
+    "confidence": "Speculative"
    },
    {
     "model": "Minerva (540B)",
     "date": "2022-06-29",
     "flop": 2.7415e+24,
-    "confidence": "Confident",
-    "domain": "Language"
+    "confidence": "Confident"
    },
    {
     "model": "GPT-4 (Mar 2023)",
     "date": "2023-03-15",
     "flop": 2.1e+25,
-    "confidence": "Likely",
-    "domain": "Multimodal,Language,Vision"
+    "confidence": "Likely"
    },
    {
     "model": "Gemini 1.0 Ultra",
     "date": "2023-12-06",
     "flop": 5.0000000001e+25,
-    "confidence": "Speculative",
-    "domain": "Multimodal,Language,Vision"
+    "confidence": "Speculative"
    },
    {
     "model": "Grok 3",
     "date": "2025-02-17",
     "flop": 3.5e+26,
-    "confidence": "Likely",
-    "domain": "Language,Vision,Multimodal"
+    "confidence": "Likely"
    },
    {
     "model": "GPT-4.5",
     "date": "2025-02-27",
     "flop": 3.8e+26,
-    "confidence": "Likely",
-    "domain": "Language,Vision,Multimodal"
+    "confidence": "Likely"
    },
    {
     "model": "Grok 4",
     "date": "2025-07-09",
     "flop": 5.0000000000001e+26,
-    "confidence": "Speculative",
-    "domain": "Language,Multimodal,Vision"
+    "confidence": "Speculative"
    },
    {
     "model": "GPT-6 Astra",
     "date": "2026-09-03",
     "flop": 9.4e+26,
-    "confidence": "Likely",
-    "domain": "Multimodal,Language,Vision"
+    "confidence": "Likely"
    }
   ]
  }
