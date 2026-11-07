@@ -1,7 +1,8 @@
 ---
 title: "AI Research Atlas"
 description: "A history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026."
-date: 2026-11-07
+date: 2026-11-07T12:00:00+04:00
+image: ../../social-card.png
 kind: Note
 toc: false
 body-classes: atlas-post

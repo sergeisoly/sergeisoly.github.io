@@ -487,9 +487,7 @@
 .atlas .qa figure.diagram figcaption { font-size: .85rem; margin-top: .45rem; }
 .atlas .context { scroll-margin-top: 1rem; }
 @media (max-width: 1050px) { .atlas .context { scroll-margin-top: 4rem; } }
-/* Glossary terms read across in columns on wide screens instead of one long list. */
 .atlas .map-credit { margin: .4rem 0 0; font-size: .75rem; color: var(--muted); }
-/* Table of contents styled as in the interesearch papers (page-level, outside .atlas). */
 
 .atlas .people-workspace.has-profile { grid-template-columns: minmax(0, 1.55fr) minmax(23rem, 1fr); }
 .atlas .people-profile-dock[hidden] { display: none; }
