@@ -25,6 +25,20 @@
   }
   // Escaped text with every \(…\) span typeset.
   const prose = (s) => String(s == null ? "" : s).split(/\\\((.+?)\\\)/s).map((part, i) => (i % 2 ? texInline(part) : esc(part))).join("");
+  // First sentence of a paragraph, for route steps. A full stop ends a sentence only before a capital or digit,
+  // and not after an initial, "et al." or a common abbreviation; TeX spans are never split.
+  const NOT_END = /(?:\b[A-Z]|\bal|\be\.g|\bi\.e|\bvs|\bcf|\bNo|\bDr|\bSt|\bU\.S|\bInc|\bLtd|\bJr)\.$/;
+  function firstSentence(s) {
+    // A very short opener ("They set up a small game.") takes the next sentence with it.
+    const t = String(s || ""); const re = /[.!?](?=\s+(?:["'“(]?[A-Z0-9]|\\\())/g; let m;
+    while ((m = re.exec(t))) {
+      const head = t.slice(0, m.index + 1);
+      if ((head.match(/\\\(/g) || []).length !== (head.match(/\\\)/g) || []).length) continue;
+      if (NOT_END.test(head) || head.length < 60) continue;
+      return head;
+    }
+    return t;
+  }
   // Text for search and plain contexts: TeX spans reduced to readable symbols.
   const plainText = (s) => String(s == null ? "" : s).replace(/\\\((.+?)\\\)/gs, (m, tex) => texPlain(tex));
   // Fill diagram placeholders. A slot's TeX is split into runs: words in \text{…} are drawn as SVG text in the
@@ -217,6 +231,8 @@
 
   /* ---------- time scale: compress the long past, open up the crowded present ---------- */
   const SEG = [[1940, 1990, 8], [1990, 2010, 20], [2010, 2017, 56], [2017, 2027, 138]];
+  // The map opens where RL, language models and safety meet; earlier history is a scroll to the left.
+  const DEFAULT_START = 2016;
   function makeX(y0, pad) {
     const raw = (y) => { let x = 0; for (const [a, b, p] of SEG) { if (y <= a) break; x += (Math.min(y, b) - a) * p * state.zoom; if (y <= b) break; } return x; };
     const o = raw(y0);
@@ -456,7 +472,7 @@
 
     // nodes
     const gN = el("g", {}, svg);
-    const focusId = [state.focus, state.selected].find((id) => pos.has(id) && lit(byId.get(id))) || (evs.find((e) => lit(e) && e.importance === 3 && yearOf(e) >= 2010) || evs.find(lit) || evs[0] || {}).id;
+    const focusId = [state.focus, state.selected].find((id) => pos.has(id) && lit(byId.get(id))) || (evs.find((e) => lit(e) && e.importance === 3 && yearOf(e) >= DEFAULT_START) || evs.find(lit) || evs[0] || {}).id;
     for (const e of evs) {
       const p = pos.get(e.id), imp = e.importance || 2;
       let dim = !lit(e);
@@ -836,7 +852,7 @@
     state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; state.route = null; state.org = null; state.query = ""; state.queryInput = "";
     state.era = null; state.profile = null; renderProfile(); state.zoom = 1; state.lanes = new Set(D.lanes.map((l) => l.id));
     syncControls(); renderMap(); renderPane();
-    mapScroll.scrollLeft = layout.X(2010) - 30; updateOverview(); saveHistory();
+    mapScroll.scrollLeft = layout.X(DEFAULT_START) - 30; updateOverview(); saveHistory();
   }
 
   /* ---------- controls ---------- */
@@ -887,10 +903,15 @@
     // A click on empty map space (not the end of a drag) clears the selection.
     mapScroll.addEventListener("click", (ev) => { if (dragMoved) { dragMoved = false; return; } if (!ev.target.closest(".node, .connection-hit, a, button")) clearSelection(); });
     renderMap(); renderPane();
-    mapScroll.scrollLeft = layout.X(2010) - 30; updateOverview();
+    mapScroll.scrollLeft = layout.X(DEFAULT_START) - 30; updateOverview();
   }
 
   /* ---------- routes ---------- */
+  // A route step opens with what the work was, then what it changed, so a step never starts mid-thought.
+  function routeStepText(e) {
+    const lead = firstSentence(e.idea || e.problem);
+    return `${lead ? `<p class="step-idea">${prose(lead)}</p>` : ""}${e.changed ? `<p>${prose(e.changed)}</p>` : ""}`;
+  }
   function miniStrip(t) {
     const X = makeX(Y0, 0), w = X(2027), sx = 300 / w;
     const dots = t.event_ids.map((id) => byId.get(id)).map((e) => `<circle cx="${(X(yearOf(e)) * sx).toFixed(1)}" cy="8" r="3.2" style="fill:${lc(e.lane)}"/>`).join("");
@@ -918,7 +939,7 @@
             if (f) rel = `${REL[f.type].toLowerCase()} the step above${f.note ? ": " + f.note : ""}`;
             else if (b) rel = `${REL_IN[b.type].toLowerCase()} the step above${b.note ? ": " + b.note : ""}`;
           }
-          return `<li><span class="yr">${e.date_sort.slice(0, 4)}</span><span class="rail"><i style="background:${lc(e.lane)}"></i></span><div class="st">${rel ? `<p class="rel">${esc(rel)}</p>` : ""}<a href="#${esc(id)}" data-ev-reveal="${esc(id)}">${esc(e.title)}</a><p>${esc(e.changed || e.idea || "")}</p></div></li>`;
+          return `<li><span class="yr">${e.date_sort.slice(0, 4)}</span><span class="rail"><i style="background:${lc(e.lane)}"></i></span><div class="st">${rel ? `<p class="rel">${esc(rel)}</p>` : ""}<a href="#${esc(id)}" data-ev-reveal="${esc(id)}">${esc(e.title)}</a>${routeStepText(e)}</div></li>`;
         }).join("")}</ol>
       </div></div>`;
   }

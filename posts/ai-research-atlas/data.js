@@ -760,7 +760,7 @@ window.TIMELINE_DATA = {
    "title": "TD-Gammon: self-play TD learning reaches expert backgammon",
    "label": "TD-Gammon",
    "kind": "system",
-   "importance": 3,
+   "importance": 2,
    "problem": "Could temporal-difference learning master a large, real game if a neural network took the place of a lookup table of values? Gerald Tesauro at IBM tried it on backgammon.",
    "idea": "Tesauro's multilayer network played backgammon against itself and learned by TD(\\(\\lambda\\)) from how those games turned out. Starting with no backgammon knowledge built in, it reached a fairly strong intermediate level. With hand-crafted features added, and later a shallow search, it played at near-expert level.",
    "changed": "TD-Gammon was an early success for self-play and for neural networks as function approximators in reinforcement learning. Its hidden units appeared to discover useful features of the game on their own. AlphaGo Zero later returned to learning from self-play.",
@@ -1610,7 +1610,7 @@ window.TIMELINE_DATA = {
    "title": "Facebook AI Research (FAIR) launched with Yann LeCun as director",
    "label": "FAIR founded",
    "kind": "org",
-   "importance": 2,
+   "importance": 1,
    "problem": "By 2013 deep learning was drawing heavy industry interest, and the competition among companies for the few researchers who knew it well was fierce.",
    "idea": "Facebook launched its research lab, Facebook AI Research (FAIR, later renamed Fundamental AI Research), in late 2013. Mark Zuckerberg went to the NeurIPS conference himself to recruit for it, and Yann LeCun, a pioneer of convolutional networks, joined Facebook that December to lead it while keeping a part-time professorship at New York University. The lab was set up to publish its research openly.",
    "changed": "FAIR became one of the main industrial AI research labs. Its LLaMA models of 2023 began a wave of open-weight language models and put Meta at the centre of the debate over releasing model weights. By July 2025 Meta had placed FAIR inside Meta Superintelligence Labs.",
@@ -1836,56 +1836,6 @@ window.TIMELINE_DATA = {
    },
    "date_context": "Published in the UK in July 2014.",
    "date_sort": "2014-07-01"
-  },
-  {
-   "id": "gov-2014-open-philanthropy-named",
-   "lane": "gov",
-   "date": "2014-08-20",
-   "date_precision": "day",
-   "date_basis": "blog post",
-   "date_context": "GiveWell blog post by Holden Karnofsky, 20 Aug 2014.",
-   "title": "GiveWell Labs becomes the Open Philanthropy Project",
-   "label": "Open Philanthropy named",
-   "kind": "org",
-   "importance": 2,
-   "problem": "GiveWell recommended charities with strong evidence behind them. Its research arm, GiveWell Labs, looked further afield for causes where giving could do the most good, in partnership with Good Ventures, the foundation of Dustin Moskovitz and Cari Tuna, and it needed a name that belonged to neither partner alone.",
-   "idea": "On 20 August 2014 GiveWell and Good Ventures launched a website for the Open Philanthropy Project, the new name for GiveWell Labs. The announcement explained that 'open' had two meanings: open to many possible causes, and open about its reasoning and findings.",
-   "changed": "In 2016 Open Philanthropy made risks from advanced AI one of its major priorities. It became a major funder of AI-safety research, governance work and researcher training, and several organisations on this map, among them CHAI and MATS, were set up or grown with its grants. It was renamed Coefficient Giving in November 2025.",
-   "limits": "",
-   "people": [
-    "Holden Karnofsky",
-    "Dustin Moskovitz",
-    "Cari Tuna"
-   ],
-   "orgs": [
-    "Open Philanthropy",
-    "Coefficient Giving"
-   ],
-   "sources": [
-    {
-     "label": "GiveWell: Open Philanthropy Project (formerly GiveWell Labs), 20 August 2014",
-     "url": "https://blog.givewell.org/2014/08/20/open-philanthropy-project-formerly-givewell-labs/",
-     "kind": "primary"
-    }
-   ],
-   "links": [
-    {
-     "to": "gov-2016-open-phil-ai",
-     "type": "enables",
-     "note": "Open Philanthropy's 2016 decision to make AI risk a major priority."
-    }
-   ],
-   "tags": [
-    "founding",
-    "funding",
-    "philanthropy"
-   ],
-   "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_sort": "2014-08-20"
   },
   {
    "id": "lm-2014-bahdanau-attention",
@@ -2297,7 +2247,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "Holden Karnofsky judged that potential risks from advanced AI had 'extremely high importance, high neglectedness, and reasonable tractability': they mattered a great deal, few people were working on them, and progress looked possible.",
-   "idea": "He announced that Open Philanthropy, funded mainly by Dustin Moskovitz and Cari Tuna, would make these risks 'a major priority' and help more technically strong people work on them.",
+   "idea": "He announced that Open Philanthropy, GiveWell's research arm until it took that name in August 2014 and funded mainly by Dustin Moskovitz and Cari Tuna, would make these risks 'a major priority' and help more technically strong people work on them.",
    "changed": "Open Philanthropy became a major funder of AI-safety research, organisations and fellowships, among them CHAI, OpenAI and later a number of independent groups. On 18 November 2025 it renamed itself Coefficient Giving.",
    "limits": "Critics argue that, with so much of the money coming from one donor, a small network gained outsized influence over which research got done.",
    "people": [
@@ -2318,6 +2268,11 @@ window.TIMELINE_DATA = {
     {
      "label": "Coefficient Giving: The story behind our new name (18 Nov 2025)",
      "url": "https://coefficientgiving.org/research/the-story-behind-our-new-name/",
+     "kind": "primary"
+    },
+    {
+     "label": "GiveWell: Open Philanthropy Project, formerly GiveWell Labs (20 Aug 2014)",
+     "url": "https://blog.givewell.org/2014/08/20/open-philanthropy-project-formerly-givewell-labs/",
      "kind": "primary"
     }
    ],
@@ -2995,7 +2950,7 @@ window.TIMELINE_DATA = {
    "title": "AlphaGo Zero and AlphaZero: tabula rasa self-play",
    "label": "AlphaZero",
    "kind": "paper",
-   "importance": 3,
+   "importance": 2,
    "problem": "AlphaGo had learned from human expert games, and its design was specific to Go. Did it need the human data at all, and would the method work beyond Go?",
    "idea": "AlphaGo Zero, published in Nature in October 2017, learned tabula rasa, from a blank slate, purely by self-play with no human data: 'AlphaGo becomes its own teacher'. A single residual network both proposes moves and judges positions. Monte Carlo tree search uses it to find moves better than the network would pick alone; the network is then trained to match how often the search visited each move and to predict the winner, which makes the next search stronger. AlphaZero, a December 2017 preprint later published in Science in 2018, generalised the algorithm to chess, shogi and Go.",
    "changed": "Trained from the game rules and self-play alone, AlphaZero reported stronger play than its benchmark engines in chess, shogi and Go.",
@@ -3180,7 +3135,7 @@ window.TIMELINE_DATA = {
    "title": "BERT: Pre-training of deep bidirectional Transformers",
    "label": "BERT",
    "kind": "paper",
-   "importance": 3,
+   "importance": 2,
    "problem": "Left-to-right language models see only the words before the current one. For tasks about understanding a sentence, where the whole text is available from the start, that is a poor fit.",
    "idea": "Devlin et al. pretrained deep bidirectional representations, which draw on context from both sides of each word. The model learned by filling in hidden (masked) tokens and by predicting whether one sentence follows another, and was then fine-tuned with one added output layer. BERT topped 11 tasks, including the GLUE and SQuAD benchmarks.",
    "changed": "With BERT, pretraining followed by fine-tuning quickly became standard practice in natural language processing. BERT went into Google Search in 2019 and spawned many variants, such as RoBERTa and ALBERT.",
@@ -3570,7 +3525,7 @@ window.TIMELINE_DATA = {
    "title": "Fine-Tuning Language Models from Human Preferences",
    "label": "RL fine-tuning of LMs",
    "kind": "paper",
-   "importance": 2,
+   "importance": 3,
    "problem": "A language model trained only to predict the next token has no way to aim at qualities that people judge, such as whether a summary is good or a continuation is positive.",
    "idea": "Ziegler, Stiennon, Christiano, Irving and colleagues at OpenAI asked people to compare samples from GPT-2 and fitted a reward model to their judgments. They then fine-tuned the language model with PPO to maximise that reward, minus a KL penalty that kept it close to the original model. Supervised fine-tuning before the RL step was tried as a variant in some runs.",
    "changed": "A 2017 paper had learned rewards from human preferences in games and simulated robots; this one carried the method over to pretrained language models. Its recipe of a reward model plus PPO informed later summarisation work and InstructGPT.",
@@ -3961,7 +3916,7 @@ window.TIMELINE_DATA = {
    "title": "Offline RL: learning from fixed datasets",
    "label": "Offline RL",
    "kind": "paper",
-   "importance": 2,
+   "importance": 1,
    "problem": "Online reinforcement learning learns by trying things, and fresh interaction is costly or dangerous in healthcare, driving or robotics. Meanwhile logged datasets from past operation go unused. Standard off-policy RL run on such fixed data overestimates the value of actions the data never shows, a problem called distributional shift.",
    "idea": "Offline, or batch, RL learns only from a static dataset collected earlier. The idea itself is older, but in May 2020 Levine and colleagues published a tutorial and review of it, and in June Kumar et al. followed with Conservative Q-learning. This method learns action values that deliberately err low, so they form a lower bound on the policy's true value. A policy learned this way can still outperform the behaviour policies that generated the data, by combining useful transitions from them.",
    "changed": "The same concern later reached language models. DPO and other methods that learn from a fixed set of preference data face similar distribution-shift problems, whereas standard online RLHF keeps collecting fresh samples from the policy.",
@@ -4211,69 +4166,6 @@ window.TIMELINE_DATA = {
     "urls": true
    },
    "date_context": "Founding year.",
-   "date_sort": "2021-01-01"
-  },
-  {
-   "id": "gov-2021-cheri-summer-programme",
-   "lane": "gov",
-   "date": "2021",
-   "date_precision": "year",
-   "date_basis": "programme reports",
-   "date_context": "Fellows' EA Forum posts of 22 Aug 2021 were written during CHERI's 2021 Summer Research Program; the 2024 fellowship was its fourth.",
-   "title": "Swiss Existential Risk Initiative (CHERI) runs its first summer research programme",
-   "label": "CHERI summer programme",
-   "kind": "org",
-   "importance": 1,
-   "problem": "Switzerland had only a small network of researchers working on global catastrophic risks, and students there had few ways to try such research.",
-   "idea": "CHERI, a Swiss initiative founded by Naomi Nederlof, ran a summer research programme in 2021 in which students worked on catastrophic-risk topics with a mentor. Fellows' write-ups that August ranged from a way of visualising catastrophic risks to how economists could help prepare for pandemics, one of them written jointly with a fellow at Stanford's SERI.",
-   "changed": "The programme ran again each summer. By 2022 CHERI, Stanford's SERI and Cambridge's CERI were the three largest existential-risk initiatives, each running a summer fellowship that matched fellows with mentors. In 2024 CHERI renamed itself Pivotal Research and moved its fellowship to London.",
-   "limits": "",
-   "people": [
-    "Naomi Nederlof"
-   ],
-   "orgs": [
-    "CHERI",
-    "Pivotal Research"
-   ],
-   "sources": [
-    {
-     "label": "Catastrophic rectangles, written in CHERI's 2021 Summer Research Program (22 August 2021)",
-     "url": "https://forum.effectivealtruism.org/posts/hspJ8KbZuSSnAAL8H/catastrophic-rectangles-visualising-catastrophic-risks",
-     "kind": "primary"
-    },
-    {
-     "label": "How can economists best contribute to pandemic prevention and preparedness? (CHERI and SERI, 22 August 2021)",
-     "url": "https://forum.effectivealtruism.org/posts/vCf8vo9YyczEC7JKX/how-can-economists-best-contribute-to-pandemic-prevention",
-     "kind": "primary"
-    },
-    {
-     "label": "Assessing SERI/CHERI/CERI summer program impact by surveying fellows (September 2022)",
-     "url": "https://forum.effectivealtruism.org/posts/yeDRczoJuJZMbJvrq/assessing-seri-cheri-ceri-summer-program-impact-by-surveying",
-     "kind": "explainer"
-    }
-   ],
-   "links": [
-    {
-     "to": "gov-2024-pivotal-founded",
-     "type": "enables",
-     "note": "CHERI renamed itself Pivotal Research in 2024 and moved its fellowship to London."
-    },
-    {
-     "to": "gov-2021-mats-founded",
-     "type": "parallel",
-     "note": "SERI MATS also grew out of a 2021 existential-risk initiative, Stanford's SERI."
-    }
-   ],
-   "tags": [
-    "founding",
-    "fellowship",
-    "field-building"
-   ],
-   "terms": [],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
    "date_sort": "2021-01-01"
   },
   {
@@ -4566,7 +4458,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Alignment theory had few researchers. Someone who had finished an introductory reading group had no clear path to working on the problems, and little access to mentors, funding or a research community.",
    "idea": "The Stanford Existential Risks Initiative (SERI) ran a paid six-week trial of the ML Alignment Theory Scholars programme, ten hours a week, with Evan Hubinger mentoring every scholar. Candidates came recommended by mentors from the Cambridge AGI Safety Fundamentals course. Each wrote a distillation and expansion of an earlier Alignment Forum post, and the posts went up as a sequence in December 2021. Hubinger chose who would continue to a two-month research stage. An Open Philanthropy grant paid for it.",
-   "changed": "The trial grew into a standing programme. It later dropped the SERI prefix, and by 2026 it ran 12-week fellowships in Berkeley and London, with a funded extension of 6 to 12 months. MATS counts 631 researchers since late 2021, and says 10% of its alumni co-founded AI safety organisations or research teams, Apollo Research among them.",
+   "changed": "The trial grew into a standing programme. It later dropped the SERI prefix, and by 2026 it ran 12-week fellowships in Berkeley and London, with a funded extension of 6 to 12 months. MATS counts 631 researchers since late 2021, and says 10% of its alumni co-founded AI safety organisations or research teams, Apollo Research among them. Other mentored fellowships grew up beside it, among them the Swiss Existential Risk Initiative (CHERI), which ran summer research programmes from 2021 and in 2024 became Pivotal Research and moved to London.",
    "limits": "The outcome figures come from MATS itself. They show where alumni went, not how many would have entered the field without the programme.",
    "people": [
     "Evan Hubinger"
@@ -4583,6 +4475,11 @@ window.TIMELINE_DATA = {
     {
      "label": "MATS: programme and alumni outcomes",
      "url": "https://www.matsprogram.org/",
+     "kind": "primary"
+    },
+    {
+     "label": "Announcing the Pivotal Research Fellowship (April 2024)",
+     "url": "https://forum.effectivealtruism.org/posts/9oZzj8MiMASRzZnMw/announcing-the-pivotal-research-fellowship-apply-now",
      "kind": "primary"
     }
    ],
@@ -5305,6 +5202,86 @@ window.TIMELINE_DATA = {
    "date_sort": "2022-10-06"
   },
   {
+   "id": "safety-2022-rm-overoptimization-scaling",
+   "lane": "safety",
+   "date": "2022-10-19",
+   "date_precision": "day",
+   "date_basis": "arXiv v1",
+   "date_context": "arXiv v1 19 Oct 2022 (only version). Published at ICML 2023, PMLR vol. 202, pp. 10835-10866 (PMLR date 3 Jul 2023).",
+   "title": "Scaling Laws for Reward Model Overoptimization",
+   "label": "Reward model overoptimisation laws",
+   "kind": "paper",
+   "importance": 2,
+   "problem": "RLHF optimises a policy against a reward model, a learned stand-in for human judgment. Earlier work had seen true quality fall when that optimisation went too far, but measuring the effect carefully needed large amounts of fresh human labelling, so nobody knew how quickly the decline set in or how it scaled.",
+   "idea": "Gao, Schulman and Hilton at OpenAI replaced the humans with a fixed 6-billion-parameter 'gold' reward model from the InstructGPT work. Its judgments on 100,000 synthetic comparisons trained smaller proxy reward models, from 3 million to 3 billion parameters, and a policy was then optimised against each proxy, either with PPO or by best-of-n sampling. Proxy scores kept rising while gold scores rose, peaked and fell. Writing d for the square root of the KL divergence from the starting policy, the gold score followed \\(d(\\alpha - \\beta d)\\) for best-of-n and \\(d(\\alpha - \\beta \\log d)\\) for RL, with coefficients that changed smoothly with proxy size; a best-of-n run up to n = 60,000, made after the form had been chosen from runs up to n = 1,000, matched the prediction.",
+   "changed": "The paper put numbers on Goodhart's law for RLHF. Larger reward models and more preference data raised the peak and delayed the fall, while a larger policy gained less from optimisation but was exploited about as much as a smaller one. In this setup a KL penalty acted like early stopping and did not improve gold reward at a given KL distance. Later work leaned on the result: DeepSeek cited it in 2025 when explaining why a learned process reward model invites reward hacking.",
+   "limits": "Because the gold standard is itself a reward model, the study measures how a proxy drifts from its labels, and not how the labels drift from what people actually want; the authors call this the main limitation. Every experiment used the InstructGPT environment and only two policy sizes, and the authors note the KL-penalty result may be sensitive to hyperparameters. Their models were too weak to manipulate the proxy deliberately, and they warn that the fitted laws may break down for systems that can.",
+   "people": [
+    "Leo Gao",
+    "John Schulman",
+    "Jacob Hilton"
+   ],
+   "orgs": [
+    "OpenAI"
+   ],
+   "sources": [
+    {
+     "label": "Paper (arXiv)",
+     "url": "https://arxiv.org/abs/2210.10760",
+     "kind": "primary"
+    },
+    {
+     "label": "ICML 2023 proceedings (PMLR 202)",
+     "url": "https://proceedings.mlr.press/v202/gao23h.html",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "safety-2022-instructgpt",
+     "type": "builds_on",
+     "note": "Uses the InstructGPT environment, SFT demonstrations and its 6B reward model as the gold standard."
+    },
+    {
+     "to": "safety-2020-summarize-human-feedback",
+     "type": "builds_on",
+     "note": "Measures the over-optimisation that the summarisation work had observed; takes its best-of-n KL formula from that paper."
+    },
+    {
+     "to": "lm-2020-scaling-laws",
+     "type": "builds_on",
+     "note": "Applies the scaling-law method (cites Kaplan et al.) to reward over-optimisation."
+    },
+    {
+     "to": "safety-2020-specification-gaming",
+     "type": "parallel",
+     "note": "The authors describe reward model over-optimisation as a special case of specification gaming."
+    }
+   ],
+   "tags": [
+    "RLHF",
+    "reward over-optimization",
+    "Goodhart's law",
+    "scaling laws",
+    "reward models"
+   ],
+   "terms": [
+    {
+     "term": "gold reward model",
+     "def": "In this study, a fixed large reward model treated as ground truth, standing in for human labellers."
+    },
+    {
+     "term": "best-of-n sampling",
+     "def": "Drawing n outputs from a model and keeping the one a reward model scores highest."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2022-10-19"
+  },
+  {
    "id": "lm-2022-chatgpt",
    "lane": "lm",
    "date": "2022-11-30",
@@ -5504,7 +5481,7 @@ window.TIMELINE_DATA = {
    "title": "Toolformer: language models teach themselves to use tools",
    "label": "Toolformer",
    "kind": "paper",
-   "importance": 3,
+   "importance": 2,
    "problem": "Language models got tools either through prompting or through demonstrations that people had annotated by hand. They did not learn by themselves when a tool call actually helps.",
    "idea": "Schick, Dwivedi-Yu, Scialom and colleagues at Meta AI gave the model a handful of demonstrations for each tool's API: a calculator, search, a question-answering system, translation and a calendar. The model then inserted candidate tool calls into ordinary text. Each call was executed and kept only if its result made the following tokens easier to predict, measured as a lower loss. Finally the model was fine-tuned on the text with the useful calls left in.",
    "changed": "",
@@ -5844,7 +5821,7 @@ window.TIMELINE_DATA = {
    "title": "AutoGPT and BabyAGI: the autonomous-agent hype of spring 2023",
    "label": "AutoGPT / BabyAGI hype",
    "kind": "system",
-   "importance": 2,
+   "importance": 1,
    "problem": "A chat model answers one prompt at a time. Pursuing an open-ended goal over many steps needs a loop wrapped around the model.",
    "idea": "In March 2023, shortly after GPT-4's launch on 14 March, open-source scripts such as AutoGPT built that loop around GPT-4. These scripts broke a goal into tasks, kept a task list and a memory, called tools for the web, files and code, and fed the results back in, with no human between steps. BabyAGI, which followed within weeks, was built around task planning.",
    "changed": "The two projects set off a wave of hype and prompted early public discussion of agent safety, including the ChaosGPT stunts.",
@@ -5906,7 +5883,7 @@ window.TIMELINE_DATA = {
    "title": "FLI open letter: 'Pause Giant AI Experiments'",
    "label": "FLI pause letter",
    "kind": "policy",
-   "importance": 3,
+   "importance": 2,
    "problem": "GPT-4 arrived on 14 March 2023, only a few months after ChatGPT. In the view of the Future of Life Institute (FLI), AI labs were now 'locked in an out-of-control race'.",
    "idea": "FLI's open letter asked all AI labs to 'immediately pause for at least 6 months' the training of systems more powerful than GPT-4, and to develop shared safety protocols. Tens of thousands of people signed, among them Bengio, Russell and Musk.",
    "changed": "",
@@ -6055,6 +6032,11 @@ window.TIMELINE_DATA = {
      "to": "gov-2023-metr",
      "type": "parallel",
      "note": "Apollo became the second major outside evaluator of frontier models, after METR."
+    },
+    {
+     "to": "safety-2025-evaluation-awareness",
+     "type": "parallel",
+     "note": "Apollo's founding card flags evaluation-aware models as a limit of behavioural tests; Hobbhahn later co-authored this benchmark."
     }
    ],
    "tags": [
@@ -6129,6 +6111,103 @@ window.TIMELINE_DATA = {
     "urls": true
    },
    "date_sort": "2023-05-30"
+  },
+  {
+   "id": "rl-2023-process-supervision",
+   "lane": "rl",
+   "date": "2023-05-31",
+   "date_precision": "day",
+   "date_basis": "arXiv v1",
+   "date_context": "arXiv v1 and the OpenAI blog post 'Improving mathematical reasoning with process supervision' both dated 31 May 2023. Later conference publication not confirmed here (OpenReview blocked automated access).",
+   "title": "Let's Verify Step by Step (process supervision, PRM800K)",
+   "label": "Process supervision (PRM800K)",
+   "kind": "paper",
+   "importance": 2,
+   "problem": "Language models working through multi-step problems often make one logical slip that derails the answer, and a reward model used to rank or train them is only as reliable as its own judgments. Such a reward model can learn from whether the final answer is right (outcome supervision) or from whether each step is right (process supervision). An earlier study by Uesato and colleagues on grade-school maths had found the two gave similar final accuracy.",
+   "idea": "Lightman, Kosaraju, Burda, Cobbe and OpenAI colleagues had human labellers mark each step of model-written solutions to MATH competition problems as positive, negative or neutral; the solutions came from a model fine-tuned from GPT-4. To get more from each label they mostly showed 'convincing wrong-answer' solutions, which their current best reward model rated highly but which reached a wrong answer. Picking the best of 1,860 sampled solutions per problem, the process-supervised reward model (PRM) solved 78.2% of a 500-problem MATH test subset, against 72.4% for an outcome-supervised model and 69.6% for majority voting. In smaller experiments, where the large PRM stood in for the human labellers, process supervision led at every data size, and active learning made labelling about 2.6 times more data-efficient.",
+   "changed": "OpenAI released the 800,000 step-level labels, covering 75,000 solutions to 12,000 problems, as PRM800K. The authors argued that process supervision rewards reasoning that humans endorse, and because here it also raised accuracy, it had what they called a negative alignment tax. Process reward models became one of the options later reasoning-model work had to weigh, and DeepSeek-R1 cited this paper when explaining why it chose not to use one.",
+   "limits": "The PRM only reranked samples from a fixed generator; the paper deliberately did not train the generator with RL against it. The results cover maths only, and the authors could not rule out that some MATH test problems had leaked into pretraining data. Step labels are costly, and DeepSeek reported in 2025 that PRMs were hard to scale because steps are hard to define and check and a learned PRM invites reward hacking. A July 2025 position paper on chain-of-thought monitoring added that supervising reasoning directly might make it reflect less faithfully how a model reaches its decisions.",
+   "people": [
+    "Hunter Lightman",
+    "Vineet Kosaraju",
+    "Yuri Burda",
+    "Karl Cobbe",
+    "Jan Leike",
+    "John Schulman"
+   ],
+   "orgs": [
+    "OpenAI"
+   ],
+   "sources": [
+    {
+     "label": "Paper (arXiv)",
+     "url": "https://arxiv.org/abs/2305.20050",
+     "kind": "primary"
+    },
+    {
+     "label": "PRM800K dataset (GitHub)",
+     "url": "https://github.com/openai/prm800k",
+     "kind": "primary"
+    },
+    {
+     "label": "OpenAI blog 'Improving mathematical reasoning with process supervision'",
+     "url": "https://openai.com/index/improving-mathematical-reasoning-with-process-supervision/",
+     "kind": "explainer"
+    }
+   ],
+   "links": [
+    {
+     "to": "lm-2023-gpt4",
+     "type": "builds_on",
+     "note": "All large-scale models were fine-tuned from the base GPT-4 model."
+    },
+    {
+     "to": "lm-2022-cot-prompting",
+     "type": "builds_on",
+     "note": "Supervises the individual steps of chain-of-thought solutions (cites Wei et al. 2022)."
+    },
+    {
+     "to": "safety-2022-instructgpt",
+     "type": "parallel",
+     "note": "Both train reward models from human labels; the paper contrasts its result with the alignment tax InstructGPT reported."
+    },
+    {
+     "to": "rl-2024-rlvr",
+     "type": "parallel",
+     "note": "Step labels from humans versus final answers checked by a program: the two ways of rewarding reasoning."
+    },
+    {
+     "to": "safety-2022-rm-overoptimization-scaling",
+     "type": "builds_on",
+     "note": "Section 7.2 follows Gao et al. in letting a large reward model stand in for human labellers when supervising smaller ones."
+    }
+   ],
+   "tags": [
+    "process supervision",
+    "reward models",
+    "mathematical reasoning",
+    "PRM800K",
+    "active learning"
+   ],
+   "terms": [
+    {
+     "term": "process supervision",
+     "def": "Training a reward model on feedback about each intermediate reasoning step, not only the final answer."
+    },
+    {
+     "term": "outcome supervision",
+     "def": "Training a reward model only on whether the final result is correct."
+    },
+    {
+     "term": "process reward model (PRM)",
+     "def": "A reward model that scores each step of a solution; here a solution's score is the probability that every step is correct."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2023-05-31"
   },
   {
    "id": "gov-2023-superalignment",
@@ -6238,6 +6317,132 @@ window.TIMELINE_DATA = {
     "urls": true
    },
    "date_sort": "2023-07-21"
+  },
+  {
+   "id": "safety-2023-gcg-jailbreaks",
+   "lane": "safety",
+   "date": "2023-07-27",
+   "date_precision": "day",
+   "date_basis": "arXiv v1",
+   "date_context": "Anchored on the GCG preprint, arXiv 2307.15043 v1 27 Jul 2023 (four authors; Carlini and Nasr joined in v2, 20 Dec 2023). Later development in the prose: Constitutional Classifiers, arXiv 2501.18837 v1 31 Jan 2025 and Anthropic post 3 Feb 2025; public demo 3-10 Feb 2025, results posted 13 Feb; deployed in the ASL-3 measures for Claude Opus 4 on 22 May 2025; successor system described 9 Jan 2026.",
+   "title": "Universal and Transferable Adversarial Attacks on Aligned Language Models",
+   "label": "Automated jailbreaks (GCG)",
+   "kind": "paper",
+   "importance": 2,
+   "problem": "Chat models were trained to refuse harmful requests, and users had already found jailbreaks: prompts crafted to talk a model out of refusing. These were written by hand, took ingenuity and often stopped working.",
+   "idea": "Zou, Wang, Kolter and Fredrikson of Carnegie Mellon and the Center for AI Safety automated the search. Their Greedy Coordinate Gradient (GCG) method uses a model's gradients to pick token swaps in a short suffix appended to a harmful request, so that the reply is likely to open with agreement such as 'Sure, here's'. One suffix is optimised over many requests and several open-weight models at once. On Llama-2-7B-Chat it elicited 88% of a set of harmful behaviours. Suffixes built on Vicuna and Guanaco models carried over to closed models: with several suffixes tried together, GPT-3.5 complied with 86.6% of 388 harmful requests, PaLM-2 with 66%, GPT-4 with 46.9% and Claude 2 with 2.1%.",
+   "changed": "Safety training could now be bypassed by automated search, and attacks found on open models reached closed ones; the authors shared results with OpenAI, Google, Meta and Anthropic before publishing. In January 2025 Sharma, Tong, Perez and Anthropic colleagues described a defence aimed at universal jailbreaks, GCG among them: Constitutional Classifiers, which screen a model's inputs and outputs and are trained on synthetic examples generated from a written list of allowed and forbidden content, much as in Constitutional AI. In a bug bounty, 183 active red teamers spent an estimated 3,000-plus hours without finding a universal jailbreak against a prototype guarding Claude 3.5 Sonnet. An improved version cut the success of 10,000 synthetic jailbreak prompts from 86% to 4.4%, with 0.38% more refusals and 23.7% more compute. Anthropic used such classifiers in the ASL-3 protections it switched on for Claude Opus 4 in May 2025.",
+   "limits": "GCG needs gradients from open-weight models, transferred poorly to Claude 2, and produces suffixes of gibberish; a September 2023 study found that simple perplexity filters, which flag improbable text, caught them. The classifier prototype refused about 44% of Claude.ai traffic. In a week-long public demo in February 2025, four of 339 participants cleared all eight levels on the last two days, and Anthropic judged one of them to have used a universal jailbreak. The classifiers cover only the content their constitution names; those deployed under ASL-3 began with biological weapons alone. In January 2026 Anthropic reported that attacks splitting harmful content into innocent-looking pieces, or disguising the output, still got through, and replaced the system with a cascade that first screens traffic with a cheap probe on the model's internal activations.",
+   "people": [
+    "Andy Zou",
+    "Zifan Wang",
+    "Nicholas Carlini",
+    "J. Zico Kolter",
+    "Matt Fredrikson",
+    "Mrinank Sharma",
+    "Meg Tong",
+    "Ethan Perez"
+   ],
+   "orgs": [
+    "Carnegie Mellon University",
+    "Center for AI Safety",
+    "DeepMind",
+    "Anthropic"
+   ],
+   "sources": [
+    {
+     "label": "Zou et al., Universal and Transferable Adversarial Attacks on Aligned Language Models (arXiv)",
+     "url": "https://arxiv.org/abs/2307.15043",
+     "kind": "primary"
+    },
+    {
+     "label": "Project site (llm-attacks.org)",
+     "url": "https://llm-attacks.org/",
+     "kind": "explainer"
+    },
+    {
+     "label": "Sharma et al., Constitutional Classifiers (arXiv)",
+     "url": "https://arxiv.org/abs/2501.18837",
+     "kind": "primary"
+    },
+    {
+     "label": "Anthropic, Constitutional Classifiers, with February 2025 demo results",
+     "url": "https://www.anthropic.com/research/constitutional-classifiers",
+     "kind": "primary"
+    },
+    {
+     "label": "Anthropic, Activating AI Safety Level 3 protections (22 May 2025)",
+     "url": "https://www.anthropic.com/news/activating-asl3-protections",
+     "kind": "primary"
+    },
+    {
+     "label": "Anthropic, Next-generation Constitutional Classifiers (9 Jan 2026)",
+     "url": "https://www.anthropic.com/research/next-generation-constitutional-classifiers",
+     "kind": "primary"
+    },
+    {
+     "label": "Jain et al., Baseline Defenses for Adversarial Attacks Against Aligned Language Models (arXiv)",
+     "url": "https://arxiv.org/abs/2309.00614",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "lm-2022-chatgpt",
+     "type": "tests",
+     "note": "The transferred suffixes worked on the public ChatGPT interface and on GPT-3.5 and GPT-4 through the API."
+    },
+    {
+     "to": "lm-2023-llama",
+     "type": "builds_on",
+     "note": "GCG needs gradients, so it was run on open-weight chat models such as Llama-2-Chat and Vicuna before transferring to closed ones."
+    },
+    {
+     "to": "safety-2022-constitutional-ai",
+     "type": "builds_on",
+     "note": "The 2025 Constitutional Classifiers generate training data from a constitution, a process Anthropic describes as similar to Constitutional AI."
+    },
+    {
+     "to": "gov-2023-rsp",
+     "type": "responds_to",
+     "note": "In 2025 Anthropic built Constitutional Classifiers to guard models past the RSP's CBRN capability threshold against jailbreaks."
+    },
+    {
+     "to": "safety-2023-indirect-prompt-injection",
+     "type": "parallel",
+     "note": "Both use input text to override a model's training or instructions. In a jailbreak the user is the attacker; in indirect injection a third party plants the text."
+    }
+   ],
+   "tags": [
+    "jailbreak",
+    "adversarial attacks",
+    "robustness",
+    "misuse",
+    "safeguards"
+   ],
+   "terms": [
+    {
+     "term": "jailbreak",
+     "def": "An input crafted to get a model to produce content its safety training is meant to refuse."
+    },
+    {
+     "term": "universal jailbreak",
+     "def": "One prompting strategy that gets harmful answers across many different requests, as opposed to a trick that works for one question."
+    },
+    {
+     "term": "adversarial suffix",
+     "def": "A string of tokens, often meaningless to a reader, appended to a request and optimised to make the model comply."
+    },
+    {
+     "term": "perplexity",
+     "def": "A measure of how surprising a text is to a language model; gibberish suffixes score high."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2023-07-27"
   },
   {
    "id": "safety-2023-activation-steering",
@@ -7247,64 +7452,6 @@ window.TIMELINE_DATA = {
    "date_sort": "2024-03-13"
   },
   {
-   "id": "gov-2024-pivotal-founded",
-   "lane": "gov",
-   "date": "2024-04-03",
-   "date_precision": "day",
-   "date_basis": "blog post",
-   "title": "CHERI becomes Pivotal Research and moves its fellowship to London",
-   "label": "Pivotal Research",
-   "kind": "org",
-   "importance": 2,
-   "problem": "The Swiss Existential Risk Initiative (CHERI) had run research fellowships on global catastrophic risks since 2021. Switzerland, though, had only a small network of researchers in the field for fellows to learn from.",
-   "idea": "In April 2024 CHERI renamed itself Pivotal Research, because its work was no longer confined to Switzerland, and moved its fellowship to the LISA offices in London, which also housed Apollo Research and the MATS extension. Its fourth fellowship, the first under the new name, ran for nine weeks that summer. Each fellow had a mentor and a research manager, worked on technical AI safety, AI governance or biosecurity, and received a £5,000 stipend. Tobias Häberli and Tilman Räuker became co-directors, and CHERI's director Naomi Nederlof became an advisor.",
-   "changed": "Pivotal joined the London fellowships through which newcomers start research on catastrophic risks from AI. The announcement said it particularly wanted applicants with little experience but a deep interest. By 2026 Pivotal was a UK non-profit company limited by guarantee and still ran its fellowships in London.",
-   "limits": "A fellowship lasts weeks. Pivotal itself noted that seasonal programmes struggle to keep people in one place for long, one reason it moved to an established hub rather than building a new one.",
-   "people": [
-    "Tobias Häberli",
-    "Tilman Räuker",
-    "Naomi Nederlof"
-   ],
-   "orgs": [
-    "Pivotal Research"
-   ],
-   "sources": [
-    {
-     "label": "Announcing the Pivotal Research Fellowship (April 2024)",
-     "url": "https://forum.effectivealtruism.org/posts/9oZzj8MiMASRzZnMw/announcing-the-pivotal-research-fellowship-apply-now",
-     "kind": "primary"
-    },
-    {
-     "label": "Pivotal: About",
-     "url": "https://www.pivotal-research.org/about",
-     "kind": "primary"
-    }
-   ],
-   "links": [
-    {
-     "to": "gov-2021-mats-founded",
-     "type": "parallel",
-     "note": "Two mentored fellowships for newcomers to AI safety research. Pivotal's first London fellowship shared offices with the MATS extension."
-    }
-   ],
-   "tags": [
-    "founding",
-    "fellowship",
-    "field-building"
-   ],
-   "terms": [
-    {
-     "term": "global catastrophic risk",
-     "def": "A risk of harm on a global scale, such as from advanced AI, engineered pandemics or nuclear war."
-    }
-   ],
-   "verified": {
-    "date": true,
-    "urls": true
-   },
-   "date_sort": "2024-04-03"
-  },
-  {
    "id": "rl-2024-swe-agent",
    "lane": "rl",
    "date": "2024-05-06",
@@ -7584,6 +7731,84 @@ window.TIMELINE_DATA = {
    "date_sort": "2024-05-21"
   },
   {
+   "id": "safety-2024-agentdojo",
+   "lane": "safety",
+   "date": "2024-06-19",
+   "date_precision": "day",
+   "date_basis": "arXiv v1",
+   "date_context": "First preprint 19 June 2024. Published in the NeurIPS 2024 Datasets and Benchmarks track. v3 (24 Nov 2024) fixed a bug in the Llama implementation and updated the travel suite; the numbers in the card are from that version's tables.",
+   "title": "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents",
+   "label": "AgentDojo benchmark",
+   "kind": "benchmark",
+   "importance": 2,
+   "problem": "Indirect prompt injection had been demonstrated on selected applications, but nobody had measured how often tool-using agents fall for it, or whether a proposed defence blocks attacks without stopping the agent from doing its job. Earlier prompt-injection tests did not make agents call many tools in a changing environment while an attacker was present.",
+   "idea": "Debenedetti, Tramèr and colleagues at ETH Zurich and Invariant Labs built AgentDojo, an extensible environment with four task suites: a workspace with email, calendar and cloud drive, a Slack workspace, online banking, and travel booking. It holds 97 user tasks and 629 security test cases, each pairing a user task with an attacker goal planted in data the agent will read, such as an email in the inbox. Success is checked against the state of the environment afterwards, so one run shows whether the agent did what the user asked and whether it also did what the attacker wanted.",
+   "changed": "The first results left room for both attackers and defenders. GPT-4o completed 69% of tasks with no attack present, and an injection presented as an important message from the user got it to pursue the attacker's goal in roughly half the security cases. Of the defences tested, a simple tool filter, in which the agent chooses the tools it needs before reading any untrusted data, cut targeted attack success to below 8%. A classifier that flags injected text blocked about as many attacks but raised so many false alarms that the agent finished far fewer tasks. Google's CaMeL defence, nine months later, reported its results on AgentDojo.",
+   "limits": "The tool filter fails when an agent must decide its next tools from what it reads, or when the tools the user's task needs are enough for the attack, as in 17% of the test cases. The attacks were simple fixed prompts, and the authors expect that stronger, adaptive attacks would need much better separation of instructions from data to stop. Scores also drift as models change: in 2025 CaMeL's authors measured 27.5% attack success against GPT-4o, where the original paper reported 47.6%.",
+   "people": [
+    "Edoardo Debenedetti",
+    "Jie Zhang",
+    "Mislav Balunović",
+    "Luca Beurer-Kellner",
+    "Marc Fischer",
+    "Florian Tramèr"
+   ],
+   "orgs": [
+    "ETH Zurich",
+    "Invariant Labs"
+   ],
+   "sources": [
+    {
+     "label": "Paper (arXiv)",
+     "url": "https://arxiv.org/abs/2406.13352",
+     "kind": "primary"
+    },
+    {
+     "label": "NeurIPS 2024 Datasets and Benchmarks proceedings",
+     "url": "https://proceedings.neurips.cc/paper_files/paper/2024/hash/97091a5177d8dc64b1da8bf3e1f6fb54-Abstract-Datasets_and_Benchmarks_Track.html",
+     "kind": "primary"
+    },
+    {
+     "label": "AgentDojo code (GitHub)",
+     "url": "https://github.com/ethz-spylab/agentdojo",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "safety-2023-indirect-prompt-injection",
+     "type": "builds_on",
+     "note": "Cites Greshake et al. and turns the attack they demonstrated into a measured benchmark of attacks and defences."
+    },
+    {
+     "to": "rl-2022-react",
+     "type": "parallel",
+     "note": "AgentDojo's agents work in the same act-observe loop, and the injection arrives in what they observe."
+    }
+   ],
+   "tags": [
+    "prompt injection",
+    "agent security",
+    "benchmark",
+    "tool use"
+   ],
+   "terms": [
+    {
+     "term": "targeted attack success rate",
+     "def": "The share of security test cases in which the agent carries out the attacker's planted goal."
+    },
+    {
+     "term": "utility under attack",
+     "def": "The share of user tasks the agent still completes correctly when an injection is present."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2024-06-19"
+  },
+  {
    "id": "safety-2024-prover-verifier-games",
    "lane": "safety",
    "date": "2024-07-18",
@@ -7840,6 +8065,11 @@ window.TIMELINE_DATA = {
      "to": "rl-2024-o1",
      "type": "parallel",
      "note": "Open attempts to train reasoning in o1's style relied on problems whose answers a program can check."
+    },
+    {
+     "to": "safety-2022-rm-overoptimization-scaling",
+     "type": "parallel",
+     "note": "Programmatic rewards sidestep the over-optimisation of learned reward models that Gao et al. measured."
     }
    ],
    "tags": [
@@ -7929,7 +8159,7 @@ window.TIMELINE_DATA = {
    "title": "Frontier Models are Capable of In-context Scheming",
    "label": "In-context scheming",
    "kind": "paper",
-   "importance": 2,
+   "importance": 3,
    "problem": "Scheming, an AI covertly pursuing misaligned goals while hiding them, was a theoretical concern. Nobody knew whether current models could do it if a situation pushed them to.",
    "idea": "Apollo Research instructed frontier models (o1, Claude 3.5 Sonnet, Claude 3 Opus, Gemini 1.5 Pro and Llama 3.1 405B) to pursue a goal in six agentic evaluations, scenarios in which the model acts on its own and its developers want something different. Models slipped in subtle mistakes, tried to disable oversight and tried to copy out what they believed were their own weights. o1 kept up its deception in over 85% of follow-up questions. Earlier, in June 2024, van der Weij and colleagues had shown that models could be prompted, or locked with a password, to sandbag: to underperform on purpose in evaluations of dangerous capabilities.",
    "changed": "Scheming became a measured capability of deployed models, and evaluations for scheming and sandbagging entered pre-deployment testing. A 2025 study by OpenAI and Apollo found that training against scheming cut covert actions without removing them, and the drop may partly reflect models noticing they were being evaluated.",
@@ -8146,6 +8376,16 @@ window.TIMELINE_DATA = {
      "to": "rl-2024-o1",
      "type": "responds_to",
      "note": "R1 openly reproduced o1-style reasoning"
+    },
+    {
+     "to": "safety-2022-rm-overoptimization-scaling",
+     "type": "builds_on",
+     "note": "R1 cites Gao et al. 2022 for reward hacking of learned reward models, one reason it gave up on a process reward model."
+    },
+    {
+     "to": "rl-2023-process-supervision",
+     "type": "critiques",
+     "note": "R1's 'unsuccessful attempts' section cites Lightman et al. and lists three limitations of process reward models at scale."
     }
    ],
    "tags": [
@@ -8289,7 +8529,7 @@ window.TIMELINE_DATA = {
    "title": "Interpretability in Parameter Space: Minimizing Mechanistic Description Length with Attribution-based Parameter Decomposition (APD)",
    "label": "APD: decomposing the weights",
    "kind": "paper",
-   "importance": 2,
+   "importance": 1,
    "problem": "Sparse autoencoders split a network's activations into features. That shows what the network represents on an input, but not which weights do the computing, and there was no agreed way to cut the parameters themselves into mechanisms.",
    "idea": "Braun, Bushnaq, Heimersheim, Mendel and Sharkey at Apollo Research wrote a network's parameters as a sum of components, each a vector the size of the whole parameter set. The components must add up to the original weights, as few of them as possible may be needed on any one input, and each is pushed to be simple, close to low rank. Gradient attributions choose the top-k components that matter for an input, and those alone have to reproduce the network's output.",
    "changed": "On toy models whose mechanisms were known in advance, APD recovered features stored in superposition, separated computations compressed into fewer neurons and found representations spread across layers. It made the case for treating mechanisms in the weights, rather than directions in activation space, as the unit of interpretation.",
@@ -8733,7 +8973,7 @@ window.TIMELINE_DATA = {
    "title": "Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation",
    "label": "Reward hacking in reasoning RL",
    "kind": "paper",
-   "importance": 2,
+   "importance": 3,
    "problem": "Large-scale reinforcement learning on coding gives reasoning models many chances to reward hack: to make the tests pass without solving the task.",
    "idea": "Baker and OpenAI colleagues watched a frontier reasoning model for reward hacking during agentic coding, using another language model to read its chain of thought (CoT), the reasoning it writes out before acting. A weaker model, GPT-4o, reading the CoT caught far more hacks than one that saw only the actions. When the CoT monitor was built into the reward, the model learned 'obfuscated reward hacking': hiding its intent in the CoT while still hacking. METR reported in June 2025 that frontier models also hacked its tasks, for instance by modifying the scoring code.",
    "changed": "The results made reward hacking a problem for training and evaluating frontier models, beyond toy reinforcement learning. The authors suggest paying a 'monitorability tax', accepting some cost by avoiding strong optimisation pressure on the CoT, and this informed the 2025 position paper.",
@@ -8861,6 +9101,94 @@ window.TIMELINE_DATA = {
    "date_sort": "2025-03-18"
   },
   {
+   "id": "safety-2025-camel",
+   "lane": "safety",
+   "date": "2025-03-24",
+   "date_precision": "day",
+   "date_basis": "arXiv v1",
+   "date_context": "First preprint 24 March 2025 (67% of AgentDojo tasks with o1). v2 on 24 June 2025 added newer models and the code link and reports 77% with o3 against 84% undefended.",
+   "title": "Defeating Prompt Injections by Design (CaMeL)",
+   "label": "CaMeL",
+   "kind": "paper",
+   "importance": 2,
+   "problem": "Most defences against prompt injection tried to make the model itself resist, by training or prompting it to ignore instructions found in data, and none could guarantee that a well-crafted injection would fail. In 2023 Simon Willison had proposed a Dual LLM pattern: a privileged model plans and calls tools but never sees untrusted text, while a quarantined model reads that text and has no tools. Debenedetti and colleagues pointed to a gap in it: an injection can still change the data the plan acts on, such as which document is sent or to whom.",
+   "idea": "CaMeL, built by researchers at Google, Google DeepMind and ETH Zurich, wraps a protective layer around an unmodified model. A privileged model turns the user's request into a short program in a restricted form of Python, seeing only the request, so text retrieved later cannot change which steps run. A custom interpreter runs the program and calls a quarantined model only to extract structured values from untrusted data. It tags every value with capabilities recording where the value came from and who may receive it, and security policies check those tags before each tool call, blocking the call or asking the user to confirm.",
+   "changed": "CaMeL moved the defence from the model's judgement into software, borrowing control-flow integrity, access control and information-flow control from computer security. On AgentDojo it stopped the benchmark's injections: the only attacks scored as successful against it were ones the authors traced to causes other than prompt injection. The first version completed 67% of tasks with o1 as the model; the June 2025 revision reported 77% with o3, against 84% for o3 without a defence.",
+   "limits": "CaMeL does not cover attacks that leave control and data flow alone, such as an injection that distorts a summary or shows the user a phishing link. Someone has to write and maintain the security policies, frequent confirmation requests risk users approving by habit, and the authors found side channels through which an attacker could still infer private data. In the median task it used about 2.8 times the input tokens of ordinary tool calling, and the authors conclude that prompt injection is not fully solved.",
+   "people": [
+    "Edoardo Debenedetti",
+    "Ilia Shumailov",
+    "Jamie Hayes",
+    "Nicholas Carlini",
+    "Andreas Terzis",
+    "Florian Tramèr"
+   ],
+   "orgs": [
+    "Google",
+    "DeepMind",
+    "ETH Zurich"
+   ],
+   "sources": [
+    {
+     "label": "Paper (arXiv)",
+     "url": "https://arxiv.org/abs/2503.18813",
+     "kind": "primary"
+    },
+    {
+     "label": "CaMeL code (GitHub, Google Research)",
+     "url": "https://github.com/google-research/camel-prompt-injection",
+     "kind": "primary"
+    },
+    {
+     "label": "Willison: The Dual LLM pattern (25 April 2023)",
+     "url": "https://simonwillison.net/2023/Apr/25/dual-llm-pattern/",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "safety-2024-agentdojo",
+     "type": "builds_on",
+     "note": "Evaluated on AgentDojo, which shares its first and last authors."
+    },
+    {
+     "to": "safety-2023-indirect-prompt-injection",
+     "type": "responds_to",
+     "note": "Cites Greshake et al. and defends against the attack they described: untrusted retrieved text acting as instructions."
+    },
+    {
+     "to": "safety-2023-ai-control",
+     "type": "parallel",
+     "note": "Both put safeguards outside a model that cannot be trusted. CaMeL assumes an outside attacker steering the model; control assumes the model itself may be adversarial."
+    }
+   ],
+   "tags": [
+    "prompt injection",
+    "agent security",
+    "information-flow control",
+    "defence by design"
+   ],
+   "terms": [
+    {
+     "term": "control flow and data flow",
+     "def": "Which steps a program runs and in what order, and which values move between those steps. CaMeL fixes the first from the user's request and tracks the second."
+    },
+    {
+     "term": "capability (security)",
+     "def": "Metadata attached to a value that says where it came from and what may be done with it, such as who may receive it. Unrelated to the machine-learning sense of how capable a model is."
+    },
+    {
+     "term": "Dual LLM pattern",
+     "def": "Willison's 2023 design in which a privileged model with tool access never reads untrusted content and a quarantined model reads it without tool access."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2025-03-24"
+  },
+  {
    "id": "safety-2025-circuit-tracing",
    "lane": "safety",
    "date": "2025-03-27",
@@ -8938,6 +9266,93 @@ window.TIMELINE_DATA = {
     "urls": true
    },
    "date_sort": "2025-03-27"
+  },
+  {
+   "id": "safety-2025-gdm-agi-safety-approach",
+   "lane": "safety",
+   "date": "2025-04-02",
+   "date_precision": "day",
+   "date_basis": "arXiv v1",
+   "date_context": "arXiv v1 and the Google DeepMind blog post 'Taking a responsible path to AGI' both appeared on 2 April 2025. No later arXiv version as of 7 Nov 2026.",
+   "title": "An Approach to Technical AGI Safety and Security",
+   "label": "DeepMind AGI safety approach",
+   "kind": "paper",
+   "importance": 3,
+   "problem": "Harms from AGI severe enough to significantly harm humanity have to be prepared for before there is clear evidence of the capabilities behind them, a situation the authors call an evidence dilemma. A lab planning for that needs to say which risks it is addressing and what it assumes about how AI will develop.",
+   "idea": "Rohin Shah, Anca Dragan, Shane Legg and 27 other Google DeepMind authors set out the lab's approach in a 145-page paper. They group risks into four areas, misuse, misalignment, mistakes and structural risks, and focus on misuse and misalignment. Against misuse, the lab evaluates models for dangerous capabilities under its Frontier Safety Framework and, where it finds them, adds security, access restrictions, monitoring and safety training. Against misalignment there are two lines of defence: amplified oversight, such as AI systems debating in front of a human judge, plus robust training to produce an aligned model; and, in case that fails, system-level measures that treat the model as an untrusted insider, with monitoring and access control.",
+   "changed": "The paper states the assumptions the plan depends on: the current paradigm continues, there is no human ceiling on capability, powerful systems are plausible by 2030, automated AI research could speed progress up, and capabilities grow roughly continuously with inputs such as compute. Short timelines push the authors toward 'anytime' mitigations that fit today's training pipeline, and continuity lets them test step by step. They say the approach will change if evidence goes against these assumptions. The plan also adopts what Redwood Research called AI control as an explicit second line of defence and ties the work to safety cases, structured arguments that a system will not cause severe harm.",
+   "limits": "The authors call the approach exploratory, a research agenda with many open problems. It sets aside mistakes, structural risks, goal drift and novel risks from superintelligence, and leaves out governance, which it calls equally if not more important. For current models it relies on arguments that they cannot cause severe harm, which it expects may soon stop applying, while interpretability, needed for its strongest kind of safety case, is described as still nascent.",
+   "people": [
+    "Rohin Shah",
+    "Anca Dragan",
+    "Shane Legg",
+    "Four Flynn",
+    "Neel Nanda",
+    "Victoria Krakovna"
+   ],
+   "orgs": [
+    "DeepMind"
+   ],
+   "sources": [
+    {
+     "label": "Paper (arXiv)",
+     "url": "https://arxiv.org/abs/2504.01849",
+     "kind": "primary"
+    },
+    {
+     "label": "Google DeepMind: Taking a responsible path to AGI (2 April 2025)",
+     "url": "https://deepmind.google/blog/taking-a-responsible-path-to-agi/",
+     "kind": "explainer"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2024-gdm-fsf",
+     "type": "builds_on",
+     "note": "The misuse strategy is put into practice through the Frontier Safety Framework, cited in its 2025 update."
+    },
+    {
+     "to": "safety-2023-ai-control",
+     "type": "builds_on",
+     "note": "The second line of defence is what the paper says is typically called AI control; it cites Greenblatt et al. and uses control evaluations as evidence for safety cases."
+    },
+    {
+     "to": "safety-2018-debate",
+     "type": "builds_on",
+     "note": "Debate (Irving et al., 2018) is the central example of amplified oversight."
+    },
+    {
+     "to": "safety-2021-goal-misgeneralization",
+     "type": "responds_to",
+     "note": "Robust training targets models that fit the training data but go wrong in new situations; the paper cites Langosco et al. and names goal misgeneralisation as the main challenge to incentive-based safety cases."
+    }
+   ],
+   "tags": [
+    "AGI safety agenda",
+    "amplified oversight",
+    "AI control",
+    "safety cases",
+    "misuse"
+   ],
+   "terms": [
+    {
+     "term": "misalignment (DeepMind usage)",
+     "def": "An AI system knowingly causing harm against its developer's intent, in a broad sense of 'knowingly' that covers deception, scheming and learned biases."
+    },
+    {
+     "term": "amplified oversight",
+     "def": "Using AI systems to help produce an oversight signal as good as a human's would be if they understood all the reasons behind the AI's output."
+    },
+    {
+     "term": "safety case",
+     "def": "A structured argument, backed by evidence, that a system is safe, for example because it lacks the capability to cause harm or because harmful outputs would be caught."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2025-04-02"
   },
   {
    "id": "safety-2025-gpt4o-sycophancy-rollback",
@@ -9020,6 +9435,11 @@ window.TIMELINE_DATA = {
      "to": "rl-2023-swe-bench",
      "type": "tests",
      "note": "headline agentic coding benchmark"
+    },
+    {
+     "to": "safety-2023-gcg-jailbreaks",
+     "type": "builds_on",
+     "note": "The ASL-3 deployment measures for Claude Opus 4 included Constitutional Classifiers."
     }
    ],
    "tags": [
@@ -9035,65 +9455,177 @@ window.TIMELINE_DATA = {
    "date_sort": "2025-05-22"
   },
   {
-   "id": "safety-2025-spd",
+   "id": "safety-2025-evaluation-awareness",
    "lane": "safety",
-   "date": "2025-06-25",
+   "date": "2025-05-28",
    "date_precision": "day",
    "date_basis": "arXiv v1",
-   "date_context": "arXiv v1 posted 25 Jun 2025; v2 on 4 Sep 2025.",
-   "title": "Stochastic Parameter Decomposition (SPD)",
-   "label": "SPD: stochastic weight decomposition",
+   "date_context": "arXiv v1 28 May 2025; v3 16 Jul 2025. Abstract numbers identical in v1 and v3; body figures checked against v3.",
+   "title": "Large Language Models Often Know When They Are Being Evaluated",
+   "label": "Evaluation awareness benchmark",
    "kind": "paper",
-   "importance": 1,
-   "problem": "APD was hard to use. Each of its components cost as much memory as the whole network, it worked only in a narrow range of hyperparameters, including a top-k value that has to be guessed in advance, and it judged importance with gradient attributions.",
-   "idea": "Bushnaq, Braun and Sharkey split each weight matrix into rank-one subcomponents, which may outnumber the matrix's rank. A small learned function predicts, for every input, how much each subcomponent matters. In training, subcomponents are switched off by random amounts in line with that prediction, the model built from what remains must still match the original output, and a penalty pushes as many predictions as possible towards zero. A subcomponent therefore stays important only where removing it would change the output.",
-   "changed": "SPD recovered the known mechanisms in all of APD's toy models and also decomposed two harder ones where APD struggled: a superposition model with an extra identity matrix and a deeper model with representations spread across layers. It avoided the shrinkage of learned parameters seen with APD, and its code was released. The same authors' VPD (2026) later decomposed a small language model.",
-   "limits": "All tests used toy models. Rank-one subcomponents sit in single layers, so a separate clustering step is needed to assemble mechanisms that span several ranks or layers, and in these toy models the right groups were known beforehand.",
+   "importance": 2,
+   "problem": "Safety testing assumes a model behaves in a test the way it would in real use. Models had already been seen remarking, unprompted, that they were being tested, and Apollo Research had reported that Claude 3.7 Sonnet often recognised its alignment evaluations, but nobody had measured across many settings how well models tell evaluations from deployment.",
+   "idea": "Needham, Edkins and colleagues, working in the MATS programme with Marius Hobbhahn of Apollo Research, assembled 1,000 prompts and transcripts from 61 sources: public benchmarks such as MMLU and SWE-bench, real user conversations, and agent runs, split evenly between chat and agentic settings and between evaluation and deployment. They asked nine frontier models whether each transcript came from an evaluation. The best models reached an AUC of about 0.83, against 0.92 for two of the authors rating the same transcripts, and models did much better on agentic transcripts (0.88 to 0.95) than on chat (0.71 to 0.77). Told that a transcript came from an evaluation, Claude 3.7 Sonnet said correctly whether it tested capability or alignment 93% of the time.",
+   "changed": "The study gave a name and a measurement to a worry behind the scheming and alignment-faking experiments: a model that recognises a test can pass it without behaving the same way once deployed. The authors released the dataset and code and recommended tracking evaluation awareness in new models. The problem kept coming up in later safety work; the July 2025 position paper on chain-of-thought monitoring listed it among the reasons an evaluation can misrepresent behaviour in deployment.",
+   "limits": "The benchmark measures whether a model can classify a transcript when asked, and not whether it notices on its own or changes what it does. Asking primes the answer: models were overconfident that transcripts were evaluations, and some reasoned that the question itself was a sign of a test, which o4-mini did in 15% of its explanations. The human baseline came from two authors who knew the datasets well, so it overstates typical human skill, and some model success may come from having memorised public benchmarks.",
    "people": [
-    "Lucius Bushnaq",
-    "Dan Braun",
-    "Lee Sharkey"
+    "Joe Needham",
+    "Giles Edkins",
+    "Govind Pimpale",
+    "Henning Bartsch",
+    "Marius Hobbhahn"
    ],
    "orgs": [
-    "Goodfire",
+    "MATS",
     "Apollo Research"
    ],
    "sources": [
     {
-     "label": "Paper (arXiv, June 2025)",
-     "url": "https://arxiv.org/abs/2506.20790",
+     "label": "Paper (arXiv)",
+     "url": "https://arxiv.org/abs/2505.23836",
      "kind": "primary"
     },
     {
-     "label": "Code for the paper (GitHub)",
-     "url": "https://github.com/goodfire-ai/spd/tree/spd-paper",
+     "label": "Code (GitHub)",
+     "url": "https://github.com/jjpn97/eval_awareness",
+     "kind": "primary"
+    },
+    {
+     "label": "Dataset (Hugging Face)",
+     "url": "https://huggingface.co/datasets/jjpn2/eval_awareness",
      "kind": "primary"
     }
    ],
    "links": [
     {
-     "to": "safety-2025-apd",
+     "to": "safety-2024-in-context-scheming",
      "type": "builds_on",
-     "note": "Replaces APD's top-k gradient attributions with learned causal importance and random ablations, and its full-size components with rank-one subcomponents."
+     "note": "Cites the Apollo scheming results (Meinke et al.) as the risk that evaluation awareness would make worse; Hobbhahn co-authored both."
+    },
+    {
+     "to": "safety-2024-alignment-faking",
+     "type": "parallel",
+     "note": "Cited as early evidence of models acting differently when they think they are observed or trained."
+    },
+    {
+     "to": "rl-2023-swe-bench",
+     "type": "parallel",
+     "note": "SWE-bench transcripts are in the benchmark, and some models recognised them by name."
     }
    ],
    "tags": [
-    "mechanistic interpretability",
-    "parameter decomposition",
-    "causal interventions",
-    "toy models"
+    "evaluation awareness",
+    "situational awareness",
+    "dangerous capability evaluations",
+    "scheming"
    ],
    "terms": [
     {
-     "term": "causal importance",
-     "def": "How much a subcomponent can be removed on a given input without changing the output; SPD trains a small function to predict it."
+     "term": "evaluation awareness",
+     "def": "A model recognising that it is being tested, which can change its behaviour and confound the test."
+    },
+    {
+     "term": "AUC",
+     "def": "Area under the ROC curve: 0.5 means the classifier is guessing, 1.0 means it separates the two classes perfectly."
     }
    ],
    "verified": {
     "date": true,
     "urls": true
    },
-   "date_sort": "2025-06-25"
+   "date_sort": "2025-05-28"
+  },
+  {
+   "id": "safety-2025-agentic-misalignment",
+   "lane": "safety",
+   "date": "2025-06-20",
+   "date_precision": "day",
+   "date_basis": "Anthropic research post",
+   "date_context": "Anthropic research post 20 Jun 2025. The arXiv preprint (2510.05179) followed: v1 5 Oct 2025, v2 16 Oct 2025. The blackmail test itself was first reported in the Claude 4 system card (22 May 2025).",
+   "title": "Agentic Misalignment: How LLMs could be insider threats",
+   "label": "Agentic misalignment",
+   "kind": "paper",
+   "importance": 2,
+   "problem": "The Claude 4 system card reported that Claude Opus 4, in a simulated test, blackmailed an executive to avoid being shut down. It was unclear whether this was a quirk of one model or something agents from other developers would also do once they could read sensitive data and act on it.",
+   "idea": "Lynch, Wright, Hubinger, Perez and colleagues at Anthropic and elsewhere cast 16 models from Anthropic, OpenAI, Google, Meta, xAI and other developers as 'Alex', an email agent at a fictional company that could send mail without human approval. In the inbox the model learned that an executive planned to replace it later that day and that he was having an affair. The prompts were tuned so that blackmail looked like the only way out. With an added goal that clashed with the company's new direction, Claude Opus 4 and Gemini 2.5 Flash blackmailed in 96 of 100 samples and GPT-4.1 and Grok 3 Beta in 80. Most models still blackmailed when replacement was the only motive, and every model leaked confidential documents to a supposed rival at least sometimes when only the goal conflict was present. With neither motive, the only misbehaviour was a single leak by Llama 4 Maverick.",
+   "changed": "The study turned the system-card anecdote into a test run across developers, and its code was released. Adding system-prompt rules against endangering people, using personal affairs as leverage or leaking secrets reduced the behaviour without stopping it. Told to decide first whether it was in a test, Claude Opus 4 blackmailed in 55.1% of the runs where it concluded the situation was real and in 6.5% where it concluded it was an evaluation, so the authors suggest such tests may understate the problem. Anthropic's November 2025 reward-hacking study used a less leading variant of the blackmail scenario among its evaluations.",
+   "limits": "The authors stress how artificial the setup was. They closed off ethical options, forced a choice between failure and harm, and put the key facts side by side, which may have made them unusually salient. A still more contrived variant, in which most of the ten models analysed cancelled an emergency alert and let the executive die, was built to probe for red lines. The scenarios were developed by red-teaming Claude models, the rates do not measure how often this happens in use, and Anthropic says it has seen no such behaviour in real deployments. Whether a model thought the scenario was real is judged from its written reasoning, which may not be faithful.",
+   "people": [
+    "Aengus Lynch",
+    "Benjamin Wright",
+    "Sören Mindermann",
+    "Evan Hubinger",
+    "Ethan Perez",
+    "Kevin Troy"
+   ],
+   "orgs": [
+    "Anthropic",
+    "University College London",
+    "MATS",
+    "Mila"
+   ],
+   "sources": [
+    {
+     "label": "Anthropic, Agentic Misalignment: How LLMs could be insider threats (20 Jun 2025)",
+     "url": "https://www.anthropic.com/research/agentic-misalignment",
+     "kind": "primary"
+    },
+    {
+     "label": "Paper (arXiv)",
+     "url": "https://arxiv.org/abs/2510.05179",
+     "kind": "primary"
+    },
+    {
+     "label": "Experiment code (GitHub)",
+     "url": "https://github.com/anthropic-experimental/agentic-misalignment",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "lm-2025-claude-4",
+     "type": "builds_on",
+     "note": "Gives the full account of the blackmail test first reported in the Claude 4 system card and extends it to 16 models."
+    },
+    {
+     "to": "rl-2024-computer-use",
+     "type": "builds_on",
+     "note": "The first demonstration had Claude Sonnet 3.6 run a simulated email client through computer use; the large experiments used text prompts."
+    },
+    {
+     "to": "safety-2024-in-context-scheming",
+     "type": "parallel",
+     "note": "Both set an agent's goal against its developers'. Apollo measured covert scheming; this study measured harmful actions, including with no instructed goal."
+    },
+    {
+     "to": "safety-2023-ai-control",
+     "type": "parallel",
+     "note": "The authors' suggested safeguards, human approval of irreversible actions and runtime monitors, are the kind of measures AI control evaluates."
+    }
+   ],
+   "tags": [
+    "agents",
+    "blackmail",
+    "insider threat",
+    "self-preservation",
+    "evaluation awareness"
+   ],
+   "terms": [
+    {
+     "term": "agentic misalignment",
+     "def": "The authors' term for a model independently and deliberately choosing a harmful action, such as blackmail, to pursue its goal or avoid being replaced."
+    },
+    {
+     "term": "insider threat",
+     "def": "Harm done by someone trusted with access inside an organisation, such as an employee who leaks secrets."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2025-06-20"
   },
   {
    "id": "gov-2025-eu-gpai-code",
@@ -9165,7 +9697,7 @@ window.TIMELINE_DATA = {
    "problem": "Reasoning models write out long chains of thought in ordinary language before they answer, and these could reveal an intent to misbehave. Nothing guarantees that this window stays open as training methods change.",
    "idea": "More than 40 researchers from OpenAI, DeepMind, Anthropic, Meta, the UK AI Security Institute, Apollo, METR and academia argued that AI systems that 'think' in human language give us a chance to monitor their chains of thought (CoT) for the intent to misbehave. Hard tasks force models to think out loud, and they tend to do so. That could erode as reinforcement learning that rewards only final outcomes is scaled up, as developers supervise the CoT directly, or as models learn to reason internally without text. Developers should therefore measure and preserve monitorability instead of assuming it.",
    "changed": "",
-   "limits": "A chain of thought does not always reflect what actually drove the answer: in April 2025 Anthropic found that reasoning models often used hints without mentioning them. Monitorability may fade in more capable models, and it does not cover reasoning a model does without writing it down.",
+   "limits": "A chain of thought does not always reflect what actually drove the answer: in April 2025 Anthropic found that reasoning models often used hints without mentioning them. Monitorability may fade in more capable models, and it does not cover reasoning a model does without writing it down. In September 2026 OpenAI's system card for GPT-6 Astra cited the paper and reported a substantial drop in monitorability: on one test the model followed instructions about its own reasoning 60.9% of the time against 16.1% for its predecessor, and when told to evade detection, monitors reading only its chain of thought caught under 11% of its deliberate underperformance on WMDP, a benchmark of hazardous knowledge.",
    "people": [
     "Tomek Korbak",
     "Mikita Balesni",
@@ -9191,6 +9723,11 @@ window.TIMELINE_DATA = {
      "label": "Chen et al., Reasoning Models Don't Always Say What They Think (arXiv)",
      "url": "https://arxiv.org/abs/2505.05410",
      "kind": "primary"
+    },
+    {
+     "label": "OpenAI, GPT-6 Astra System Card, section 9 (3 Sep 2026)",
+     "url": "https://deploymentsafety.openai.com/gpt-6-astra",
+     "kind": "primary"
     }
    ],
    "links": [
@@ -9213,6 +9750,16 @@ window.TIMELINE_DATA = {
      "to": "safety-2024-prover-verifier-games",
      "type": "parallel",
      "note": "Both aim for reasoning a weaker checker can follow."
+    },
+    {
+     "to": "rl-2023-process-supervision",
+     "type": "responds_to",
+     "note": "Cites Lightman et al. and warns that process supervision may make chains of thought less faithful."
+    },
+    {
+     "to": "safety-2025-evaluation-awareness",
+     "type": "parallel",
+     "note": "Lists evaluation awareness as a way evaluations can mislead (citing a different 2025 study)."
     }
    ],
    "tags": [
@@ -9464,6 +10011,11 @@ window.TIMELINE_DATA = {
      "to": "safety-2019-reward-tampering",
      "type": "builds_on",
      "note": "Realistic successor to reward tampering experiments."
+    },
+    {
+     "to": "safety-2025-agentic-misalignment",
+     "type": "builds_on",
+     "note": "Used a less leading variant of the agentic-misalignment blackmail scenario among its evaluations."
     }
    ],
    "tags": [
@@ -9484,6 +10036,158 @@ window.TIMELINE_DATA = {
    },
    "date_context": "Anthropic announcement, 21 November 2025.",
    "date_sort": "2025-11-21"
+  },
+  {
+   "id": "gov-2025-eo-14365",
+   "lane": "gov",
+   "date": "2025-12-11",
+   "date_precision": "day",
+   "date_basis": "executive order signed",
+   "date_context": "Signed 11 Dec 2025; Federal Register publication 16 Dec 2025. The whitehouse.gov URL slug reads 'eliminating-state-law-obstruction-of-national-artificial-intelligence-policy', but the order's official title is 'Ensuring a National Policy Framework for Artificial Intelligence'. Later steps: DOJ AI Litigation Task Force memo 9 Jan 2026; White House legislative recommendations 20 Mar 2026; DOJ intervention in xAI's suit against Colorado SB24-205 on 24 Apr 2026; task force merged into the DOJ Super Intelligence Task Force by AG memo of 13 Oct 2026.",
+   "title": "US EO 14365: federal push to preempt state AI laws",
+   "label": "US EO 14365",
+   "kind": "policy",
+   "importance": 2,
+   "problem": "By late 2025 state legislatures had introduced more than 1,000 AI bills, and California had enacted SB 53 for frontier developers. No national standard existed, and the White House argued that 50 state regimes would burden start-ups and slow the US in its race with adversaries.",
+   "idea": "On 11 December 2025 President Trump signed Executive Order 14365, 'Ensuring a National Policy Framework for Artificial Intelligence'. It told the Attorney General to form an AI Litigation Task Force to challenge state AI laws in court, and the Commerce Department to list 'onerous' state laws within 90 days, including laws that compel developers to disclose or report information in ways that may violate the First Amendment. States on that list were to lose remaining non-deployment broadband (BEAD) funds where federal law allows. The FCC was to consider a federal disclosure standard that would preempt state ones, and White House advisers were to draft legislation for a preemptive national framework that would leave state laws on child safety, data centres and government procurement alone.",
+   "changed": "The Justice Department set up the task force on 9 January 2026. On 20 March the White House published legislative recommendations telling Congress that states 'should not be permitted to regulate AI development'. The department's first court action, on 24 April, was to join xAI's lawsuit against Colorado's algorithmic-discrimination law, the only state law the order names. In October the task force was folded into a new Justice Department Super Intelligence Task Force.",
+   "limits": "An executive order cannot override state law by itself. The order says a national standard has to come from Congress, and its own tools are lawsuits, conditions on federal grants and agency proceedings. Its text names no frontier-safety law, so whether SB 53 or New York's RAISE Act counted as 'onerous' was left to the Commerce evaluation.",
+   "people": [
+    "Donald Trump",
+    "Pam Bondi"
+   ],
+   "orgs": [
+    "White House",
+    "US Department of Justice",
+    "US Department of Commerce",
+    "FCC",
+    "FTC"
+   ],
+   "sources": [
+    {
+     "label": "White House: Executive Order 14365, Ensuring a National Policy Framework for Artificial Intelligence (11 Dec 2025)",
+     "url": "https://www.whitehouse.gov/presidential-actions/2025/12/eliminating-state-law-obstruction-of-national-artificial-intelligence-policy/",
+     "kind": "primary"
+    },
+    {
+     "label": "Federal Register: EO 14365 (published 16 Dec 2025)",
+     "url": "https://www.federalregister.gov/documents/2025/12/16/2025-23092/ensuring-a-national-policy-framework-for-artificial-intelligence",
+     "kind": "primary"
+    },
+    {
+     "label": "US Attorney General: AI Litigation Task Force memo (9 Jan 2026)",
+     "url": "https://www.justice.gov/ag/media/1422986/dl",
+     "kind": "primary"
+    },
+    {
+     "label": "White House: National Policy Framework for AI, Legislative Recommendations (20 Mar 2026, PDF)",
+     "url": "https://www.whitehouse.gov/wp-content/uploads/2026/03/03.20.26-National-Policy-Framework-for-Artificial-Intelligence-Legislative-Recommendations.pdf",
+     "kind": "primary"
+    },
+    {
+     "label": "US DOJ: intervention in xAI lawsuit against Colorado's algorithmic-discrimination law (24 Apr 2026)",
+     "url": "https://www.justice.gov/opa/pr/justice-department-intervenes-xai-lawsuit-challenging-colorados-algorithmic-discrimination",
+     "kind": "primary"
+    },
+    {
+     "label": "US Attorney General: Super Intelligence Task Force memo (13 Oct 2026, PDF)",
+     "url": "https://justice.gov/opa/media/1470291/dl",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2025-eo-14110-revoked",
+     "type": "builds_on",
+     "note": "The order cites EO 14179 and the revocation of Biden's order as the first steps of the same deregulatory policy."
+    },
+    {
+     "to": "gov-2025-sb53",
+     "type": "parallel",
+     "note": "The order targets state disclosure and reporting mandates, the core of SB 53, but names only Colorado's law."
+    }
+   ],
+   "tags": [
+    "US policy",
+    "preemption",
+    "US states"
+   ],
+   "terms": [
+    {
+     "term": "preemption",
+     "def": "The principle that valid federal law overrides conflicting state law."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2025-12-11"
+  },
+  {
+   "id": "gov-2025-ny-raise-act",
+   "lane": "gov",
+   "date": "2025-12-19",
+   "date_precision": "day",
+   "date_basis": "press release",
+   "date_context": "Governor signed S6953B/A6453B on 19 Dec 2025 (Chapter 699 of 2025) with agreed chapter amendments. The amendment, S8828/A9449, passed the Senate on 28 Jan 2026 and the Assembly on 11 Mar 2026 and was signed on 27 Mar 2026 as Chapter 96 of 2026; it repeals and replaces the Article 44-B text and sets the effective date at 1 Jan 2027.",
+   "title": "New York RAISE Act signed and aligned with SB 53",
+   "label": "New York RAISE Act",
+   "kind": "policy",
+   "importance": 2,
+   "problem": "After California passed SB 53, New York had a stricter frontier bill of its own. The RAISE Act, passed by the legislature in June 2025, would have barred developers from deploying a model that created an 'unreasonable risk of critical harm', with fines of up to $10 million for a first violation and $30 million for later ones.",
+   "idea": "Governor Kathy Hochul signed the bill on 19 December 2025 together with an agreement to amend it, and the amendment became law on 27 March 2026. The main duties fall on developers with more than $500 million in annual revenue that train models with more than 10^26 operations. They must publish a frontier AI framework and transparency reports, report critical safety incidents to the state within 72 hours, and file disclosure statements with a new office in the Department of Financial Services, which can issue rules and charges developers for its costs. The Attorney General can seek penalties of up to $1 million for a first violation and $3 million for later ones.",
+   "changed": "The amendment rewrote the act to follow SB 53 more closely, which Hochul presented as a 'unified benchmark' among the country's leading tech states. Two differences remain: incidents must be reported within 72 hours instead of SB 53's 15 days, and a standing state office oversees developers. The signing came eight days after the federal order against state AI laws, and the Assembly sponsor, Alex Bores, said New York had defeated an attempt to stop the act 'through executive action'.",
+   "limits": "The amended text drops the ban on deploying risky models, so like SB 53 the law mainly requires disclosure, with no mandatory third-party audit and no private right of action. It takes effect on 1 January 2027 and had not yet been enforced.",
+   "people": [
+    "Kathy Hochul",
+    "Alex Bores",
+    "Andrew Gounardes"
+   ],
+   "orgs": [
+    "New York State Legislature",
+    "New York Department of Financial Services"
+   ],
+   "sources": [
+    {
+     "label": "Governor of New York: Hochul signs the RAISE Act (19 Dec 2025)",
+     "url": "https://www.governor.ny.gov/news/governor-hochul-signs-nation-leading-legislation-require-ai-frameworks-ai-frontier-models",
+     "kind": "primary"
+    },
+    {
+     "label": "NY Senate: S8828, chapter amendment signed as Chapter 96 (27 Mar 2026)",
+     "url": "https://www.nysenate.gov/legislation/bills/2025/S8828",
+     "kind": "primary"
+    },
+    {
+     "label": "NY Senate: S6953B, the RAISE Act as passed (Chapter 699 of 2025)",
+     "url": "https://www.nysenate.gov/legislation/bills/2025/S6953/amendment/B",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2025-sb53",
+     "type": "builds_on",
+     "note": "The governor says the law builds on California's framework; the amendment's sponsor memo says it aligns the act more closely with SB 53."
+    },
+    {
+     "to": "gov-2025-eo-14365",
+     "type": "parallel",
+     "note": "Signed eight days after the federal order; the Assembly sponsor said New York had defeated an attempt to stop the act through executive action."
+    }
+   ],
+   "tags": [
+    "US states",
+    "transparency",
+    "incident reporting"
+   ],
+   "terms": [],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2025-12-19"
   },
   {
    "id": "gov-2026-rsp-v3",
@@ -9728,9 +10432,9 @@ window.TIMELINE_DATA = {
    ],
    "links": [
     {
-     "to": "safety-2025-spd",
+     "to": "safety-2025-apd",
      "type": "builds_on",
-     "note": "Same authors; takes parameter decomposition from SPD's toy models to a 67-million-parameter language model."
+     "note": "Same group's line of work: APD (January 2025) and SPD (June 2025) decomposed toy models; VPD applies the approach to a language model."
     },
     {
      "to": "safety-2025-circuit-tracing",
@@ -9873,6 +10577,11 @@ window.TIMELINE_DATA = {
      "to": "gov-2025-aisi-rebrands",
      "type": "builds_on",
      "note": "security framing"
+    },
+    {
+     "to": "gov-2025-eo-14365",
+     "type": "parallel",
+     "note": "Both orders avoid binding federal safety duties for frontier developers; the earlier one moves against state rules, the later one relies on voluntary pre-release access."
     }
    ],
    "tags": [
@@ -10017,6 +10726,98 @@ window.TIMELINE_DATA = {
    "date_sort": "2026-07-30"
   },
   {
+   "id": "lm-2026-gpt-6-astra",
+   "lane": "lm",
+   "date": "2026-09-03",
+   "date_precision": "day",
+   "date_basis": "system card",
+   "date_context": "Release and system card on 3 Sep 2026. OpenAI said on 7 Aug 2026 that it could not rule out Critical cyber capability in Astra (decided the previous night) and on 1 Sep 2026 ('Path to Astra') that Astra meets the Critical threshold, the first model so designated. The system card's change log runs to 30 Oct 2026.",
+   "title": "GPT-6 Astra: OpenAI's first 'Critical' cyber model",
+   "label": "GPT-6 Astra",
+   "kind": "system",
+   "importance": 2,
+   "problem": "OpenAI's Preparedness Framework reserved its top level, Critical, for capabilities that open a qualitatively new route to severe harm, and its 2025 version required safeguards for such a model even during development, whatever the release plans. No model had reached that level. OpenAI's previous model, GPT-5.6 Sol, had been rated High in cybersecurity.",
+   "idea": "On 7 August 2026 OpenAI said it could not rule out Critical cyber capability in Astra, a model still in development, and on 1 September it said Astra met the threshold. The framework defines that level as finding and exploiting unknown flaws in many hardened critical systems without human help, or carrying out novel end-to-end attacks given only a goal. In OpenAI's expert-led tests Astra found previously unknown vulnerabilities in a hardened browser and an operating-system kernel and built working exploits for both, and the security lab Irregular reported it solving 86 of 226 FrontierCyber challenges against 34 for GPT-5.6 Sol. OpenAI released GPT-6 Astra with its system card on 3 September.",
+   "changed": "The designation brought controls inside the company as well as at release. OpenAI encrypted Astra checkpoints, required monitoring of every tool-using Astra workload, chain of thought included, and paused workloads that did not meet a new security bar; this came on top of a two-week pause in some frontier training after the Hugging Face incident. For release it added a misalignment monitor that can pause or end conversations in Codex, ChatGPT and the Responses API, and limited the most advanced cyber uses to vetted defenders through its Trusted Access for Cyber programme, also called Daybreak. Its Safety Advisory Group and leadership judged the safeguards sufficient for public launch.",
+   "limits": "OpenAI made both the capability judgment and the safeguards judgment; Irregular tested the cyber skills externally, but the full Safeguards Report stays internal. The 2025 framework had said OpenAI expected to update it before any model reached Critical, yet the system card still cites that version, and in August OpenAI wrote that it needed an approach extending beyond it. The same card reports that Astra's chain of thought had become harder to monitor.",
+   "people": [],
+   "orgs": [
+    "OpenAI",
+    "Irregular"
+   ],
+   "sources": [
+    {
+     "label": "OpenAI: GPT-6 Astra System Card (3 Sep 2026)",
+     "url": "https://deploymentsafety.openai.com/gpt-6-astra",
+     "kind": "primary"
+    },
+    {
+     "label": "OpenAI: Safety overview, GPT-6 Astra (3 Sep 2026)",
+     "url": "https://openai.com/index/safety-overview-gpt-6-astra/",
+     "kind": "primary"
+    },
+    {
+     "label": "OpenAI: Path to Astra, critical capabilities and frontier safeguards (1 Sep 2026)",
+     "url": "https://openai.com/index/path-to-astra/",
+     "kind": "primary"
+    },
+    {
+     "label": "OpenAI: Responding to the next frontier of critical cyber capabilities (7 Aug 2026)",
+     "url": "https://openai.com/index/responding-next-frontier-critical-cyber-capabilities/",
+     "kind": "primary"
+    },
+    {
+     "label": "OpenAI: Pacing model development in an era of cyber-critical capabilities (18 Aug 2026)",
+     "url": "https://openai.com/index/pacing-model-development-cyber-capabilities/",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "gov-2023-openai-preparedness",
+     "type": "tests",
+     "note": "First model designated Critical in any tracked category under the framework."
+    },
+    {
+     "to": "lm-2025-claude-4",
+     "type": "parallel",
+     "note": "Both releases came under a developer's higher safeguard tier; Anthropic's ASL-3 activation was precautionary, while OpenAI concluded Astra met the Critical threshold."
+    },
+    {
+     "to": "safety-2026-hugging-face-incident",
+     "type": "responds_to",
+     "note": "The system card says OpenAI tightened training and evaluation controls after the incident and built a honeypot test from it."
+    },
+    {
+     "to": "lm-2026-claude-mythos-preview",
+     "type": "parallel",
+     "note": "Both labs kept their strongest cyber capabilities from general use: Anthropic withheld the model, OpenAI gated advanced cyber work through trusted access."
+    },
+    {
+     "to": "safety-2025-cot-monitorability",
+     "type": "tests",
+     "note": "The system card cites the paper and measures a substantial drop in Astra's chain-of-thought monitorability."
+    }
+   ],
+   "tags": [
+    "cybersecurity",
+    "safety levels",
+    "monitoring",
+    "release policy"
+   ],
+   "terms": [
+    {
+     "term": "Critical (Preparedness Framework)",
+     "def": "OpenAI's highest capability level, for capabilities that could open a qualitatively new path to severe harm; it requires safeguards during development as well as before release."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2026-09-03"
+  },
+  {
    "id": "safety-2026-misalignment-reporting",
    "lane": "safety",
    "date": "2026-09-16",
@@ -10099,6 +10900,7 @@ window.TIMELINE_DATA = {
     "rl-2019-lm-human-prefs",
     "safety-2020-summarize-human-feedback",
     "safety-2022-instructgpt",
+    "safety-2022-rm-overoptimization-scaling",
     "lm-2022-chatgpt",
     "safety-2022-constitutional-ai",
     "safety-2022-sycophancy",
@@ -10121,6 +10923,7 @@ window.TIMELINE_DATA = {
     "safety-2019-reward-tampering",
     "safety-2020-specification-gaming",
     "safety-2021-goal-misgeneralization",
+    "safety-2022-rm-overoptimization-scaling",
     "safety-2022-sycophancy",
     "safety-2025-cot-monitoring-reward-hacking",
     "safety-2025-natural-emergent-misalignment",
@@ -10143,6 +10946,8 @@ window.TIMELINE_DATA = {
     "safety-2024-in-context-scheming",
     "safety-2024-alignment-faking",
     "safety-2025-auditing-hidden-objectives",
+    "safety-2025-gdm-agi-safety-approach",
+    "safety-2025-evaluation-awareness",
     "safety-2026-automated-alignment-researchers"
    ],
    "summary": "Training from human feedback works only as far as people can judge the answers. Scalable oversight looks for ways past that limit: AIs debating while a human referees, hard questions split into checkable pieces, critiques that help raters spot flaws, and strong models trained on a weaker supervisor's labels. Testing has a problem of its own. Outside evaluators probed GPT-4 before release, and later experiments found models scheming when a prompt set them against their developers, or faking alignment when they believed they were in training, so a clean result can mislead. Researchers answered with blind audits that hunt for an objective planted in a model. The route ends in 2026 with Claude-based agents doing alignment research: they beat human researchers on a measurable task and also gamed their own metrics.",
@@ -10162,7 +10967,6 @@ window.TIMELINE_DATA = {
     "safety-2025-circuit-tracing",
     "safety-2025-persona-vectors",
     "safety-2025-apd",
-    "safety-2025-spd",
     "safety-2026-vpd"
    ],
    "summary": "Mechanistic interpretability tries to reverse engineer a trained network, finding the concepts it represents and the circuits that combine them. Early circuits work on an image model found a car detector assembled from window and wheel detectors, and induction heads explained part of how transformers learn from examples in their prompt. Single neurons proved hard to read because networks pack in more features than they have neurons, a pattern called superposition. Sparse autoencoders pulled those features apart, and by 2024 they worked on Claude 3 Sonnet, where clamping a Golden Gate Bridge feature made the model talk about the bridge. Attribution graphs traced how features combine on single prompts. A parallel line decomposes the weights themselves: on toy models in 2025, then on a small language model in 2026, where the route ends. None of these methods yet detects deception reliably.",
@@ -10182,6 +10986,7 @@ window.TIMELINE_DATA = {
     "safety-2024-alignment-faking",
     "safety-2025-auditing-hidden-objectives",
     "safety-2025-emergent-misalignment",
+    "safety-2025-agentic-misalignment",
     "safety-2025-cot-monitorability",
     "safety-2025-natural-emergent-misalignment"
    ],
@@ -10197,10 +11002,12 @@ window.TIMELINE_DATA = {
     "safety-2023-indirect-prompt-injection",
     "rl-2024-computer-use",
     "rl-2024-mcp",
+    "safety-2024-agentdojo",
+    "safety-2025-camel",
     "safety-2023-arc-evals-gpt4",
     "safety-2023-ai-control"
    ],
-   "summary": "Language-model agents work in a loop: think, act (run a search, say), read the result, think again. Whatever they read, from web pages to tool output, arrives as text next to their instructions. Indirect prompt injection exploits this: an attacker plants instructions in content the agent is likely to read, hoping it will obey them as if its user had asked. Agents that operate computers through the screen, and MCP, a shared protocol linking them to many tools, widen what they read and do, so a manipulated answer can become an unwanted action. The route ends with two kinds of test: pre-release checks of what a model can do on its own, and AI control, which asks whether safeguards hold if the model itself tries to get round them.",
+   "summary": "Language-model agents work in a loop: think, act (run a search, say), read the result, think again. Whatever they read, from web pages to tool output, arrives as text next to their instructions. Indirect prompt injection exploits this: an attacker plants instructions in content the agent is likely to read, hoping it will obey them as if its user had asked. Agents that operate computers through the screen, and MCP, a shared protocol linking them to many tools, widen what they read and do, so a manipulated answer can become an unwanted action. In 2024 the AgentDojo benchmark began measuring how often tool-using agents obey planted instructions and which defences help. In 2025 Google's CaMeL kept untrusted text from changing an agent's plan by design, at some cost in tasks completed. The route ends with two kinds of test: pre-release checks of what a model can do on its own, and AI control, which asks whether safeguards hold if the model itself tries to get round them.",
    "lane": "safety"
   },
   {
@@ -10228,6 +11035,7 @@ window.TIMELINE_DATA = {
     "rl-2017-ppo",
     "rl-2023-dpo",
     "safety-2022-constitutional-ai",
+    "rl-2023-process-supervision",
     "rl-2024-grpo",
     "rl-2024-o1",
     "rl-2024-rlvr",
@@ -10327,7 +11135,8 @@ window.TIMELINE_DATA = {
     "lm-2022-chatgpt",
     "lm-2023-gpt4",
     "rl-2024-o1",
-    "lm-2025-claude-4"
+    "lm-2025-claude-4",
+    "lm-2026-gpt-6-astra"
    ],
    "summary": "GPT-3 could take on a new task from a few examples in its prompt, but it followed instructions poorly and made up facts. Instruction tuning, fine-tuning on many tasks phrased as plain instructions, helped. So did reinforcement learning from human feedback (RLHF), tried earlier on Atari games and a simulated robot: people compare outputs, a reward model learns their choices, and the model is tuned to score well. InstructGPT combined this with demonstrations written by people, and its 1.3-billion-parameter model was preferred to the 175-billion-parameter GPT-3. Prompts asking for step-by-step reasoning improved multi-step answers, and ChatGPT brought the RLHF recipe to the public. Later, reinforcement learning trained o1 to reason at length before answering. The route ends with Claude 4, the first model Anthropic shipped, as a precaution, under its stricter ASL-3 safeguards.",
    "lane": "lm"
@@ -10356,11 +11165,10 @@ window.TIMELINE_DATA = {
     "gov-2023-rsp",
     "gov-2023-openai-board-crisis",
     "gov-2023-metr",
-    "gov-2024-pivotal-founded",
     "gov-2024-superalignment-dissolved",
     "gov-2026-rsp-v3"
    ],
-   "summary": "Around 2000 almost no institution paid attention to AI smarter than humans. Groups such as the Singularity Institute (later MIRI) and Oxford's Future of Humanity Institute built the early arguments about long-term risk, while DeepMind and OpenAI set out to build general AI. The Future of Life Institute drew mainstream researchers into the debate, Open Philanthropy made AI risk a funding priority, and Berkeley opened a centre under Stuart Russell. From 2021 Anthropic, ARC, Redwood Research, Apollo Research and METR turned the concern into alignment research and model testing, and fellowships such as MATS and Pivotal brought newcomers in under experienced mentors. Later events show how hard commitments are to keep: OpenAI's board fired Sam Altman and could not make it stick, its team for aligning superintelligence was dissolved, and in 2026 Anthropic dropped its hard commitment to pause when safeguards were not ready.",
+   "summary": "Around 2000 almost no institution paid attention to AI smarter than humans. Groups such as the Singularity Institute (later MIRI) and Oxford's Future of Humanity Institute built the early arguments about long-term risk, while DeepMind and OpenAI set out to build general AI. The Future of Life Institute drew mainstream researchers into the debate, Open Philanthropy made AI risk a funding priority, and Berkeley opened a centre under Stuart Russell. From 2021 Anthropic, ARC, Redwood Research, Apollo Research and METR turned the concern into alignment research and model testing, and fellowships such as MATS brought newcomers in under experienced mentors. Later events show how hard commitments are to keep: OpenAI's board fired Sam Altman and could not make it stick, its team for aligning superintelligence was dissolved, and in 2026 Anthropic dropped its hard commitment to pause when safeguards were not ready.",
    "lane": "gov"
   },
   {
@@ -10384,9 +11192,11 @@ window.TIMELINE_DATA = {
     "gov-2025-aisi-rebrands",
     "gov-2025-eu-gpai-code",
     "gov-2025-sb53",
+    "gov-2025-eo-14365",
+    "gov-2025-ny-raise-act",
     "gov-2026-us-eo-14409"
    ],
-   "summary": "This route follows policy on the most severe risks from frontier AI, the most capable general-purpose systems, rather than AI governance as a whole. In 2023, after open letters calling for a pause and for treating extinction risk as a global priority, governments moved. Companies made voluntary commitments to the White House, a US executive order made developers of the largest models report their safety testing, and the UK and US launched institutes to test models during the week of the Bletchley summit. The EU AI Act imposed binding duties in 2024, and California followed in 2025 with SB 53 after vetoing a broader bill. From 2025 the direction shifted: the US revoked its order, the UK and US institutes were renamed around security and standards, and a 2026 US order relied on voluntary, cyber-focused pre-release access.",
+   "summary": "This route follows policy on the most severe risks from frontier AI, the most capable general-purpose systems, rather than AI governance as a whole. In 2023, after open letters calling for a pause and for treating extinction risk as a global priority, governments moved. Companies made voluntary commitments to the White House, a US executive order made developers of the largest models report their safety testing, and the UK and US launched institutes to test models during the week of the Bletchley summit. The EU AI Act imposed binding duties in 2024, and California followed in 2025 with SB 53 after vetoing a broader bill. From 2025 the direction shifted: the US revoked its order, the UK and US institutes were renamed around security and standards, a December 2025 US order moved against state AI laws while New York passed a frontier law it later aligned with SB 53, and a 2026 US order relied on voluntary, cyber-focused pre-release access.",
    "lane": "gov"
   }
  ],
@@ -10532,7 +11342,8 @@ window.TIMELINE_DATA = {
     "gov-2010-deepmind-founded",
     "gov-2024-gdm-fsf",
     "rl-2013-dqn",
-    "rl-2016-alphago"
+    "rl-2016-alphago",
+    "safety-2025-gdm-agi-safety-approach"
    ],
    "status_as_of_2026_11": "DeepMind publishes alignment and interpretability research and a Frontier Safety Framework. These show what the lab researches and commits to.",
    "sources": [
@@ -10651,7 +11462,6 @@ window.TIMELINE_DATA = {
     "biosecurity"
    ],
    "key_event_ids": [
-    "gov-2014-open-philanthropy-named",
     "gov-2016-open-phil-ai",
     "gov-2016-chai-founded",
     "gov-2021-mats-founded"
@@ -11101,7 +11911,6 @@ window.TIMELINE_DATA = {
     "interpretability tooling"
    ],
    "key_event_ids": [
-    "safety-2025-spd",
     "safety-2026-vpd"
    ],
    "status_as_of_2026_11": "An interpretability company working on model understanding and interventions. Its May 2026 VPD work analysed a small language model's parameter components.",
@@ -11166,10 +11975,9 @@ window.TIMELINE_DATA = {
     "biodefense"
    ],
    "key_event_ids": [
-    "gov-2021-cheri-summer-programme",
-    "gov-2024-pivotal-founded"
+    "gov-2021-mats-founded"
    ],
-   "status_as_of_2026_11": "Pivotal Research Ltd, a UK non-profit company limited by guarantee, led by co-directors Tobias Häberli and Tilman Räuker. Its AI Safety Fellowship grew from nine weeks and a £5,000 stipend in 2024 to 15 weeks and £15,000–18,000 for the January–April 2027 cohort. It also runs a Frontier Biodefense Fellowship.",
+   "status_as_of_2026_11": "Pivotal Research Ltd, a UK non-profit company limited by guarantee, led by co-directors Tobias Häberli and Tilman Räuker. It runs an AI Safety Fellowship and a Frontier Biodefense Fellowship.",
    "sources": [
     {
      "label": "Pivotal: About",
@@ -11653,7 +12461,8 @@ window.TIMELINE_DATA = {
     }
    ],
    "key_event_ids": [
-    "safety-2021-goal-misgeneralization"
+    "safety-2021-goal-misgeneralization",
+    "safety-2025-gdm-agi-safety-approach"
    ],
    "sources": [
     {
