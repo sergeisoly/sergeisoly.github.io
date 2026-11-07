@@ -7994,6 +7994,67 @@ window.TIMELINE_DATA = {
    "date_sort": "2025-01-23"
   },
   {
+   "id": "safety-2025-apd",
+   "lane": "safety",
+   "date": "2025-01-24",
+   "date_precision": "day",
+   "date_basis": "arXiv v1",
+   "date_context": "arXiv v1 posted 24 Jan 2025; v4 on 7 Feb 2025.",
+   "title": "Interpretability in Parameter Space: Minimizing Mechanistic Description Length with Attribution-based Parameter Decomposition (APD)",
+   "label": "APD: decomposing the weights",
+   "kind": "paper",
+   "importance": 2,
+   "problem": "Sparse autoencoders split a network's activations into features. That shows what the network represents on an input, but not which weights do the computing, and there was no agreed way to cut the parameters themselves into mechanisms.",
+   "idea": "Braun, Bushnaq, Sharkey and colleagues at Apollo Research wrote a network's parameters as a sum of components, each a vector the size of the whole parameter set. The components must add up to the original weights, as few of them as possible may be needed on any one input, and each is pushed to be simple, close to low rank. Gradient attributions choose the top-k components that matter for an input, and those alone have to reproduce the network's output.",
+   "changed": "On toy models whose mechanisms were known in advance, APD recovered features stored in superposition, separated computations compressed into fewer neurons and found representations spread across layers. It made the case for treating mechanisms in the weights, rather than directions in activation space, as the unit of interpretation.",
+   "limits": "Each component is as large as the whole network, so memory grows with every component added. The authors' follow-up, SPD, also reported that APD found the right mechanisms only in a narrow range of hyperparameters, needed the top-k value chosen in advance and relied on gradient attributions, which estimate causal importance poorly. Every test used a toy model.",
+   "people": [
+    "Dan Braun",
+    "Lucius Bushnaq",
+    "Jake Mendel",
+    "Lee Sharkey"
+   ],
+   "orgs": [
+    "Apollo Research"
+   ],
+   "sources": [
+    {
+     "label": "Paper (arXiv, January 2025)",
+     "url": "https://arxiv.org/abs/2501.14926",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "safety-2022-toy-models-superposition",
+     "type": "builds_on",
+     "note": "One of APD's test cases is the toy model of superposition, whose features it recovers from the weights."
+    },
+    {
+     "to": "safety-2023-towards-monosemanticity",
+     "type": "parallel",
+     "note": "Sparse autoencoders decompose activations; APD decomposes the parameters."
+    }
+   ],
+   "tags": [
+    "mechanistic interpretability",
+    "parameter decomposition",
+    "superposition",
+    "toy models"
+   ],
+   "terms": [
+    {
+     "term": "parameter component",
+     "def": "A vector in the space of a network's weights; the components of a decomposition add up to the original weights."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2025-01-24"
+  },
+  {
    "id": "gov-2025-intl-ai-safety-report",
    "lane": "gov",
    "date": "2025-01-29",
@@ -8687,6 +8748,67 @@ window.TIMELINE_DATA = {
    "date_sort": "2025-05-22"
   },
   {
+   "id": "safety-2025-spd",
+   "lane": "safety",
+   "date": "2025-06-25",
+   "date_precision": "day",
+   "date_basis": "arXiv v1",
+   "date_context": "arXiv v1 posted 25 Jun 2025; v2 on 4 Sep 2025.",
+   "title": "Stochastic Parameter Decomposition (SPD)",
+   "label": "SPD: stochastic weight decomposition",
+   "kind": "paper",
+   "importance": 1,
+   "problem": "APD was hard to use. Each of its components cost as much memory as the whole network, it worked only in a narrow range of hyperparameters, including a top-k value that has to be guessed in advance, and it judged importance with gradient attributions.",
+   "idea": "Bushnaq, Braun and Sharkey split each weight matrix into rank-one subcomponents, which may outnumber the matrix's rank. A small learned function predicts, for every input, how much each subcomponent matters. In training, subcomponents are switched off by random amounts in line with that prediction, the model built from what remains must still match the original output, and a penalty pushes as many predictions as possible towards zero. A subcomponent therefore stays important only where removing it would change the output.",
+   "changed": "SPD recovered the known mechanisms in all of APD's toy models and also decomposed two harder ones where APD struggled: a superposition model with an extra identity matrix and a deeper model with representations spread across layers. It avoided the shrinkage of learned parameters seen with APD, and its code was released. The same authors' VPD (2026) later decomposed a small language model.",
+   "limits": "All tests used toy models. Rank-one subcomponents sit in single layers, so a separate clustering step is needed to assemble mechanisms that span several ranks or layers, and in these toy models the right groups were known beforehand.",
+   "people": [
+    "Lucius Bushnaq",
+    "Dan Braun",
+    "Lee Sharkey"
+   ],
+   "orgs": [
+    "Goodfire",
+    "Apollo Research"
+   ],
+   "sources": [
+    {
+     "label": "Paper (arXiv, June 2025)",
+     "url": "https://arxiv.org/abs/2506.20790",
+     "kind": "primary"
+    },
+    {
+     "label": "Code for the paper (GitHub)",
+     "url": "https://github.com/goodfire-ai/spd/tree/spd-paper",
+     "kind": "primary"
+    }
+   ],
+   "links": [
+    {
+     "to": "safety-2025-apd",
+     "type": "builds_on",
+     "note": "Replaces APD's top-k gradient attributions with learned causal importance and random ablations, and its full-size components with rank-one subcomponents."
+    }
+   ],
+   "tags": [
+    "mechanistic interpretability",
+    "parameter decomposition",
+    "causal interventions",
+    "toy models"
+   ],
+   "terms": [
+    {
+     "term": "causal importance",
+     "def": "How much a subcomponent can be removed on a given input without changing the output; SPD trains a small function to predict it."
+    }
+   ],
+   "verified": {
+    "date": true,
+    "urls": true
+   },
+   "date_sort": "2025-06-25"
+  },
+  {
    "id": "gov-2025-eu-gpai-code",
    "lane": "gov",
    "date": "2025-07-10",
@@ -9319,6 +9441,11 @@ window.TIMELINE_DATA = {
    ],
    "links": [
     {
+     "to": "safety-2025-spd",
+     "type": "builds_on",
+     "note": "Same authors; takes parameter decomposition from SPD's toy models to a 67-million-parameter language model."
+    },
+    {
      "to": "safety-2025-circuit-tracing",
      "type": "parallel",
      "note": "Both analyse prompt-level mechanisms. VPD uses parameter components, and circuit tracing uses a replacement model."
@@ -9747,9 +9874,11 @@ window.TIMELINE_DATA = {
     "safety-2024-scaling-monosemanticity",
     "safety-2025-circuit-tracing",
     "safety-2025-persona-vectors",
+    "safety-2025-apd",
+    "safety-2025-spd",
     "safety-2026-vpd"
    ],
-   "summary": "Mechanistic interpretability tries to reverse engineer a trained network, finding the concepts it represents and the circuits that combine them. Early circuits work on an image model found a car detector assembled from window and wheel detectors, and induction heads explained part of how transformers learn from examples in their prompt. Single neurons proved hard to read because networks pack in more features than they have neurons, a pattern called superposition. Sparse autoencoders pulled those features apart, and by 2024 they worked on Claude 3 Sonnet, where clamping a Golden Gate Bridge feature made the model talk about the bridge. Attribution graphs traced how features combine on single prompts, and the route ends with a 2026 method that decomposes the weights themselves. None of these methods yet detects deception reliably.",
+   "summary": "Mechanistic interpretability tries to reverse engineer a trained network, finding the concepts it represents and the circuits that combine them. Early circuits work on an image model found a car detector assembled from window and wheel detectors, and induction heads explained part of how transformers learn from examples in their prompt. Single neurons proved hard to read because networks pack in more features than they have neurons, a pattern called superposition. Sparse autoencoders pulled those features apart, and by 2024 they worked on Claude 3 Sonnet, where clamping a Golden Gate Bridge feature made the model talk about the bridge. Attribution graphs traced how features combine on single prompts. A parallel line decomposes the weights themselves: on toy models in 2025, then on a small language model in 2026, where the route ends. None of these methods yet detects deception reliably.",
    "lane": "safety"
   },
   {
@@ -10547,7 +10676,8 @@ window.TIMELINE_DATA = {
    ],
    "key_event_ids": [
     "gov-2023-apollo-founded",
-    "rl-2024-o1"
+    "rl-2024-o1",
+    "safety-2025-apd"
    ],
    "status_as_of_2026_11": "A Public Benefit Corporation with London and San Francisco offices. It researches scheming evaluations and mitigation, and its Watcher applies monitoring to frontier agents.",
    "sources": [
@@ -10682,6 +10812,7 @@ window.TIMELINE_DATA = {
    ],
    "key_event_ids": [
     "safety-2023-towards-monosemanticity",
+    "safety-2025-spd",
     "safety-2026-vpd"
    ],
    "status_as_of_2026_11": "An interpretability company working on model understanding and interventions. Its May 2026 VPD work analysed a small language model's parameter components.",
