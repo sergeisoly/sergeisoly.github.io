@@ -10,6 +10,7 @@ listing:
     type: partial
   date-format: "D MMM YYYY"
 body-classes: personal-page
+anchor-sections: false
 # The page was public as /writing.html before it was renamed.
 aliases:
   - writing.html

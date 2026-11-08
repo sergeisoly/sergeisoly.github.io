@@ -2,6 +2,7 @@
 title: "Research and posts"
 description: "Research and writing by Sergei Solovev."
 body-classes: personal-home personal-page
+anchor-sections: false
 listing:
   id: recent-writing
   contents: posts
@@ -18,9 +19,11 @@ listing:
 ::: {.writing-entry .home-research-entry}
 <p class="entry-meta"><time datetime="2026-10-14">14 Oct 2026</time></p>
 
-### [Some Studies of Language Model Weight Edits](/interesearch/)
+<h3 class="listing-title"><a href="/interesearch/">Some Studies of Language Model Weight Edits</a></h3>
 
 Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.
+
+<p class="entry-topics">interpretability · model editing</p>
 
 :::
 
