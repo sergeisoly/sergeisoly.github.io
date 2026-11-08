@@ -12114,7 +12114,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Paul Christiano",
-   "known_for": "Alignment researcher known for preference-based RL and iterated amplification. Founded ARC, has worked at the US AI Safety Institute and its successor CAISI since 2024, and joined the OpenAI Foundation board in September 2026.",
+   "known_for": "Alignment researcher known for preference-based RL and iterated amplification. He founded ARC in 2021, led safety at the US AI Safety Institute from 2024, and in August 2026 returned to ARC as executive director while advising CAISI one day a week. In September 2026 he joined the OpenAI Foundation board.",
    "affiliations": [
     {
      "org": "OpenAI (alignment research)",
@@ -12124,13 +12124,17 @@ window.TIMELINE_DATA = {
     {
      "org": "ARC (founder)",
      "from": "2021",
+     "to": "2024"
+    },
+    {
+     "org": "US AI Safety Institute (head of safety), then CAISI (part-time from 2026)",
+     "from": "2024",
      "to": null
     },
     {
-     "org": "US AI Safety Institute (head of safety), then CAISI (Senior Technical Advisor)",
-     "from": "2024",
-     "to": null,
-     "uncertain": true
+     "org": "ARC (executive director)",
+     "from": "2026-08",
+     "to": null
     },
     {
      "org": "OpenAI Foundation board and Safety and Security Committee",
@@ -12147,6 +12151,48 @@ window.TIMELINE_DATA = {
     {
      "label": "OpenAI appointment; concurrent CAISI advisory role reported 9 September 2026",
      "url": "https://openai.com/index/paul-christiano-joins-openai-foundation-board/"
+    },
+    {
+     "label": "Christiano: Returning to ARC (4 Aug 2026)",
+     "url": "https://www.lesswrong.com/posts/vLFh8HP3hyNy9MCwe/returning-to-arc"
+    }
+   ]
+  },
+  {
+   "name": "Geoffrey Irving",
+   "known_for": "Proposed AI safety via debate (2018) and co-authored the 2019 work that fine-tuned language models from human preferences, both at OpenAI. He then led DeepMind's scalable alignment team, which built Sparrow. From 2024 he was research director, then chief scientist, of the UK AI Security Institute, and in June 2026 he co-founded the alignment non-profit Sequent, later renamed Resolution.",
+   "affiliations": [
+    {
+     "org": "OpenAI",
+     "from": "2017",
+     "to": "2019",
+     "uncertain": true
+    },
+    {
+     "org": "DeepMind",
+     "from": "2019",
+     "to": "2023"
+    },
+    {
+     "org": "UK AI Security Institute (research director, then chief scientist)",
+     "from": "2024",
+     "to": "2026"
+    },
+    {
+     "org": "Resolution (co-founder, chief scientist; launched as Sequent)",
+     "from": "2026",
+     "to": null
+    }
+   ],
+   "key_event_ids": [
+    "safety-2018-debate",
+    "rl-2019-lm-human-prefs",
+    "safety-2022-sparrow"
+   ],
+   "sources": [
+    {
+     "label": "UK AI Safety Institute: third progress report",
+     "url": "https://www.gov.uk/government/publications/uk-ai-safety-institute-third-progress-report"
     }
    ]
   },
@@ -12179,6 +12225,32 @@ window.TIMELINE_DATA = {
    ]
   },
   {
+   "name": "John Schulman",
+   "known_for": "OpenAI co-founder who developed TRPO and PPO and helped lead the work behind WebGPT and ChatGPT. He left for Anthropic in August 2024 to focus on alignment, and in February 2025 became chief scientist of Thinking Machines Lab.",
+   "affiliations": [
+    {
+     "org": "OpenAI",
+     "from": "2015",
+     "to": "2024"
+    },
+    {
+     "org": "Anthropic",
+     "from": "2024",
+     "to": "2025"
+    },
+    {
+     "org": "Thinking Machines Lab (chief scientist)",
+     "from": "2025",
+     "to": null
+    }
+   ],
+   "key_event_ids": [
+    "rl-2017-ppo",
+    "rl-2021-webgpt",
+    "lm-2022-chatgpt"
+   ]
+  },
+  {
    "name": "Dario Amodei",
    "known_for": "Co-authored 'Concrete Problems' at Google Brain, led research at OpenAI on GPT-2 and GPT-3, then co-founded Anthropic as CEO.",
    "affiliations": [
@@ -12207,6 +12279,34 @@ window.TIMELINE_DATA = {
     "safety-2016-concrete-problems",
     "gov-2021-anthropic-founded",
     "gov-2023-rsp"
+   ]
+  },
+  {
+   "name": "Jared Kaplan",
+   "known_for": "Johns Hopkins physicist who led the 2020 scaling-laws study at OpenAI and co-founded Anthropic in 2021. As its chief science officer he oversees research, and in October 2024 he became its Responsible Scaling Officer.",
+   "affiliations": [
+    {
+     "org": "Johns Hopkins University",
+     "from": "2012",
+     "to": null,
+     "uncertain": true
+    },
+    {
+     "org": "OpenAI (research consultant)",
+     "from": "2019",
+     "to": "2020",
+     "uncertain": true
+    },
+    {
+     "org": "Anthropic (chief science officer)",
+     "from": "2021",
+     "to": null
+    }
+   ],
+   "key_event_ids": [
+    "lm-2020-scaling-laws",
+    "gov-2021-anthropic-founded",
+    "safety-2022-constitutional-ai"
    ]
   },
   {
@@ -12265,6 +12365,27 @@ window.TIMELINE_DATA = {
    ]
   },
   {
+   "name": "Sam Altman",
+   "known_for": "OpenAI co-founder and, since 2019, its CEO; before that he was president of Y Combinator (2014–2019). In 2015 he wrote that superhuman machine intelligence was probably the greatest threat to humanity's continued existence. The board removed him in November 2023 and reinstated him within days.",
+   "affiliations": [
+    {
+     "org": "Y Combinator (president)",
+     "from": "2014",
+     "to": "2019"
+    },
+    {
+     "org": "OpenAI (CEO from 2019)",
+     "from": "2015",
+     "to": null
+    }
+   ],
+   "key_event_ids": [
+    "gov-2015-openai-founded",
+    "gov-2019-openai-lp",
+    "gov-2023-openai-board-crisis"
+   ]
+  },
+  {
    "name": "Shane Legg",
    "known_for": "DeepMind co-founder and Chief AGI Scientist who wrote about AGI risk before founding the lab.",
    "affiliations": [
@@ -12292,6 +12413,41 @@ window.TIMELINE_DATA = {
     "gov-2010-deepmind-founded",
     "gov-2023-cais-statement",
     "rl-2016-alphago"
+   ]
+  },
+  {
+   "name": "David Silver",
+   "known_for": "Led DeepMind's reinforcement-learning research behind AlphaGo, AlphaZero and MuZero, and co-authored DQN. With Richard Sutton he wrote 'Welcome to the Era of Experience' (2025). In January 2026 he left Google DeepMind to found Ineffable Intelligence in London; he remains a professor at UCL.",
+   "affiliations": [
+    {
+     "org": "University College London (professor)",
+     "from": "2010",
+     "to": null,
+     "uncertain": true
+    },
+    {
+     "org": "DeepMind",
+     "from": "2013",
+     "to": "2026",
+     "uncertain": true
+    },
+    {
+     "org": "Ineffable Intelligence (founder)",
+     "from": "2026",
+     "to": null
+    }
+   ],
+   "key_event_ids": [
+    "rl-2013-dqn",
+    "rl-2016-alphago",
+    "rl-2017-alphazero",
+    "rl-2019-muzero"
+   ],
+   "sources": [
+    {
+     "label": "Fortune: Silver leaves Google DeepMind to found Ineffable Intelligence (30 Jan 2026)",
+     "url": "https://fortune.com/2026/01/30/google-deepmind-ai-researcher-david-silver-leaves-to-found-ai-startup-ineffable-intelligence/"
+    }
    ]
   },
   {
@@ -12345,6 +12501,57 @@ window.TIMELINE_DATA = {
    ]
   },
   {
+   "name": "Yann LeCun",
+   "known_for": "Developed convolutional networks (LeNet) at Bell Labs and founded Facebook's FAIR lab in 2013. He shared the 2018 Turing Award with Hinton and Bengio but, unlike them, called warnings that AI might wipe out humanity 'preposterously ridiculous' (2023), and he opposed SB 1047. He left Meta at the end of 2025 and is executive chairman of AMI Labs, which works on AI that models the physical world.",
+   "affiliations": [
+    {
+     "org": "Bell Labs",
+     "from": "1988",
+     "to": "1996"
+    },
+    {
+     "org": "AT&T Labs-Research",
+     "from": "1996",
+     "to": "2002"
+    },
+    {
+     "org": "NEC Research Institute",
+     "from": "2002",
+     "to": "2003"
+    },
+    {
+     "org": "New York University",
+     "from": "2003",
+     "to": null
+    },
+    {
+     "org": "Meta (FAIR founder, chief AI scientist)",
+     "from": "2013",
+     "to": "2025"
+    },
+    {
+     "org": "AMI Labs (co-founder, executive chairman)",
+     "from": "2025",
+     "to": null,
+     "uncertain": true
+    }
+   ],
+   "key_event_ids": [
+    "lm-1989-lenet",
+    "gov-2013-fair-founded"
+   ],
+   "sources": [
+    {
+     "label": "Yann LeCun: biography",
+     "url": "http://yann.lecun.com/ex/bio.html"
+    },
+    {
+     "label": "TechCrunch: who is behind AMI Labs (23 Jan 2026)",
+     "url": "https://techcrunch.com/2026/01/23/whos-behind-ami-labs-yann-lecuns-world-model-startup/"
+    }
+   ]
+  },
+  {
    "name": "Richard Sutton",
    "known_for": "A founder of modern RL, known for TD learning and 'The Bitter Lesson'. Shared the 2024 Turing Award with Andrew Barto and is sceptical of AI-doom framing.",
    "affiliations": [
@@ -12368,6 +12575,62 @@ window.TIMELINE_DATA = {
    ],
    "key_event_ids": [
     "rl-1988-td-learning"
+   ]
+  },
+  {
+   "name": "Andrew Barto",
+   "known_for": "University of Massachusetts Amherst researcher (professor emeritus since 2012) who, with his student Richard Sutton, developed actor-critic learning and wrote the standard reinforcement-learning textbook (1998). The two shared the 2024 Turing Award.",
+   "affiliations": [
+    {
+     "org": "University of Massachusetts Amherst (professor emeritus from 2012)",
+     "from": "1977",
+     "to": null
+    }
+   ],
+   "key_event_ids": [
+    "rl-1983-actor-critic",
+    "rl-1998-sutton-barto"
+   ],
+   "sources": [
+    {
+     "label": "UMass Amherst: Barto shares the 2024 ACM Turing Award",
+     "url": "https://www.cics.umass.edu/news/barto-2024-acm-turing-award"
+    }
+   ]
+  },
+  {
+   "name": "Andrew Ng",
+   "known_for": "Machine-learning researcher who, with Daishi Harada and Stuart Russell, introduced potential-based reward shaping (1999) and, with Russell, gave the first algorithms for inverse reinforcement learning (2000). He co-founded Google Brain (2011) and Coursera (2012), was Baidu's chief scientist (2014–2017) and founded DeepLearning.AI. A prominent sceptic of AI extinction risk, he compared worrying about evil AI to worrying about overpopulation on Mars (2015) and opposed California's SB 1047 (2024).",
+   "affiliations": [
+    {
+     "org": "Stanford University",
+     "from": "2002",
+     "to": null
+    },
+    {
+     "org": "Google Brain",
+     "from": "2011",
+     "to": "2012"
+    },
+    {
+     "org": "Coursera (co-founder)",
+     "from": "2012",
+     "to": null
+    },
+    {
+     "org": "Baidu",
+     "from": "2014",
+     "to": "2017"
+    },
+    {
+     "org": "DeepLearning.AI (founder)",
+     "from": "2017",
+     "to": null
+    }
+   ],
+   "key_event_ids": [
+    "rl-1999-reward-shaping",
+    "rl-2000-inverse-rl"
    ]
   },
   {
