@@ -378,6 +378,18 @@
     el("rect", { x: 0, y: CMP_TOP - 6, width, height: CMP_H + 12 }, clip);
     const cmpG = el("g", { "clip-path": "url(#cmp-clip)" }, svg);
     cmp = { grid: el("g", {}, cmpG), path: null, front: [], pts: [], lo: null, hi: null, target: null };
+    // Legal compute thresholds start at the date of the measure that set them.
+    cmp.th = [
+      ["gov-2023-eo-14110", 26, "10²⁶ FLOP · US EO 14110, SB 53", "Training runs above 10²⁶ FLOP had to be reported to the US government under Executive Order 14110 (October 2023, revoked January 2025). California's SB 53 (2025) uses the same threshold for frontier developers."],
+      ["gov-2024-eu-ai-act", 25, "10²⁵ FLOP · EU AI Act", "Under the EU AI Act, a general-purpose model trained with more than 10²⁵ FLOP is presumed to have systemic risk."],
+    ].map(([id, lg, label, tip]) => {
+      const ev = D.events.find((e) => e.id === id);
+      if (!ev) return null;
+      const t = { x: X(yearOfStr(ev.date)), lg, line: el("line", { class: "cmp-threshold" }, cmpG), text: el("text", { class: "cmp-threshold-text" }, cmpG, label) };
+      t.text.addEventListener("mouseenter", (e2) => showTip(e2, esc(tip)));
+      t.text.addEventListener("mousemove", moveTip); t.text.addEventListener("mouseleave", hideTip);
+      return t;
+    }).filter(Boolean);
     const front = F.filter(shown).map((p) => ({ p, x: X(yearOfStr(p.date)), lg: Math.log10(p.flop) }));
     if (front.length > 1) {
       cmp.path = el("path", { class: "cmp-trend" }, cmpG);
@@ -385,7 +397,7 @@
       front.forEach((f) => {
         f.el = el("circle", { cx: f.x, r: 5, class: "cmp-frontier-hit" }, cmpG);
         // No SVG <title> here: the browser would show it as a second tooltip next to ours.
-        f.el.addEventListener("mouseenter", (ev) => showTip(ev, `${esc(f.p.model)} · envelope estimate<br>${esc(f.p.flop.toExponential(1))} FLOP · ${esc(f.p.confidence || "confidence not supplied")}<br>≈ ${h100(f.p.flop)} on one H100 at 40% utilization`));
+        f.el.addEventListener("mouseenter", (ev) => showTip(ev, `${esc(f.p.model)} · envelope estimate<br>${esc(f.p.flop.toExponential(1))} FLOP · ${esc(f.p.confidence || "confidence not supplied")}<br>≈ ${h100(f.p.flop)} on one H100`));
         f.el.addEventListener("mousemove", moveTip); f.el.addEventListener("mouseleave", hideTip);
       });
       cmp.front = front;
@@ -394,7 +406,7 @@
       const q = { p, x: X(yearOfStr(p.date)), lg: Math.log10(p.flop) };
       const lab = [...LABELED].some((n) => n && p.model.startsWith(n.replace(/ \(.*?$/, "")) && (n === p.model || p.model.startsWith(n)));
       q.el = el("circle", { cx: q.x, r: lab ? 3.4 : 2.6, class: "cmp-dot conf-" + String(p.confidence || "unknown").toLowerCase().replace(/[^a-z]/g, "") + (lab ? " lab" : "") }, cmpG);
-      q.el.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(p.model)}</b><br>${esc(p.date.slice(0, 7))} · ${esc(p.flop.toExponential(1))} estimated FLOP<br>≈ ${h100(p.flop)} on one H100 at 40% utilization<br>Epoch confidence: ${esc(p.confidence || "not supplied")}`));
+      q.el.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(p.model)}</b><br>${esc(p.date.slice(0, 7))} · ${esc(p.flop.toExponential(1))} estimated FLOP<br>≈ ${h100(p.flop)} on one H100<br>Epoch confidence: ${esc(p.confidence || "not supplied")}`));
       q.el.addEventListener("mousemove", moveTip); q.el.addEventListener("mouseleave", hideTip);
       if (lab) {
         const text = p.model.replace(/ \(.*\)$/, "").replace(" 175B", "") + " · " + h100(p.flop), w = textW(text, 12), left = q.x + 6 + w > width - 4;
@@ -428,7 +440,7 @@
     labelsCol.style.height = height + "px";
     labelsCol.insertAdjacentHTML("beforeend", `<div class="lab compute-heading" style="top:0px"><b>Compute</b><span class="compute-unit">FLOP<i class="h100"> · H100 h</i></span></div><div class="cmp-ticks"></div>`);
     cmp.ticks = labelsCol.querySelector(".cmp-ticks");
-    labelsCol.querySelector(".compute-heading").addEventListener("mouseenter", (ev) => showTip(ev, "Training compute as estimated FLOP and as time on one H100 GPU at 40% utilization (989 TFLOP/s dense BF16 peak). Divide by the number of GPUs for wall-clock time."));
+    labelsCol.querySelector(".compute-heading").addEventListener("mouseenter", (ev) => showTip(ev, "Training compute as estimated FLOP and as time on one H100 GPU; the note under the map gives the assumption. Divide by the number of GPUs for wall-clock time. Epoch AI has no estimate for many frontier models from 2025 on, so the most recent part of the line rests on few models."));
     labelsCol.querySelector(".compute-heading").addEventListener("mousemove", moveTip);
     labelsCol.querySelector(".compute-heading").addEventListener("mouseleave", hideTip);
     const BAND_NAMES = { 3: "Key events", 2: "Standard events", 1: "Details" };
@@ -668,6 +680,15 @@
     cmp.grid.innerHTML = "";
     ticks.forEach((n) => el("line", { x1: 0, x2: mapSvg.getAttribute("width"), y1: cy(n), y2: cy(n), class: "cmp-grid" }, cmp.grid));
     cmp.ticks.innerHTML = ticks.map((n) => `<div class="lab num" style="top:${cy(n) - 8}px;text-align:right"><span>10<sup>${n}</sup><i class="h100"> · ${h100(10 ** n)}</i></span></div>`).join("");
+    cmp.th.forEach((t) => {
+      const y = cy(t.lg), shown = t.lg >= lo && t.lg <= hi;
+      t.line.style.display = t.text.style.display = shown ? "" : "none";
+      t.line.setAttribute("x1", t.x); t.line.setAttribute("x2", mapSvg.getAttribute("width"));
+      t.line.setAttribute("y1", y); t.line.setAttribute("y2", y);
+      t.text.setAttribute("y", y + 11);
+      t.text.parentNode.appendChild(t.text); // drawn last, above the frontier line
+    });
+    placeThresholdLabels();
     cmp.front.forEach((f) => { f.y = cy(f.lg); f.el.setAttribute("cy", f.y); });
     if (cmp.path) cmp.path.setAttribute("d", "M" + cmp.front.map((f, i) => (i ? `H${f.x.toFixed(1)} V${f.y.toFixed(1)}` : `${f.x.toFixed(1)},${f.y.toFixed(1)}`)).join(" "));
     // Labels that would run past the right edge sit to the left of their dot; one that would cover an
@@ -680,6 +701,16 @@
       while (placed.some((r) => q.x1 < r.x2 && q.x1 + q.w > r.x1 && Math.abs(y - r.y) < 12)) y += 13;
       placed.push({ x1: q.x1, x2: q.x1 + q.w, y });
       q.text.setAttribute("y", y);
+    });
+  }
+  // Threshold labels sit under the visible right end of their line, clear of the frontier steps and model
+  // labels, and follow the window as the map scrolls; they never start before the line does.
+  function placeThresholdLabels() {
+    if (!cmp || !cmp.th) return;
+    const right = Math.min(+mapSvg.getAttribute("width"), mapScroll.scrollLeft + mapScroll.clientWidth) - 6;
+    cmp.th.forEach((t) => {
+      t.w = t.w || t.text.getComputedTextLength();
+      t.text.setAttribute("x", Math.max(right, t.x + 4 + t.w));
     });
   }
   function computeTarget() {
@@ -712,6 +743,7 @@
   function updateOverview(animate = false) {
     if (!overview || !layout) return;
     updateCompute(animate === true);
+    placeThresholdLabels();
     const a = yearAtX(mapScroll.scrollLeft), b = yearAtX(mapScroll.scrollLeft + mapScroll.clientWidth);
     const ox = (y) => 12 + ((y - Y0) / (2027.1 - Y0)) * 976;
     const rect = $(".overview-window", overview);
@@ -833,7 +865,7 @@
         ${(e.terms || []).length ? `<div><div class="eyebrow">Terms</div><dl class="terms">${e.terms.map((t) => `<dt>${prose(t.term)}</dt><dd>${prose(t.def)}</dd>`).join("")}</dl></div>` : ""}
       </div>
       <div class="side">
-        ${(e.sources || []).length ? `<div class="reads"><div class="eyebrow">Read next</div>${e.sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label || s.url)}</a>`).join("")}</div>` : ""}
+        ${(e.sources || []).length ? `<div class="reads"><div class="eyebrow">Read next</div>${e.developer_report ? '<p class="source-note">The main evidence is the developer\'s own report.</p>' : ""}${e.sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label || s.url)}</a>`).join("")}</div>` : ""}
         ${routes.length ? `<div class="reads"><div class="eyebrow">On the routes</div>${routes.map((t) => `<a href="#${esc(t.id)}" data-route="${esc(t.id)}">${esc(t.question || t.title)}</a>`).join("")}</div>` : ""}
         ${conns.length ? `<details class="conn-group"${conns.some((c) => c.key === state.connection) ? " open" : ""}><summary><span class="eyebrow">Connections</span><span class="conn-count num">${conns.length}</span></summary><ul class="conn">${conns.map((c) => { const o = byId.get(c.id); return `<li data-connection-row="${esc(c.key)}"><span class="rel">${esc(c.rel)}</span><span><a href="#${esc(c.id)}" data-ev="${esc(c.id)}">${esc(o.title)}</a> <span class="num" style="color:var(--muted)">${o.date_sort.slice(0, 4)}</span>${c.note ? `<span class="why">${esc(c.note)}</span>` : ""}<button type="button" class="text-button connection-explain" data-explain-connection="${esc(c.key)}" aria-expanded="${state.connection === c.key}" aria-controls="atlas-connection-detail" aria-label="Explain: ${esc(connectionLabel(c))}">Explain this connection</button></span></li>`; }).join("")}</ul></details>` : ""}
       </div>
