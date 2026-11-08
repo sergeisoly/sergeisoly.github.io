@@ -93,6 +93,9 @@
 .atlas .map .cmp-text { fill: var(--muted); font-size: 12px; }
 .atlas .map .cmp-grid { stroke: var(--rule); stroke-dasharray: 2 4; }
 .atlas .map .cmp-trend { stroke: var(--line); stroke-width: 1; fill: none; opacity: .7; }
+.atlas .map .cmp-threshold { stroke: var(--gov); stroke-width: 1; stroke-dasharray: 5 3; opacity: .55; }
+.atlas .map .cmp-threshold-text { fill: var(--gov); font-size: 11px; text-anchor: end; cursor: help; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; stroke-linejoin: round; }
+.atlas .reads .source-note { color: var(--muted); font-size: .85rem; line-height: 1.45; margin: .1rem 0 .35rem; }
 .atlas .context { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; padding: .7rem 0; font-size: .92rem; }
 .atlas .context[hidden] { display: none; }
 .atlas .context b { font-family: var(--serif); font-weight: 500; font-size: 1.1rem; }
