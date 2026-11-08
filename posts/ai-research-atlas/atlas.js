@@ -121,12 +121,19 @@
   const orgById = new Map(D.orgs.map((o) => [o.id, o]));
   // "Safe Superintelligence (co-founder)" and "Safe Superintelligence" are one organisation; the role stays in the text.
   const baseName = (s) => String(s).replace(/\s*\([^)]*\)\s*$/, "").trim();
+  // "Independent" in a career is a gap between organisations, not an organisation with a profile.
+  const notOrg = (name) => /^independent$/i.test(baseName(name));
   [...new Set([...D.events.flatMap((e) => e.orgs || []), ...D.people.flatMap((p) => (p.affiliations || []).map((a) => a.org))].map(baseName))].forEach((name) => {
+    if (notOrg(name)) return;
     if (!D.orgs.some((o) => orgMatches({ id: "", orgs: [name] }, o))) {
       const id = `unlisted-${personId({ name })}`;
       orgById.set(id, { id, name, key_event_ids: D.events.filter((e) => (e.orgs || []).some((o) => baseName(o) === name)).map((e) => e.id), affiliations: D.people.flatMap((p) => (p.affiliations || []).filter((a) => baseName(a.org) === name).map((a) => ({ ...a, person: p.name }))) });
     }
   });
+  // The organisation profile an affiliation or card name opens: a curated record when one fits, else the generated stub.
+  const orgKeyFor = (name) => { if (notOrg(name)) return null; const o = orgForName(name) || [...orgById.values()].find((x) => x.name === baseName(name)); return o ? `org:${o.id}` : null; };
+  // Curated organisations list the people whose affiliation bars open them, so the profile and the chart agree.
+  D.orgs.forEach((o) => { o.affiliations = D.people.flatMap((p) => (p.affiliations || []).filter((a) => orgKeyFor(a.org) === `org:${o.id}`).map((a) => ({ ...a, person: p.name }))); });
   const profileRecords = [...D.people.map((p) => ({ key: `person:${personId(p)}`, name: p.name, kind: "Person", text: [p.name, p.known_for, ...(p.affiliations || []).map((a) => a.org)].join(" ") })),
     ...D.orgs.map((o) => ({ key: `org:${o.id}`, name: o.name, kind: "Organisation", text: [o.name, ...(o.aliases || []), ...(o.founders || []), o.historical_role, o.kind].join(" ") }))];
   const allProfileRecords = [...personById].map(([id, p]) => ({ key: `person:${id}`, name: p.name, kind: "Person", text: [p.name, p.known_for, ...(p.affiliations || []).map((a) => a.org)].join(" ") })).concat([...orgById].map(([id, o]) => ({ key: `org:${id}`, name: o.name, kind: "Organisation", text: [o.name, ...(o.aliases || []), ...(o.founders || []), o.historical_role, o.kind].join(" ") })));
@@ -162,7 +169,7 @@
     });
     hideTip();
     // The chart is measured while visible; once it is on screen, profile changes update it in place.
-    if (name === "people" && profilePanel && !(shown && mounts.people.clientWidth)) renderPeople();
+    if (name === "people" && profilePanel) { if (String(mounts.people.clientWidth) !== mounts.people.dataset.width) renderPeople(); else renderProfile(); }
     if (name === "map" && layout) { mapScroll.scrollLeft = preservedMapScroll; updateOverview(); updateDiagramHints(); }
     updateWorkspaceSticky();
   }
@@ -874,6 +881,7 @@
     fillMath(pane); renderConnectionDetail(); updateDiagramHints();
   }
   function orgLink(name) {
+    if (notOrg(name)) return esc(name);
     const o = orgForName(name) || [...orgById.values()].find((x) => x.name === baseName(name));
     return o ? `<a href="#${profileHash(`org:${o.id}`)}" data-profile="org:${esc(o.id)}" aria-controls="atlas-profile" aria-expanded="${state.profile === `org:${o.id}`}">${esc(name)}</a>` : esc(name);
   }
@@ -896,7 +904,8 @@
   }
   function select(id, opts = {}) {
     if (!byId.has(id)) return;
-    const previous = state.selected;
+    // A card still open behind another tab is not the current view: opening it again from there gets its own history entry.
+    const previous = state.tab === "map" ? state.selected : null;
     if (opts.history !== false) saveHistory(true, true);
     setPanel("map");
     state.selected = id; state.focus = id; state.connection = null; connectionHover = null; connectionFocus = null; connectionTrigger = null;
@@ -980,8 +989,8 @@
     mapScroll.addEventListener("scroll", () => updateOverview(true), { passive: true });
     // Mobile browsers fire resize when the address bar or keyboard moves; the people chart depends on width only,
     // and rebuilding it then would drop the search field's focus and the chart's scroll position.
-    let peopleWidth = innerWidth;
-    addEventListener("resize", () => { updateOverview(); updateChip(); updateWorkspaceSticky(); updateDiagramHints(); if (innerWidth !== peopleWidth && mounts.people?.clientWidth) { peopleWidth = innerWidth; renderPeople(); } });
+    let peopleWidth = innerWidth, peopleResize = 0;
+    addEventListener("resize", () => { updateOverview(); updateChip(); updateWorkspaceSticky(); updateDiagramHints(); if (innerWidth !== peopleWidth && mounts.people?.clientWidth) { clearTimeout(peopleResize); peopleResize = setTimeout(() => { peopleWidth = innerWidth; renderPeople(); }, 120); } });
     if (window.ResizeObserver) new ResizeObserver(updateWorkspaceSticky).observe($(".chart-column", m));
     // drag to pan
     let drag = null;
@@ -1064,13 +1073,12 @@
     if (!m) return;
     if (!D.people.length && !D.orgs.length) { m.innerHTML = ""; return; }
     const previousQuery = $("#atlas-org-search", m)?.value || "";
-    const previousChoice = $("#atlas-profile-select", m)?.value || "";
     const pendingChoice = $("#atlas-profile-select", m)?.dataset.choice || "";
     const chartScroll = $(".people-chart", m)?.scrollLeft || 0, searchFocused = document.activeElement === $("#atlas-org-search", m);
     // On wide screens the profile column is always reserved, so opening or closing a profile never reflows the chart.
     const split = innerWidth > 1050;
     // A hidden panel measures 0 wide; size it from the map's mount, which shares the column, and redraw when the tab opens.
-    const mountWidth = m.clientWidth || mounts.map?.clientWidth || innerWidth;
+    const mountWidth = m.clientWidth || mounts.map?.clientWidth || innerWidth; m.dataset.width = m.clientWidth ? String(m.clientWidth) : "";
     const available = mountWidth - 25.6;
     const chartWidth = split ? available - Math.max(368, available / 2.55) : mountWidth;
     const A = 1995, NOW = 2026.85, NAME = 148, W = Math.round(innerWidth > 1050 ? chartWidth : Math.max(680, chartWidth)), BAR = 15, GAP = 4;
@@ -1094,7 +1102,9 @@
       const byTrack = {};
       p.roles.forEach((r) => {
         r.x1 = px(r.s[0]); r.x2 = px(r.s[1]); r.open = !r.to; r.end = r.x2 + (r.open ? 3.5 : 0); r.barW = Math.max(3, r.x2 - r.x1 - 1.5);
-        r.name = r.org.replace(/\s*\(.*?\)\s*/g, " ").trim(); r.textW = measureLabel(r.name);
+        // A role that began before the axis starts says its real start year, and its bar gets a notch on the left.
+        r.clipped = r.s[0] < A;
+        r.name = `${r.clipped ? `from ${Math.floor(r.s[0])} · ` : ""}${r.org.replace(/\s*\(.*?\)\s*/g, " ").trim()}`; r.textW = measureLabel(r.name);
         (byTrack[r.track] = byTrack[r.track] || []).push(r);
       });
       // Labels never cross another bar or label on their track: inside the bar, else beside it where the
@@ -1123,8 +1133,9 @@
         // Hit areas stop halfway to the neighbouring bars, so a click always selects the bar under the pointer.
         const track = byTrack[r.track], i = track.indexOf(r), prev = track[i - 1], next = track[i + 1], mid = (x1 + r.end) / 2;
         const hitL = Math.max(Math.min(x1 - 4, mid - 8), prev ? (prev.end + x1) / 2 : -Infinity), hitR = Math.min(Math.max(r.end + 4, mid + 8), next ? (r.end + next.x1) / 2 : Infinity);
-        svg += `<g class="role${r.uncertain ? " unsure" : ""}" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" data-affiliation="${r.index}" aria-label="${esc(p.name)} at ${esc(r.org)}, ${esc(roleDate(r.from) || "start unknown")} to ${esc(roleDate(r.to) || "present")}${r.uncertain ? ", dates uncertain" : ""}. Open affiliation details."><rect class="role-hit" x="${hitL}" y="${by - GAP / 2}" width="${Math.max(1, hitR - hitL)}" height="${BAR + GAP}"/><rect class="role-bar" x="${x1}" y="${by}" width="${r.barW}" height="${BAR}" rx="2.5" style="fill:var(--${tone});stroke:var(--${tone})"/>`;
+        svg += `<g class="role${r.uncertain ? " unsure" : ""}" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" data-affiliation="${r.index}" data-org-key="${esc(orgKeyFor(r.org) || "")}" aria-label="${esc(p.name)} at ${esc(r.org)}, ${esc(roleDate(r.from) || "start unknown")} to ${esc(roleDate(r.to) || "present")}${r.uncertain ? ", dates uncertain" : ""}. Open affiliation details."><rect class="role-hit" x="${hitL}" y="${by - GAP / 2}" width="${Math.max(1, hitR - hitL)}" height="${BAR + GAP}"/><rect class="role-bar" x="${x1}" y="${by}" width="${r.barW}" height="${BAR}" rx="2.5" style="fill:var(--${tone});stroke:var(--${tone})"/>`;
         if (open) svg += `<path d="M${x2 - 1.5},${by} l5,${BAR / 2} l-5,${BAR / 2}" style="fill:var(--${tone})" class="tip-arrow"/>`;
+        if (r.clipped) svg += `<path d="M${x1 + 1.5},${by} l-5,${BAR / 2} l5,${BAR / 2}" style="fill:var(--${tone})" class="tip-arrow"/>`;
         if (r.label) svg += `<text x="${r.label.x}" y="${by + 11}"${r.label.anchor ? ` text-anchor="${r.label.anchor}"` : ""} class="lb${r.label.out ? " out" : ""}">${esc(r.label.text)}</text>`;
         svg += `</g>`;
       });
@@ -1139,9 +1150,10 @@
       const list = (words.length ? allProfileRecords : profileRecords).filter((r) => words.every((w) => r.text.toLowerCase().includes(w)));
       const curated = new Set(profileRecords.map((r) => r.key));
       const select = $("#atlas-profile-select", m);
-      select.innerHTML = list.length ? ["Person", "Organisation"].map((kind) => `<optgroup label="${kind === "Person" ? "People" : "Organisations"}">${list.filter((r) => r.kind === kind).sort((a, b) => Number(curated.has(b.key)) - Number(curated.has(a.key)) || a.name.localeCompare(b.name)).map((r) => `<option value="${esc(r.key)}">${esc(r.name)}</option>`).join("")}</optgroup>`).join("") : '<option value="">No matching profiles</option>';
-      const choice = select.dataset.choice || state.profile || previousChoice;
-      if (list.some((r) => r.key === choice)) select.value = choice;
+      select.innerHTML = list.length ? '<option value="">Choose a profile…</option>' + ["Person", "Organisation"].map((kind) => `<optgroup label="${kind === "Person" ? "People" : "Organisations"}">${list.filter((r) => r.kind === kind).sort((a, b) => Number(curated.has(b.key)) - Number(curated.has(a.key)) || a.name.localeCompare(b.name)).map((r) => `<option value="${esc(r.key)}">${esc(r.name)}</option>`).join("")}</optgroup>`).join("") : '<option value="">No matching profiles</option>';
+      // The picker shows the open profile, or the reader's unopened choice; with neither it shows its prompt, not a stale name.
+      const choice = select.dataset.choice || state.profile || "";
+      select.value = list.some((r) => r.key === choice) ? choice : "";
       select.disabled = !list.length; $("[data-act=\"open-profile-choice\"]", m).disabled = !list.length;
       $("#atlas-org-count", m).textContent = `${list.length} profile${list.length === 1 ? "" : "s"}`;
     };
@@ -1183,6 +1195,9 @@
     // The dock stays visible beside the chart on wide screens; on narrow ones it shows only when there is something to say,
     // including the note that the profile is open beside the event card.
     peopleDock.hidden = !(active || innerWidth > 1050);
+    // Below the split width the profile opens as a sheet over the chart instead of below all its rows, so nothing scrolls away.
+    const sheet = active && dock === peopleDock && innerWidth <= 1050;
+    peopleDock.classList.toggle("is-sheet", sheet); workspace?.classList.toggle("sheet-open", sheet);
     dock.appendChild(profilePanel); if (timelineDock) {
       timelineDock.hidden = dock !== timelineDock || !active;
       timelineDock.querySelector(".profile-return")?.remove();
@@ -1200,6 +1215,8 @@
       n.classList.toggle("profile-selected", selected && (n.dataset.affiliation == null || Number(n.dataset.affiliation) === state.affiliationIndex));
       n.setAttribute("aria-expanded", String(selected)); n.setAttribute("aria-controls", "atlas-profile");
     });
+    // An open organisation lights every affiliation bar that opens it.
+    mounts.people.querySelectorAll(".people-chart [data-org-key]").forEach((n) => n.classList.toggle("org-selected", Boolean(state.profile) && n.dataset.orgKey === state.profile));
     profilePanel.id = "atlas-profile";
     if (!active) { profilePanel.removeAttribute("aria-labelledby"); profilePanel.innerHTML = '<div class="profile-placeholder"><h3>People and organisations</h3><p>Select a name or bar to open a profile.</p></div>'; return; }
     const isPerson = state.profile.startsWith("person:");
@@ -1207,29 +1224,42 @@
       const bottom = $(".people-workspace", mounts.people).getBoundingClientRect().bottom;
       profilePanel.style.setProperty("--profile-max", `${Math.max(160, Math.min(innerHeight - workspaceInset() - 16, bottom - workspaceInset()))}px`);
     }
-    const body = isPerson ? `${!record.known_for && !(record.affiliations || []).length ? '<p class="profile-kind">Related work in this atlas</p>' : ""}${record.known_for ? `<p>${esc(record.known_for)}</p>` : ""}${(record.affiliations || []).length ? '<h4>Affiliations</h4>' : ""}<ul class="profile-affiliations">${(record.affiliations || []).map((a, i) => `<li${state.affiliationIndex === i ? ' class="current"' : ""}>${orgLink(a.org)}<span class="num">${esc(roleDates(a))}</span></li>`).join("")}</ul>${relatedEvents([...(record.key_event_ids || []), ...D.events.filter((e) => (e.people || []).some((name) => name.toLowerCase() === record.name.toLowerCase())).map((e) => e.id)])}${profileSources(record.sources)}` : `<p class="profile-kind">${esc(record.kind || "Organisation")}${record.founded ? ` · Founded ${esc(record.founded)}` : record.activity_since ? ` · Active since ${esc(record.activity_since)}` : ""}</p>${record.founded_context ? `<p class="date-context">${esc(record.founded_context)}</p>` : ""}${(record.founders || []).length ? `<p class="profile-founders">Founders: ${record.founders.map(personLink).join(", ")}</p>` : ""}${record.historical_role ? `<p>${esc(record.historical_role)}</p>` : ""}${(record.research_focus || []).length ? `<p class="profile-focus">Research: ${record.research_focus.map(esc).join(", ")}.</p>` : ""}${record.status_as_of_2026_11 ? `<p class="now">As of November 2026: ${esc(record.status_as_of_2026_11)}</p>` : ""}${(record.affiliations || []).length ? `<h4>Affiliations</h4><ul class="profile-affiliations">${record.affiliations.map((a) => `<li>${personLink(a.person)}<span class="num">${esc(roleDates(a))}</span></li>`).join("")}</ul>` : ""}${relatedEvents(record.key_event_ids || [])}${(record.key_event_ids || []).length ? `<button type="button" class="text-button" data-org="${esc(record.id)}">Show related events on the map →</button>` : ""}${profileSources(record.sources)}`;
+    const body = isPerson ? `${!record.known_for && !(record.affiliations || []).length ? '<p class="profile-kind">Related work in this atlas</p>' : ""}${record.known_for ? `<p>${esc(record.known_for)}</p>` : ""}${(record.affiliations || []).length ? '<h4>Affiliations</h4>' : ""}<ul class="profile-affiliations">${(record.affiliations || []).map((a, i) => `<li${state.affiliationIndex === i ? ' class="current"' : ""}>${orgLink(a.org)}<span class="num">${esc(roleDates(a))}</span></li>`).join("")}</ul>${relatedEvents([...(record.key_event_ids || []), ...D.events.filter((e) => (e.people || []).some((name) => name.toLowerCase() === record.name.toLowerCase())).map((e) => e.id)])}${profileSources(record.sources)}` : `<p class="profile-kind">${esc(record.kind || "Organisation")}${record.founded ? ` · Founded ${esc(record.founded)}` : record.activity_since ? ` · Active since ${esc(record.activity_since)}` : ""}</p>${record.founded_context ? `<p class="date-context">${esc(record.founded_context)}</p>` : ""}${(record.founders || []).length ? `<p class="profile-founders">Founders: ${record.founders.map(personLink).join(", ")}</p>` : ""}${record.historical_role ? `<p>${esc(record.historical_role)}</p>` : ""}${(record.research_focus || []).length ? `<p class="profile-focus">Research: ${record.research_focus.map(esc).join(", ")}.</p>` : ""}${record.status_as_of_2026_11 ? `<p class="now">As of November 2026: ${esc(record.status_as_of_2026_11)}</p>` : ""}${(record.affiliations || []).length ? `<h4>People in this atlas</h4><ul class="profile-affiliations">${[...record.affiliations].sort((a, b) => (yearOfStr(a.from) || 9999) - (yearOfStr(b.from) || 9999) || a.person.localeCompare(b.person)).map((a) => { const role = (String(a.org).match(/\(([^)]*)\)\s*$/) || [])[1]; return `<li>${personLink(a.person)}${role ? ` <span class="profile-role">${esc(role)}</span>` : ""}<span class="num">${esc(roleDates(a))}</span></li>`; }).join("")}</ul>` : ""}${relatedEvents(record.key_event_ids || [])}${(record.key_event_ids || []).length ? `<button type="button" class="text-button" data-org="${esc(record.id)}">Show related events on the map →</button>` : ""}${profileSources(record.sources)}`;
     profilePanel.innerHTML = `<div class="profile-head"><div><span class="eyebrow">${isPerson ? "Person" : "Organisation"}</span><h3 id="atlas-profile-title" tabindex="-1">${esc(record.name)}</h3></div><button type="button" class="profile-close" data-act="close-profile" aria-label="Close profile">×</button></div><div class="profile-body">${body}</div>`;
     profilePanel.setAttribute("aria-labelledby", "atlas-profile-title"); updateWorkspaceSticky();
   }
   function openProfile(key, options = {}) {
     if (!profileRecord(key)) return;
     if (options.history !== false) saveHistory(true, true);
-    const same = state.profile === key, pageY = scrollY;
-    const preserveChart = options.trigger && options.trigger.closest(".people-chart") && matchMedia("(min-width: 1051px)").matches;
-    const picker = $("#atlas-profile-select", mounts.people); if (picker) { picker.dataset.choice = key; if ([...picker.options].some((o) => o.value === key)) picker.value = key; }
+    // The same profile in another dock (beside a card instead of the chart) is a new view and gets its own history entry.
+    const same = state.profile === key && state.profileDock === (options.dock || "people"), pageY = scrollY, fromTab = state.tab;
+    const picker = $("#atlas-profile-select", mounts.people); if (picker) { picker.dataset.choice = key; picker.value = [...picker.options].some((o) => o.value === key) ? key : ""; }
     state.profile = key; state.affiliationIndex = options.affiliationIndex == null ? null : Number(options.affiliationIndex);
     state.profileDock = options.dock || "people"; setPanel(state.profileDock === "people" ? "people" : "map"); if (options.trigger && !options.trigger.closest(".profile-panel")) profileTrigger = options.trigger;
     // Only the panel and the selection marks change; rebuilding the chart here moved bars under the pointer and reset its scroll.
     renderProfile();
     profilePanel.scrollTop = 0; hideTip();
-    if (preserveChart) scrollTo({ top: pageY, behavior: "auto" });
+    // On the people tab the profile sits beside the chart or, on narrow screens, in a sheet over it. Opening one from the tab
+    // (a bar, a name, a link inside another profile) keeps the page where it is; it scrolls only if the side panel is out of view.
+    const inPeople = state.profileDock === "people", sheet = inPeople && innerWidth <= 1050;
+    if (inPeople && fromTab === "people") scrollTo({ top: pageY, behavior: "auto" });
     if (options.history !== false) saveHistory(same);
-    if (options.focus !== false || options.reveal) { const heading = $("h3", profilePanel); if (!preserveChart) revealReaderTarget(profilePanel); if (options.focus !== false) heading.focus({ preventScroll: true }); }
+    if (options.focus !== false || options.reveal) {
+      const heading = $("h3", profilePanel), box = profilePanel.getBoundingClientRect();
+      if (sheet) {
+        if (fromTab !== "people") revealReaderTarget(document.getElementById(tabIds.people));
+        // A bar low on the screen moves up just enough to stay visible above the sheet.
+        else if (options.trigger?.closest(".people-chart")) { const below = options.trigger.getBoundingClientRect().bottom - profilePanel.getBoundingClientRect().top + 16; if (below > 0) scrollBy({ top: below, behavior: SMOOTH }); }
+      }
+      else if (!(inPeople && box.top < innerHeight && box.bottom > workspaceInset())) revealReaderTarget(profilePanel);
+      if (options.focus !== false) heading.focus({ preventScroll: true });
+    }
   }
   function closeProfile(options = {}) {
     if (!state.profile) return;
-    const pageY = scrollY, returnToEvent = state.profileDock === "timeline" && state.selected, preserveChart = state.profileDock === "people" && matchMedia("(min-width: 1051px)").matches;
+    const pageY = scrollY, returnToEvent = state.profileDock === "timeline" && state.selected, preserveChart = state.profileDock === "people";
     state.profile = null; state.affiliationIndex = null;
+    const picker = $("#atlas-profile-select", mounts.people); if (picker) { picker.dataset.choice = ""; picker.value = ""; }
     renderProfile();
     hideTip();
     if (options.history !== false) saveHistory();
@@ -1271,9 +1301,8 @@
     }
     else if (d.profile) openProfile(d.profile, { trigger: t, affiliationIndex: d.affiliation, dock: t.closest('[data-atlas="map"]') ? "timeline" : "people" });
     else if (d.era != null) browseEra(d.era === "all" ? null : Number(d.era));
-    else if (d.ev) select(d.ev, { card: true, dismissProfile: Boolean(t.closest(".profile-panel")) });
-    else if (d.evReveal) select(d.evReveal, { card: true, dismissProfile: Boolean(t.closest(".profile-panel")) });
-    else if (d.evCard) select(d.evCard, { card: true, dismissProfile: Boolean(t.closest(".profile-panel")) });
+    // A people-tab profile stays open when one of its events opens on the map, so the tab shows it again on return.
+    else if (d.ev || d.evReveal || d.evCard) select(d.ev || d.evReveal || d.evCard, { card: true });
     else if (d.nav) step(Number(d.nav), state.selected, { card: true });
     else if (d.lane) {
       state.lanes.has(d.lane) ? state.lanes.delete(d.lane) : state.lanes.add(d.lane);
@@ -1393,12 +1422,15 @@
     preservedMapScroll = saved.scrollLeft || 0;
     setPanel(saved.tab || (state.profile && state.profileDock === "people" ? "people" : "map"));
     preservedMapScroll = saved.scrollLeft || 0;
+    const picker = $("#atlas-profile-select", mounts.people); if (picker) { picker.dataset.choice = ""; picker.value = [...picker.options].some((o) => o.value === state.profile) ? state.profile : ""; }
     syncControls(); renderMap(); renderPane(); renderProfile(); renderRoutes(); mapScroll.scrollLeft = saved.scrollLeft || 0; updateOverview();
     const list = $(".event-scroll-list", mounts.map); if (list) list.scrollTop = saved.listScrollTop || 0;
     return true;
   }
-  addEventListener("popstate", (ev) => { if (!restoreSnapshot(ev.state && ev.state.atlas)) fromHash(); });
-  addEventListener("hashchange", () => { fromHash(); saveHistory(true, true); });
+  // Back and Forward fire popstate and then hashchange; once the snapshot is restored, the hash has nothing left to do.
+  let restoredHash = null;
+  addEventListener("popstate", (ev) => { restoredHash = restoreSnapshot(ev.state && ev.state.atlas) ? location.hash : (fromHash(), null); });
+  addEventListener("hashchange", () => { if (restoredHash === location.hash) { restoredHash = null; return; } restoredHash = null; fromHash(); saveHistory(true, true); });
   // MathJax loads after this script: once it is ready, redraw the parts that show formulas.
   addEventListener("atlas-math-ready", () => {
     document.head.appendChild(MathJax.svgStylesheet());
