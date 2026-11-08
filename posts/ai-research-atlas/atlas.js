@@ -119,10 +119,12 @@
   const personById = new Map(D.people.map((p) => [personId(p), p]));
   D.events.forEach((e) => (e.people || []).forEach((name) => { const id = personId({ name }); if (!personById.has(id)) personById.set(id, { name, key_event_ids: D.events.filter((event) => (event.people || []).includes(name)).map((event) => event.id) }); }));
   const orgById = new Map(D.orgs.map((o) => [o.id, o]));
-  [...new Set([...D.events.flatMap((e) => e.orgs || []), ...D.people.flatMap((p) => (p.affiliations || []).map((a) => a.org))])].forEach((name) => {
+  // "Safe Superintelligence (co-founder)" and "Safe Superintelligence" are one organisation; the role stays in the text.
+  const baseName = (s) => String(s).replace(/\s*\([^)]*\)\s*$/, "").trim();
+  [...new Set([...D.events.flatMap((e) => e.orgs || []), ...D.people.flatMap((p) => (p.affiliations || []).map((a) => a.org))].map(baseName))].forEach((name) => {
     if (!D.orgs.some((o) => orgMatches({ id: "", orgs: [name] }, o))) {
       const id = `unlisted-${personId({ name })}`;
-      orgById.set(id, { id, name, key_event_ids: D.events.filter((e) => (e.orgs || []).includes(name)).map((e) => e.id), affiliations: D.people.flatMap((p) => (p.affiliations || []).filter((a) => a.org === name).map((a) => ({ ...a, person: p.name }))) });
+      orgById.set(id, { id, name, key_event_ids: D.events.filter((e) => (e.orgs || []).some((o) => baseName(o) === name)).map((e) => e.id), affiliations: D.people.flatMap((p) => (p.affiliations || []).filter((a) => baseName(a.org) === name).map((a) => ({ ...a, person: p.name }))) });
     }
   });
   const profileRecords = [...D.people.map((p) => ({ key: `person:${personId(p)}`, name: p.name, kind: "Person", text: [p.name, p.known_for, ...(p.affiliations || []).map((a) => a.org)].join(" ") })),
@@ -164,8 +166,8 @@
     if (name === "map" && layout) { mapScroll.scrollLeft = preservedMapScroll; updateOverview(); updateDiagramHints(); }
     updateWorkspaceSticky();
   }
-  function choosePanel(name) {
-    saveHistory(true, true); setPanel(name); saveHistory();
+  function choosePanel(name, replace = false) {
+    saveHistory(true, true); setPanel(name); saveHistory(replace);
     document.getElementById(`tab-${name}`)?.focus({preventScroll:true});
     // A switch shows the new panel from its top; the old tab's scroll position means nothing here.
     const panel = document.getElementById(tabIds[name]);
@@ -176,7 +178,7 @@
     button.addEventListener("keydown", ev => {
       const keys = Object.keys(tabIds), i = keys.indexOf(button.dataset.atlasTab);
       const next = ev.key === "Home" ? 0 : ev.key === "End" ? keys.length - 1 : ev.key === "ArrowRight" ? (i + 1) % keys.length : ev.key === "ArrowLeft" ? (i + keys.length - 1) % keys.length : null;
-      if (next !== null) { ev.preventDefault(); choosePanel(keys[next]); }
+      if (next !== null) { ev.preventDefault(); choosePanel(keys[next], true); }
     });
   });
 
@@ -236,7 +238,7 @@
   const SEG = [[1940, 1990, 8], [1990, 2010, 20], [2010, 2017, 56], [2017, 2027, 138]];
   // The map opens where RL, language models and safety meet; earlier history is a scroll to the left.
   const DEFAULT_START = 2016;
-  const ZOOM_MIN = 0.6, ZOOM_MAX = 2.6;
+  const ZOOM_STEPS = [0.6, 0.8, 1, 1.25, 1.6, 2, 2.6], ZOOM_MIN = ZOOM_STEPS[0], ZOOM_MAX = ZOOM_STEPS[ZOOM_STEPS.length - 1];
   function makeX(y0, pad) {
     const raw = (y) => { let x = 0; for (const [a, b, p] of SEG) { if (y <= a) break; x += (Math.min(y, b) - a) * p * state.zoom; if (y <= b) break; } return x; };
     const o = raw(y0);
@@ -494,7 +496,7 @@
       g.addEventListener("click", (ev) => { ev.stopPropagation(); select(e.id); });
       g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(e.id); } });
       g.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`));
-      g.addEventListener("focus", (ev) => { showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`); g.setAttribute("aria-describedby", "atlas-preview"); });
+      g.addEventListener("focus", (ev) => { if (!g.matches(":focus-visible")) return; showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`); g.setAttribute("aria-describedby", "atlas-preview"); });
       g.addEventListener("blur", hideTip);
       g.addEventListener("mousemove", moveTip);
       g.addEventListener("mouseleave", hideTip);
@@ -792,12 +794,12 @@
     fillMath(pane); renderConnectionDetail(); updateDiagramHints();
   }
   function orgLink(name) {
-    const o = orgForName(name) || [...orgById.values()].find((x) => x.name === name);
+    const o = orgForName(name) || [...orgById.values()].find((x) => x.name === baseName(name));
     return o ? `<a href="#${profileHash(`org:${o.id}`)}" data-profile="org:${esc(o.id)}" aria-controls="atlas-profile" aria-expanded="${state.profile === `org:${o.id}`}">${esc(name)}</a>` : esc(name);
   }
 
   function personLink(name) {
-    const p = [...personById.values()].find((x) => x.name.toLowerCase() === name.toLowerCase());
+    const p = [...personById.values()].find((x) => x.name.toLowerCase() === baseName(name).toLowerCase());
     return p ? `<a href="#${profileHash(`person:${personId(p)}`)}" data-profile="person:${esc(personId(p))}" aria-controls="atlas-profile" aria-expanded="${state.profile === `person:${personId(p)}`}">${esc(name)}</a>` : esc(name);
   }
   function snapshot() {
@@ -806,7 +808,7 @@
       listScrollTop: $(".event-scroll-list", mounts.map)?.scrollTop || 0, era: state.era, profile: state.profile, profileDock: state.profileDock, affiliationIndex: state.affiliationIndex, routeShown: state.routeShown };
   }
   function saveHistory(replace = false, preserveUrl = false) {
-    const url = preserveUrl ? location.href : `${location.pathname}${location.search}${state.tab === "people" && state.profile && state.profileDock === "people" ? "#" + profileHash(state.profile) : state.tab !== "map" ? "#" + tabIds[state.tab] : state.profile && state.profileDock === "timeline" ? "#" + profileHash(state.profile) : state.selected ? "#" + state.selected : "#the-map"}`;
+    const url = preserveUrl ? location.href : `${location.pathname}${location.search}${state.tab === "people" && state.profile && state.profileDock === "people" ? "#" + profileHash(state.profile) : state.tab !== "map" ? "#" + tabIds[state.tab] : state.profile && state.profileDock === "timeline" ? "#" + profileHash(state.profile) : state.route ? "#" + state.route.id + (state.selected ? "/" + state.selected : "") : state.selected ? "#" + state.selected : "#the-map"}`;
     const snap = snapshot();
     // A transition that changed nothing (the active tab clicked again, a second reset) would leave a Back step that does nothing.
     if (!replace && new URL(url, location.href).href === location.href && JSON.stringify(history.state?.atlas) === JSON.stringify(snap)) return;
@@ -857,7 +859,7 @@
   }
   function resetView() {
     state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; state.route = null; state.org = null; state.query = ""; state.queryInput = "";
-    state.era = null; state.profile = null; renderProfile(); state.zoom = 1; state.lanes = new Set(D.lanes.map((l) => l.id));
+    state.era = null; if (state.profileDock === "timeline") { state.profile = null; state.affiliationIndex = null; renderProfile(); } state.zoom = 1; state.lanes = new Set(D.lanes.map((l) => l.id));
     syncControls(); renderMap(); renderPane();
     mapScroll.scrollLeft = layout.X(DEFAULT_START) - 30; updateOverview(); saveHistory();
   }
@@ -1200,7 +1202,7 @@
     } else if (d.zoom) {
       if (t.getAttribute("aria-disabled") === "true") return;
       const center = yearAtX(mapScroll.scrollLeft + mapScroll.clientWidth / 2);
-      state.zoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, state.zoom * (d.zoom > 0 ? 1.25 : 0.8)));
+      state.zoom = d.zoom > 0 ? ZOOM_STEPS.find((z) => z > state.zoom + 1e-9) ?? ZOOM_MAX : [...ZOOM_STEPS].reverse().find((z) => z < state.zoom - 1e-9) ?? ZOOM_MIN;
       renderMap(); syncControls(); jumpYear(center); saveHistory(true);
     } else if (d.routeShow) {
       state.routeShown = d.routeShow; renderRoutes(); saveHistory(true, true);
@@ -1285,8 +1287,14 @@
     let id; try { id = decodeURIComponent(location.hash.slice(1)); } catch (_) { return; }
     const section = Object.keys(tabIds).find(k => tabIds[k] === id);
     if (section) { setPanel(section); return; }
-    const route = D.threads.find((t) => t.id === id);
-    if (route) { if (state.route !== route) traceRoute(route, { history: false, scroll: false }); return; }
+    const [routeId, stop] = id.split("/");
+    const route = D.threads.find((t) => t.id === routeId);
+    if (route) {
+      // "#thread-id" starts the route (again); "#thread-id/event-id" opens that stop of it.
+      if (state.route !== route || (!stop && state.selected !== routeAvailable()[0])) traceRoute(route, { history: false, scroll: false });
+      if (stop && route.event_ids.includes(stop) && state.selected !== stop) select(stop, { history: false, keepEra: true, card: true });
+      return;
+    }
     const profile = profileFromHash(id);
     if (profile && profileRecord(profile) && state.profile !== profile) openProfile(profile, { history: false, focus: false, reveal: true, dock: "people" });
     else if (byId.has(id) && (id !== state.selected || (state.profile && state.profileDock === "timeline") || state.tab !== "map")) select(id, { history: false, card: true });
@@ -1312,7 +1320,12 @@
   addEventListener("popstate", (ev) => { if (!restoreSnapshot(ev.state && ev.state.atlas)) fromHash(); });
   addEventListener("hashchange", () => { fromHash(); saveHistory(true, true); });
   // MathJax loads after this script: once it is ready, redraw the parts that show formulas.
-  addEventListener("atlas-math-ready", () => { document.head.appendChild(MathJax.svgStylesheet()); renderPane(); });
+  addEventListener("atlas-math-ready", () => {
+    document.head.appendChild(MathJax.svgStylesheet());
+    const inPane = $(".pane-host", mounts.map)?.contains(document.activeElement);
+    renderPane(); renderRoutes();
+    if (inPane) $(".pane h3", mounts.map)?.focus({ preventScroll: true });
+  });
   setPanel("map");
   restoreSnapshot(history.state && history.state.atlas);
   fromHash(); saveHistory(true, true);

@@ -5846,7 +5846,7 @@ window.TIMELINE_DATA = {
     },
     {
      "to": "gov-2023-rsp",
-     "type": "responds_to",
+     "type": "parallel",
      "note": "In 2025 Anthropic built Constitutional Classifiers to guard models past the RSP's CBRN capability threshold against jailbreaks."
     },
     {
@@ -10871,7 +10871,8 @@ window.TIMELINE_DATA = {
    ],
    "founded": "2023-11",
    "founders": [
-    "UK Government (DSIT); built from the Frontier AI Taskforce under Ian Hogarth"
+    "UK Government (DSIT)",
+    "Ian Hogarth (Frontier AI Taskforce chair)"
    ],
    "kind": "government",
    "historical_role": "A UK government institute that evaluates frontier models and researches safeguards, alignment and control. It took part early in international cooperation between evaluation institutes.",
@@ -10907,7 +10908,7 @@ window.TIMELINE_DATA = {
    ],
    "founded": "2023-11",
    "founders": [
-    "US Department of Commerce / NIST under EO 14110"
+    "US Department of Commerce (NIST)"
    ],
    "kind": "government",
    "historical_role": "A US government evaluator created under EO 14110. Its 2025 rebrand emphasised standards, national-security evaluations and assessment of foreign models.",
@@ -11377,7 +11378,12 @@ window.TIMELINE_DATA = {
    "known_for": "Deep-learning pioneer who speaks publicly about catastrophic risk. Chairs the International AI Safety Report and founded LawZero.",
    "affiliations": [
     {
-     "org": "Université de Montréal / Mila",
+     "org": "Université de Montréal",
+     "from": "1993",
+     "to": null
+    },
+    {
+     "org": "Mila",
      "from": "1993",
      "to": null
     },
