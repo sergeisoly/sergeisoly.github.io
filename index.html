@@ -45,7 +45,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
@@ -194,26 +193,29 @@ ul.task-list li input[type="checkbox"] {
 
 
 <section id="recent-research" class="level2">
-<h2 class="anchored" data-anchor-id="recent-research">Recent research</h2>
+<h2 data-anchor-id="recent-research">Recent research</h2>
 <div class="writing-entry home-research-entry">
 <p class="entry-meta">
 <time datetime="2026-10-14">14 Oct 2026</time>
 </p>
-<section id="some-studies-of-language-model-weight-edits" class="level3">
-<h3 class="anchored" data-anchor-id="some-studies-of-language-model-weight-edits"><a href="./interesearch/">Some Studies of Language Model Weight Edits</a></h3>
+<h3 class="listing-title">
+<a href="./interesearch/">Some Studies of Language Model Weight Edits</a>
+</h3>
 <p>Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.</p>
-</section>
+<p class="entry-topics">
+interpretability · model editing
+</p>
 </div>
 <p><a href="./research.html" class="section-link">All research</a></p>
 <div id="listing-recent-writing" class="quarto-listing quarto-listing-container-custom">
 
-<h2 class="anchored">Recent posts</h2>
+<h2>Recent posts</h2>
 <div class="writing-entries list">
 
 <article class="writing-entry" data-categories="YWktc2FmZXR5JTJDaGlzdG9yeQ==">
 <p class="entry-meta"><span>7 Nov 2026</span></p>
 
-<h3 class="listing-title anchored"><a href="./posts/ai-research-atlas/index.html">AI Research Atlas</a></h3>
+<h3 class="listing-title"><a href="./posts/ai-research-atlas/index.html">AI Research Atlas</a></h3>
 <p>A history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026.</p>
 <p class="entry-topics">ai-safety · history</p>
 </article>
@@ -239,13 +241,6 @@ window.addEventListener("hashchange", () => {
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     

@@ -247,6 +247,20 @@
   const Y0 = (() => { const ys = [...D.events.map(yearOf), ...((D.compute && D.compute.frontier_points) || []).map((p) => yearOfStr(p.date))].filter(Number.isFinite); return Math.max(1940, Math.floor(Math.min(1955, ...ys)) - 2); })();
 
   /* ---------- MAP ---------- */
+  // FLOP are also read as H100 time: 40% of the H100 SXM dense BF16 peak (989 TFLOP/s; NVIDIA lists 1,979 with
+  // sparsity). Llama 3.1 405B reports 3.8e25 FLOP and 30.84M H100 hours, which is about 35%.
+  const H100_FLOPS = 989e12 * 0.4;
+  const h100 = (flop) => {
+    const sec = flop / H100_FLOPS, h = sec / 3600, r = (n) => (n >= 10 ? String(Math.round(n)) : n.toFixed(1).replace(/\.0$/, ""));
+    if (h >= 1e6) return r(h / 1e6) + "M h";
+    if (h >= 1e3) return r(h / 1e3) + "k h";
+    if (h >= 1) return r(h) + " h";
+    if (sec >= 60) return r(sec / 60) + " min";
+    if (sec >= 1) return r(sec) + " s";
+    if (sec >= 1e-3) return r(sec * 1e3) + " ms";
+    if (sec >= 1e-6) return r(sec * 1e6) + " µs";
+    return r(sec * 1e9) + " ns";
+  };
   let layout = null, mapSvg, mapScroll, labelsCol, tip, overview;
   const ERA_H = 22, CMP_TOP = 26, CMP_H = 96, AX_H = 22, ROW = 22;
 
@@ -355,63 +369,44 @@
     });
 
     // Curated estimates are dots; the envelope is computed from the pinned source population.
-    // FLOP are also read as H100 time: 40% of the H100 SXM dense BF16 peak (989 TFLOP/s; NVIDIA lists 1,979 with
-    // sparsity). Llama 3.1 405B reports 3.8e25 FLOP and 30.84M H100 hours, which is about 35%.
-    const H100_FLOPS = 989e12 * 0.4;
-    const h100 = (flop) => {
-      const sec = flop / H100_FLOPS, h = sec / 3600, r = (n) => (n >= 10 ? String(Math.round(n)) : n.toFixed(1).replace(/\.0$/, ""));
-      if (h >= 1e6) return r(h / 1e6) + "M h";
-      if (h >= 1e3) return r(h / 1e3) + "k h";
-      if (h >= 1) return r(h) + " h";
-      if (sec >= 60) return r(sec / 60) + " min";
-      if (sec >= 1) return r(sec) + " s";
-      if (sec >= 1e-3) return r(sec * 1e3) + " ms";
-      if (sec >= 1e-6) return r(sec * 1e6) + " µs";
-      return r(sec * 1e9) + " ns";
-    };
     const compute = D.compute || {}, C = compute.points || [], F = compute.frontier_points || [];
-    const plotted = [...C, ...F].filter((p) => p.flop > 0 && yearOfStr(p.date) >= Y0);
-    const logs = plotted.map((p) => Math.log10(p.flop));
-    const lo = Math.min(5, Math.floor(Math.min(...logs, 5))), hi = Math.max(27.5, Math.ceil(Math.max(...logs, 27) + .5));
-    const cy = (f) => CMP_TOP + CMP_H - ((Math.log10(f) - lo) / (hi - lo)) * CMP_H;
-    const computeTicks = [];
-    for (let exponent = Math.ceil(lo / 5) * 5; exponent < hi; exponent += 5) computeTicks.push(exponent);
-    computeTicks.forEach((n) => el("line", { x1: 0, x2: width, y1: cy(10 ** n), y2: cy(10 ** n), class: "cmp-grid" }, svg));
+    const shown = (p) => p.flop > 0 && yearOfStr(p.date) >= Y0;
     const latest = C.reduce((m, p) => (!m || p.date > m.date ? p : m), null);
     const LABELED = new Set(["AlexNet", "AlphaGo Zero", "GPT-3 175B (davinci)", "GPT-3 175B", "GPT-4", "GPT-4 (Mar 2023)", "Perceptron Mark I", "TD-Gammon", latest && latest.model]);
-    const pts = C.filter((p) => p.flop > 0 && yearOfStr(p.date) >= Y0).map((p) => ({ ...p, x: X(yearOfStr(p.date)), y: cy(p.flop) }));
-    const front = F.filter((p) => p.flop > 0 && yearOfStr(p.date) >= Y0).map((p) => ({ ...p, x: X(yearOfStr(p.date)), y: cy(p.flop) }));
+    // The compute band is clipped so points outside the fitted range do not spill into the year axis.
+    const clip = el("clipPath", { id: "cmp-clip" }, el("defs", {}, svg));
+    el("rect", { x: 0, y: CMP_TOP - 6, width, height: CMP_H + 12 }, clip);
+    const cmpG = el("g", { "clip-path": "url(#cmp-clip)" }, svg);
+    cmp = { grid: el("g", {}, cmpG), path: null, front: [], pts: [], lo: null, hi: null, target: null };
+    const front = F.filter(shown).map((p) => ({ p, x: X(yearOfStr(p.date)), lg: Math.log10(p.flop) }));
     if (front.length > 1) {
-      const path = el("path", { d: "M" + front.map((p, i) => (i ? `H${p.x.toFixed(1)} V${p.y.toFixed(1)}` : `${p.x.toFixed(1)},${p.y.toFixed(1)}`)).join(" "), class: "cmp-trend" }, svg);
-      el("title", {}, path, compute.frontier_label || "Running maximum of documented estimates");
-      front.forEach((p) => {
-        const dot = el("circle", { cx: p.x, cy: p.y, r: 5, class: "cmp-frontier-hit" }, svg);
+      cmp.path = el("path", { class: "cmp-trend" }, cmpG);
+      el("title", {}, cmp.path, compute.frontier_label || "Running maximum of documented estimates");
+      front.forEach((f) => {
+        f.el = el("circle", { cx: f.x, r: 5, class: "cmp-frontier-hit" }, cmpG);
         // No SVG <title> here: the browser would show it as a second tooltip next to ours.
-        dot.addEventListener("mouseenter", (ev) => showTip(ev, `${esc(p.model)} · envelope estimate<br>${esc(p.flop.toExponential(1))} FLOP · ${esc(p.confidence || "confidence not supplied")}<br>≈ ${h100(p.flop)} on one H100 at 40% utilization`));
-        dot.addEventListener("mousemove", moveTip); dot.addEventListener("mouseleave", hideTip);
+        f.el.addEventListener("mouseenter", (ev) => showTip(ev, `${esc(f.p.model)} · envelope estimate<br>${esc(f.p.flop.toExponential(1))} FLOP · ${esc(f.p.confidence || "confidence not supplied")}<br>≈ ${h100(f.p.flop)} on one H100 at 40% utilization`));
+        f.el.addEventListener("mousemove", moveTip); f.el.addEventListener("mouseleave", hideTip);
       });
+      cmp.front = front;
     }
+    cmp.pts = C.filter(shown).map((p) => {
+      const q = { p, x: X(yearOfStr(p.date)), lg: Math.log10(p.flop) };
+      const lab = [...LABELED].some((n) => n && p.model.startsWith(n.replace(/ \(.*?$/, "")) && (n === p.model || p.model.startsWith(n)));
+      q.el = el("circle", { cx: q.x, r: lab ? 3.4 : 2.6, class: "cmp-dot conf-" + String(p.confidence || "unknown").toLowerCase().replace(/[^a-z]/g, "") + (lab ? " lab" : "") }, cmpG);
+      q.el.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(p.model)}</b><br>${esc(p.date.slice(0, 7))} · ${esc(p.flop.toExponential(1))} estimated FLOP<br>≈ ${h100(p.flop)} on one H100 at 40% utilization<br>Epoch confidence: ${esc(p.confidence || "not supplied")}`));
+      q.el.addEventListener("mousemove", moveTip); q.el.addEventListener("mouseleave", hideTip);
+      if (lab) {
+        const text = p.model.replace(/ \(.*\)$/, "").replace(" 175B", "") + " · " + h100(p.flop), w = textW(text, 12), left = q.x + 6 + w > width - 4;
+        q.x1 = left ? q.x - 6 - w : q.x + 6; q.w = w;
+        q.text = el("text", { x: left ? q.x - 6 : q.x + 6, class: "cmp-text", ...(left ? { "text-anchor": "end" } : {}) }, cmpG, text);
+      }
+      return q;
+    });
     SEG.slice(1).forEach(([yr]) => {
       if (yr <= Y0) return;
       const x = X(yr), y = CMP_TOP + CMP_H + 4;
       el("path", { d: `M${x - 5},${y + 4} l4,-8 M${x},${y + 4} l4,-8`, class: "ax-break" }, svg);
-    });
-    const placed = [];
-    pts.forEach((p) => {
-      const lab = [...LABELED].some((n) => n && p.model.startsWith(n.replace(/ \(.*?$/, "")) && (n === p.model || p.model.startsWith(n)));
-      const c = el("circle", { cx: p.x, cy: p.y, r: lab ? 3.4 : 2.6, class: "cmp-dot conf-" + String(p.confidence || "unknown").toLowerCase().replace(/[^a-z]/g, "") + (lab ? " lab" : "") }, svg);
-      c.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(p.model)}</b><br>${esc(p.date.slice(0, 7))} · ${esc(p.flop.toExponential(1))} estimated FLOP<br>≈ ${h100(p.flop)} on one H100 at 40% utilization<br>Epoch confidence: ${esc(p.confidence || "not supplied")}`));
-      c.addEventListener("mousemove", moveTip); c.addEventListener("mouseleave", hideTip);
-      if (lab) {
-        // Labels that would run past the right edge sit to the left of their dot; one that would cover an
-        // earlier label moves down a line.
-        const text = p.model.replace(/ \(.*\)$/, "").replace(" 175B", "") + " · " + h100(p.flop), w = textW(text, 12), left = p.x + 6 + w > width - 4;
-        const x1 = left ? p.x - 6 - w : p.x + 6;
-        let y = p.y + 4;
-        while (placed.some((q) => x1 < q.x2 && x1 + w > q.x1 && Math.abs(y - q.y) < 12)) y += 13;
-        placed.push({ x1, x2: x1 + w, y });
-        el("text", { x: left ? p.x - 6 : p.x + 6, y, class: "cmp-text", ...(left ? { "text-anchor": "end" } : {}) }, svg, text);
-      }
     });
 
     // axis
@@ -431,8 +426,8 @@
     // lane rules + labels column
     labelsCol.innerHTML = "";
     labelsCol.style.height = height + "px";
-    const ticks = computeTicks.map((p) => `<div class="lab num" style="top:${cy(10 ** p) - 8}px;text-align:right"><span>10<sup>${p}</sup><i class="h100"> · ${h100(10 ** p)}</i></span></div>`).join("");
-    labelsCol.insertAdjacentHTML("beforeend", `<div class="lab compute-heading" style="top:0px"><b>Compute</b><span class="compute-unit">FLOP<i class="h100"> · H100 h</i></span></div>${ticks}`);
+    labelsCol.insertAdjacentHTML("beforeend", `<div class="lab compute-heading" style="top:0px"><b>Compute</b><span class="compute-unit">FLOP<i class="h100"> · H100 h</i></span></div><div class="cmp-ticks"></div>`);
+    cmp.ticks = labelsCol.querySelector(".cmp-ticks");
     labelsCol.querySelector(".compute-heading").addEventListener("mouseenter", (ev) => showTip(ev, "Training compute as estimated FLOP and as time on one H100 GPU at 40% utilization (989 TFLOP/s dense BF16 peak). Divide by the number of GPUs for wall-clock time."));
     labelsCol.querySelector(".compute-heading").addEventListener("mousemove", moveTip);
     labelsCol.querySelector(".compute-heading").addEventListener("mouseleave", hideTip);
@@ -662,8 +657,61 @@
     overview.innerHTML = `<title>Whole history on a linear time scale. Click a year to move the map, or use the year slider below.</title>${[1960, 1980, 2000, 2020].filter((y) => y >= Y0).map((y) => `<line x1="${ox(y)}" x2="${ox(y)}" y1="7" y2="47" class="overview-grid"/>`).join("")}${D.events.map((e) => `<circle cx="${ox(yearOf(e))}" cy="${13 + D.lanes.findIndex((l) => l.id === e.lane) * 9}" r="${e.importance === 3 ? 2.4 : 1.5}" style="fill:${lc(e.lane)};opacity:${state.lanes.has(e.lane) && lit(e) ? .65 : .12}"/>`).join("")}<rect class="overview-window" y="5" height="43" rx="3"/>`;
     updateOverview();
   }
-  function updateOverview() {
+  // The compute axis is fitted to the years in view, so the growth inside the window uses the band's full
+  // height. The fitted range eases into place while the map scrolls.
+  let cmp = null, cmpAnim = 0;
+  function placeCompute(lo, hi) {
+    cmp.lo = lo; cmp.hi = hi;
+    const cy = (lg) => CMP_TOP + CMP_H - ((lg - lo) / (hi - lo)) * CMP_H;
+    const step = [1, 2, 5, 10].find((s) => (s * CMP_H) / (hi - lo) >= 22) || 10, ticks = [];
+    for (let n = Math.ceil(lo / step) * step; n <= hi; n += step) if (cy(n) >= CMP_TOP + 6) ticks.push(n);
+    cmp.grid.innerHTML = "";
+    ticks.forEach((n) => el("line", { x1: 0, x2: mapSvg.getAttribute("width"), y1: cy(n), y2: cy(n), class: "cmp-grid" }, cmp.grid));
+    cmp.ticks.innerHTML = ticks.map((n) => `<div class="lab num" style="top:${cy(n) - 8}px;text-align:right"><span>10<sup>${n}</sup><i class="h100"> · ${h100(10 ** n)}</i></span></div>`).join("");
+    cmp.front.forEach((f) => { f.y = cy(f.lg); f.el.setAttribute("cy", f.y); });
+    if (cmp.path) cmp.path.setAttribute("d", "M" + cmp.front.map((f, i) => (i ? `H${f.x.toFixed(1)} V${f.y.toFixed(1)}` : `${f.x.toFixed(1)},${f.y.toFixed(1)}`)).join(" "));
+    // Labels that would run past the right edge sit to the left of their dot; one that would cover an
+    // earlier label moves down a line.
+    const placed = [];
+    cmp.pts.forEach((q) => {
+      q.el.setAttribute("cy", cy(q.lg));
+      if (!q.text) return;
+      let y = cy(q.lg) + 4;
+      while (placed.some((r) => q.x1 < r.x2 && q.x1 + q.w > r.x1 && Math.abs(y - r.y) < 12)) y += 13;
+      placed.push({ x1: q.x1, x2: q.x1 + q.w, y });
+      q.text.setAttribute("y", y);
+    });
+  }
+  function computeTarget() {
+    const a = mapScroll.scrollLeft, b = a + mapScroll.clientWidth, all = [...cmp.pts, ...cmp.front];
+    const lgs = all.filter((q) => q.x >= a && q.x <= b).map((q) => q.lg);
+    // The envelope entering the window from the left is part of what the window shows.
+    const before = cmp.front.filter((f) => f.x < a).pop();
+    if (before) lgs.push(before.lg);
+    if (!lgs.length) { const next = all.filter((q) => q.x > b).sort((p, q) => p.x - q.x)[0]; if (next) lgs.push(next.lg); }
+    if (!lgs.length) return [0, 27];
+    let lo = Math.min(...lgs) - 0.6, hi = Math.max(...lgs) + 0.6;
+    if (hi - lo < 4) { const mid = (lo + hi) / 2; lo = mid - 2; hi = mid + 2; }
+    return [lo, hi];
+  }
+  function updateCompute(animate) {
+    if (!cmp || !cmp.ticks) return;
+    const target = computeTarget();
+    if (cmp.target && Math.abs(target[0] - cmp.target[0]) < 0.01 && Math.abs(target[1] - cmp.target[1]) < 0.01) return;
+    cmp.target = target;
+    cancelAnimationFrame(cmpAnim);
+    if (!animate || cmp.lo == null || SMOOTH === "auto") { placeCompute(...target); return; }
+    const from = [cmp.lo, cmp.hi], t0 = performance.now();
+    const frame = (now) => {
+      const k = Math.min(1, (now - t0) / 240), e = 1 - (1 - k) ** 3;
+      placeCompute(from[0] + (target[0] - from[0]) * e, from[1] + (target[1] - from[1]) * e);
+      if (k < 1) cmpAnim = requestAnimationFrame(frame);
+    };
+    cmpAnim = requestAnimationFrame(frame);
+  }
+  function updateOverview(animate = false) {
     if (!overview || !layout) return;
+    updateCompute(animate === true);
     const a = yearAtX(mapScroll.scrollLeft), b = yearAtX(mapScroll.scrollLeft + mapScroll.clientWidth);
     const ox = (y) => 12 + ((y - Y0) / (2027.1 - Y0)) * 976;
     const rect = $(".overview-window", overview);
@@ -694,7 +742,7 @@
     // Align the full year range with the available pan range. Every target year
     // remains in view, while the first and last years reach the two map edges.
     mapScroll.scrollLeft = (layout.X(Math.max(min, Math.min(max, year))) - start) / span * Math.max(0, mapScroll.scrollWidth - mapScroll.clientWidth);
-    updateOverview();
+    updateOverview(true);
   }
 
   function workspaceInset() {
@@ -897,7 +945,7 @@
     renderControls();
     overview.addEventListener("pointerdown", (ev) => { if (ev.button !== 0) return; const r = overview.getBoundingClientRect(); jumpYear(Y0 + Math.max(0, Math.min(1, (ev.clientX - r.left - r.width * .012) / (r.width * .976))) * (2027.1 - Y0)); });
     $("#atlas-year").addEventListener("input", (ev) => panToSliderYear(Number(ev.target.value)));
-    mapScroll.addEventListener("scroll", updateOverview, { passive: true });
+    mapScroll.addEventListener("scroll", () => updateOverview(true), { passive: true });
     // Mobile browsers fire resize when the address bar or keyboard moves; the people chart depends on width only,
     // and rebuilding it then would drop the search field's focus and the chart's scroll position.
     let peopleWidth = innerWidth;
