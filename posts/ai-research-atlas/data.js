@@ -1830,7 +1830,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Past about 20–30 layers, adding more layers to a deep network made even its training error worse. Researchers called this the degradation problem.",
-   "idea": "He et al. changed what each block of layers has to learn. Instead of a whole new transformation, a block learns a residual F(x), a correction that is added to the block's input through an identity shortcut. Residual networks 152 layers deep won ILSVRC-2015, the ImageNet challenge. Related work stabilised training with normalisation, which rescales the signals inside the network: batch norm (Ioffe and Szegedy, Feb 2015) for convolutional networks and layer norm (Ba, Kiros, Hinton, Jul 2016) for recurrent nets.",
+   "idea": "He et al. changed what each block of layers has to learn. Instead of a whole new transformation, a block learns a residual \\(F(x)\\), a correction that is added to the block's input through an identity shortcut. Residual networks 152 layers deep won ILSVRC-2015, the ImageNet challenge. Related work stabilised training with normalisation, which rescales the signals inside the network: batch norm (Ioffe and Szegedy, Feb 2015) for convolutional networks and layer norm (Ba, Kiros, Hinton, Jul 2016) for recurrent nets.",
    "changed": "Residual connections and normalisation became standard parts of deep networks, Transformer blocks included, and made much deeper stacks feasible to train.",
    "limits": "Batch norm depends on the size of the mini-batch and fits recurrent nets poorly. That is why Transformers use layer norm, and later RMSNorm.",
    "people": [
@@ -2755,7 +2755,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "generalized advantage estimation (GAE)",
-     "def": "An exponentially weighted advantage estimator, analogous to TD(\\(\\lambda\\)), trading bias against variance via λ."
+     "def": "An exponentially weighted advantage estimator, analogous to TD(\\(\\lambda\\)), trading bias against variance via \\(\\lambda\\)."
     }
    ],
    "date_sort": "2017-07-20"
@@ -6972,7 +6972,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "The US federal government knew nothing about how 'dual-use foundation models', large general-purpose models that could serve harmful as well as useful ends, were being developed and tested. It had no standards for evaluating them either.",
-   "idea": "President Biden's order used the Defense Production Act to make developers of such models report on their training, on how they secured the model weights and on the results of red-teaming, where testers deliberately try to make a model misbehave. The duty applied above a compute threshold of 10^26 operations, a rough proxy for capability. The order also directed NIST to build evaluation standards.",
+   "idea": "President Biden's order used the Defense Production Act to make developers of such models report on their training, on how they secured the model weights and on the results of red-teaming, where testers deliberately try to make a model misbehave. The duty applied above a compute threshold of \\(10^{26}\\) operations, a rough proxy for capability. The order also directed NIST to build evaluation standards.",
    "changed": "NIST's work under the order led to the US AI Safety Institute. The EU AI Act and later state proposals also used compute thresholds, under different legal regimes.",
    "limits": "An executive order is not a law, and this one was revoked on 20 January 2025. Its reporting requirements were light, and their enforcement was never tested.",
    "people": [
@@ -7004,7 +7004,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-2020-scaling-laws",
      "type": "parallel",
-     "note": "The order's reporting duty starts at 10^26 operations, using training compute as a proxy for capability, the regularity scaling-law work measured; the order itself gives no source for the number."
+     "note": "The order's reporting duty starts at \\(10^{26}\\) operations, using training compute as a proxy for capability, the regularity scaling-law work measured; the order itself gives no source for the number."
     },
     {
      "to": "safety-2023-arc-evals-gpt4",
@@ -7717,7 +7717,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "The EU had no law written specifically for AI, either one that set duties according to how risky a system is or one that covered general-purpose models, the kind that can be put to many different tasks.",
-   "idea": "The European Parliament adopted the AI Act on 13 March 2024. The Council approved it on 21 May, and the law entered into force on 1 August 2024. The Act sets duties by level of risk: it bans certain practices, regulates high-risk systems and requires transparency. A chapter added late in the process covers general-purpose AI models, with extra duties for those that pose 'systemic risk', presumed for models trained with more than 10^25 FLOP (floating-point operations).",
+   "idea": "The European Parliament adopted the AI Act on 13 March 2024. The Council approved it on 21 May, and the law entered into force on 1 August 2024. The Act sets duties by level of risk: it bans certain practices, regulates high-risk systems and requires transparency. A chapter added late in the process covers general-purpose AI models, with extra duties for those that pose 'systemic risk', presumed for models trained with more than \\(10^{25}\\) FLOP (floating-point operations).",
    "changed": "Providers of general-purpose models with systemic risk now had binding duties to document their models, evaluate them, manage their risks and report incidents.",
    "limits": "Obligations apply in phases, and the details were left to standards, guidance and codes. In 2026 the AI Omnibus changed the deadlines for high-risk systems.",
    "people": [
@@ -7747,12 +7747,12 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2023-eo-14110",
      "type": "parallel",
-     "note": "Both single out the largest models by training compute: 10^25 FLOP in the EU Act, 10^26 operations in the US order."
+     "note": "Both single out the largest models by training compute: \\(10^{25}\\) FLOP in the EU Act, \\(10^{26}\\) operations in the US order."
     },
     {
      "to": "lm-2020-scaling-laws",
      "type": "parallel",
-     "note": "Recital 111 bases the 10^25 FLOP presumption on training compute being, 'according to the state of the art', one of the relevant approximations for model capabilities."
+     "note": "Recital 111 bases the \\(10^{25}\\) FLOP presumption on training compute being, 'according to the state of the art', one of the relevant approximations for model capabilities."
     },
     {
      "to": "gov-2023-bletchley",
@@ -7769,7 +7769,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "GPAI model with systemic risk",
-     "def": "Under the EU AI Act, a general-purpose model with high-impact capabilities (presumed above 10^25 training FLOP) that carries extra evaluation and reporting duties."
+     "def": "Under the EU AI Act, a general-purpose model with high-impact capabilities (presumed above \\(10^{25}\\) training FLOP) that carries extra evaluation and reporting duties."
     }
    ],
    "date_sort": "2024-03-13"
@@ -8221,7 +8221,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2023-eo-14110",
      "type": "parallel",
-     "note": "Covered models were those trained with more than 10^26 operations at a cost above $100M, the federal order's compute line plus a cost test."
+     "note": "Covered models were those trained with more than \\(10^{26}\\) operations at a cost above $100M, the federal order's compute line plus a cost test."
     },
     {
      "to": "safety-2016-cirl",
@@ -10026,7 +10026,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "After the SB 1047 veto, the US still had no law on the safety of frontier models.",
-   "idea": "Governor Newsom signed Senator Wiener's narrower bill, the Transparency in Frontier AI Act. It covers models trained with more than 10^26 operations, and its catastrophic risk is a foreseeable risk that a model contributes to the death or serious injury of more than 50 people or over $1 billion in damage in one incident, including by 'evading the control of its frontier developer or user'. Large frontier developers must publish a safety framework. Every frontier developer must publish a transparency report when it releases a model, report critical safety incidents to the state within 15 days, and protect whistleblowers. The law also starts CalCompute, a public consortium for computing power. It entered into force on 1 January 2026.",
+   "idea": "Governor Newsom signed Senator Wiener's narrower bill, the Transparency in Frontier AI Act. It covers models trained with more than \\(10^{26}\\) operations, and its catastrophic risk is a foreseeable risk that a model contributes to the death or serious injury of more than 50 people or over $1 billion in damage in one incident, including by 'evading the control of its frontier developer or user'. Large frontier developers must publish a safety framework. Every frontier developer must publish a transparency report when it releases a model, report critical safety incidents to the state within 15 days, and protect whistleblowers. The law also starts CalCompute, a public consortium for computing power. It entered into force on 1 January 2026.",
    "changed": "Publishing a frontier safety framework had been voluntary. In California it became a legal duty.",
    "limits": "The law mainly requires disclosure. It mandates no third-party audits and no ability to shut models down, and it is enforced through civil penalties.",
    "people": [
@@ -10289,7 +10289,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "New York's legislature passed the RAISE Act in June 2025, three months before California's SB 53 was signed, and its version was stricter: it would have barred developers from deploying a model that created an 'unreasonable risk of critical harm'.",
-   "idea": "Governor Kathy Hochul signed the bill on 19 December 2025 together with an agreement to amend it, and the amendment became law on 27 March 2026. The main duties fall on developers with more than $500 million in annual revenue that train models with more than 10^26 operations. They must publish a frontier AI framework and transparency reports and report critical safety incidents to the state. The Attorney General can seek penalties of up to $1 million for a first violation and $3 million for later ones.",
+   "idea": "Governor Kathy Hochul signed the bill on 19 December 2025 together with an agreement to amend it, and the amendment became law on 27 March 2026. The main duties fall on developers with more than $500 million in annual revenue that train models with more than \\(10^{26}\\) operations. They must publish a frontier AI framework and transparency reports and report critical safety incidents to the state. The Attorney General can seek penalties of up to $1 million for a first violation and $3 million for later ones.",
    "changed": "The amendment rewrote the act to follow SB 53 more closely, which Hochul presented as a 'unified benchmark' among the country's leading tech states. Two differences remain: incidents must be reported within 72 hours instead of SB 53's 15 days, and a new office in the Department of Financial Services receives developers' disclosure statements, can issue rules and charges developers for its costs. The signing came eight days after the federal order against state AI laws, and the Assembly sponsor, Alex Bores, said New York had defeated an attempt to stop the act 'through executive action'.",
    "limits": "The amended text drops the ban on deploying risky models, so like SB 53 the law mainly requires disclosure, with no mandatory third-party audit and no private right of action. It takes effect on 1 January 2027 and had not yet been enforced.",
    "people": [
