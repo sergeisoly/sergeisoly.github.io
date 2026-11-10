@@ -398,6 +398,10 @@
   .atlas .profile-panel { padding: .8rem; }
   .atlas .profile-choice select { max-width: 100%; flex-basis: 100%; }
 }
+/* iOS Safari zooms the page when a focused control's text is under 16px. */
+@media (pointer: coarse) {
+  .atlas .search, .atlas .org-search input, .atlas .profile-picker input, .atlas .profile-choice select { font-size: 16px; }
+}
 .atlas .people-chart .role .role-hit { fill: transparent; stroke: none; fill-opacity: 0; pointer-events: all; }
 
 .atlas .pane-host[hidden] { display: none; }
