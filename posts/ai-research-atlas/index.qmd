@@ -2,12 +2,13 @@
 title: "AI Research Atlas"
 description: "An interactive history of AI safety research and the fields around it, from the 1950s to 2026."
 date: 2026-11-07T12:00:00+04:00
-image: ../../social-card.png
+image: atlas-card.png
 kind: Note
 toc: false
 body-classes: atlas-post
 categories: [ai-safety, history]
 resources:
+  - atlas-card.png
   - atlas.css
   - atlas.js
   - diagrams.js
