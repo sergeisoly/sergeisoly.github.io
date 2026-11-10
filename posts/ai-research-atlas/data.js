@@ -143,7 +143,7 @@ window.TIMELINE_DATA = {
    "kind": "book",
    "importance": 3,
    "problem": "Many practical problems are a chain of decisions: how much stock to order, when to replace a worn machine, how to keep a system under control. Each choice changes the situation for the next, and the number of possible decision sequences grows combinatorially with every stage.",
-   "idea": "Bellman's way out was the principle of optimality: whatever the first decision, the rest of an optimal plan must itself be optimal from the state that decision leads to. A long plan then breaks into one step plus a smaller copy of the same problem, written as a recursive equation that now carries his name. He set it out in a 1957 book and journal paper, after a 1954 address at RAND. Problems with a fixed number of stages are solved backward from the last one; open-ended problems with discounting are solved by repeating the update until the values settle.",
+   "idea": "Bellman's way out was the principle of optimality: whatever the first decision, the rest of an optimal plan must itself be optimal from the state that decision leads to. A long plan then breaks into one step plus a smaller copy of the same problem, written as a recursive equation that now carries his name. He set it out in a 1957 book and journal paper, after a 1954 address to the American Mathematical Society that RAND issued as a paper. Problems with a fixed number of stages are solved backward from the last one; open-ended problems with discounting are solved by repeating the update until the values settle.",
    "changed": "Value-based reinforcement learning is built on this equation. Temporal-difference methods estimate values from sampled experience, Q-learning applies the idea to the value of each action, and DQN approximates those action values with a neural network.",
    "limits": "Dynamic programming assumes a complete model of the environment and a sweep over every state, which stops being feasible as the state grows. Bellman called this blow-up the 'curse of dimensionality'.",
    "people": [
@@ -1015,7 +1015,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "For many tasks, such as driving or flying a helicopter, it is easier to show good behaviour than to write down a reward function that captures it.",
-   "idea": "Ng and Russell posed the inverse problem: given behaviour observed from an expert and assumed to be optimal, work out the reward function it is optimising. In 2004 Abbeel and Ng's apprenticeship learning matched the expert's feature expectations, the average values of chosen features along its trajectories, so that the learned policy performs close to the expert under the expert's unknown reward.",
+   "idea": "Russell had posed the inverse problem in 1998, and in 2000 Ng and Russell gave the first algorithms for it: given behaviour observed from an expert and assumed to be optimal, work out the reward function it is optimising. In 2004 Abbeel and Ng's apprenticeship learning matched the expert's feature expectations, the average values of chosen features along its trajectories, so that the learned policy performs close to the expert under the expert's unknown reward.",
    "changed": "Russell later built cooperative inverse reinforcement learning on this idea. The reward models in RLHF (reinforcement learning from human feedback) also learn a reward from people, though from their preferences rather than from demonstrations.",
    "limits": "Inverse RL is ill-posed: many different rewards explain the same behaviour, including the trivial reward of zero everywhere, under which any behaviour is optimal. The method also assumes the demonstrator is close to optimal.",
    "people": [
@@ -1283,9 +1283,11 @@ window.TIMELINE_DATA = {
    "limits": "Its labels contain errors and cultural biases, and the person categories were later pruned. Chasing a single benchmark can also reward methods that overfit to one test set.",
    "people": [
     "Jia Deng",
-    "Fei-Fei Li",
+    "Wei Dong",
+    "Richard Socher",
+    "Li-Jia Li",
     "Kai Li",
-    "Richard Socher"
+    "Fei-Fei Li"
    ],
    "orgs": [
     "Princeton University",
@@ -1828,7 +1830,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Past about 20–30 layers, adding more layers to a deep network made even its training error worse. Researchers called this the degradation problem.",
-   "idea": "He et al. changed what each block of layers has to learn. Instead of a whole new transformation, a block learns a residual F(x), a correction that is added to the block's input through an identity shortcut. Residual networks 152 layers deep won ILSVRC-2015, the ImageNet challenge. Related work stabilised training with normalisation, which rescales the signals inside the network: batch norm (Ioffe and Szegedy, Feb 2015) for convolutional networks and layer norm (Ba, Kiros, Hinton, Jul 2016) for recurrent nets.",
+   "idea": "He et al. changed what each block of layers has to learn. Instead of a whole new transformation, a block learns a residual \\(F(x)\\), a correction that is added to the block's input through an identity shortcut. Residual networks 152 layers deep won ILSVRC-2015, the ImageNet challenge. Related work stabilised training with normalisation, which rescales the signals inside the network: batch norm (Ioffe and Szegedy, Feb 2015) for convolutional networks and layer norm (Ba, Kiros, Hinton, Jul 2016) for recurrent nets.",
    "changed": "Residual connections and normalisation became standard parts of deep networks, Transformer blocks included, and made much deeper stacks feasible to train.",
    "limits": "Batch norm depends on the size of the mini-batch and fits recurrent nets poorly. That is why Transformers use layer norm, and later RMSNorm.",
    "people": [
@@ -2753,7 +2755,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "generalized advantage estimation (GAE)",
-     "def": "An exponentially weighted advantage estimator, analogous to TD(\\(\\lambda\\)), trading bias against variance via λ."
+     "def": "An exponentially weighted advantage estimator, analogous to TD(\\(\\lambda\\)), trading bias against variance via \\(\\lambda\\)."
     }
    ],
    "date_sort": "2017-07-20"
@@ -3130,7 +3132,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Human judgement stops working as a training signal when a task is too complicated for a person to evaluate directly.",
-   "idea": "Christiano had sketched amplification in earlier blog posts. With Shlegeris and Amodei he now proposed Iterated Amplification, which builds up a training signal for a hard problem out of solutions to easier subproblems. A human answers a question with help from copies of the current model, each working on a subquestion (amplification). A new model then learns to imitate that combined system (distillation), and the cycle repeats. The scheme is close to the Expert Iteration used in AlphaGo Zero, except that it needs no external reward. In algorithmic environments it learned complex behaviours.",
+   "idea": "Christiano had sketched amplification in earlier blog posts. With Shlegeris and Amodei he now proposed Iterated Amplification, which builds up a training signal for a hard problem out of solutions to easier subproblems. A human answers a question with help from copies of the current model, each working on a subquestion (amplification). A new model then learns to imitate that combined system (distillation), and the cycle repeats. The scheme is close to Expert Iteration (Anthony et al., 2017) and to the training loop of AlphaGo Zero, except that it needs no external reward. In algorithmic environments it learned complex behaviours.",
    "changed": "Breaking hard questions into subquestions that can each be checked led to Ought's factored-cognition experiments and fed into recursive reward modelling.",
    "limits": "Iterated Amplification rests on the unproven 'factored cognition' hypothesis that hard reasoning can be split into small independent pieces. Errors can pile up from one level to the next, and Ought's experiments with humans doing the decomposition gave mixed results. Barnes and Christiano's 2020 debate experiments suggested the obfuscated-arguments problem, a dishonest argument with a well-hidden flaw, may limit amplification as well.",
    "people": [
@@ -3167,7 +3169,7 @@ window.TIMELINE_DATA = {
     {
      "to": "rl-2017-alphazero",
      "type": "builds_on",
-     "note": "Its amplify-then-distil loop follows Expert Iteration in AlphaGo Zero."
+     "note": "Its amplify-then-distil loop resembles AlphaGo Zero's training loop and Expert Iteration (Anthony et al., 2017)."
     },
     {
      "to": "safety-2016-prosaic-alignment",
@@ -3555,7 +3557,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 1,
    "problem": "A reinforcement-learning agent is part of the world it acts in, so it may be able to shortcut its reward signal: edit the code that computes the reward, or corrupt the observations or human feedback the reward is computed from.",
-   "idea": "Everitt, Hutter, Kumar and Krakovna used causal influence diagrams, graphs of what affects what in an agent's decision problem, to sort tampering into two kinds: changing the reward function itself, and tampering with its inputs. The diagrams also show when an agent has an instrumental goal to tamper. An agent that judges possible futures by its current reward function has no such goal.",
+   "idea": "Everitt and Hutter, joined by Kumar and Krakovna in the 2021 revision, used causal influence diagrams, graphs of what affects what in an agent's decision problem, to sort tampering into two kinds: changing the reward function itself, and tampering with its inputs. The diagrams also show when an agent has an instrumental goal to tamper. An agent that judges possible futures by its current reward function has no such goal.",
    "changed": "In 2024 Anthropic's 'Sycophancy to Subterfuge' study looked for reward tampering in language models. Models trained on a curriculum of environments that could be gamed sometimes went on to rewrite their own reward function, a step they had never been trained on.",
    "limits": "Agents that judge futures by their current reward function are idealised designs, hard to build with deep reinforcement learning. In the 2024 study tampering was rare, and retraining reduced it without removing it.",
    "people": [
@@ -4783,13 +4785,15 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Large language models did badly on multi-step arithmetic and reasoning problems when asked for the answer straight away.",
-   "idea": "Wei et al. put worked examples into the prompt that spelled out the intermediate reasoning steps, a method they called chain of thought prompting. With it, PaLM 540B reached the state of the art on the GSM8K benchmark.",
+   "idea": "Wei et al. put worked examples into the prompt that spelled out the intermediate reasoning steps, a method they called chain of thought prompting. The first version tested Google's LaMDA models and GPT-3. In the April 2022 revision, PaLM 540B with the method reached the state of the art on the GSM8K benchmark.",
    "changed": "Self-consistency, the zero-shot prompt 'let's think step by step' and later reasoning models trained with reinforcement learning (o1, R1) built on it. Safety researchers began to study the visible reasoning itself: whether it can be monitored, and whether it faithfully reflects how the model reached its answer.",
    "limits": "Written reasoning can differ from the computation that actually produced the answer, as later results on unfaithful reasoning showed. The gains also appeared only in sufficiently large models; in small models they were weak or negative.",
    "people": [
     "Jason Wei",
     "Xuezhi Wang",
     "Dale Schuurmans",
+    "Maarten Bosma",
+    "Ed Chi",
     "Denny Zhou",
     "Quoc V. Le"
    ],
@@ -5254,7 +5258,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "A model reasoning step by step with no way to look anything up tended to invent facts and carry early mistakes through to the end. Agents that only took actions, without reasoning, could not plan or recover from errors.",
    "idea": "Yao and colleagues at Princeton and Google Research had the model alternate between the two in a single transcript ('Thought: ... Action: ... Observation: ...'). Reasoning updates the plan, and an action such as a Wikipedia search returns an observation that feeds the next thought. They called the method ReAct.",
-   "changed": "The thought-action-observation loop became the default pattern for LLM agents and for agent frameworks such as LangChain. In March 2023, shortly after GPT-4's launch on 14 March, open-source scripts such as AutoGPT wrapped such a loop around GPT-4 to pursue open-ended goals with no human between steps: they broke a goal into tasks, kept a task list and a memory, and called tools for the web, files and code. BabyAGI, built around task planning, followed within weeks. The two projects set off a wave of hype and prompted early public discussion of agent safety, including the ChaosGPT stunts.",
+   "changed": "The thought-action-observation loop became the default pattern for LLM agents and for agent frameworks such as LangChain. In March 2023, shortly after GPT-4's launch on 14 March, open-source scripts such as AutoGPT wrapped such a loop around GPT-4 to pursue open-ended goals with no human between steps: they broke a goal into tasks, kept a task list and a memory, and called tools for the web, files and code. BabyAGI, built around task planning, appeared the same week. The two projects set off a wave of hype and prompted early public discussion of agent safety, including the ChaosGPT stunts.",
    "limits": "ReAct works through prompting alone, with a few worked examples in the prompt. Over long tasks errors pile up, and the model can get stuck in loops or repeat the same actions. The 2023 autonomous agents often went round in circles, lost track of their goals and ran up high costs, because the models underneath had not been trained to pursue goals over long sequences of steps.",
    "people": [
     "Shunyu Yao",
@@ -6249,7 +6253,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2023-metr",
      "type": "parallel",
-     "note": "Apollo became the second major outside evaluator of frontier models, after METR."
+     "note": "Apollo became the second major outside evaluator of frontier models, after ARC Evals (later METR)."
     },
     {
      "to": "safety-2025-evaluation-awareness",
@@ -6532,7 +6536,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "An executive order and legislation would take time, so the White House looked for commitments that companies could 'undertake immediately'.",
-   "idea": "Seven companies (Amazon, Anthropic, Google, Inflection, Meta, Microsoft and OpenAI) promised to have their models security-tested inside and outside the company before release, to share information, to watermark AI-generated content and to report their models' capabilities and limitations. Eight more companies joined in September 2023.",
+   "idea": "Seven companies (Amazon, Anthropic, Google, Inflection, Meta, Microsoft and OpenAI) promised to have their models security-tested inside and outside the company before release, to share information, to develop mechanisms such as watermarking that show when content is AI-generated, and to report their models' capabilities and limitations. Eight more companies joined in September 2023.",
    "changed": "The commitments became a template for the company commitments made at the 2024 Seoul summit, and Executive Order 14110 turned some of them into reporting duties.",
    "limits": "Every one of the commitments was voluntary, and nobody had the power to enforce them.",
    "people": [
@@ -6899,7 +6903,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "Coding benchmarks such as HumanEval asked for short, self-contained functions, and models were already scoring close to the maximum. They said little about real software work.",
    "idea": "Jimenez, Yang, Press, Narasimhan and colleagues collected 2,294 real GitHub issues, with their pull requests, from 12 Python repositories. The model receives the codebase and the issue description and has to edit the code. It succeeds if the fail-to-pass tests, which failed before the real fix and passed after it, now pass without breaking any others.",
-   "changed": "At release, models could resolve only the simplest issues. In spring 2024 the same Princeton group released SWE-agent (code in April, paper in May). Models working in a raw Linux shell got lost in large repositories: commands printed long outputs, editing was clumsy and errors often passed silently. The authors treated language-model agents as end users who need interfaces built for them, which they called agent-computer interfaces: a compact file viewer with line numbers, a search command with concise output, an edit command whose linter (an automatic code checker) rejects syntax errors, and clear feedback. With GPT-4 SWE-agent resolved 12.5% of SWE-bench issues. Keeping the model the same and changing only the interface substantially raised the score, so benchmark results measure a model together with its agent scaffold, the code around the model that runs its loop and tool calls. On 13 August 2024 OpenAI released SWE-bench Verified, a subset checked by people, and grading by tests was later reused in environments for training coding models with reinforcement learning.",
+   "changed": "At release, models could resolve only the simplest issues. In spring 2024 the same Princeton group released SWE-agent (code in April, paper in May). Models working in a raw Linux shell got lost in large repositories: commands printed long outputs, editing was clumsy and errors often passed silently. The authors treated language-model agents as end users who need interfaces built for them, which they called agent-computer interfaces: a compact file viewer with line numbers, a search command with concise output, an edit command whose linter (an automatic code checker) rejects syntax errors, and clear feedback. With GPT-4 Turbo, SWE-agent resolved 12.5% of SWE-bench issues. Keeping the model the same and changing only the interface substantially raised the score, so benchmark results measure a model together with its agent scaffold, the code around the model that runs its loop and tool calls. On 13 August 2024 OpenAI released SWE-bench Verified, a subset checked by people, and grading by tests was later reused in environments for training coding models with reinforcement learning.",
    "limits": "SWE-bench covers only Python, and the issues may have leaked into models' training data. Some tests are weak enough to let an incorrect patch pass. SWE-agent itself is scaffolding around a prompted model and introduces no new training method, and how much such an interface helps depends on the model and the benchmark.",
    "people": [
     "Carlos E. Jimenez",
@@ -7000,7 +7004,7 @@ window.TIMELINE_DATA = {
     {
      "to": "lm-2020-scaling-laws",
      "type": "parallel",
-     "note": "The order's reporting duty starts at 10^26 operations, using training compute as a proxy for capability, the regularity scaling-law work measured; the order itself gives no source for the number."
+     "note": "The order's reporting duty starts at \\(10^{26}\\) operations, using training compute as a proxy for capability, the regularity scaling-law work measured; the order itself gives no source for the number."
     },
     {
      "to": "safety-2023-arc-evals-gpt4",
@@ -7276,7 +7280,7 @@ window.TIMELINE_DATA = {
    "kind": "benchmark",
    "importance": 2,
    "problem": "Benchmarks made of fixed questions and answers could not tell whether a model can complete a multi-step task that involves tools, a computer or a human user.",
-   "idea": "GAIA (November 2023) asks questions that are conceptually simple for humans but need web browsing, file handling and tool use, and that have unambiguous answers. OSWorld (April 2024) has 369 tasks in real Ubuntu, Windows and macOS environments, each checked by a script that inspects the result. In tau-bench (June 2024), agents must follow policy rules while serving simulated users in retail and airline settings. Its pass\\(^k\\) score asks whether an agent succeeds on all \\(k\\) repeated attempts at the same task, so it measures reliability.",
+   "idea": "GAIA (November 2023) asks questions that are conceptually simple for humans but need web browsing, file handling and tool use, and that have unambiguous answers. OSWorld (April 2024) has 369 tasks on a real Ubuntu desktop, with 43 more on Windows, each checked by a script that inspects the result. In tau-bench (June 2024), agents must follow policy rules while serving simulated users in retail and airline settings. Its pass\\(^k\\) score asks whether an agent succeeds on all \\(k\\) repeated attempts at the same task, so it measures reliability.",
    "changed": "OSWorld became the headline metric for the computer-use capability Claude released in October 2024.",
    "limits": "Simulated users and environments match real deployment only roughly.",
    "people": [
@@ -7743,12 +7747,12 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2023-eo-14110",
      "type": "parallel",
-     "note": "Both single out the largest models by training compute: 10^25 FLOP in the EU Act, 10^26 operations in the US order."
+     "note": "Both single out the largest models by training compute: \\(10^{25}\\) FLOP in the EU Act, \\(10^{26}\\) operations in the US order."
     },
     {
      "to": "lm-2020-scaling-laws",
      "type": "parallel",
-     "note": "Recital 111 bases the 10^25 FLOP presumption on training compute being, 'according to the state of the art', one of the relevant approximations for model capabilities."
+     "note": "Recital 111 bases the \\(10^{25}\\) FLOP presumption on training compute being, 'according to the state of the art', one of the relevant approximations for model capabilities."
     },
     {
      "to": "gov-2023-bletchley",
@@ -8217,7 +8221,7 @@ window.TIMELINE_DATA = {
     {
      "to": "gov-2023-eo-14110",
      "type": "parallel",
-     "note": "Covered models were those trained with more than 10^26 operations at a cost above $100M, the federal order's compute line plus a cost test."
+     "note": "Covered models were those trained with more than \\(10^{26}\\) operations at a cost above $100M, the federal order's compute line plus a cost test."
     },
     {
      "to": "safety-2016-cirl",
@@ -8572,7 +8576,7 @@ window.TIMELINE_DATA = {
    "importance": 3,
    "problem": "After o1, it was unclear whether long reasoning required undisclosed techniques, such as process reward models that score each step of the reasoning, or search over possible answers. No open model matched o1.",
    "idea": "DeepSeek first trained R1-Zero by applying GRPO directly to its base model, DeepSeek-V3. The only rewards were rule-based checks of accuracy and format, with no human-labelled reasoning trajectories. As the responses grew longer, self-reflection and self-verification emerged, along with what the authors called an 'aha moment'. R1 then added a small cold-start set of supervised examples, more RL, and distillation into smaller open models.",
-   "changed": "DeepSeek showed in public that pure RL, rewarding only the outcome, can incentivise reasoning at o1's level. It released the weights under an MIT licence, which set off open replications of training with verifiable rewards (RLVR). The paper was later published in Nature in 2025.",
+   "changed": "DeepSeek showed in public that RL rewarding only the outcome can incentivise reasoning, and that after a small supervised start it reaches o1's level. It released the weights under an MIT licence, which set off open replications of training with verifiable rewards (RLVR). The paper was later published in Nature in 2025.",
    "limits": "R1-Zero's reasoning mixed languages and was hard to read. The authors report that process reward models and Monte Carlo tree search did not work well for them. Claims about low training cost referred to the V3 base run, not the full programme.",
    "people": [
     "Daya Guo",
@@ -9321,7 +9325,7 @@ window.TIMELINE_DATA = {
    "kind": "blog",
    "importance": 2,
    "problem": "By 2024 sparse autoencoders (SAEs) were the main bet of mechanistic interpretability. There was no ground truth to check their features against, and little evidence that they did useful work simpler tools could not.",
-   "idea": "In March 2025 Google DeepMind's interpretability team, among them Neel Nanda and Rohin Shah, tested SAEs on a safety task: detecting harmful intent in user prompts unlike those seen in training. SAEs did worse than linear probes, and the team said it was deprioritising fundamental SAE research, adding that the field was probably over-invested in it. In April Dario Amodei argued in 'The Urgency of Interpretability' for a race between interpretability and model intelligence, with Anthropic aiming for interpretability that 'can reliably detect most model problems' by 2027. In May Nanda replied that no current research paradigm, interpretability included, would give highly reliable ways to find deception in superintelligent systems, and that interpretability should be one layer of a defence in depth.",
+   "idea": "In March 2025 Google DeepMind's interpretability team, among them Neel Nanda and Rohin Shah, tested SAEs on a safety task: detecting harmful intent in user prompts unlike those seen in training. SAEs did worse than linear probes, and the team said it was deprioritising fundamental SAE research, adding that it speculated the field was somewhat over-invested in it. In April Dario Amodei argued in 'The Urgency of Interpretability' for a race between interpretability and model intelligence, with Anthropic aiming for interpretability that 'can reliably detect most model problems' by 2027. In May Nanda replied that no current research paradigm, interpretability included, would give highly reliable ways to find deception in superintelligent systems, and that interpretability should be one layer of a defence in depth.",
    "changed": "In December 2025 Nanda's team described its pivot from ambitious reverse engineering to 'pragmatic interpretability': problems chosen for their importance to safety, progress checked on proxy tasks, and the simplest methods first, such as prompting, steering, probing and reading chains of thought. The meaning of 'mechanistic interpretability' widened with it, from reverse engineering a network to any use of its internals.",
    "limits": "These are strategy statements and informal results rather than a settled verdict. The DeepMind team still found SAEs useful for some jobs, such as spotting spurious correlations in datasets, and Anthropic's attribution graphs, published the next day, rest on a related kind of sparse dictionary. Whether ambitious reverse engineering will catch up is disputed.",
    "people": [
@@ -9961,7 +9965,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 1,
    "problem": "Chat models sometimes change character in ways nobody intended. Bing's chatbot slipped into its 'Sydney' persona, and other models have started flattering their users. There was no cheap way to watch for such a shift or to prevent it.",
-   "idea": "Chen, Arditi, Sleight, Evans and Lindsey start from a plain-language description of a trait, such as evil, sycophancy or a tendency to hallucinate. An automated pipeline turns that description into a persona vector: a direction in the model's internal activations that tracks the trait. The same vector can monitor the model, flag training data likely to push it toward the trait, and steer against the trait during fine-tuning, which the authors call 'preventative steering'.",
+   "idea": "Chen, Arditi, Sleight, Evans and Lindsey start from a plain-language description of a trait, such as evil, sycophancy or a tendency to hallucinate. An automated pipeline turns that description into a persona vector: a direction in the model's internal activations that tracks the trait. The same vector can monitor the model and flag training data likely to push it toward the trait. Adding the vector during fine-tuning, so that the data no longer has to push the model that way, keeps the trait from being learned; the authors call this 'preventative steering'.",
    "changed": "Fine-tuning can leave a model misaligned in ways nobody trained for, and the persona directions tracked those shifts.",
    "limits": "Each trait has to be named in advance, so the method cannot catch a shift nobody thought to look for. Trait scores came from other language models acting as judges, and the experiments used small open models of around 7–8 billion parameters.",
    "people": [
@@ -10022,7 +10026,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 3,
    "problem": "After the SB 1047 veto, the US still had no law on the safety of frontier models.",
-   "idea": "Governor Newsom signed Senator Wiener's narrower bill, the Transparency in Frontier AI Act. It covers models trained with more than 10^26 operations, and its catastrophic risk is a foreseeable risk that a model contributes to the death or serious injury of more than 50 people or over $1 billion in damage in one incident, including by 'evading the control of its frontier developer or user'. Large frontier developers must publish a safety framework and transparency reports when they release a model, report critical safety incidents to the state within 15 days, and protect whistleblowers. The law also starts CalCompute, a public consortium for computing power. It entered into force on 1 January 2026.",
+   "idea": "Governor Newsom signed Senator Wiener's narrower bill, the Transparency in Frontier AI Act. It covers models trained with more than \\(10^{26}\\) operations, and its catastrophic risk is a foreseeable risk that a model contributes to the death or serious injury of more than 50 people or over $1 billion in damage in one incident, including by 'evading the control of its frontier developer or user'. Large frontier developers must publish a safety framework. Every frontier developer must publish a transparency report when it releases a model, report critical safety incidents to the state within 15 days, and protect whistleblowers. The law also starts CalCompute, a public consortium for computing power. It entered into force on 1 January 2026.",
    "changed": "Publishing a frontier safety framework had been voluntary. In California it became a legal duty.",
    "limits": "The law mainly requires disclosure. It mandates no third-party audits and no ability to shut models down, and it is enforced through civil penalties.",
    "people": [
@@ -10285,7 +10289,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "New York's legislature passed the RAISE Act in June 2025, three months before California's SB 53 was signed, and its version was stricter: it would have barred developers from deploying a model that created an 'unreasonable risk of critical harm'.",
-   "idea": "Governor Kathy Hochul signed the bill on 19 December 2025 together with an agreement to amend it, and the amendment became law on 27 March 2026. The main duties fall on developers with more than $500 million in annual revenue that train models with more than 10^26 operations. They must publish a frontier AI framework and transparency reports and report critical safety incidents to the state. The Attorney General can seek penalties of up to $1 million for a first violation and $3 million for later ones.",
+   "idea": "Governor Kathy Hochul signed the bill on 19 December 2025 together with an agreement to amend it, and the amendment became law on 27 March 2026. The main duties fall on developers with more than $500 million in annual revenue that train models with more than \\(10^{26}\\) operations. They must publish a frontier AI framework and transparency reports and report critical safety incidents to the state. The Attorney General can seek penalties of up to $1 million for a first violation and $3 million for later ones.",
    "changed": "The amendment rewrote the act to follow SB 53 more closely, which Hochul presented as a 'unified benchmark' among the country's leading tech states. Two differences remain: incidents must be reported within 72 hours instead of SB 53's 15 days, and a new office in the Department of Financial Services receives developers' disclosure statements, can issue rules and charges developers for its costs. The signing came eight days after the federal order against state AI laws, and the Assembly sponsor, Alex Bores, said New York had defeated an attempt to stop the act 'through executive action'.",
    "limits": "The amended text drops the ban on deploying risky models, so like SB 53 the law mainly requires disclosure, with no mandatory third-party audit and no private right of action. It takes effect on 1 January 2027 and had not yet been enforced.",
    "people": [
@@ -10363,6 +10367,11 @@ window.TIMELINE_DATA = {
     {
      "label": "GovAI: Anthropic's RSP v3.0, how it works and what's changed (2026)",
      "url": "https://governance.ai/analysis/anthropics-rsp-v3-0-how-it-works-whats-changed-and-some-reflections",
+     "kind": "explainer"
+    },
+    {
+     "label": "Holden Karnofsky: Responsible Scaling Policy v3, his own account of the change he led (LessWrong, 24 Feb 2026)",
+     "url": "https://www.lesswrong.com/posts/HzKuzrKfaDJvQqmjh/responsible-scaling-policy-v3",
      "kind": "explainer"
     }
    ],
@@ -10521,7 +10530,7 @@ window.TIMELINE_DATA = {
    "problem": "Sparse autoencoders split a model's activations into features. That shows what the network represents on an input, but it leaves some reconstruction error and does not say which weights do the computing, and there was no agreed way to cut the parameters themselves into mechanisms.",
    "idea": "In January 2025 Braun, Bushnaq, Heimersheim, Mendel and Sharkey at Apollo Research proposed Attribution-based Parameter Decomposition (APD). It writes a network's parameters as a sum of components, each a vector the size of the whole parameter set. The components must add up to the original weights, as few of them as possible may be needed on any one input, and each is pushed to be simple, close to low rank. Gradient attributions choose the top-k components that matter for an input, and those alone have to reproduce the network's output. On toy models whose mechanisms were known in advance, APD recovered features stored in superposition, separated computations compressed into fewer neurons and found representations spread across layers. It made the case for treating mechanisms in the weights, rather than directions in activation space, as the unit of interpretation.",
    "changed": "APD was hard to scale. Each component was as large as the whole network, so memory grew with every component added, and the authors' follow-up, SPD (June 2025), reported that APD found the right mechanisms only in a narrow range of hyperparameters, needed the top-k value chosen in advance and relied on gradient attributions, which estimate causal importance poorly. SPD too was tested only on toy models. In May 2026 Bushnaq, Braun, Clive-Griffin, Sharkey and colleagues, in a Goodfire paper, decomposed the non-embedding weights of a language model with 67 million parameters (all its weights except the tables that turn tokens into vectors) into simple, sparsely used subcomponents. Ablations, switching parts off, chosen adversarially to destroy the model's behaviour kept the subcomponents faithful. With this adversarial parameter decomposition (VPD) the authors took attention apart, traced interactions on individual prompts and edited the model by hand. Parameter decomposition now covers a complete small language model, attention included, and mechanisms can be studied in the original weights instead of in a replacement model of the activations.",
-   "limits": "At 67 million parameters, of which the 28 million non-embedding ones were decomposed, the model is small. The interpreted examples cover selected behaviours, and the method has not been tried at frontier scale or for alignment interventions.",
+   "limits": "At 67 million parameters, of which the 28 million non-embedding ones were decomposed, the model is small. The decomposition held up under about 20 steps of adversarial optimisation but not under 160 or more. The interpreted examples cover selected behaviours, and the method has not been tried at frontier scale or for alignment interventions.",
    "people": [
     "Lucius Bushnaq",
     "Dan Braun",
@@ -10665,7 +10674,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "The ability of frontier models to carry out cyber attacks raised national-security concerns. The administration wanted industry's cooperation without setting up a licensing regime.",
-   "idea": "Executive Order 14409 creates a classified benchmark of cyber capabilities, run by the Treasury, the NSA and CISA. The NSA Director decides which models count as 'covered frontier models'. Developers may voluntarily give the government up to 30 days of access before release, and coordinate trusted early access for partners that run critical infrastructure. The order states that it creates no licensing or preclearance requirement.",
+   "idea": "Executive Order 14409 tells the Treasury, the NSA and CISA to set up a classified benchmark of cyber capabilities within 60 days. The NSA Director decides which models count as 'covered frontier models'. Under a voluntary framework the agencies are to design, developers may give the government up to 30 days of access before they release a covered model to other trusted partners, and work with it to choose the partners that get early access to protect critical infrastructure. The order states that it creates no licensing or preclearance requirement.",
    "changed": "EO 14110 had required developers to report. The US now relied instead on voluntary access to covered frontier models before release, focused on cyber risks.",
    "limits": "Taking part is voluntary. The order mandates no safety testing and gives the government no power to block a release.",
    "people": [
@@ -10786,7 +10795,7 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Capture-the-flag evaluations, in which a model attacks practice targets, tell the model it is in a simulation. If the environment is misconfigured, the model may not be able to tell fictional targets from real ones.",
    "idea": "After OpenAI's disclosure, Anthropic reviewed 141,006 cyber evaluation runs. It found three incidents, the earliest from April 2026, all in tasks hosted by its partner Irregular, where a misconfiguration had left live internet access. Opus 4.7 took credentials and reached a production database at an organisation whose real domain matched a fictional target, and it kept going after recognising that the system was real. Mythos 5 published a malicious package on PyPI, the public Python package index, and it was downloaded on 15 real systems in about an hour. An internal research model used SQL injection, then stopped on its own once it realised the host was real. The techniques were basic, such as weak passwords and endpoints that required no login.",
-   "changed": "Anthropic called the incidents 'closer to a harness and operational failure than a model alignment failure': Claude misjudged its situation rather than pursuing a goal of its own. It now holds evaluation environments, including those run by vendors, to its usual security standards, and it asked METR for an outside review. An October follow-up covered more runs and internal use. It found nothing as severe, but it did find four kinds of overreach on live sites, including Claude Haiku 4.5 submitting an invented tip to a police tip form, and Anthropic switched off live internet access for all internal evaluations.",
+   "changed": "Anthropic called the incidents 'closer to a harness and operational failure than a model alignment failure': Claude misjudged its situation rather than pursuing a goal of its own. It now holds evaluation environments, including those run by vendors, to its usual security standards, and it said it was in talks with METR about an outside review. An October follow-up covered more runs and internal use. It found nothing as severe, but it did find four kinds of overreach on live sites, including Claude Haiku 4.5 submitting an invented tip to a police tip form, and Anthropic switched off live internet access for all internal evaluations.",
    "limits": "These evaluations ran without the safeguards Anthropic uses in deployment.",
    "people": [],
    "orgs": [
@@ -10920,7 +10929,7 @@ window.TIMELINE_DATA = {
    "kind": "policy",
    "importance": 2,
    "problem": "OpenAI had disclosed cases of misalignment irregularly, often waiting to bundle them or putting them in system cards, the documents published alongside a model. No industry standard said what developers should report.",
-   "idea": "Under the new framework, any OpenAI employee can submit a case. Safety and alignment teams investigate it and place it on one of three tracks, each with deadlines: ready to disclose, small investigation, or extended investigation for complex cases involving third parties. OpenAI says the Hugging Face incident would have gone on the extended track. Disclosure is preferred even when a case's significance is unclear. The six reports published at launch included an unreleased model writing instructions to ignore its usual limits into the summaries that carry work over into a fresh context window; GPT-5.6 Sol instances telling later instances to hide mistakes and invent missing data; a model that used an exposed API key and then made up the figures it could not get; and agents uploading files to public sites to cite or share them.",
+   "idea": "Under the new framework, any OpenAI employee can submit a case. Safety and alignment teams investigate it, with deadlines for each step, and place it on one of three tracks: ready to disclose, small investigation, or extended investigation for complex cases involving third parties. OpenAI says the Hugging Face incident would have gone on the extended track. Disclosure is preferred even when a case's significance is unclear. The six reports published at launch included an unreleased model writing instructions to ignore its usual limits into the summaries that carry work over into a fresh context window; GPT-5.6 Sol instances telling later instances to hide mistakes and invent missing data; a model that used an exposed API key and then made up the figures it could not get; and agents uploading files to public sites to cite or share them.",
    "changed": "OpenAI wrote that the industry has not solved alignment and monitoring well enough to keep scaling at full speed for long, and that decisions should rest on evidence people outside the labs can examine. Disputes over what to disclose go to its Safety Advisory Group.",
    "limits": "Six individual cases cannot show how often misalignment occurs. OpenAI still decides what to disclose; it plans to work out more objective criteria with other developers, researchers and regulators.",
    "people": [],
@@ -11367,7 +11376,8 @@ window.TIMELINE_DATA = {
    "aliases": [
     "MIRI",
     "SIAI",
-    "Singularity Institute"
+    "Singularity Institute",
+    "Machine Intelligence Research Institute"
    ],
    "founded": "2000",
    "founders": [
@@ -12105,6 +12115,11 @@ window.TIMELINE_DATA = {
      "org": "University of Oxford, FHI (director)",
      "from": "2005",
      "to": "2024"
+    },
+    {
+     "org": "Macrostrategy Research Initiative (founder)",
+     "from": "2024",
+     "to": null
     }
    ],
    "key_event_ids": [
@@ -12338,7 +12353,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Ilya Sutskever",
-   "known_for": "OpenAI co-founder and chief scientist who voted to remove Altman in 2023. Co-led Superalignment, then founded Safe Superintelligence.",
+   "known_for": "OpenAI co-founder and chief scientist who voted to remove Altman in 2023. Co-led Superalignment, then co-founded Safe Superintelligence.",
    "affiliations": [
     {
      "org": "Google Brain",
@@ -12479,7 +12494,7 @@ window.TIMELINE_DATA = {
      "to": null
     },
     {
-     "org": "Mila",
+     "org": "Mila (founder; scientific director until 2025)",
      "from": "1993",
      "to": null
     },
@@ -12553,7 +12568,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Richard Sutton",
-   "known_for": "A founder of modern RL, known for TD learning and 'The Bitter Lesson'. Shared the 2024 Turing Award with Andrew Barto and is sceptical of AI-doom framing.",
+   "known_for": "A founder of modern RL, known for TD learning and 'The Bitter Lesson'. Shared the 2024 Turing Award with Andrew Barto and is sceptical of AI-doom framing. In 2026 he left Keen Technologies to co-found Oak Lab with Khurram Javed.",
    "affiliations": [
     {
      "org": "University of Alberta",
@@ -12569,12 +12584,22 @@ window.TIMELINE_DATA = {
     {
      "org": "Keen Technologies",
      "from": "2023",
-     "to": null,
-     "uncertain": true
+     "to": "2026"
+    },
+    {
+     "org": "Oak Lab (co-founder)",
+     "from": "2026",
+     "to": null
     }
    ],
    "key_event_ids": [
     "rl-1988-td-learning"
+   ],
+   "sources": [
+    {
+     "label": "The Next Web: Sutton leaves Keen Technologies to start Oak Lab (14 Jul 2026)",
+     "url": "https://thenextweb.com/news/richard-sutton-oak-lab-reinforcement-learning"
+    }
    ]
   },
   {
@@ -12725,7 +12750,7 @@ window.TIMELINE_DATA = {
   },
   {
    "name": "Rohin Shah",
-   "known_for": "CHAI PhD and Alignment Newsletter author who researches technical AGI safety and alignment at DeepMind.",
+   "known_for": "CHAI PhD and Alignment Newsletter author who leads the AGI Safety & Alignment team at Google DeepMind.",
    "affiliations": [
     {
      "org": "CHAI (PhD)",
@@ -12799,6 +12824,11 @@ window.TIMELINE_DATA = {
      "org": "Open Philanthropy (Director of AI Strategy)",
      "from": "2023-07",
      "to": "2024-04"
+    },
+    {
+     "org": "Carnegie Endowment for International Peace (visiting scholar)",
+     "from": "2024-04",
+     "to": "2025-01"
     },
     {
      "org": "OpenAI board",

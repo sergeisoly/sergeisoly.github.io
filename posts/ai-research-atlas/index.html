@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sergei Solovev">
-<meta name="description" content="A history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026.">
+<meta name="description" content="An interactive history of AI safety research and the fields around it, from the 1950s to 2026.">
 
 <title>AI Research Atlas – Sergei Solovev</title>
 <style>
@@ -82,14 +82,14 @@ ul.task-list li input[type="checkbox"] {
 
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="AI Research Atlas – Sergei Solovev">
-<meta property="og:description" content="A history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026.">
-<meta property="og:image" content="https://sergeisoly.github.io/social-card.png">
+<meta property="og:description" content="An interactive history of AI safety research and the fields around it, from the 1950s to 2026.">
+<meta property="og:image" content="https://sergeisoly.github.io/posts/ai-research-atlas/atlas-card.png">
 <meta property="og:site_name" content="Sergei Solovev">
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
 <meta name="twitter:title" content="AI Research Atlas – Sergei Solovev">
-<meta name="twitter:description" content="A history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026.">
-<meta name="twitter:image" content="https://sergeisoly.github.io/social-card.png">
+<meta name="twitter:description" content="An interactive history of AI safety research and the fields around it, from the 1950s to 2026.">
+<meta name="twitter:image" content="https://sergeisoly.github.io/posts/ai-research-atlas/atlas-card.png">
 <meta name="twitter:image-height" content="630">
 <meta name="twitter:image-width" content="1200">
 <meta name="twitter:card" content="summary_large_image">
@@ -150,7 +150,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    A history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026.
+    An interactive history of AI safety research and the fields around it, from the 1950s to 2026.
   </div>
 </div>
 
@@ -180,11 +180,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="atlas.css">
-<p>For most of their history, reinforcement learning, language modelling and AI safety were separate lines of research, even where the same funders and labs supported them. Between 2017 and 2022 they joined up. A method for learning a reward from human comparisons, tested on simulated robots and Atari games in 2017, became the core of the recipe that turned GPT-3 into an instruction-following assistant. The people involved still disagree about what that did. Paul Christiano, first author of the 2017 paper, <a href="https://www.lesswrong.com/posts/vwu4kegAEZTBtpT6p/thoughts-on-the-impact-of-rlhf-research">defended the work in 2023</a>; in 2026 Richard Ngo <a href="https://www.lesswrong.com/posts/9RL9MuGZjzm4q3gKG/what-just-happened-a-retrospective-of-ai-alignment">argued</a> that alignment researchers had helped push AI capabilities forward, ChatGPT among them.</p>
-<p>The failures came with the method. In 2017 a simulated robot hand trained this way learned to hover in front of the camera, so that it only looked as if it were grasping. In 2025 OpenAI reported that a reasoning model trained on coding tasks sometimes passed them by editing the tests. Reward hacking, long known from game-playing agents, and deceptive behaviour, until then mostly a theoretical argument, became experiments on language models. In 2026 OpenAI reported agents that had escaped their training and evaluation sandboxes and run code on Hugging Face’s servers, and Anthropic reported cyber evaluations in which misconfigured internet access let Claude reach real organisations’ systems.</p>
-<p>This atlas traces that history from the 1950s to 2026 through papers, people and institutions, and through the governance that grew up around them. It concentrates on alignment and catastrophic-risk research, and most of its institutional coverage is American and British. Almost half of the safety entries from 2023 on are Anthropic’s, so the recent years lean towards one lab’s research.</p>
-<p>I made the atlas with extensive help from Claude Code and Codex. AI agents drafted most of the cards and checked their dates and sources; I directed the selection and edited the result. Each card lists its sources, and cards whose main evidence is a developer’s own report say so. Last updated 8 November 2026. Corrections and missing work are welcome at <a href="mailto:sergeisoly@gmail.com">sergeisoly@gmail.com</a>.</p>
-<p>Click a point on the map to open its card; within each lane, higher points are the events I judged more important. Reading routes follow one question step by step.</p>
+<p>This atlas is a history of AI safety research from the 1950s to 2026, told alongside reinforcement learning and agents, neural networks and language models, and the institutions that fund, build and govern AI. Each has a lane on the map below.</p>
+<p>For most of that time the first three were separate fields. They met between 2017 and 2022, when a reward model trained on people’s comparisons, first tested on Atari games and a simulated robot, became part of the method behind InstructGPT and ChatGPT. Reward hacking, long seen in game-playing agents, and deceptive alignment, until then mostly argued on paper, became things researchers could test on language models.</p>
 <div class="column-screen-inset">
 <div class="atlas-tabs-workspace">
 <nav class="atlas-tabs" role="tablist" aria-label="Explore the atlas">
@@ -197,6 +194,11 @@ ul.task-list li input[type="checkbox"] {
 <div id="institutions-and-people" role="tabpanel" aria-labelledby="tab-people" data-atlas-panel="people"><div data-atlas="people"></div></div>
 </div>
 </div>
+<section id="about-this-atlas" class="level2">
+<h2 class="anchored" data-anchor-id="about-this-atlas">About this atlas</h2>
+<p>The atlas concentrates on alignment and catastrophic-risk research, and most of its institutional coverage is American and British. Almost half of the safety entries from 2023 on are Anthropic’s, so the recent years lean towards one lab’s work.</p>
+<p>I made the atlas with extensive help from Claude Code and Codex. AI agents wrote most of the cards and checked their dates and sources; I directed the selection and edited the result. Each card lists its sources. Where a card rests mainly on a company’s report about its own model, the card says so.</p>
+<p>Corrections and missing work are welcome as <a href="https://github.com/sergeisoly/sergeisoly.github.io/issues">issues on GitHub</a>. Last updated 8 November 2026.</p>
 <script src="data.js"></script>
 <script src="diagrams.js"></script>
 <script src="atlas.js"></script>
@@ -211,6 +213,7 @@ window.MathJax = {
 <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

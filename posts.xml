@@ -13,6 +13,8 @@
 <url>https://sergeisoly.github.io/social-card.png</url>
 <title>Sergei Solovev</title>
 <link>https://sergeisoly.github.io/posts.html</link>
+<height>76</height>
+<width>144</width>
 </image>
 <generator>quarto-1.10.19</generator>
 <lastBuildDate>Sat, 07 Nov 2026 08:00:00 GMT</lastBuildDate>
@@ -20,12 +22,12 @@
   <title>AI Research Atlas</title>
   <dc:creator>Sergei Solovev</dc:creator>
   <link>https://sergeisoly.github.io/posts/ai-research-atlas/</link>
-  <description><![CDATA[ A history of reinforcement learning, language models, alignment and governance, from the 1950s to 2026. ]]></description>
+  <description><![CDATA[ An interactive history of AI safety research and the fields around it, from the 1950s to 2026. ]]></description>
   <category>ai-safety</category>
   <category>history</category>
   <guid>https://sergeisoly.github.io/posts/ai-research-atlas/</guid>
   <pubDate>Sat, 07 Nov 2026 08:00:00 GMT</pubDate>
-  <media:content url="https://sergeisoly.github.io/social-card.png" medium="image" type="image/png" height="76" width="144"/>
+  <media:content url="https://sergeisoly.github.io/posts/ai-research-atlas/atlas-card.png" medium="image" type="image/png" height="76" width="144"/>
 </item>
 </channel>
 </rss>
