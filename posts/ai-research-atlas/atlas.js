@@ -1045,16 +1045,17 @@
   }
 
   /* ---------- people & orgs ---------- */
-  const KIND_TONE = { lab: "lm", "nonprofit research": "rl", academic: "gov", government: "safety", funder: "grey", fellowship: "grey" };
+  // Organisation kind is drawn in one neutral colour (fill strength and hatching), so lane colours mean lanes only.
+  const KIND_TONE = { lab: "lab", "nonprofit research": "nonprofit", academic: "academic", government: "government", funder: "other", fellowship: "other" };
   function orgFor(name) { return orgForName(name); }
   const ACADEMIC = /universit|\bmit\b|berkeley|toronto|oxford|alberta|mila|fhi|chai/i, GOVT = /institute.*(nist|security)|caisi|aisi|government|report \(chair\)/i;
   function toneFor(org) {
     const o = orgFor(org);
     if (o && KIND_TONE[o.kind]) return KIND_TONE[o.kind];
-    if (GOVT.test(org)) return "safety";
-    if (ACADEMIC.test(org)) return "gov";
-    if (/openai|anthropic|deepmind|google|baidu|xai|meta|superintelligence|keen/i.test(org)) return "lm";
-    return "grey";
+    if (GOVT.test(org)) return "government";
+    if (ACADEMIC.test(org)) return "academic";
+    if (/openai|anthropic|deepmind|google|baidu|xai|meta|superintelligence|keen/i.test(org)) return "lab";
+    return "other";
   }
   // Chart labels are 11px in the page's sans face (atlas.css .people-chart .lb); measure them rather than guess.
   let labelCtx = null;
@@ -1092,7 +1093,7 @@
     }).sort((a, b) => a.first - b.first);
     let y = 30; const rows = people.map((p) => { const top = y; y += p.tracks * (BAR + GAP) + 9; return top; });
     const H = y + 4;
-    let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Researcher affiliations, 1995 to 2026. Select a name or affiliation to open its profile.">`;
+    let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Researcher affiliations, 1995 to 2026. Select a name or affiliation to open its profile."><defs><pattern id="atlas-kind-hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="4" style="fill:var(--ink-2);fill-opacity:.06"/><line x1="0" y1="0" x2="0" y2="4" style="stroke:var(--ink-2);stroke-opacity:.5;stroke-width:1.2"/></pattern></defs>`;
     for (let yr = 2000; yr <= 2025; yr += 5) svg += `<line x1="${px(yr)}" x2="${px(yr)}" y1="20" y2="${H}" class="gl"/><text x="${px(yr)}" y="13" text-anchor="middle" class="yr">${yr}</text>`;
     svg += `<line x1="${px(NOW)}" x2="${px(NOW)}" y1="20" y2="${H}" class="now"/><text x="${px(NOW)}" y="13" text-anchor="middle" class="yr">now</text>`;
     people.forEach((p, i) => {
@@ -1133,16 +1134,16 @@
         // Hit areas stop halfway to the neighbouring bars, so a click always selects the bar under the pointer.
         const track = byTrack[r.track], i = track.indexOf(r), prev = track[i - 1], next = track[i + 1], mid = (x1 + r.end) / 2;
         const hitL = Math.max(Math.min(x1 - 4, mid - 8), prev ? (prev.end + x1) / 2 : -Infinity), hitR = Math.min(Math.max(r.end + 4, mid + 8), next ? (r.end + next.x1) / 2 : Infinity);
-        svg += `<g class="role${r.uncertain ? " unsure" : ""}" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" data-affiliation="${r.index}" data-org-key="${esc(orgKeyFor(r.org) || "")}" aria-label="${esc(p.name)} at ${esc(r.org)}, ${esc(roleDate(r.from) || "start unknown")} to ${esc(roleDate(r.to) || "present")}${r.uncertain ? ", dates uncertain" : ""}. Open affiliation details."><rect class="role-hit" x="${hitL}" y="${by - GAP / 2}" width="${Math.max(1, hitR - hitL)}" height="${BAR + GAP}"/><rect class="role-bar" x="${x1}" y="${by}" width="${r.barW}" height="${BAR}" rx="2.5" style="fill:var(--${tone});stroke:var(--${tone})"/>`;
-        if (open) svg += `<path d="M${x2 - 1.5},${by} l5,${BAR / 2} l-5,${BAR / 2}" style="fill:var(--${tone})" class="tip-arrow"/>`;
-        if (r.clipped) svg += `<path d="M${x1 + 1.5},${by} l-5,${BAR / 2} l5,${BAR / 2}" style="fill:var(--${tone})" class="tip-arrow"/>`;
+        svg += `<g class="role${r.uncertain ? " unsure" : ""}" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" data-affiliation="${r.index}" data-org-key="${esc(orgKeyFor(r.org) || "")}" aria-label="${esc(p.name)} at ${esc(r.org)}, ${esc(roleDate(r.from) || "start unknown")} to ${esc(roleDate(r.to) || "present")}${r.uncertain ? ", dates uncertain" : ""}. Open affiliation details."><rect class="role-hit" x="${hitL}" y="${by - GAP / 2}" width="${Math.max(1, hitR - hitL)}" height="${BAR + GAP}"/><rect class="role-bar k-${tone}" x="${x1}" y="${by}" width="${r.barW}" height="${BAR}" rx="2.5"/>`;
+        if (open) svg += `<path d="M${x2 - 1.5},${by} l5,${BAR / 2} l-5,${BAR / 2}" class="tip-arrow"/>`;
+        if (r.clipped) svg += `<path d="M${x1 + 1.5},${by} l-5,${BAR / 2} l5,${BAR / 2}" class="tip-arrow"/>`;
         if (r.label) svg += `<text x="${r.label.x}" y="${by + 11}"${r.label.anchor ? ` text-anchor="${r.label.anchor}"` : ""} class="lb${r.label.out ? " out" : ""}">${esc(r.label.text)}</text>`;
         svg += `</g>`;
       });
     });
     svg += `</svg>`;
-    const kinds = [["lm", "Lab"], ["rl", "Nonprofit research"], ["gov", "Academic"], ["safety", "Government"], ["grey", "Other"]];
-    m.innerHTML = `<div class="profile-picker"><label for="atlas-org-search">Find a person or organisation</label><input id="atlas-org-search" type="search" placeholder="Name, affiliation or research area" aria-controls="atlas-profile-select"><span id="atlas-org-count" aria-live="polite"></span><div class="profile-choice"><select id="atlas-profile-select" aria-label="Choose a person or organisation"></select><button type="button" class="atlas-btn" data-act="open-profile-choice">Open profile</button></div></div><div class="people-workspace${split ? " has-profile" : ""}"><div>${people.length ? `<div class="people-chart">${svg}</div><div class="legend">${kinds.map(([t, n]) => `<span><i style="background:color-mix(in srgb, var(--${t}) 17%, transparent);border-color:color-mix(in srgb, var(--${t}) 60%, transparent)"></i>${n}</span>`).join("")}</div>` : ""}</div><div class="people-profile-dock"></div></div>`;
+    const kinds = [["lab", "Lab"], ["nonprofit", "Nonprofit research"], ["academic", "Academic"], ["government", "Government"], ["other", "Other"]];
+    m.innerHTML = `<div class="profile-picker"><label for="atlas-org-search">Find a person or organisation</label><input id="atlas-org-search" type="search" placeholder="Name, affiliation or research area" aria-controls="atlas-profile-select"><span id="atlas-org-count" aria-live="polite"></span><div class="profile-choice"><select id="atlas-profile-select" aria-label="Choose a person or organisation"></select><button type="button" class="atlas-btn" data-act="open-profile-choice">Open profile</button></div></div><div class="people-workspace${split ? " has-profile" : ""}"><div>${people.length ? `<div class="people-chart">${svg}</div><div class="legend">${kinds.map(([t, n]) => `<span><i class="k-${t}"></i>${n}</span>`).join("")}</div>` : ""}</div><div class="people-profile-dock"></div></div>`;
     // Reuse the single inspector even when it is docked outside this mount.
     profilePanel ||= document.createElement("section"); profilePanel.className = "profile-panel"; profilePanel.setAttribute("aria-label", "Selected profile");
     const filterProfiles = () => {
