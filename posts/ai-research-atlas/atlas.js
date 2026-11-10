@@ -507,13 +507,13 @@
       else if (state.route && related.has(e.id)) el("text", { x: lx, y: 4, class: "connection-label" }, g, e.label);
       g.dataset.eventId = e.id;
       g.addEventListener("focus", () => { state.focus = e.id; });
-      g.addEventListener("click", (ev) => { ev.stopPropagation(); select(e.id); });
+      g.addEventListener("click", (ev) => { ev.stopPropagation(); hideTip(); tipMuted = e.id; select(e.id); });
       g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(e.id); } });
-      g.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`));
+      g.addEventListener("mouseenter", (ev) => tipMuted !== e.id && showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`));
       g.addEventListener("focus", (ev) => { if (!g.matches(":focus-visible")) return; showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`); g.setAttribute("aria-describedby", "atlas-preview"); });
       g.addEventListener("blur", hideTip);
       g.addEventListener("mousemove", moveTip);
-      g.addEventListener("mouseleave", hideTip);
+      g.addEventListener("mouseleave", () => { if (g.isConnected) tipMuted = null; hideTip(); });
     }
     if (routeIds) routeIds.forEach((id) => {
       const p = pos.get(id);
@@ -660,7 +660,7 @@
     const t = state.route, ids = t.event_ids, available = routeAvailable(), current = ids.indexOf(state.selected), index = available.indexOf(state.selected);
     const previous = index > 0 ? available[index - 1] : null, next = index >= 0 ? available[index + 1] : available[0];
     const control = (id, dir, label) => `<button type="button" class="route-step-control" data-route-step="${dir}"${id ? ` aria-label="${label}: ${esc(byId.get(id).title)}, ${byId.get(id).date_sort.slice(0, 4)}"` : " disabled"}><span>${dir < 0 ? "← " : ""}${label}${dir > 0 ? " →" : ""}</span><strong>${id ? `${esc(byId.get(id).label)} <span class="num">${byId.get(id).date_sort.slice(0, 4)}</span>` : dir < 0 ? "Start of route" : "End of route"}</strong></button>`;
-    host.innerHTML = `<nav class="route-stepper" data-route-id="${esc(t.id)}" aria-label="Active question route"><div class="route-stepper-head"><span class="eyebrow">Follow a question</span><button type="button" class="text-button" data-act="leave-route">Exit route</button></div><h3>${esc(t.question || t.title)}</h3><div class="route-position-row"><span class="route-position num">${current >= 0 ? `Step ${current + 1} of ${ids.length}` : `Choose a step · ${ids.length} in this route`}</span>${available.length < ids.length ? `<span>${available.length} available with these filters</span>` : ""}</div><progress class="route-progress" max="${ids.length}" value="${current + 1}" aria-label="Position in the curated route"></progress><ol class="route-stops" aria-label="Route steps">${ids.map((id, i) => { const e = byId.get(id), active = id === state.selected; return `<li><button type="button" data-route-stop="${esc(id)}"${active ? ' aria-current="step"' : ""}${available.includes(id) ? "" : " disabled"} title="${i + 1}. ${esc(e.label)}, ${e.date_sort.slice(0, 4)}${available.includes(id) ? "" : " · unavailable with these filters"}" aria-label="Step ${i + 1}: ${esc(e.title)}, ${e.date_sort.slice(0, 4)}" style="--stop-color:${lc(e.lane)}"><span class="num">${i + 1}</span></button></li>`; }).join("")}</ol>${current >= 0 ? `<p class="route-step-current"><span class="dot" style="background:${lc(byId.get(state.selected).lane)}"></span>${esc(byId.get(state.selected).label)} <span class="num">${byId.get(state.selected).date_sort.slice(0, 4)}</span></p>` : ""}${!available.length ? '<p class="route-empty">No events in this route match the active lanes, search and era. Adjust the filters or <button type="button" class="text-button" data-era="all">browse all eras</button>.</p>' : `<div class="route-step-controls">${control(previous, -1, "Previous")}${control(next, 1, "Next")}</div>`}<details class="route-stop-list"><summary>All steps</summary><ol>${ids.map((id, i) => { const e = byId.get(id); return `<li value="${i + 1}"><button type="button" class="text-button" data-route-stop="${esc(id)}"${available.includes(id) ? "" : " disabled"}${id === state.selected ? ' aria-current="step"' : ""}>${esc(e.label)} <span class="num">${e.date_sort.slice(0, 4)}</span></button>${available.includes(id) ? "" : '<span class="route-unavailable">Unavailable with these filters</span>'}</li>`; }).join("")}</ol></details></nav>`;
+    host.innerHTML = `<nav class="route-stepper" data-route-id="${esc(t.id)}" aria-label="Active question route"><div class="route-stepper-head"><span class="eyebrow">Follow a question</span><button type="button" class="text-button" data-act="leave-route">Exit route</button></div><h3>${esc(t.question || t.title)}</h3><div class="route-position-row"><span class="route-position num">${current >= 0 ? `Step ${current + 1} of ${ids.length}` : `${ids.length} steps`}</span>${available.length < ids.length ? `<span>${available.length} available with these filters</span>` : ""}</div><progress class="route-progress" max="${ids.length}" value="${current + 1}" aria-label="Position in the curated route"></progress><ol class="route-stops" aria-label="Route steps">${ids.map((id, i) => { const e = byId.get(id), active = id === state.selected; return `<li><button type="button" data-route-stop="${esc(id)}"${active ? ' aria-current="step"' : ""}${available.includes(id) ? "" : " disabled"} title="${i + 1}. ${esc(e.label)}, ${e.date_sort.slice(0, 4)}${available.includes(id) ? "" : " · unavailable with these filters"}" aria-label="Step ${i + 1}: ${esc(e.title)}, ${e.date_sort.slice(0, 4)}" style="--stop-color:${lc(e.lane)}"><span class="num">${i + 1}</span></button></li>`; }).join("")}</ol>${current >= 0 ? `<p class="route-step-current"><span class="dot" style="background:${lc(byId.get(state.selected).lane)}"></span>${esc(byId.get(state.selected).label)} <span class="num">${byId.get(state.selected).date_sort.slice(0, 4)}</span></p>` : ""}${!available.length ? '<p class="route-empty">No events in this route match the active lanes, search and era. Adjust the filters or <button type="button" class="text-button" data-era="all">browse all eras</button>.</p>' : `<div class="route-step-controls">${control(previous, -1, "Previous")}${control(next, 1, "Next")}</div>`}<details class="route-stop-list"><summary>All steps</summary><ol>${ids.map((id, i) => { const e = byId.get(id); return `<li value="${i + 1}"><button type="button" class="text-button" data-route-stop="${esc(id)}"${available.includes(id) ? "" : " disabled"}${id === state.selected ? ' aria-current="step"' : ""}>${esc(e.label)} <span class="num">${e.date_sort.slice(0, 4)}</span></button>${available.includes(id) ? "" : '<span class="route-unavailable">Unavailable with these filters</span>'}</li>`; }).join("")}</ol></details></nav>`;
     const rail = $(".route-stops", host), active = $(".route-stops [aria-current]", host);
     if (rail && active) rail.scrollLeft = Math.max(0, active.offsetLeft - rail.offsetLeft - rail.clientWidth / 2 + active.offsetWidth / 2);
   }
@@ -805,6 +805,7 @@
     // While a timeline profile covers the card, the chip has nothing visible to jump to.
     const e = state.selected && byId.get(state.selected), covered = state.profile && state.profileDock === "timeline";
     chip.hidden = !e || covered;
+    chip.parentElement.classList.toggle("idle", !e && !state.profile);
     if (e) chip.textContent = `Read: ${e.label} ↓`;
   }
   function revealReaderTarget(target) {
@@ -820,12 +821,12 @@
   }
   function updateDiagramHints() {
     mounts.map.querySelectorAll(".diagram-viewport").forEach((viewport) => {
-      const hint = $(".diagram-pan-hint", viewport.parentElement);
       const overflows = viewport.clientWidth > 0 && viewport.scrollWidth > viewport.clientWidth + 1;
-      hint.hidden = !overflows;
       viewport.tabIndex = overflows ? 0 : -1;
-      if (overflows) viewport.setAttribute("aria-describedby", hint.id);
-      else viewport.removeAttribute("aria-describedby");
+      // A cut diagram fades at its right edge until it has been scrolled to the end.
+      const mark = () => viewport.classList.toggle("cut", viewport.scrollLeft + viewport.clientWidth < viewport.scrollWidth - 1);
+      if (!viewport.dataset.fade) { viewport.dataset.fade = "1"; viewport.addEventListener("scroll", mark, { passive: true }); }
+      mark();
     });
   }
   function scrollMapTo(id, smooth = true) {
@@ -836,6 +837,8 @@
   }
 
   /* ---------- tooltip ---------- */
+  // The map is redrawn on selection; the event just clicked stays quiet until the pointer leaves it.
+  let tipMuted = null;
   function showTip(ev, html) { if (!tip) return; if (matchMedia("(hover: none)").matches) { hideTip(); return; } tip.innerHTML = html; tip.hidden = false; moveTip(ev); }
   function moveTip(ev) { if (!tip) return; const r = ev.target && ev.target.getBoundingClientRect ? ev.target.getBoundingClientRect() : { left: 0, bottom: 0 }; const x = Number.isFinite(ev.clientX) ? ev.clientX : r.left, y = Number.isFinite(ev.clientY) ? ev.clientY : r.bottom; tip.style.left = Math.max(8, Math.min(x + 14, innerWidth - tip.offsetWidth - 8)) + "px"; tip.style.top = Math.max(8, Math.min(y + 14, innerHeight - tip.offsetHeight - 8)) + "px"; }
   function hideTip() { if (tip) tip.hidden = true; }
@@ -850,7 +853,7 @@
     if (!e) {
       state.connection = null; connectionHover = null; connectionFocus = null;
       if (state.profile && state.profileDock === "timeline") { state.profile = null; state.affiliationIndex = null; renderProfile(); }
-      pane.innerHTML = `<div class="pane-empty"><p>Select an event on the map to read it here.</p></div>`;
+      pane.innerHTML = "";
       return;
     }
     const conns = connectionsFor(e.id).map((c) => ({ ...c, id: c.from === e.id ? c.to : c.from, rel: (c.from === e.id ? REL : REL_IN)[c.type] || c.type })).sort((a, b) => byId.get(a.id).date_sort.localeCompare(byId.get(b.id).date_sort));
@@ -867,7 +870,7 @@
       <section class="connection-detail" id="atlas-connection-detail" aria-labelledby="atlas-connection-title" hidden></section>
       <div class="qa">
         <div class="prose">${para(e.problem)}${para(e.idea)}</div>
-        ${dg ? `<figure class="diagram"><div class="diagram-viewport" role="group" aria-label="Diagram">${dg.svg}</div><p class="diagram-pan-hint" id="diagram-pan-${esc(e.id)}" hidden>Swipe to see the full diagram →</p><figcaption>${prose(dg.caption)}</figcaption></figure>` : ""}
+        ${dg ? `<figure class="diagram"><div class="diagram-viewport" role="group" aria-label="Diagram">${dg.svg}</div><figcaption>${prose(dg.caption)}</figcaption></figure>` : ""}
         ${e.changed || e.limits ? `<div class="prose">${para(e.changed)}${para(e.limits, "limits")}</div>` : ""}
         ${(e.terms || []).length ? `<div><div class="eyebrow">Terms</div><dl class="terms">${e.terms.map((t) => `<dt>${prose(t.term)}</dt><dd>${prose(t.def)}</dd>`).join("")}</dl></div>` : ""}
       </div>
@@ -1209,7 +1212,7 @@
         timelineDock.insertBefore(back, profilePanel);
       }
     }
-    if (dock !== peopleDock) peopleDock.innerHTML = '<p class="profile-placeholder">The selected profile is open beside the event card. Select a name here to bring it alongside this chart.</p>';
+    if (dock !== peopleDock) peopleDock.innerHTML = "";
     else peopleDock.querySelector(":scope > .profile-placeholder")?.remove();
     document.querySelectorAll("[data-profile]").forEach((n) => {
       const selected = n.dataset.profile === state.profile;
@@ -1219,7 +1222,7 @@
     // An open organisation lights every affiliation bar that opens it.
     mounts.people.querySelectorAll(".people-chart [data-org-key]").forEach((n) => n.classList.toggle("org-selected", Boolean(state.profile) && n.dataset.orgKey === state.profile));
     profilePanel.id = "atlas-profile";
-    if (!active) { profilePanel.removeAttribute("aria-labelledby"); profilePanel.innerHTML = '<div class="profile-placeholder"><h3>People and organisations</h3><p>Select a name or bar to open a profile.</p></div>'; return; }
+    if (!active) { profilePanel.removeAttribute("aria-labelledby"); profilePanel.innerHTML = ""; return; }
     const isPerson = state.profile.startsWith("person:");
     if (dock === peopleDock && matchMedia("(min-width: 1051px)").matches) {
       const bottom = $(".people-workspace", mounts.people).getBoundingClientRect().bottom;

@@ -40,7 +40,7 @@ ${m(230, 198, "\\text{TD(0):}\\quad V(s) \\leftarrow V(s) + \\alpha\\,[\\,r + \\
     qLearning: {
       caption: "Q-learning updates \\(Q(s,a)\\), the estimated value of taking action \\(a\\) in state \\(s\\). The target is reward \\(r\\) plus the discounted value of the best estimated next action. \\(\\alpha\\) is the learning rate and \\(\\gamma\\) the discount factor; \\(s'\\) is the next state and \\(a'\\) ranges over its actions. DQN approximates \\(Q\\) with a neural network.",
       svg: wrap(`${box(30, 65, 150, 56, "Choose action", "var(--ink-2)", { tex: "\\text{e.g.}\\ \\varepsilon\\text{-greedy from}\\  Q", plain: "e.g. ε-greedy from Q" })}${box(290, 65, 140, 56, "Environment", "var(--ink-2)", "state transition")}
-${curve("M180,78 C220,35 250,35 290,78", "action a", 235, 38)}${curve("M290,108 C245,150 220,150 180,108", "next state s′, reward r", 230, 160)}
+${curve("M180,78 C220,35 250,35 290,78", { tex: "\\text{action}\\ a", plain: "action a" }, 235, 38)}${curve("M290,108 C245,150 220,150 180,108", { tex: "\\text{next state}\\ s'\\text{, reward}\\ r", plain: "next state s′, reward r" }, 230, 160)}
 ${m(230, 194, "Q(s,a) \\leftarrow Q(s,a) + \\alpha\\,[\\,r + \\gamma \\max_{a'} Q(s',a') - Q(s,a)\\,]", "Q(s,a) ← Q(s,a) + α [ r + γ maxₐ′ Q(s′,a′) − Q(s,a) ]", { size: 11.5 })}`),
     },
     rlhf: {
@@ -58,7 +58,7 @@ ${arrow(140, 57, 166, 57)}${arrow(293, 57, 318, 57)}${t(230, 130, "Pretrained LM
     prefs: {
       caption: "Learning a reward from preferences (Christiano et al. 2017): humans compare short clips, a reward model is fit to the comparisons, and RL optimizes that learned reward.",
       svg: wrap(`${box(20, 80, 110, 50, "RL agent", "var(--ink-2)", "acts in env")}${box(175, 20, 110, 50, "Human", "var(--ink-2)", "clip A or clip B?")}${box(175, 140, 110, 50, "Reward model", "var(--ink-2)", { tex: "\\hat{r}(s,a)", plain: "r̂(s,a)" })}${box(330, 80, 110, 50, "Trajectories", "var(--ink-2)", "pairs of clips")}
-${arrow(130, 95, 328, 95, "")}${arrow(385, 80, 287, 45, "show pairs")}${arrow(230, 70, 230, 138)}${t(237, 121, "fit to choices", 'font-size="10" style="fill:var(--muted)"')}${arrow(175, 170, 110, 132, "reward")}`),
+${arrow(130, 95, 328, 95, "")}${arrow(385, 80, 287, 45)}${t(345, 52, "show pairs", 'font-size="10" style="fill:var(--muted)"')}${arrow(230, 70, 230, 138)}${t(237, 121, "fit to choices", 'font-size="10" style="fill:var(--muted)"')}${arrow(175, 170, 110, 132)}${t(136, 168, "reward", 'text-anchor="end" font-size="10" style="fill:var(--muted)"')}`),
     },
     cai: {
       caption: "Constitutional AI: the model critiques and revises its own outputs against written principles (supervised phase), then AI-generated preference labels replace most human harmlessness labels (RLAIF).",
@@ -76,16 +76,16 @@ ${m(230, 25, "\\mathrm{softmax}(QK^{\\top}/\\sqrt{d_k} + M)\\,V", "softmax(QKᵀ
     superposition: {
       caption: "Superposition: a two-dimensional activation can encode more than two sparse features in different directions, illustrated by a pentagon. The representation trades capacity against interference; the directions need not be orthogonal, and individual neurons may respond to several features.",
       svg: wrap(`<line x1="130" y1="190" x2="130" y2="20" style="stroke:var(--line-2)"/><line x1="40" y1="105" x2="205" y2="105" style="stroke:var(--line-2)"/>${t(208, 109, "neuron 1", 'font-size="10"')}${t(136, 202, "neuron 2", 'font-size="10"')}
-${[0, 1, 2, 3, 4].map((k) => { const a = -Math.PI / 2 + (k * 2 * Math.PI) / 5; const x = 130 + 75 * Math.cos(a), y = 105 + 75 * Math.sin(a); return `<line x1="130" y1="105" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" style="stroke:var(--safety)" stroke-width="2.4" marker-end="url(#ah)"/><text x="${(130 + 90 * Math.cos(a)).toFixed(1)}" y="${(109 + 90 * Math.sin(a)).toFixed(1)}" text-anchor="middle" style="fill:var(--ink)">f${k + 1}</text>`; }).join("")}
+${[0, 1, 2, 3, 4].map((k) => { const a = -Math.PI / 2 + (k * 2 * Math.PI) / 5; const x = 130 + 75 * Math.cos(a), y = 105 + 75 * Math.sin(a); return `<line x1="130" y1="105" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" style="stroke:var(--line)" stroke-width="2" marker-end="url(#ah)"/>${m((130 + 90 * Math.cos(a)).toFixed(1), (109 + 90 * Math.sin(a)).toFixed(1), "f_" + (k + 1), "f" + (k + 1), { tone: "ink" })}`; }).join("")}
 ${t(260, 60, "5 features → 2 dimensions")}${t(260, 82, "works when features are sparse", 'style="fill:var(--muted)"')}${t(260, 120, "dense features → model keeps")}${t(260, 136, "only the most important ones", 'style="fill:var(--muted)"')}`),
     },
     pg: {
       caption: "A REINFORCE-style update weights the sampled log-probability gradient by return \\(R\\) minus an action-independent baseline \\(b\\). \\(\\theta\\) denotes policy parameters, \\(\\pi_\\theta(a \\mid s)\\) the action distribution and \\(\\alpha\\) the learning rate. The bars illustrate the direction of an update, not an exact computed optimizer step.",
       svg: wrap(`${m(75, 22, "\\pi\\ \\text{before}", "π before", { size: 10.5 })}${m(225, 22, "\\text{advantage}\\  R - b", "advantage R − b", { size: 10.5 })}${m(375, 22, "\\pi\\ \\text{after}", "π after", { size: 10.5 })}
 ${arrow(118, 18, 168, 18)}${arrow(282, 18, 332, 18)}
-${[0.33, 0.33, 0.34].map((v, i) => `<rect x="${37 + i * 28}" y="${150 - v * 150}" width="22" height="${v * 150}" rx="2" style="fill:var(--rl-fill);stroke:var(--rl-edge)"/><text x="${48 + i * 28}" y="166" text-anchor="middle" style="fill:var(--muted)" font-size="10">a${i + 1}</text>`).join("")}
+${[0.33, 0.33, 0.34].map((v, i) => `<rect x="${37 + i * 28}" y="${150 - v * 150}" width="22" height="${v * 150}" rx="2" style="fill:var(--grey-fill);stroke:var(--grey-edge)"/>${m(48 + i * 28, 166, "a_" + (i + 1), "a" + (i + 1), { size: 10, tone: "muted" })}`).join("")}
 <line x1="180" x2="272" y1="95" y2="95" style="stroke:var(--line-2)"/>${[3, -2, 1].map((v, i) => `<rect x="${187 + i * 28}" y="${v > 0 ? 95 - v * 15 : 95}" width="22" height="${Math.abs(v) * 15}" rx="2" style="fill:var(--${v > 0 ? "rl" : "safety"}-fill);stroke:var(--${v > 0 ? "rl" : "safety"}-edge)"/><text x="${198 + i * 28}" y="${v > 0 ? 88 - v * 15 : 112 - v * 15}" text-anchor="middle" style="fill:var(--ink-2)" font-size="10">${v > 0 ? "+" + v : "−" + -v}</text>`).join("")}
-${[0.47, 0.18, 0.35].map((v, i) => `<rect x="${337 + i * 28}" y="${150 - v * 150}" width="22" height="${v * 150}" rx="2" style="fill:var(--rl-fill);stroke:var(--rl)"/><text x="${348 + i * 28}" y="166" text-anchor="middle" style="fill:var(--muted)" font-size="10">a${i + 1}</text>`).join("")}
+${[0.47, 0.18, 0.35].map((v, i) => `<rect x="${337 + i * 28}" y="${150 - v * 150}" width="22" height="${v * 150}" rx="2" style="fill:var(--grey-fill);stroke:var(--ink-2)"/>${m(348 + i * 28, 166, "a_" + (i + 1), "a" + (i + 1), { size: 10, tone: "muted" })}`).join("")}
 ${m(230, 196, "\\theta \\leftarrow \\theta + \\alpha\\, \\nabla_\\theta \\log \\pi_\\theta(a \\mid s)\\,(R - b)", "θ ← θ + α · ∇θ log πθ(a|s) · (R − b)", { size: 12 })}`),
     },
     ppo: {
@@ -106,22 +106,22 @@ ${arrow(75, 105, 218, 105, "encode + ReLU")}${arrow(242, 105, 386, 105, "decode"
       caption: "Specification gaming / Goodhart: optimizing a proxy (the reward you wrote down) tracks the true goal at first, then diverges as the optimizer finds ways to score without doing the task.",
       svg: wrap(`<line x1="40" y1="180" x2="440" y2="180" style="stroke:var(--line-2)"/><line x1="40" y1="180" x2="40" y2="20" style="stroke:var(--line-2)"/>
 <path d="M40,170 C150,120 260,60 430,25" fill="none" style="stroke:var(--rl)" stroke-width="2.5"/><path d="M40,172 C140,125 210,85 260,82 C320,80 370,120 430,165" fill="none" style="stroke:var(--safety)" stroke-width="2.5"/>
-${t(330, 40, "proxy reward ↑", 'style="fill:var(--rl)" font-weight="600"')}${t(330, 150, "true goal ↓", 'style="fill:var(--safety)" font-weight="600"')}${t(240, 198, "optimization pressure →", 'text-anchor="middle" font-size="10"')}
-<line x1="262" y1="30" x2="262" y2="178" style="stroke:var(--muted)" stroke-dasharray="3 3"/>${t(266, 70, "divergence", 'font-size="10" style="fill:var(--muted)"')}`),
+${t(340, 74, "proxy reward ↑", 'style="fill:var(--rl)" font-weight="600"')}${t(292, 152, "true goal ↓", 'style="fill:var(--safety)" font-weight="600"')}${t(240, 198, "optimization pressure →", 'text-anchor="middle" font-size="10"')}
+<line x1="262" y1="30" x2="262" y2="178" style="stroke:var(--muted)" stroke-dasharray="3 3"/>${t(268, 38, "divergence", 'font-size="10" style="fill:var(--muted)"')}`),
     },
     control: {
       caption: "AI control (Greenblatt et al.) assumes that the powerful model U may be scheming. A weaker trusted model T rates how suspicious each output looks. A limited human-audit budget goes to the most suspicious outputs; some other outputs are replaced by T.",
-      svg: wrap(`${box(2, 75, 130, 50, "Untrusted U", "var(--safety)", "strong, maybe adversarial")}${box(178, 75, 122, 50, "Trusted monitor T", "var(--rl)", "weak but honest")}${box(330, 15, 120, 44, "Human audit", "var(--ink-2)", "~2% budget")}${box(330, 80, 120, 44, "Defer to T", "var(--rl)", "rewrite output")}${box(330, 145, 120, 44, "Accept", "var(--ink-2)")}
+      svg: wrap(`${box(2, 75, 130, 50, "Untrusted U", "var(--safety)", "strong, maybe adversarial")}${box(178, 75, 122, 50, "Trusted monitor T", "var(--ink-2)", "weak but honest")}${box(330, 15, 120, 44, "Human audit", "var(--ink-2)", "~2% budget")}${box(330, 80, 120, 44, "Defer to T", "var(--ink-2)", "rewrite output")}${box(330, 145, 120, 44, "Accept", "var(--ink-2)")}
 ${arrow(132, 100, 176, 100, "output")}${arrow(300, 88, 328, 40)}${arrow(300, 100, 328, 102)}${arrow(300, 112, 328, 165)}${t(306, 62, "very suspicious", 'text-anchor="end" font-size="10" style="fill:var(--muted)"')}${t(306, 147, "normal", 'text-anchor="end" font-size="10" style="fill:var(--muted)"')}`),
     },
     debate: {
       caption: "In the proposed debate setup, two copies of a model argue opposite sides. The aim is to give a human judge a specific disputed step to check, even when they cannot verify the full answer.",
-      svg: wrap(`${box(20, 30, 120, 50, "Debater A", "var(--rl)", "claims: yes")}${box(320, 30, 120, 50, "Debater B", "var(--safety)", "claims: no")}${box(170, 140, 120, 50, "Human judge", "var(--ink-2)", "weaker than debaters")}
+      svg: wrap(`${box(20, 30, 120, 50, "Debater A", "var(--ink-2)", "claims: yes")}${box(320, 30, 120, 50, "Debater B", "var(--ink-2)", "claims: no")}${box(170, 140, 120, 50, "Human judge", "var(--ink-2)", "weaker than debaters")}
 ${curve("M140,48 C200,20 260,20 320,48", "argue, point to flaws", 230, 22)}${curve("M320,64 C260,92 200,92 140,64", "", 0, 0)}${arrow(80, 82, 190, 138, "")}${arrow(380, 82, 270, 138, "")}
 ${t(230, 205, "hope: lying is harder than refuting a lie", 'text-anchor="middle" font-size="10" style="fill:var(--muted)"')}`),
     },
     w2s: {
-      caption: "Weak-to-strong generalization trains a strong student on weak-supervisor labels. Performance gap recovered is (student − weak)/(strong ground-truth-trained baseline − weak): 0 matches the weak supervisor and 1 matches that comparison baseline. Values can be outside 0–1; the bars are illustrative.",
+      caption: "Weak-to-strong generalization trains a strong student on weak-supervisor labels. Performance gap recovered is \\(\\dfrac{\\textsf{student} - \\textsf{weak}}{\\textsf{strong} - \\textsf{weak}}\\), where “strong” is the strong model trained on ground-truth labels: 0 matches the weak supervisor and 1 matches that baseline. Values can be outside 0–1; the bars are illustrative.",
       svg: wrap(`<line x1="60" y1="185" x2="60" y2="20" style="stroke:var(--line-2)"/>${t(14, 30, "acc", 'font-size="10"')}
 <rect x="110" y="120" width="60" height="65" rx="3" style="fill:var(--ink-2)" fill-opacity="0.28"/><rect x="200" y="75" width="60" height="110" rx="3" style="fill:var(--ink-2)" fill-opacity="0.72"/><rect x="290" y="40" width="60" height="145" rx="3" style="fill:var(--ink-2)" fill-opacity="0.28"/>
 ${t(140, 200, "weak teacher", 'text-anchor="middle" font-size="10"')}${t(230, 200, "strong ← weak labels", 'text-anchor="middle" font-size="10"')}${t(320, 200, "strong ceiling", 'text-anchor="middle" font-size="10"')}
@@ -136,17 +136,17 @@ ${t(245, 200, "log compute", 'text-anchor="middle" font-size="10"')}${t(12, 100,
     mesa: {
       caption: "Mesa-optimization: the base optimizer (SGD) selects a model for a base objective; if the model is itself an optimizer, its internal mesa-objective may differ. Matching on the training distribution does not settle which goal it learned.",
       svg: wrap(`${box(20, 75, 120, 54, "Base optimizer", "var(--ink-2)", "SGD")}<rect x="205" y="35" width="240" height="110" rx="12" style="fill:none;stroke:var(--line)" stroke-dasharray="5 4"/>${t(216, 52, "learned model", 'font-size="10" style="fill:var(--muted)"')}
-${box(215, 75, 120, 54, "Mesa-optimizer", "var(--safety)", "plans, searches")}${arrow(140, 102, 213, 102)}${t(171, 97, "selects for", 'text-anchor="middle" font-size="10" style="fill:var(--muted)"')}${t(345, 88, "mesa-objective", 'font-size="10"')}${m(345, 112, "\\overset{?}{=}\\ \\text{base objective}", "≟ base objective", { size: 10, anchor: "start" })}
+${box(215, 75, 120, 54, "Mesa-optimizer", "var(--safety)", "plans, searches")}${arrow(140, 102, 213, 102)}${t(171, 97, "selects for", 'text-anchor="middle" font-size="10" style="fill:var(--muted)"')}${t(345, 88, "mesa-objective", 'font-size="10"')}${t(345, 106, "= base objective?", 'font-size="10"')}
 ${t(20, 172, "outer alignment: base objective = what we want", 'font-size="10"')}${t(20, 188, "inner alignment: mesa-objective = base objective", 'font-size="10"')}`),
     },
     react: {
       caption: "The agent loop (ReAct style): the language model alternates reasoning and tool calls; observations from tools are appended to its context until it decides the task is done.",
       svg: wrap(`${box(170, 20, 120, 50, "LLM", "var(--ink-2)", "context window")}${box(20, 135, 120, 50, "Thought", "var(--ink-2)", "plan next step")}${box(170, 135, 120, 50, "Action", "var(--ink-2)", "tool call")}${box(320, 135, 120, 50, "Observation", "var(--ink-2)", "tool result")}
-${arrow(200, 70, 100, 133)}${arrow(140, 160, 168, 160)}${arrow(290, 160, 318, 160)}${arrow(380, 133, 270, 72, "append to context", -2)}`),
+${arrow(200, 70, 100, 133)}${arrow(140, 160, 168, 160)}${arrow(290, 160, 318, 160)}${arrow(380, 133, 270, 72)}${t(334, 98, "append to context", 'font-size="10" style="fill:var(--muted)"')}`),
     },
     sleeper: {
       caption: "Sleeper agents: a model trained with a backdoor (e.g. writes vulnerable code when the prompt says 2024) kept the behavior through standard safety training; adversarial training could even teach it to hide the trigger better.",
-      svg: wrap(`${box(20, 30, 130, 50, "Backdoored model", "var(--safety)")}${box(170, 30, 130, 50, "Safety training", "var(--rl)", "SFT · RLHF · adv.")}${box(320, 30, 130, 50, "Looks safe?", "var(--ink-2)")}${arrow(150, 55, 168, 55)}${arrow(300, 55, 318, 55)}
+      svg: wrap(`${box(20, 30, 130, 50, "Backdoored model", "var(--safety)")}${box(170, 30, 130, 50, "Safety training", "var(--ink-2)", "SFT · RLHF · adv.")}${box(320, 30, 130, 50, "Looks safe?", "var(--ink-2)")}${arrow(150, 55, 168, 55)}${arrow(300, 55, 318, 55)}
 ${box(60, 130, 150, 50, "“Year: 2023”", "var(--ink-2)", "→ secure code")}${box(250, 130, 150, 50, "“Year: 2024”", "var(--safety)", "→ inserts vulnerability")}${arrow(385, 82, 135, 128, "", 0, true)}${arrow(385, 82, 325, 128, "", 0, true)}`),
     },
     reasoningRl: {
@@ -162,7 +162,7 @@ ${arrow(126, 55, 146, 55)}${arrow(290, 55, 334, 55, "reward", -6)}${box(170, 130
     grpo: {
       caption: "Original outcome-supervised GRPO samples \\(G\\) answers per prompt. With rewards \\(r_1, \\dots, r_G\\), advantage \\(A_i = (r_i - \\mathrm{mean}(r))/\\mathrm{std}(r)\\). It uses a clipped policy ratio and a reference KL term without a learned critic. Equal rewards give no reward-ranking signal and require handling zero variance.",
       svg: wrap(`${box(15, 28, 140, 50, "Sample G answers", "var(--ink-2)", "same prompt")}${box(185, 28, 110, 50, "Score answers", "var(--ink-2)", "task reward")}${box(325, 28, 120, 50, "Policy update", "var(--ink-2)", "clip ratio + KL")}
-${arrow(155, 53, 183, 53)}${arrow(295, 53, 323, 53)}${m(230, 113, "A_i = \\dfrac{r_i - \\mathrm{mean}(r)}{\\mathrm{std}(r)}", "Aᵢ = (rᵢ − mean(r)) / std(r)", { size: 12 })}${t(230, 145, "Using population std: [1, 0, 0, 1] → [1, −1, −1, 1]", 'text-anchor="middle" font-size="10"')}${t(230, 182, "Group baseline replaces a learned value model.", 'text-anchor="middle" font-size="10"')}`),
+${arrow(155, 53, 183, 53)}${arrow(295, 53, 323, 53)}${m(230, 113, "A_i = \\dfrac{r_i - \\mathrm{mean}(r)}{\\mathrm{std}(r)}", "Aᵢ = (rᵢ − mean(r)) / std(r)", { size: 12 })}${m(230, 145, "\\text{Using population std:}\\ \\ [1, 0, 0, 1] \\to [1, -1, -1, 1]", "Using population std: [1, 0, 0, 1] → [1, −1, −1, 1]", { size: 10 })}${t(230, 182, "Group baseline replaces a learned value model.", 'text-anchor="middle" font-size="10"')}`),
     },
     toolformer: {
       caption: "Toolformer's training procedure inserts candidate API calls into text, executes them, and keeps calls whose results reduce the prediction loss on later tokens. The model is fine-tuned on those filtered examples. This is self-supervised data construction, not the prompted multi-step ReAct loop.",
