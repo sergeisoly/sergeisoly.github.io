@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sergeisoly.github.io/posts/ai-research-atlas/index.html</loc>
-    <lastmod>2026-11-10T08:00:12.596Z</lastmod>
+    <loc>https://sergeisoly.github.io/about.html</loc>
+    <lastmod>2026-11-17T22:20:42.000Z</lastmod>
   </url>
   <url>
-    <loc>https://sergeisoly.github.io/posts.html</loc>
-    <lastmod>2026-11-08T05:42:38.789Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sergeisoly.github.io/index.html</loc>
-    <lastmod>2026-11-08T05:42:38.789Z</lastmod>
+    <loc>https://sergeisoly.github.io/projects/ai-research-atlas/index.html</loc>
+    <lastmod>2026-11-17T22:20:42.000Z</lastmod>
   </url>
   <url>
     <loc>https://sergeisoly.github.io/research.html</loc>
-    <lastmod>2026-11-08T05:42:38.790Z</lastmod>
+    <lastmod>2026-11-17T22:20:42.000Z</lastmod>
   </url>
   <url>
-    <loc>https://sergeisoly.github.io/about.html</loc>
-    <lastmod>2026-10-13T20:20:02.009Z</lastmod>
+    <loc>https://sergeisoly.github.io/index.html</loc>
+    <lastmod>2026-11-17T22:20:42.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sergeisoly.github.io/projects.html</loc>
+    <lastmod>2026-11-17T22:20:42.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sergeisoly.github.io/posts.html</loc>
+    <lastmod>2026-11-17T22:20:42.000Z</lastmod>
   </url>
 </urlset>

@@ -1,38 +1,24 @@
 [
   {
-    "objectID": "posts/ai-research-atlas/index.html",
-    "href": "posts/ai-research-atlas/index.html",
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I’m interested in different types of research. I consider myself a Buddhist. I have a chinchilla.\nsergeisoly@gmail.com · LinkedIn · GitHub"
+  },
+  {
+    "objectID": "projects/ai-research-atlas/index.html",
+    "href": "projects/ai-research-atlas/index.html",
     "title": "AI Research Atlas",
     "section": "",
     "text": "This atlas is a history of AI safety research from the 1950s to 2026, told alongside reinforcement learning and agents, neural networks and language models, and the institutions that fund, build and govern AI. Each has a lane on the map below.\nFor most of that time the first three were separate fields. They met between 2017 and 2022, when a reward model trained on people’s comparisons, first tested on Atari games and a simulated robot, became part of the method behind InstructGPT and ChatGPT. Reward hacking, long seen in game-playing agents, and deceptive alignment, until then mostly argued on paper, became things researchers could test on language models."
   },
   {
-    "objectID": "posts/ai-research-atlas/index.html#about-this-atlas",
-    "href": "posts/ai-research-atlas/index.html#about-this-atlas",
+    "objectID": "projects/ai-research-atlas/index.html#about-this-atlas",
+    "href": "projects/ai-research-atlas/index.html#about-this-atlas",
     "title": "AI Research Atlas",
     "section": "About this atlas",
     "text": "About this atlas\nThe atlas concentrates on alignment and catastrophic-risk research, and most of its institutional coverage is American and British. Almost half of the safety entries from 2023 on are Anthropic’s, so the recent years lean towards one lab’s work.\nI made the atlas with extensive help from Claude Code and Codex. AI agents wrote most of the cards and checked their dates and sources; I directed the selection and edited the result. Each card lists its sources. Where a card rests mainly on a company’s report about its own model, the card says so.\nCorrections and missing work are welcome as issues on GitHub. Last updated 8 November 2026."
-  },
-  {
-    "objectID": "posts.html",
-    "href": "posts.html",
-    "title": "Posts",
-    "section": "",
-    "text": "7 Nov 2026\n\nAI Research Atlas\nAn interactive history of AI safety research and the fields around it, from the 1950s to 2026.\nai-safety · history\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Research and posts",
-    "section": "",
-    "text": "14 Oct 2026\n\n\nTwo studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\ninterpretability · model editing\n\n\nAll research\n\n\n\n\n\n\n7 Nov 2026\n\n\nAn interactive history of AI safety research and the fields around it, from the 1950s to 2026.\nai-safety · history\n\n\n\nAll posts\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#recent-research",
-    "href": "index.html#recent-research",
-    "title": "Research and posts",
-    "section": "",
-    "text": "14 Oct 2026\n\n\nTwo studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\ninterpretability · model editing\n\n\nAll research\n\n\n\n\n\n\n7 Nov 2026\n\n\nAn interactive history of AI safety research and the fields around it, from the 1950s to 2026.\nai-safety · history\n\n\n\nAll posts\n\n\nNo matching items"
   },
   {
     "objectID": "research.html",
@@ -42,10 +28,38 @@
     "text": "14 Oct 2026\n\n\nSome Studies of Language Model Weight Edits\n\nThe work presented here is my attempt to understand interpretability and model editing methods more deeply. By building on recent advances and trying to find something new, I also learn what others have done before me. For me, the best way to learn is through practice.\nAlthough these studies are written in the form of research papers, I’m not yet confident that I can call them rigorous scientific work. I’m sharing them in the hope that they may be useful to someone besides me.\n\ninterpretability · model editing"
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Research, projects, and posts",
     "section": "",
-    "text": "I’m interested in different types of research. I consider myself a Buddhist. I have a chinchilla.\nsergeisoly@gmail.com · LinkedIn · GitHub"
+    "text": "14 Oct 2026\n\n\nTwo studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\ninterpretability · model editing\n\n\nAll research"
+  },
+  {
+    "objectID": "index.html#recent-research",
+    "href": "index.html#recent-research",
+    "title": "Research, projects, and posts",
+    "section": "",
+    "text": "14 Oct 2026\n\n\nTwo studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\ninterpretability · model editing\n\n\nAll research"
+  },
+  {
+    "objectID": "index.html#projects",
+    "href": "index.html#projects",
+    "title": "Research, projects, and posts",
+    "section": "Projects",
+    "text": "Projects\n\n  \n    \n    PIRAMID Observatory\n    Explore how researchers test what neural networks learn, with interactive figures and small experiments you can run in your browser.\n  \n  \n    \n    AI Research Atlas\n    Trace the history of AI safety alongside reinforcement learning and language models. Follow a reading route from the map to the original papers.\n  \n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "Projects",
+    "section": "",
+    "text": "PIRAMID Observatory\n    Explore how researchers test what neural networks learn, with interactive figures and small experiments you can run in your browser.\n  \n  \n    \n    AI Research Atlas\n    Trace the history of AI safety alongside reinforcement learning and language models. Follow a reading route from the map to the original papers."
+  },
+  {
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "Posts",
+    "section": "",
+    "text": "No posts yet.\n\n\nNo matching items"
   }
 ]

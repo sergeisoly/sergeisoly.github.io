@@ -1,0 +1,119 @@
+{
+  "paper": {
+    "title": "Scaling Interpretable Transformers with Parity Bottleneck Layers",
+    "authors": [
+      "Andrew Mack",
+      "Kraig Yuheng Tou",
+      "Mark Henry",
+      "Zhengxun Wu",
+      "Lauren Greenspan"
+    ],
+    "arxiv": "2607.20652v1",
+    "url": "https://arxiv.org/abs/2607.20652v1"
+  },
+  "license": {
+    "name": "Creative Commons Attribution 4.0 International",
+    "spdx": "CC-BY-4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "verified_at": "2026-11-17",
+    "evidence": [
+      "https://arxiv.org/abs/2607.20652 (view license link)",
+      "https://arxiv.org/html/2607.20652v1 (License: CC BY 4.0)"
+    ],
+    "reuse": "Redistribution/adaptation with attribution, license link and indication of modifications; no author endorsement implied."
+  },
+  "circuit_edit_figure": {
+    "figure": 2,
+    "paper_pdf_page": 8,
+    "source_archive_url": "https://arxiv.org/src/2607.20652",
+    "source_archive_sha256": "4ec5c516f477e587cf34cceee2e05841f7b69b6c7f1408049dd62989f5ec5108",
+    "source_archive_member": "fine_grained_controllability.pdf",
+    "original_asset": "circuit-edit-success-figure2.pdf",
+    "original_asset_sha256": "fc89513830cda502e9ba4519b68940f3d40d91c3658869e2130f76dc4bf165db",
+    "rendered_asset": "circuit-edit-success-figure2.png",
+    "rendered_asset_sha256": "d15410c8982f81d4ea540f75a9054edd554432117298c5f9553fe082b3c9871a",
+    "dimensions_px": [
+      2400,
+      858
+    ],
+    "render_command": "pdftoppm -png -singlefile -scale-to 2400 fine_grained_controllability.pdf circuit-edit-success-figure2",
+    "modifications": "Rasterized the complete original vector figure. No crop, relabeling, numerical extraction, or changes to bars/axes/legend. In this presentation the white background is shown in the page’s paper color.",
+    "data_status": "The author source archive includes the vector plot but no underlying numerical data or plotting script. No precise numerical circuit-success values are claimed or inferred from raster pixels.",
+    "methods": 5,
+    "tasks": [
+      "IOI",
+      "gendered pronouns",
+      "greater-than"
+    ],
+    "edit_budgets": [
+      1,
+      2,
+      4
+    ],
+    "success_criteria": "The target recipient outranks the unchanged subject for IOI. The target token outranks the source token for gendered pronouns and greater-than.",
+    "interpretability_model": "PT-Large-2L-Aux",
+    "material_limitation": "The comparison uses different models and edit rules, with layers chosen per task and model."
+  },
+  "saebench_table": {
+    "source": "Table 4",
+    "representation": "Native independent metric rows; exact printed values, no shared numerical quality axis.",
+    "interpretability_model": "PT-Large-2L-Aux",
+    "layer": 12,
+    "comparator_training": "SAEs trained on dense baseline of the same size",
+    "columns": [
+      "parity bottleneck",
+      "TopK sparse autoencoder",
+      "Matryoshka sparse autoencoder"
+    ],
+    "rows": [
+      {
+        "metric": "sparse probing",
+        "values": [
+          "0.802",
+          "0.786",
+          "0.769"
+        ],
+        "better": "higher"
+      },
+      {
+        "metric": "AutoInterp",
+        "values": [
+          "0.796",
+          "0.859",
+          "0.891"
+        ],
+        "better": "higher"
+      },
+      {
+        "metric": "SCR",
+        "values": [
+          "0.060",
+          "0.175",
+          "0.398"
+        ],
+        "better": "higher",
+        "ablation_budget": 20
+      },
+      {
+        "metric": "TPP",
+        "values": [
+          "0.001",
+          "0.080",
+          "0.275"
+        ],
+        "better": "higher",
+        "ablation_budget": 20
+      },
+      {
+        "metric": "absorption",
+        "values": [
+          "0.01",
+          "0.807",
+          "0.180"
+        ],
+        "better": "lower"
+      }
+    ],
+    "caveat": "Mack et al. caution that SCR and TPP have low signal-to-noise below two billion parameters."
+  }
+}

@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Research and writing by Sergei Solovev.">
+<meta name="description" content="Research, interactive projects, and writing by Sergei Solovev.">
 
-<title>Research and posts – Sergei Solovev</title>
+<title>Research, projects, and posts – Sergei Solovev</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -87,9 +87,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-project','listing-website','listing-format','listing-execute','listing-engines','listing-language','listing-author','listing-toc','listing-freeze','listing-date-format','listing-title','listing-description','listing-date','listing-image','listing-kind','listing-body-classes','listing-categories','listing-resources','listing-path','listing-outputHref','listing-date-modified','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: [{ data: ['index'] },{ data: ['categories'] }],
       
-      searchColumns: ["listing-project","listing-website","listing-format","listing-execute","listing-engines","listing-language","listing-author","listing-toc","listing-freeze","listing-date-format","listing-title","listing-description","listing-date","listing-image","listing-kind","listing-body-classes","listing-categories","listing-resources","listing-path","listing-outputHref","listing-date-modified","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+      searchColumns: [],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -110,17 +110,15 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Research and posts – Sergei Solovev">
-<meta property="og:description" content="Research and writing by Sergei Solovev.">
-<meta property="og:image" content="https://sergeisoly.github.io/social-card.png">
+<meta property="og:title" content="Research, projects, and posts – Sergei Solovev">
+<meta property="og:description" content="Research, interactive projects, and writing by Sergei Solovev.">
+<meta property="og:image" content="https://sergeisoly.github.io/piramid-observatory/social-card.jpg">
 <meta property="og:site_name" content="Sergei Solovev">
-<meta property="og:image:height" content="630">
-<meta property="og:image:width" content="1200">
-<meta name="twitter:title" content="Research and posts – Sergei Solovev">
-<meta name="twitter:description" content="Research and writing by Sergei Solovev.">
-<meta name="twitter:image" content="https://sergeisoly.github.io/social-card.png">
-<meta name="twitter:image-height" content="630">
-<meta name="twitter:image-width" content="1200">
+<meta property="og:image:alt" content="">
+<meta name="twitter:title" content="Research, projects, and posts – Sergei Solovev">
+<meta name="twitter:description" content="Research, interactive projects, and writing by Sergei Solovev.">
+<meta name="twitter:image" content="https://sergeisoly.github.io/piramid-observatory/social-card.jpg">
+<meta name="twitter:image:alt" content="">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -144,6 +142,10 @@ ul.task-list li input[type="checkbox"] {
   <li class="nav-item">
     <a class="nav-link" href="./research.html"> 
 <span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./projects.html"> 
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./posts.html"> 
@@ -170,12 +172,12 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Research and posts</h1>
+<h1 class="title">Research, projects, and posts</h1>
 </div>
 
 <div>
   <div class="description">
-    Research and writing by Sergei Solovev.
+    Research, interactive projects, and writing by Sergei Solovev.
   </div>
 </div>
 
@@ -207,21 +209,22 @@ interpretability · model editing
 </p>
 </div>
 <p><a href="./research.html" class="section-link">All research</a></p>
+</section>
+<section id="projects" class="level2">
+<h2 data-anchor-id="projects">Projects</h2>
+<ul class="project-list">
+  <li><a href="./piramid-observatory/">
+    <img src="./piramid-observatory/social-card.jpg" alt="" width="1200" height="630">
+    <span class="project-name">PIRAMID Observatory</span>
+    <span class="project-description">Explore how researchers test what neural networks learn, with interactive figures and small experiments you can run in your browser.</span>
+  </a></li>
+  <li><a href="./projects/ai-research-atlas/">
+    <img src="./projects/ai-research-atlas/atlas-card.png" alt="" width="1200" height="630">
+    <span class="project-name">AI Research Atlas</span>
+    <span class="project-description">Trace the history of AI safety alongside reinforcement learning and language models. Follow a reading route from the map to the original papers.</span>
+  </a></li>
+</ul>
 <div id="listing-recent-writing" class="quarto-listing quarto-listing-container-custom">
-
-<h2>Recent posts</h2>
-<div class="writing-entries list">
-
-<article class="writing-entry" data-categories="YWktc2FmZXR5JTJDaGlzdG9yeQ==">
-<p class="entry-meta"><span>7 Nov 2026</span></p>
-
-<h3 class="listing-title"><a href="./posts/ai-research-atlas/index.html">AI Research Atlas</a></h3>
-<p>An interactive history of AI safety research and the fields around it, from the 1950s to 2026.</p>
-<p class="entry-topics">ai-safety · history</p>
-</article>
-
-</div>
-<p><a class="section-link" href="./posts.html">All posts</a></p>
 
 <script>
 // Quarto applies nonempty category hashes; clear the filter when Back removes one.

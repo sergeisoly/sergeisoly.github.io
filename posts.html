@@ -87,9 +87,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-project','listing-website','listing-format','listing-execute','listing-engines','listing-language','listing-author','listing-toc','listing-freeze','listing-date-format','listing-title','listing-description','listing-date','listing-image','listing-kind','listing-body-classes','listing-categories','listing-resources','listing-path','listing-outputHref','listing-date-modified','listing-filename','listing-file-modified','listing-reading-time','listing-word-count',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-date-modified-sort'] },{ data: ['listing-file-modified-sort'] },{ data: ['listing-reading-time-sort'] },{ data: ['listing-word-count-sort'] }],
+      valueNames: [{ data: ['index'] },{ data: ['categories'] }],
       
-      searchColumns: ["listing-project","listing-website","listing-format","listing-execute","listing-engines","listing-language","listing-author","listing-toc","listing-freeze","listing-date-format","listing-title","listing-description","listing-date","listing-image","listing-kind","listing-body-classes","listing-categories","listing-resources","listing-path","listing-outputHref","listing-date-modified","listing-filename","listing-file-modified","listing-reading-time","listing-word-count"],
+      searchColumns: [],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -146,6 +146,10 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link active" href="./posts.html" aria-current="page"> 
 <span class="menu-text">Posts</span></a>
   </li>  
@@ -194,17 +198,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="listing-all-posts" class="quarto-listing quarto-listing-container-custom">
 
-<div class="writing-entries list">
-
-<article class="writing-entry" data-categories="YWktc2FmZXR5JTJDaGlzdG9yeQ==">
-<p class="entry-meta"><span>7 Nov 2026</span></p>
-
-<h2 class="listing-title"><a href="./posts/ai-research-atlas/index.html">AI Research Atlas</a></h2>
-<p>An interactive history of AI safety research and the fields around it, from the 1950s to 2026.</p>
-<p class="entry-topics">ai-safety · history</p>
-</article>
-
-</div>
+<p class="writing-empty">No posts yet.</p>
 
 <script>
 // Quarto applies nonempty category hashes; clear the filter when Back removes one.

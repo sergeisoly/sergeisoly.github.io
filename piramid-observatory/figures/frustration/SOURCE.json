@@ -1,0 +1,43 @@
+{
+  "title": "A tale of three theories: sparsity, frustration, and statistical field theory",
+  "source_url": "https://www.lesswrong.com/posts/siu22scEfuKxpSgfK/a-tale-of-three-theories-sparsity-frustration-and",
+  "published_at": "2026-01-25T18:09:26.622Z",
+  "post_author": "Dmitry Vaintrob",
+  "experiment_credit": "Dmitry Vaintrob and Lucas Teixeira; the post credits joint experiments with Lucas Teixeira.",
+  "checked_at": "2026-11-17",
+  "rights_status": "No explicit image reuse license found in the post or fetched source metadata. Assets included for owner-authorized local review. Permission for public redistribution has not been established.",
+  "rights_reference": "https://intelligence.org/files/PrivacyandTerms-Lesswrong.com.pdf",
+  "interpretation": "Authors’ experiment, distinct from the miniature computed in this project. Left: without superposition. Right: with superposition. Vertical axis scales differ; no rescaling or cropping applied. Architecture and task change together, so the paired plots alone do not isolate a causal effect of frustration.",
+  "assets": [
+    {
+      "file": "authors-paired-scatter.png",
+      "source_url": "https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/65b50133d1a761d37dc7437096575e39f56848c1be49a686.png",
+      "width": 1310,
+      "height": 507,
+      "sha256": "d87d462e10da4e8da0a9707bb5eb4bd7f9f8f59d80436de6e820d295b8b741aa",
+      "modifications": "None; original image bytes preserved."
+    },
+    {
+      "file": "authors-without-superposition.png",
+      "source_url": "https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/e1161e7b28ca9919fe713cf91db47858d0193a8784c176b1.png",
+      "width": 1486,
+      "height": 1184,
+      "sha256": "b75dff3b9cd66d3c520be24e372baf81b0f52c1f069334073904f27cee11f4c8",
+      "modifications": "None; original image bytes preserved."
+    },
+    {
+      "file": "authors-with-superposition.png",
+      "source_url": "https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/1ff2c0c0428c3c3ce5ad4218196aa890b616b36c40e417e1.png",
+      "width": 1482,
+      "height": 1179,
+      "sha256": "a33c29c61fcf961804e23b2bc101446d7bb623108bd1e7e946f0587616bb9a4a",
+      "modifications": "None; original image bytes preserved."
+    }
+  ],
+  "rights_note": "The terms linked from the LessWrong FAQ state that users retain rights to user-generated content and grant MIRI a website-use license. They do not establish a general public redistribution license for these images.",
+  "display_order": [
+    "authors-paired-scatter.png",
+    "authors-without-superposition.png",
+    "authors-with-superposition.png"
+  ]
+}
