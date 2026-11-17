@@ -1,0 +1,14 @@
+```{=html}
+<ul class="project-list">
+  <li><a href="/piramid-observatory/">
+    <img src="/piramid-observatory/social-card.jpg" alt="" width="1200" height="630">
+    <span class="project-name">PIRAMID Observatory</span>
+    <span class="project-description">Explore how researchers test what neural networks learn, with interactive figures and small experiments you can run in your browser.</span>
+  </a></li>
+  <li><a href="/projects/ai-research-atlas/">
+    <img src="/projects/ai-research-atlas/atlas-card.png" alt="" width="1200" height="630">
+    <span class="project-name">AI Research Atlas</span>
+    <span class="project-description">Trace the history of AI safety alongside reinforcement learning and language models. Follow a reading route from the map to the original papers.</span>
+  </a></li>
+</ul>
+```

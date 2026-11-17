@@ -1,12 +1,17 @@
 project:
   type: website
   output-dir: _site
+  pre-render: sh scripts/build-observatory.sh
   post-render: python3 scripts/prune-empty-drafts.py
   resources:
     - robots.txt
+    - /posts/ai-research-atlas/index.html
+    - /piramid-observatory/**
   render:
     - index.qmd
     - research.qmd
+    - projects.qmd
+    - "projects/**/index.qmd"
     - posts.qmd
     - about.qmd
     - "posts/**/index.qmd"
@@ -18,12 +23,14 @@ website:
   open-graph: true
   twitter-card: true
   site-url: https://sergeisoly.github.io/
-  description: "Research and writing by Sergei Solovev."
+  description: "Research, interactive projects, and writing by Sergei Solovev."
   navbar:
     collapse-below: sm
     left:
       - href: research.qmd
         text: Research
+      - href: projects.qmd
+        text: Projects
       - href: posts.qmd
         text: Posts
       - href: about.qmd

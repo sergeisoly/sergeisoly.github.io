@@ -1,0 +1,8 @@
+---
+title: "Projects"
+description: "Interactive maps and experiments by Sergei Solovev."
+body-classes: personal-page
+anchor-sections: false
+---
+
+{{< include _project-list.qmd >}}

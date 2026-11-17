@@ -1,11 +1,11 @@
 ---
-title: "Research and posts"
-description: "Research and writing by Sergei Solovev."
+title: "Research, projects, and posts"
+description: "Research, interactive projects, and writing by Sergei Solovev."
 body-classes: personal-home personal-page
 anchor-sections: false
 listing:
   id: recent-writing
-  contents: posts
+  contents: "posts/**/index.qmd"
   sort: "date desc"
   date-format: "D MMM YYYY"
   template: _writing-list.ejs.md
@@ -28,6 +28,10 @@ Two studies of language-model weight edits: selectively weakening one language a
 :::
 
 [All research](research.qmd){.section-link}
+
+## Projects
+
+{{< include _project-list.qmd >}}
 
 ::: {#recent-writing}
 :::

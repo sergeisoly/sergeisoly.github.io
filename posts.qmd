@@ -3,7 +3,7 @@ title: "Posts"
 description: "Essays, notes, and observations by Sergei Solovev."
 listing:
   id: all-posts
-  contents: posts
+  contents: "posts/**/index.qmd"
   sort: "date desc"
   template: _writing-list.ejs.md
   feed:

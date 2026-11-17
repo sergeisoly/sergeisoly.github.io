@@ -2,5 +2,5 @@ _site/
 .quarto/
 .DS_Store
 
-/.quarto/
+/piramid-observatory/
 **/*.quarto_ipynb
