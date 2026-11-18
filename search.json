@@ -18,7 +18,7 @@
     "href": "projects/ai-research-atlas/index.html#about-this-atlas",
     "title": "AI Research Atlas",
     "section": "About this atlas",
-    "text": "About this atlas\nThe atlas concentrates on alignment and catastrophic-risk research, and most of its institutional coverage is American and British. Almost half of the safety entries from 2023 on are Anthropic’s, so the recent years lean towards one lab’s work.\nI made the atlas with extensive help from Claude Code and Codex. AI agents wrote most of the cards and checked their dates and sources; I directed the selection and edited the result. Each card lists its sources. Where a card rests mainly on a company’s report about its own model, the card says so.\nCorrections and missing work are welcome as issues on GitHub. Last updated 8 November 2026."
+    "text": "About this atlas\nThe atlas concentrates on alignment and catastrophic-risk research, and most of its institutional coverage is American and British. Anthropic appears in 16 of the 34 safety entries from 2023 onward, including work with other institutions.\nI made the atlas with extensive help from Claude Code and Codex. AI agents drafted most of the cards and checked their dates and sources. I directed the selection and edited the result. Each card lists its sources. Where the main evidence is a developer’s report on its own model, the card says so.\nResearch snapshot dated 8 November 2026. Page revised 18 November 2026. Corrections and additions are welcome as issues on GitHub."
   },
   {
     "objectID": "research.html",
