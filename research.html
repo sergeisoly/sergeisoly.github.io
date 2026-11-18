@@ -167,13 +167,13 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="writing-entry">
 <p class="entry-meta">
-<time datetime="2026-10-14">14 Oct 2026</time>
+First published <time datetime="2026-10-14">14 Oct 2026</time> · Updated <time datetime="2026-11-18">18 Nov 2026</time>
 </p>
 <h2 class="listing-title">
 <a href="./interesearch/">Some Studies of Language Model Weight Edits</a>
 </h2>
-<p>The work presented here is my attempt to understand interpretability and model editing methods more deeply. By building on recent advances and trying to find something new, I also learn what others have done before me. For me, the best way to learn is through practice.</p>
-<p>Although these studies are written in the form of research papers, I’m not yet confident that I can call them rigorous scientific work. I’m sharing them in the hope that they may be useful to someone besides me.</p>
+<p>I tested edits to a 67M-parameter language model across three language pairs. At comparable levels of damage to German, Spanish or French, an edit to one decomposition component spared the related language better than the other methods I tested. The learned updates preserved English predictions better.</p>
+<p>In a second study, I tested repairs for fine-tunes that damage both German and Dutch. When both runs had little data and few training steps, starting from an earlier repair restored more of the lost Dutch performance than starting fresh. With the full fitting budget, a fresh repair nearly caught up.</p>
 <p class="entry-topics">
 interpretability · model editing
 </p>

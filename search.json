@@ -25,21 +25,21 @@
     "href": "research.html",
     "title": "Research",
     "section": "",
-    "text": "14 Oct 2026\n\n\nSome Studies of Language Model Weight Edits\n\nThe work presented here is my attempt to understand interpretability and model editing methods more deeply. By building on recent advances and trying to find something new, I also learn what others have done before me. For me, the best way to learn is through practice.\nAlthough these studies are written in the form of research papers, I’m not yet confident that I can call them rigorous scientific work. I’m sharing them in the hope that they may be useful to someone besides me.\n\ninterpretability · model editing"
+    "text": "First published 14 Oct 2026 · Updated 18 Nov 2026\n\n\nSome Studies of Language Model Weight Edits\n\nI tested edits to a 67M-parameter language model across three language pairs. At comparable levels of damage to German, Spanish or French, an edit to one decomposition component spared the related language better than the other methods I tested. The learned updates preserved English predictions better.\nIn a second study, I tested repairs for fine-tunes that damage both German and Dutch. When both runs had little data and few training steps, starting from an earlier repair restored more of the lost Dutch performance than starting fresh. With the full fitting budget, a fresh repair nearly caught up.\n\ninterpretability · model editing"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Research, projects, and posts",
     "section": "",
-    "text": "14 Oct 2026\n\n\nTwo studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\ninterpretability · model editing\n\n\nAll research"
+    "text": "First published 14 Oct 2026 · Updated 18 Nov 2026\n\n\nHow much does an edit that weakens German also hurt Dutch? Two studies in a small language model measure the spillover and test whether a repair learned for one fine-tune can help another.\n\ninterpretability · model editing\n\n\nAll research"
   },
   {
     "objectID": "index.html#recent-research",
     "href": "index.html#recent-research",
     "title": "Research, projects, and posts",
     "section": "",
-    "text": "14 Oct 2026\n\n\nTwo studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.\n\ninterpretability · model editing\n\n\nAll research"
+    "text": "First published 14 Oct 2026 · Updated 18 Nov 2026\n\n\nHow much does an edit that weakens German also hurt Dutch? Two studies in a small language model measure the spillover and test whether a repair learned for one fine-tune can help another.\n\ninterpretability · model editing\n\n\nAll research"
   },
   {
     "objectID": "index.html#projects",
