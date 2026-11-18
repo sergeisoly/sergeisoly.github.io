@@ -1,4 +1,4 @@
-/* Paths to Alignment — renders into mount points: <div class="atlas" data-atlas="map|routes|people|index">.
+/* AI Research Atlas — renders into mount points: <div class="atlas" data-atlas="map|routes|people|index">.
    Data: window.TIMELINE_DATA (build_data.py). Diagrams: window.DIAGRAMS (diagrams.js). Formulas: MathJax 3 from jsDelivr, loaded by the page; without it they show as plain text. */
 (function () {
   "use strict";
@@ -112,7 +112,7 @@
   const REL_IN = { builds_on: "Built on by", responds_to: "Answered by", enables: "Enabled by", tests: "Tested by", critiques: "Critiqued by", parallel: "Compare with" };
   const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-  // The map places events in exactly three importance bands; anything else in the data falls back to the middle band.
+  // Events use three marker sizes. Unknown importance defaults to the middle size.
   D.events.forEach((e) => { const n = Math.round(Number(e.importance)); e.importance = n >= 1 && n <= 3 ? n : 2; });
   const byId = new Map(D.events.map((e) => [e.id, e]));
   const personId = (p) => p.id || p.name.toLowerCase().replace(/\u0142/g, "l").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -134,9 +134,14 @@
   const orgKeyFor = (name) => { if (notOrg(name)) return null; const o = orgForName(name) || [...orgById.values()].find((x) => x.name === baseName(name)); return o ? `org:${o.id}` : null; };
   // Curated organisations list the people whose affiliation bars open them, so the profile and the chart agree.
   D.orgs.forEach((o) => { o.affiliations = D.people.flatMap((p) => (p.affiliations || []).filter((a) => orgKeyFor(a.org) === `org:${o.id}`).map((a) => ({ ...a, person: p.name }))); });
-  const profileRecords = [...D.people.map((p) => ({ key: `person:${personId(p)}`, name: p.name, kind: "Person", text: [p.name, p.known_for, ...(p.affiliations || []).map((a) => a.org)].join(" ") })),
-    ...D.orgs.map((o) => ({ key: `org:${o.id}`, name: o.name, kind: "Organisation", text: [o.name, ...(o.aliases || []), ...(o.founders || []), o.historical_role, o.kind].join(" ") }))];
-  const allProfileRecords = [...personById].map(([id, p]) => ({ key: `person:${id}`, name: p.name, kind: "Person", text: [p.name, p.known_for, ...(p.affiliations || []).map((a) => a.org)].join(" ") })).concat([...orgById].map(([id, o]) => ({ key: `org:${id}`, name: o.name, kind: "Organisation", text: [o.name, ...(o.aliases || []), ...(o.founders || []), o.historical_role, o.kind].join(" ") })));
+  const curatedProfileKeys = new Set([
+    ...D.people.map((p) => `person:${personId(p)}`),
+    ...D.orgs.map((o) => `org:${o.id}`),
+  ]);
+  const profileRecords = [
+    ...[...personById].map(([id, p]) => ({ key: `person:${id}`, name: p.name, kind: "Person", indexText: [p.name, p.known_for, ...(p.affiliations || []).map((a) => a.org)] })),
+    ...[...orgById].map(([id, o]) => ({ key: `org:${id}`, name: o.name, kind: "Organisation", indexText: [o.name, ...(o.aliases || []), ...(o.founders || []), o.historical_role, ...(o.research_focus || []), o.kind] })),
+  ];
   const profileHash = (key) => key && key.replace(/^person:/, "person-").replace(/^org:/, "organisation-");
   const profileFromHash = (hash) => hash.startsWith("person-") ? `person:${hash.slice(7)}` : hash.startsWith("organisation-") ? `org:${hash.slice(13)}` : null;
   const laneById = new Map(D.lanes.map((l) => [l.id, l]));
@@ -155,13 +160,14 @@
   let connectionHover = null, connectionFocus = null, connectionTrigger = null;
   const mounts = {};
   document.querySelectorAll("[data-atlas]").forEach((m) => { m.classList.add("atlas"); mounts[m.dataset.atlas] = m; });
+  if (D.events.length) mounts.map?.closest(".atlas-tabs-workspace")?.removeAttribute("hidden");
 
   let preservedMapScroll = 0;
   const tabIds = { map: "the-map", routes: "reading-routes", people: "institutions-and-people" };
   function setPanel(name) {
     if (!tabIds[name]) return;
     if (state.tab === "map" && mapScroll) preservedMapScroll = mapScroll.scrollLeft;
-    const shown = state.tab === name; state.tab = name;
+    state.tab = name;
     document.querySelectorAll("[data-atlas-panel]").forEach(p => { p.hidden = p.dataset.atlasPanel !== name; });
     document.querySelectorAll("[data-atlas-tab]").forEach(b => {
       const active = b.dataset.atlasTab === name;
@@ -178,7 +184,7 @@
     document.getElementById(`tab-${name}`)?.focus({preventScroll:true});
     // A switch shows the new panel from its top; the old tab's scroll position means nothing here.
     const panel = document.getElementById(tabIds[name]);
-    if (panel && panel.getBoundingClientRect().top < workspaceInset()) scrollTo({ top: scrollY + panel.getBoundingClientRect().top - workspaceInset(), behavior: "auto" });
+    if (panel && panel.getBoundingClientRect().top < workspaceInset()) revealReaderTarget(panel, "instant");
   }
   document.querySelectorAll("[data-atlas-tab]").forEach(button => {
     button.addEventListener("click", () => choosePanel(button.dataset.atlasTab));
@@ -217,16 +223,37 @@
     if ((org.key_event_ids || []).includes(e.id)) return true;
     return (e.orgs || []).some((o) => orgNameFit(o, org) > 0);
   }
-  function textMatches(e, q) {
-    if (!q) return true;
-    const organisations = D.orgs.filter((o) => orgMatches(e, o)).flatMap((o) => [o.name, ...(o.aliases || []), o.historical_role]);
+  function normalizeSearch(text) {
+    return text.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "").replace(/ł/g, "l")
+      .replace(/[‐‑‒–—]/g, "-").replace(/[’‘]/g, "'");
+  }
+
+  // Index on first search. Redrawing the map and its overview consults each card several times.
+  const eventSearchIndex = new Map();
+  function eventSearchText(e) {
+    if (eventSearchIndex.has(e.id)) return eventSearchIndex.get(e.id);
+    const organisations = D.orgs.filter((o) => orgMatches(e, o)).flatMap((o) => [o.name, ...(o.aliases || [])]);
     const researchers = D.people.filter((p) => (p.key_event_ids || []).includes(e.id)).map((p) => p.name);
-    const hay = [e.title, e.label, plainText(e.problem), plainText(e.idea), plainText(e.changed), plainText(e.limits),
+    const fields = [e.title, e.label, fmtDate(e), e.date, plainText(e.problem), plainText(e.idea), plainText(e.changed), plainText(e.limits),
       ...(e.people || []), ...(e.orgs || []), ...(e.tags || []), ...(e.terms || []).flatMap((t) => [plainText(t.term), plainText(t.def)]),
-      ...organisations, ...researchers].filter(Boolean).join(" ").toLowerCase();
-    return q.toLowerCase().split(/\s+/).every((w) => hay.includes(w));
+      ...organisations, ...researchers];
+    const text = normalizeSearch(fields.filter(Boolean).join(" "));
+    eventSearchIndex.set(e.id, text);
+    return text;
+  }
+
+  let previousQuery, queryWords;
+  function textMatches(e, query) {
+    if (!query) return true;
+    if (previousQuery !== query) {
+      previousQuery = query;
+      queryWords = normalizeSearch(query).trim().split(/\s+/);
+    }
+    const text = eventSearchText(e);
+    return queryWords.every((word) => text.includes(word));
   }
   const SMOOTH = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+  const splitWorkspace = matchMedia("(min-width: 1051px)");
   const inScope = (e) => (!state.route || state.route.event_ids.includes(e.id)) && orgMatches(e, state.org);
   // Every event in the switched-on lanes is shown; importance only sets dot size and which dots carry a label.
   const visible = () => D.events.filter((e) => state.lanes.has(e.lane));
@@ -242,7 +269,7 @@
   const textW = (s, px = 12, bold) => s.length * px * (bold ? 0.6 : 0.56);
 
   /* ---------- time scale: compress the long past, open up the crowded present ---------- */
-  const SEG = [[1940, 1990, 8], [1990, 2010, 20], [2010, 2017, 56], [2017, 2027, 138]];
+  const SEG = [[1940, 1990, 8], [1990, 2010, 20], [2010, 2017, 56], [2017, 2022, 138], [2022, 2027, 220]];
   // The map opens where RL, language models and safety meet; earlier history is a scroll to the left.
   const DEFAULT_START = 2016;
   const ZOOM_STEPS = [0.6, 0.8, 1, 1.25, 1.6, 2, 2.6], ZOOM_MIN = ZOOM_STEPS[0], ZOOM_MAX = ZOOM_STEPS[ZOOM_STEPS.length - 1];
@@ -269,7 +296,8 @@
     return r(sec * 1e9) + " ns";
   };
   let layout = null, mapSvg, mapScroll, labelsCol, tip, overview;
-  const ERA_H = 22, CMP_TOP = 26, CMP_H = 96, AX_H = 22, ROW = 22;
+  const CMP_TOP = 26, CMP_H = 96, AX_TOP = CMP_TOP + CMP_H + 6, LANES_TOP = AX_TOP + 32;
+  const NODE_RADII = [0, 3, 4.2, 5.6];
 
   function eraRange(i) {
     const era = D.eras[i], next = D.eras[i + 1];
@@ -289,77 +317,95 @@
     // Choosing an era moves the window and lists its events; it opens a card only inside a route, where the era's first stop is the next thing to read.
     if (!list.some((e) => e.id === state.selected)) {
       state.selected = null; state.focus = null;
-      if (state.route && list.length) select(list[0].id, { history: false, keepEra: true });
+      if (state.route && list.length) select(routeAvailable()[0], { history: false, keepEra: true });
       else { renderMap(); renderPane(); }
-    } else renderMap();
+    } else { renderMap(); renderPane(); }
     if (index != null && layout) { const [a, b] = eraRange(index); mapScroll.scrollLeft = Math.max(0, layout.X(a) - 12); if (layout.X(b) - layout.X(a) < mapScroll.clientWidth) jumpYear((a + b) / 2); }
     updateOverview(); saveHistory();
   }
-  // Shorten a label with an ellipsis so it stops before the next dot; the full title stays in the tooltip and the card.
-  function fitLabel(label, room, bold) {
-    if (textW(label, 12, bold) <= room) return label;
+  // Only labels for an opened event and its neighbors may need to fit around already packed marks.
+  function fitLabel(label, room, measure) {
+    if (measure(label) <= room) return label;
     let t = label;
-    while (t.length > 3 && textW(t + "…", 12, bold) > room) t = t.slice(0, -1);
+    while (t.length > 3 && measure(t + "…") > room) t = t.slice(0, -1);
     return t.length > 3 ? t.trimEnd() + "…" : "";
+  }
+  const mapLabelMeasure = document.createElement("canvas").getContext("2d");
+  const mapLabelWidths = new Map();
+  function mapLabelWidth(label, font) {
+    if (!mapLabelMeasure) return textW(label, 12, font.startsWith("600"));
+    const key = font + ":" + label;
+    if (!mapLabelWidths.has(key)) {
+      mapLabelMeasure.font = font;
+      mapLabelWidths.set(key, mapLabelMeasure.measureText(label).width);
+    }
+    return mapLabelWidths.get(key);
   }
   function computeLayout() {
     const evs = visible();
     const X = makeX(Y0, 24);
-    const width = Math.ceil(X(2027.1) + 40);
+    let width = Math.ceil(X(2027.1) + 40);
     const labelMin = state.zoom >= 1.5 ? 2 : 3;
-    const lanesTop = CMP_TOP + CMP_H + AX_H + 6;
-    let y = lanesTop;
+    const fontFamily = getComputedStyle(mapSvg).getPropertyValue("--sans").trim() || "sans-serif";
+    let y = LANES_TOP;
     const lanes = [], pos = new Map();
-    let labelsEnd = 0;
     const routeIds = state.route ? new Set(state.route.event_ids) : null;
     const selectedIds = state.selected && !state.query && !state.route && !state.org ? new Set([
       state.selected, ...(byId.get(state.selected).links || []).map((l) => l.to), ...(incoming.get(state.selected) || []).map((l) => l.from),
     ]) : null;
     for (const lane of D.lanes) {
       if (!state.lanes.has(lane.id)) continue;
-      const items = evs.filter((e) => e.lane === lane.id).sort((a, b) => yearOf(a) - yearOf(b));
-      // Height inside a lane reads as importance: key events fill the top band, standard ones the middle,
-      // details the bottom. Each band packs its own rows by date and keeps at least one row, so every
-      // lane shows the same order even when a band is empty.
-      const bands = [];
-      let offset = 0;
-      for (const level of [3, 2, 1]) {
-        const rows = [];
-        for (const e of items) {
-          const imp = e.importance || 2;
-          if (imp !== level) continue;
-          const x = X(yearOf(e));
-          const label = e.id === state.selected || (routeIds ? routeIds.has(e.id) : selectedIds ? selectedIds.has(e.id) : (state.query || state.org ? lit(e) : true) && imp >= labelMin);
-          // Rows are packed for the labels the map shows with no card open, so opening or closing a card
-          // never moves a dot or changes the map's height; it only changes which labels are drawn.
-          const reserve = routeIds ? routeIds.has(e.id) : (state.query || state.org ? lit(e) : true) && imp >= labelMin;
-          const w = reserve ? textW(e.label, 12, imp === 3) + 20 : 14;
-          let r = rows.findIndex((end) => end < x - 4);
-          if (r === -1) { if (rows.length < 9) { r = rows.length; rows.push(0); } else r = rows.indexOf(Math.min(...rows)); }
-          rows[r] = x + w;
-          labelsEnd = Math.max(labelsEnd, x + w);
-          pos.set(e.id, { x, row: offset + r, label, reserve, room: Infinity });
+      const items = evs.filter((e) => e.lane === lane.id).map((e) => {
+        const onRoute = routeIds?.has(e.id);
+        const reserve = routeIds ? onRoute : lit(e) && e.importance >= labelMin;
+        const label = e.id === state.selected || (selectedIds ? selectedIds.has(e.id) : reserve);
+        const x = X(yearOf(e)), radius = onRoute ? 7.5 : NODE_RADII[e.importance];
+        const font = `${e.importance === 3 ? 600 : 400} 12px ${fontFamily}`;
+        return { e, x, radius, measure: (s) => mapLabelWidth(s, font), reserve, label };
+      }).sort((a, b) => Number(b.reserve) - Number(a.reserve) || a.x - b.x);
+      // Reserve the default labels first, then place other markers in the gaps. Card selection
+      // changes which labels are visible without moving any dots.
+      const rows = [];
+      for (const p of items) {
+        const { e, x, radius, reserve, measure } = p;
+        const mark = radius + 2;
+        const labelEnd = reserve ? radius + 5 + measure(e.label) + 2 : mark;
+        const right = { lo: x - mark, hi: x + labelEnd, side: 1 };
+        const left = { lo: x - labelEnd, hi: x + mark, side: -1 };
+        const fits = (row, bounds) => row.every((q) => q.hi + 3 <= bounds.lo || bounds.hi + 3 <= q.lo);
+        let row, bounds;
+        for (const candidate of rows) {
+          if (fits(candidate, right)) { row = candidate; bounds = right; break; }
+          if (reserve && left.lo >= 4 && fits(candidate, left)) { row = candidate; bounds = left; break; }
         }
-        const n = Math.max(rows.length, 1);
-        bands.push({ level, first: offset, rows: n });
-        offset += n;
+        if (!row) { row = []; rows.push(row); bounds = right; }
+        Object.assign(p, bounds);
+        row.push(p);
+        width = Math.max(width, Math.ceil(p.hi + 8));
+        pos.set(e.id, p);
       }
-      // Room before the next dot in the same row, for labels drawn without reserved space (a card's neighbours).
-      const lastInRow = new Map();
-      for (const e of items) { const p = pos.get(e.id), prev = lastInRow.get(p.row); if (prev) prev.room = p.x - prev.x; lastInRow.set(p.row, p); }
-      const h = offset * ROW + 26;
-      lanes.push({ lane, top: y, h, bands });
-      items.forEach((e) => { const p = pos.get(e.id); p.y = y + 18 + p.row * ROW; });
-      y += h;
+      const top = y;
+      y += 5;
+      for (const row of rows) {
+        const pitch = row.some((p) => p.reserve) ? 19 : 16;
+        row.sort((a, b) => a.x - b.x).forEach((p, i) => {
+          p.y = y + pitch / 2;
+          p.prev = row[i - 1];
+          p.next = row[i + 1];
+        });
+        y += pitch;
+      }
+      y = Math.max(top + 44, y + 5);
+      lanes.push({ lane, top });
     }
-    // Widen the map when the latest labels run past the end of the time scale.
-    return { evs, X, width: Math.max(width, Math.ceil(labelsEnd + 8)), height: y + 6, lanes, pos, lanesTop };
+    return { evs, X, width, height: y + 6, lanes, pos, labels: [], axisLabels: [] };
   }
 
   function renderMap() {
     if (!mapSvg) return;
+    if (tipOwner && mapSvg.contains(tipOwner)) hideTip();
     layout = computeLayout();
-    const { X, width, height, lanes, pos, evs, lanesTop } = layout;
+    const { X, width, height, lanes, pos, evs } = layout;
     const svg = mapSvg;
     svg.innerHTML = "";
     svg.setAttribute("width", width); svg.setAttribute("height", height); svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
@@ -416,30 +462,51 @@
       q.el.addEventListener("mouseenter", (ev) => showTip(ev, `<b>${esc(p.model)}</b><br>${esc(p.date.slice(0, 7))} · ${esc(p.flop.toExponential(1))} estimated FLOP<br>≈ ${h100(p.flop)} on one H100<br>Epoch confidence: ${esc(p.confidence || "not supplied")}`));
       q.el.addEventListener("mousemove", moveTip); q.el.addEventListener("mouseleave", hideTip);
       if (lab) {
-        const text = p.model.replace(/ \(.*\)$/, "").replace(" 175B", "") + " · " + h100(p.flop), w = textW(text, 12), left = q.x + 6 + w > width - 4;
-        q.x1 = left ? q.x - 6 - w : q.x + 6; q.w = w;
-        q.text = el("text", { x: left ? q.x - 6 : q.x + 6, class: "cmp-text", ...(left ? { "text-anchor": "end" } : {}) }, cmpG, text);
+        const text = p.model.replace(/ \(.*\)$/, "").replace(" 175B", "") + " · " + h100(p.flop);
+        q.text = el("text", { class: "cmp-text" }, cmpG, text);
       }
       return q;
     });
-    SEG.slice(1).forEach(([yr]) => {
-      if (yr <= Y0) return;
-      const x = X(yr), y = CMP_TOP + CMP_H + 4;
-      el("path", { d: `M${x - 5},${y + 4} l4,-8 M${x},${y + 4} l4,-8`, class: "ax-break" }, svg);
-    });
-
-    // axis
-    const axY = CMP_TOP + CMP_H + 15;
-    let last = -99;
+    // Break marks identify changes in pixels per year. Keep their years even at the widest zoom.
+    const breakYears = SEG.slice(1).map(([year]) => year).filter((year) => year > Y0);
+    const axis = el("g", { class: "ax", "aria-hidden": "true" }, svg);
+    const ticks = [];
     for (let yr = Math.ceil(Y0); yr <= 2026; yr++) {
-      const step = yr < 1990 ? 10 : yr < 2010 ? 5 : 1;
-      if (yr % step) continue;
       const x = X(yr);
-      if (x - last < 30) continue;
-      last = x;
-      const g = el("g", { class: "ax" }, svg);
-      el("line", { x1: x, x2: x, y1: CMP_TOP, y2: height, "stroke-dasharray": "1 4" }, g);
-      el("text", { x: x + 3, y: axY }, g, yr);
+      const yearSpan = X(yr + 1) - x;
+      const preferredStep = yr < 1990 ? 10 : yr < 2010 ? 5 : 1;
+      const step = [10, 5, 2].find((n) => n <= preferredStep && n * yearSpan <= 140) || 1;
+      if (yr % step) continue;
+      if (!breakYears.includes(yr) && breakYears.some((year) => Math.abs(X(year) - x) < 38)) continue;
+      if (ticks.length && x - ticks.at(-1).x < 38) continue;
+      ticks.push({ x, yr, yearSpan });
+    }
+    for (const { x, yr, yearSpan } of ticks) {
+      el("line", { x1: x, x2: x, y1: CMP_TOP, y2: AX_TOP - 5, "stroke-dasharray": "1 4" }, axis);
+      el("line", { x1: x, x2: x, y1: LANES_TOP, y2: height, "stroke-dasharray": "1 4" }, axis);
+      const yearLabel = el("text", { x, y: AX_TOP + 20, "text-anchor": "middle" }, axis, yr);
+      layout.axisLabels.push({ x, extent: 18, el: yearLabel, shown: true });
+      // Long years need calendar ticks between January labels to fit in a narrow scrolling window.
+      if (yearSpan <= 140 && yr < 2022) continue;
+      const monthStep = [6, 3, 2].find((n) => n * yearSpan / 12 <= 130) || 1;
+      for (let month = monthStep; month < 12; month += monthStep) {
+        const monthX = X(yr + month / 12);
+        el("line", { x1: monthX, x2: monthX, y1: AX_TOP, y2: AX_TOP + 4 }, axis);
+        const label = el("text", { x: monthX, y: AX_TOP + 20, "text-anchor": "middle", style: "font-size:11px;font-weight:400" }, axis, `${MON[month]} ${yr}`);
+        layout.axisLabels.push({ x: monthX, extent: 25, el: label, shown: true });
+      }
+    }
+    let previousX = 0;
+    for (const x of [...breakYears.map(X), width + 6]) {
+      el("line", { x1: previousX, x2: x - 6, y1: AX_TOP, y2: AX_TOP }, axis);
+      previousX = x + 6;
+    }
+    for (const { x, yr } of ticks) {
+      if (breakYears.includes(yr)) {
+        el("path", { d: `M${x - 5},${AX_TOP + 4} l4,-8 M${x + 1},${AX_TOP + 4} l4,-8`, class: "ax-break" }, axis);
+      } else {
+        el("line", { x1: x, x2: x, y1: AX_TOP, y2: AX_TOP + 5 }, axis);
+      }
     }
 
     // lane rules + labels column
@@ -447,36 +514,35 @@
     labelsCol.style.height = height + "px";
     labelsCol.insertAdjacentHTML("beforeend", `<div class="lab compute-heading" style="top:0px"><b>Compute</b><span class="compute-unit">FLOP<i class="h100"> · H100 h</i></span></div><div class="cmp-ticks"></div>`);
     cmp.ticks = labelsCol.querySelector(".cmp-ticks");
-    labelsCol.querySelector(".compute-heading").addEventListener("mouseenter", (ev) => showTip(ev, "Training compute as estimated FLOP and as time on one H100 GPU; the note under the map gives the assumption. Divide by the number of GPUs for wall-clock time. Epoch AI has no estimate for many frontier models from 2025 on, so the most recent part of the line rests on few models."));
+    labelsCol.querySelector(".compute-heading").addEventListener("mouseenter", (ev) => showTip(ev, "Training compute as estimated FLOP and as time on one H100 GPU; open “Training compute · data and scale” under the map for the values and conversion. Divide by the number of GPUs for wall-clock time. Epoch AI has no estimate for many frontier models from 2025 on, so the most recent part of the line rests on few models."));
     labelsCol.querySelector(".compute-heading").addEventListener("mousemove", moveTip);
     labelsCol.querySelector(".compute-heading").addEventListener("mouseleave", hideTip);
-    const BAND_NAMES = { 3: "Key events", 2: "Standard events", 1: "Details" };
+    labelsCol.insertAdjacentHTML("beforeend", `<div class="lab time-heading" style="top:${AX_TOP + 2}px" title="Slashes mark changes in the spacing between years"><b>Years</b><span>// Break</span></div>`);
     lanes.forEach((L) => {
       el("line", { x1: 0, x2: width, y1: L.top, y2: L.top, class: "lane-rule" }, svg);
-      labelsCol.insertAdjacentHTML("beforeend", `<div class="lab" style="top:${L.top + 8}px"><b style="color:${lc(L.lane.id)}">${esc(L.lane.short || L.lane.title)}</b></div>`);
-      L.bands.forEach((B, i) => {
-        // A faint rule between bands, and a dot of the band's size at the right edge of the labels column.
-        const mid = L.top + 18 + B.first * ROW;
-        if (i) el("line", { x1: 0, x2: width, y1: mid - ROW / 2, y2: mid - ROW / 2, class: "band-rule" }, svg);
-        const r = [0, 3, 4.2, 5.6][B.level];
-        labelsCol.insertAdjacentHTML("beforeend", `<span class="band-key imp${B.level}" style="top:${mid - r}px;--r:${r}px;--c:${lc(L.lane.id)}" title="${BAND_NAMES[B.level]}" aria-hidden="true"></span>`);
-      });
+      labelsCol.insertAdjacentHTML("beforeend", `<div class="lab lane-label" style="top:${L.top + 6}px"><b style="color:${lc(L.lane.id)}">${esc(L.lane.short || L.lane.title)}</b></div>`);
     });
-    labelsCol.insertAdjacentHTML("beforeend", `<div style="position:absolute;left:0;right:0;top:${lanesTop - 1}px;border-top:1px solid var(--rule)"></div>`);
+    labelsCol.insertAdjacentHTML("beforeend", `<div style="position:absolute;left:0;right:0;top:${LANES_TOP - 1}px;border-top:1px solid var(--rule)"></div>`);
 
     // connections
     const gArc = el("g", {}, svg);
-    stubCount = {};
     const related = new Set();
     if (state.selected && pos.has(state.selected)) {
       const s = byId.get(state.selected);
       related.add(s.id);
       const pairSlots = new Map();
+      // Fan distant connections around the selected marker, inside the plotted lanes.
+      const origin = pos.get(s.id), ends = [];
+      for (let d = 14; d < height - LANES_TOP; d += 15) {
+        if (origin.y - d >= LANES_TOP + 12) ends.push(origin.y - d);
+        if (origin.y + d <= height - 12) ends.push(origin.y + d);
+      }
+      const stubEnds = { left: [...ends], right: [...ends] };
       connectionsFor(s.id).forEach((c) => {
         related.add(c.from); related.add(c.to);
         const other = c.from === s.id ? c.to : c.from, slot = pairSlots.get(other) || 0;
         pairSlots.set(other, slot + 1);
-        if (pos.has(c.from) && pos.has(c.to)) arc(gArc, pos.get(c.from), pos.get(c.to), c, slot);
+        if (pos.has(c.from) && pos.has(c.to)) arc(gArc, pos.get(c.from), pos.get(c.to), c, slot, stubEnds);
       });
     }
     let routeIds = null;
@@ -490,6 +556,25 @@
       }
     }
 
+    // Temporary labels have the space between already packed marks. Place the selected label first.
+    const labelOrder = [pos.get(state.selected), ...pos.values()].filter(Boolean);
+    for (const p of labelOrder) {
+      if (p.text !== undefined) continue;
+      p.routeNeighbor = !p.label && state.route && related.has(p.e.id);
+      p.text = "";
+      if (!p.label && !p.routeNeighbor) continue;
+      if (p.reserve) { p.text = p.e.label; continue; }
+      const offset = p.radius + 5;
+      const roomLeft = p.x - (p.prev?.hi ?? 4) - offset - 5;
+      const roomRight = (p.next?.lo ?? width - 4) - p.x - offset - 5;
+      p.side = roomRight >= p.measure(p.e.label) || roomRight >= roomLeft ? 1 : -1;
+      p.text = fitLabel(p.e.label, p.side === 1 ? roomRight : roomLeft, p.measure);
+      if (!p.text) continue;
+      const extent = offset + p.measure(p.text) + 2;
+      if (p.side === 1) p.hi = p.x + extent;
+      else p.lo = p.x - extent;
+    }
+
     // nodes
     const gN = el("g", {}, svg);
     const focusId = [state.focus, state.selected].find((id) => pos.has(id) && lit(byId.get(id))) || (evs.find((e) => lit(e) && e.importance === 3 && yearOf(e) >= DEFAULT_START) || evs.find(lit) || evs[0] || {}).id;
@@ -498,22 +583,27 @@
       let dim = !lit(e);
       if (state.selected && !state.query && !state.route && !state.org) dim = !related.has(e.id);
       const g = el("g", { class: `node imp${imp}${dim ? " dim" : ""}${state.selected === e.id ? " sel" : ""}`, transform: `translate(${p.x},${p.y})`, tabindex: e.id === focusId ? 0 : -1, role: "button", "aria-label": `${e.title}, ${fmtDate(e)}` }, gN);
-      const r = [0, 3, 4.2, 5.6][imp];
+      const r = NODE_RADII[imp];
       el("circle", { r: r + 3.5, class: "ring" }, g);
       el("circle", { r, style: imp === 1 ? `fill:var(--paper);stroke:${lc(e.lane)};stroke-width:1.5` : `fill:${lc(e.lane)}` }, g);
-      // A route number (radius 7.5) covers the dot, so its label starts clear of the number.
-      const lx = routeIds && routeIds.includes(e.id) ? 12 : r + 5;
-      if (p.label) { const text = p.reserve ? e.label : fitLabel(e.label, p.room - lx - 7, imp === 3); if (text) el("text", { x: lx, y: 4 }, g, text); }
-      else if (state.route && related.has(e.id)) el("text", { x: lx, y: 4, class: "connection-label" }, g, e.label);
+      if (p.text) {
+        const attrs = { x: p.side * (p.radius + 5), y: 4, "text-anchor": p.side === -1 ? "end" : "start", class: p.routeNeighbor ? "connection-label" : "" };
+        layout.labels.push({ point: p, el: el("text", attrs, g, p.text), side: p.side, shown: true });
+      }
       g.dataset.eventId = e.id;
       g.addEventListener("focus", () => { state.focus = e.id; });
-      g.addEventListener("click", (ev) => { ev.stopPropagation(); hideTip(); tipMuted = e.id; select(e.id); });
-      g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(e.id); } });
-      g.addEventListener("mouseenter", (ev) => tipMuted !== e.id && showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`));
-      g.addEventListener("focus", (ev) => { if (!g.matches(":focus-visible")) return; showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`); g.setAttribute("aria-describedby", "atlas-preview"); });
-      g.addEventListener("blur", hideTip);
-      g.addEventListener("mousemove", moveTip);
-      g.addEventListener("mouseleave", () => { if (g.isConnected) tipMuted = null; hideTip(); });
+      g.addEventListener("click", (ev) => { ev.stopPropagation(); hideTip(); select(e.id, { mapActivation: true }); });
+      g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(e.id, { mapActivation: true }); } });
+      const preview = (ev) => showTip(ev, `<b>${esc(e.title)}</b><br>${esc(fmtDate(e))}<span class="preview-idea">${prose(e.idea || e.problem || "")}</span>`);
+      g.addEventListener("focus", (ev) => { if (!g.matches(":focus-visible")) return; preview(ev); g.setAttribute("aria-describedby", "atlas-preview"); });
+      g.addEventListener("blur", () => { if (tipOwner === g) hideTip(); });
+      // Recentering can move a different node under a stationary pointer and fire an enter event.
+      g.addEventListener("pointermove", (ev) => {
+        if (ev.pointerType === "touch") return;
+        if (tipOwner === g) moveTip(ev);
+        else preview(ev);
+      });
+      g.addEventListener("pointerleave", () => { if (tipOwner === g) hideTip(); });
     }
     if (routeIds) routeIds.forEach((id) => {
       const p = pos.get(id);
@@ -525,8 +615,7 @@
     renderContext(); renderOverview(); renderEraNav(); renderSearchResults(); updateConnectionAccent(); updateWorkspaceSticky();
   }
 
-  let stubCount = {};
-  function arc(parent, a, b, connection, slot) {
+  function arc(parent, a, b, connection, slot, stubEnds) {
     const { type, from: aId, to: bId, key } = connection;
     const outsideRoute = state.route && (!state.route.event_ids.includes(aId) || !state.route.event_ids.includes(bId));
     const g = el("g", { class: `connection-hit${outsideRoute ? " connection-outside-route" : ""}`, "data-connection": key, tabindex: 0, role: "button", "aria-label": `Explain: ${connectionLabel(connection)}`, "aria-controls": "atlas-connection-detail", "aria-expanded": state.connection === key }, parent);
@@ -539,9 +628,8 @@
     if (Math.abs(b.x - a.x) > 460) {
       const fromSel = layout.pos.get(state.selected) === a ? a : b, other = fromSel === a ? b : a;
       const dir = Math.sign(other.x - fromSel.x), len = 30;
-      // fan stubs out above and below the node so their labels never stack
-      const k = (stubCount[dir] = (stubCount[dir] || 0) + 1), off = (k % 2 ? -1 : 1) * (14 + Math.floor((k - 1) / 2) * 15);
-      const ex = fromSel.x + dir * len, ey = fromSel.y + off;
+      const ex = fromSel.x + dir * len;
+      const ey = (dir < 0 ? stubEnds.left : stubEnds.right).shift() ?? fromSel.y;
       draw(`M${fromSel.x},${fromSel.y} L${ex},${ey}`, " stub");
       // This end mark points towards the offscreen event, not the relation direction.
       el("path", { d: `M${ex - dir * 4},${ey - 4} L${ex},${ey} L${ex - dir * 4},${ey + 4}`, class: "arc stub stub-direction" }, g);
@@ -551,7 +639,7 @@
     }
     const mx = (a.x + b.x) / 2;
     const lift = Math.min(70, Math.abs(b.x - a.x) * 0.22) + 12 + slot * 15;
-    const my = Math.min(a.y, b.y) - lift;
+    const my = Math.max(LANES_TOP + 2, Math.min(a.y, b.y) - lift);
     draw(`M${a.x},${a.y} Q${mx},${my} ${b.x},${b.y}`);
     if (type === "parallel") return;
     const ang = Math.atan2(b.y - my, b.x - mx), r = 8;
@@ -596,7 +684,7 @@
       state.connection = key; saveHistory();
     }
     connectionTrigger = trigger; connectionHover = null; connectionFocus = null; hideTip(); renderConnectionDetail();
-    const host = $(".connection-detail", mounts.map), rect = host.getBoundingClientRect(), inset = workspaceInset();
+    const host = $(".connection-detail", mounts.map), rect = host.getBoundingClientRect(), inset = readerInset(host);
     if (rect.top < inset) scrollBy({ top: rect.top - inset, behavior: "auto" });
     else if (rect.bottom > innerHeight - 16) scrollBy({ top: Math.min(rect.top - inset, rect.bottom - innerHeight + 16), behavior: "auto" });
     $("#atlas-connection-title", mounts.map)?.focus({ preventScroll: true });
@@ -607,7 +695,11 @@
     if (options.history !== false) saveHistory();
     if (options.focus !== false) {
       const trigger = connectionTrigger?.isConnected ? connectionTrigger : [...mounts.map.querySelectorAll("[data-explain-connection]")].find((n) => n.dataset.explainConnection === key);
-      trigger?.focus({ preventScroll: true });
+      if (trigger) {
+        const rect = trigger.getBoundingClientRect();
+        if (rect.top < readerInset(trigger) || rect.bottom > innerHeight) revealReaderTarget(trigger.closest(".chart-column") || trigger);
+        trigger.focus({ preventScroll: true });
+      } else readSelected();
     }
   }
 
@@ -618,12 +710,13 @@
     c.hidden = !state.org;
     c.innerHTML = state.org ? `<span>${esc(`Organisation: ${state.org.name}`)}</span>` : "";
     const reset = $(".reset-view", mounts.map);
-    if (reset) reset.style.visibility = state.route || state.org || state.query || state.lanes.size < D.lanes.length || state.zoom !== 1 ? "visible" : "hidden";
+    if (reset) reset.hidden = !(state.route || state.org || state.query || state.era != null || state.lanes.size < D.lanes.length || state.zoom !== 1);
   }
 
   function renderSearchResults() {
     const host = $(".search-results", mounts.map); if (!host) return;
     const list = browseEvents(), era = state.era == null ? null : D.eras[state.era];
+    const title = era?.title || (state.query ? "Search results" : state.lanes.size === D.lanes.length && !state.org ? "Browse all events" : "Browse events");
     const previousScroll = $(".event-scroll-list", host)?.scrollTop || 0;
     const listKey = list.map(e => e.id).join("|");
     const sameList = host.dataset.listKey === listKey;
@@ -632,7 +725,7 @@
     const globalCount = D.events.filter((e) => state.lanes.has(e.lane) && lit(e)).length;
     host.dataset.total = list.length; host.dataset.globalTotal = globalCount;
     if (state.route) { renderRouteStepper(host); return; }
-    host.innerHTML = `<div class="browser-heading"><h3 tabindex="-1">${era ? esc(era.title) : "Events across the history"}</h3>${list.length > 1 ? `<span class="num">${list.length} events</span>` : ""}</div>${era && era.summary ? `<details class="era-summary"><summary>About this era</summary><p>${esc(era.summary)}</p></details>` : ""}${state.query && era ? `<p>${globalCount} search match${globalCount === 1 ? "" : "es"} across all eras. <button class="text-button" data-era="all">Show all matches</button></p>` : ""}${list.length ? `<ol class="event-scroll-list" tabindex="0" aria-label="Events in the selected scope">${list.map((e) => `<li${state.selected === e.id ? ' class="current"' : ""}><span class="num result-date">${esc(fmtDate(e))}</span><a href="#${esc(e.id)}" data-ev-card="${esc(e.id)}"${state.selected === e.id ? ' aria-current="true"' : ""}>${esc(e.title)}</a><span class="result-lane" style="color:${lc(e.lane)}">${esc(laneTitle(e.lane))}</span></li>`).join("")}</ol>` : `<p>No events ${era ? "in this era " : ""}match the active lanes${scoped ? " and search or scope" : ""}. ${scoped ? '<button type="button" class="text-button" data-act="clear">Reset view</button>' : '<button type="button" class="text-button" data-era="all">Browse all eras</button>'}</p>`}`;
+    host.innerHTML = `<div class="browser-heading"><h3 tabindex="-1">${esc(title)}</h3>${list.length > 1 ? `<span class="num">${list.length} events</span>` : ""}</div>${era && era.summary ? `<details class="era-summary"><summary>About this era</summary><p>${esc(era.summary)}</p></details>` : ""}${state.query && era ? `<p>${globalCount} search match${globalCount === 1 ? "" : "es"} across all eras. <button class="text-button" data-era="all">Show all matches</button></p>` : ""}${list.length ? `<ol class="event-scroll-list" tabindex="0" aria-label="Events in the selected scope">${list.map((e) => `<li${state.selected === e.id ? ' class="current"' : ""}><span class="num result-date">${esc(fmtDate(e))}</span><a href="#${esc(e.id)}" data-ev-card="${esc(e.id)}"${state.selected === e.id ? ' aria-current="true"' : ""}>${esc(e.title)}</a><span class="result-lane" style="color:${lc(e.lane)}">${esc(laneTitle(e.lane))}</span></li>`).join("")}</ol>` : `<p>No events ${era ? "in this era " : ""}match the active lanes${scoped ? " and search or scope" : ""}. ${scoped ? '<button type="button" class="text-button" data-act="clear">Reset view</button>' : '<button type="button" class="text-button" data-era="all">Browse all eras</button>'}</p>`}`;
     const scroller = $(".event-scroll-list", host);
     if (scroller) {
       scroller.scrollTop = sameList ? previousScroll : 0;
@@ -642,14 +735,6 @@
         if (top < scroller.scrollTop) scroller.scrollTop = top;
         else if (top + current.offsetHeight > scroller.scrollTop + scroller.clientHeight) scroller.scrollTop = top + current.offsetHeight - scroller.clientHeight;
       }
-      // Fade the edge that has more rows behind it, so the list reads as scrollable.
-      const edges = () => {
-        const max = scroller.scrollHeight - scroller.clientHeight;
-        scroller.classList.toggle("more-above", scroller.scrollTop > 2);
-        scroller.classList.toggle("more-below", scroller.scrollTop < max - 2);
-      };
-      edges();
-      scroller.addEventListener("scroll", edges, { passive: true });
     }
   }
 
@@ -657,12 +742,35 @@
     return state.route ? state.route.event_ids.filter((id) => { const e = byId.get(id); return e && state.lanes.has(e.lane) && lit(e) && inEra(e); }) : [];
   }
   function renderRouteStepper(host) {
-    const t = state.route, ids = t.event_ids, available = routeAvailable(), current = ids.indexOf(state.selected), index = available.indexOf(state.selected);
-    const previous = index > 0 ? available[index - 1] : null, next = index >= 0 ? available[index + 1] : available[0];
-    const control = (id, dir, label) => `<button type="button" class="route-step-control" data-route-step="${dir}"${id ? ` aria-label="${label}: ${esc(byId.get(id).title)}, ${byId.get(id).date_sort.slice(0, 4)}"` : " disabled"}><span>${dir < 0 ? "← " : ""}${label}${dir > 0 ? " →" : ""}</span><strong>${id ? `${esc(byId.get(id).label)} <span class="num">${byId.get(id).date_sort.slice(0, 4)}</span>` : dir < 0 ? "Start of route" : "End of route"}</strong></button>`;
-    host.innerHTML = `<nav class="route-stepper" data-route-id="${esc(t.id)}" aria-label="Active question route"><div class="route-stepper-head"><span class="eyebrow">Follow a question</span><button type="button" class="text-button" data-act="leave-route">Exit route</button></div><h3>${esc(t.question || t.title)}</h3><div class="route-position-row"><span class="route-position num">${current >= 0 ? `Step ${current + 1} of ${ids.length}` : `${ids.length} steps`}</span>${available.length < ids.length ? `<span>${available.length} available with these filters</span>` : ""}</div><progress class="route-progress" max="${ids.length}" value="${current + 1}" aria-label="Position in the curated route"></progress><ol class="route-stops" aria-label="Route steps">${ids.map((id, i) => { const e = byId.get(id), active = id === state.selected; return `<li><button type="button" data-route-stop="${esc(id)}"${active ? ' aria-current="step"' : ""}${available.includes(id) ? "" : " disabled"} title="${i + 1}. ${esc(e.label)}, ${e.date_sort.slice(0, 4)}${available.includes(id) ? "" : " · unavailable with these filters"}" aria-label="Step ${i + 1}: ${esc(e.title)}, ${e.date_sort.slice(0, 4)}" style="--stop-color:${lc(e.lane)}"><span class="num">${i + 1}</span></button></li>`; }).join("")}</ol>${current >= 0 ? `<p class="route-step-current"><span class="dot" style="background:${lc(byId.get(state.selected).lane)}"></span>${esc(byId.get(state.selected).label)} <span class="num">${byId.get(state.selected).date_sort.slice(0, 4)}</span></p>` : ""}${!available.length ? '<p class="route-empty">No events in this route match the active lanes, search and era. Adjust the filters or <button type="button" class="text-button" data-era="all">browse all eras</button>.</p>' : `<div class="route-step-controls">${control(previous, -1, "Previous")}${control(next, 1, "Next")}</div>`}<details class="route-stop-list"><summary>All steps</summary><ol>${ids.map((id, i) => { const e = byId.get(id); return `<li value="${i + 1}"><button type="button" class="text-button" data-route-stop="${esc(id)}"${available.includes(id) ? "" : " disabled"}${id === state.selected ? ' aria-current="step"' : ""}>${esc(e.label)} <span class="num">${e.date_sort.slice(0, 4)}</span></button>${available.includes(id) ? "" : '<span class="route-unavailable">Unavailable with these filters</span>'}</li>`; }).join("")}</ol></details></nav>`;
-    const rail = $(".route-stops", host), active = $(".route-stops [aria-current]", host);
-    if (rail && active) rail.scrollLeft = Math.max(0, active.offsetLeft - rail.offsetLeft - rail.clientWidth / 2 + active.offsetWidth / 2);
+    const route = state.route, ids = route.event_ids, available = routeAvailable();
+    const current = ids.indexOf(state.selected), index = available.indexOf(state.selected);
+    const openList = $(".route-stepper", host)?.dataset.routeId === route.id &&
+      $(".route-stop-list", host)?.open &&
+      $("[aria-current=step]", host)?.dataset.routeStop === (state.selected || undefined);
+    const previous = index > 0 ? available[index - 1] : null, next = available[index + 1];
+    const control = (id, dir, label) => {
+      const event = byId.get(id);
+      const target = event ? ` aria-label="${label}: ${esc(event.title)}" title="${esc(event.title)}"` : " disabled";
+      return `<button type="button" class="text-button" data-route-step="${dir}"${target}>${dir < 0 ? "← " : ""}${label}${dir > 0 ? " →" : ""}</button>`;
+    };
+    host.innerHTML = `<nav class="route-stepper" data-route-id="${esc(route.id)}" aria-labelledby="atlas-route-question">
+      <div class="route-stepper-head">
+        <h3 id="atlas-route-question">${esc(route.question || route.title)}</h3>
+        <button type="button" class="text-button" data-act="leave-route">Exit route</button>
+      </div>
+      <div class="route-position-row">
+        <span class="route-position num" id="atlas-route-position">${current >= 0 ? `Step ${current + 1} of ${ids.length}` : `${ids.length} steps`}</span>
+        <div class="route-step-controls">${control(previous, -1, "Previous")}${control(next, 1, "Next")}</div>
+      </div>
+      ${!available.length ? '<p class="route-filter-status">No steps match the active filters. <button type="button" class="text-button" data-act="restore-route">Show every step</button></p>' : available.length < ids.length ? `<p class="route-filter-status">${available.length} available with these filters</p>` : ""}
+      <details class="route-stop-list"${openList ? " open" : ""}>
+        <summary>All steps</summary>
+        <ol>${ids.map((id, i) => {
+          const e = byId.get(id), enabled = available.includes(id);
+          return `<li value="${i + 1}"><button type="button" class="text-button" data-route-stop="${esc(id)}"${enabled ? "" : " disabled"}${id === state.selected ? ' aria-current="step"' : ""}>${esc(e.label)} <span class="num">${e.date_sort.slice(0, 4)}</span></button>${enabled ? "" : '<span class="route-unavailable">Unavailable with these filters</span>'}</li>`;
+        }).join("")}</ol>
+      </details>
+    </nav>`;
   }
 
   function yearAtX(x) {
@@ -687,28 +795,43 @@
     cmp.grid.innerHTML = "";
     ticks.forEach((n) => el("line", { x1: 0, x2: mapSvg.getAttribute("width"), y1: cy(n), y2: cy(n), class: "cmp-grid" }, cmp.grid));
     cmp.ticks.innerHTML = ticks.map((n) => `<div class="lab num" style="top:${cy(n) - 8}px;text-align:right"><span>10<sup>${n}</sup><i class="h100"> · ${h100(10 ** n)}</i></span></div>`).join("");
+    const thresholdOffset = cmp.th.some((t) => t.lg >= lo && t.lg <= hi && cy(t.lg) + 11 > CMP_TOP + CMP_H + 4) ? -4 : 11;
     cmp.th.forEach((t) => {
       const y = cy(t.lg), shown = t.lg >= lo && t.lg <= hi;
       t.line.style.display = t.text.style.display = shown ? "" : "none";
       t.line.setAttribute("x1", t.x); t.line.setAttribute("x2", mapSvg.getAttribute("width"));
       t.line.setAttribute("y1", y); t.line.setAttribute("y2", y);
-      t.text.setAttribute("y", y + 11);
+      t.text.setAttribute("y", y + thresholdOffset);
       t.text.parentNode.appendChild(t.text); // drawn last, above the frontier line
     });
     placeThresholdLabels();
     cmp.front.forEach((f) => { f.y = cy(f.lg); f.el.setAttribute("cy", f.y); });
     if (cmp.path) cmp.path.setAttribute("d", "M" + cmp.front.map((f, i) => (i ? `H${f.x.toFixed(1)} V${f.y.toFixed(1)}` : `${f.x.toFixed(1)},${f.y.toFixed(1)}`)).join(" "));
-    // Labels that would run past the right edge sit to the left of their dot; one that would cover an
-    // earlier label moves down a line.
-    const placed = [];
     cmp.pts.forEach((q) => {
-      q.el.setAttribute("cy", cy(q.lg));
-      if (!q.text) return;
-      let y = cy(q.lg) + 4;
-      while (placed.some((r) => q.x1 < r.x2 && q.x1 + q.w > r.x1 && Math.abs(y - r.y) < 12)) y += 13;
-      placed.push({ x1: q.x1, x2: q.x1 + q.w, y });
-      q.text.setAttribute("y", y);
+      q.y = cy(q.lg);
+      q.el.setAttribute("cy", q.y);
     });
+  }
+  // Keep each label beside its dot. Flip labels near the window edge and stagger nearby baselines.
+  function placeComputeLabels(left, right) {
+    const placed = [];
+    for (const q of cmp.pts) {
+      if (!q.text) continue;
+      const shown = q.x >= left && q.x <= right && q.lg >= cmp.lo && q.lg <= cmp.hi;
+      q.text.setAttribute("visibility", shown ? "visible" : "hidden");
+      if (!shown) continue;
+      const width = q.labelWidth ||= q.text.getComputedTextLength();
+      const after = right - q.x - 6, before = q.x - left - 6;
+      const flipped = after < width && before > after;
+      const x = q.x + (flipped ? -6 : 6);
+      const x1 = flipped ? x - width : x, x2 = x1 + width;
+      let y = q.y + 4;
+      while (placed.some((r) => x1 < r.x2 && x2 > r.x1 && Math.abs(y - r.y) < 12)) y += 13;
+      placed.push({ x1, x2, y });
+      q.text.setAttribute("x", x);
+      q.text.setAttribute("y", y);
+      q.text.setAttribute("text-anchor", flipped ? "end" : "start");
+    }
   }
   // Threshold labels sit under the visible right end of their line, clear of the frontier steps and model
   // labels, and follow the window as the map scrolls; they never start before the line does.
@@ -743,15 +866,65 @@
     const frame = (now) => {
       const k = Math.min(1, (now - t0) / 240), e = 1 - (1 - k) ** 3;
       placeCompute(from[0] + (target[0] - from[0]) * e, from[1] + (target[1] - from[1]) * e);
+      placeComputeLabels(mapScroll.scrollLeft, mapScroll.scrollLeft + mapScroll.clientWidth);
       if (k < 1) cmpAnim = requestAnimationFrame(frame);
     };
     cmpAnim = requestAnimationFrame(frame);
+  }
+  function setMapLabel(label, side, text) {
+    if (label.side !== side) {
+      label.side = side;
+      label.el.setAttribute("x", side * (label.point.radius + 5));
+      label.el.setAttribute("text-anchor", side === -1 ? "end" : "start");
+    }
+    if (text && label.el.textContent !== text) label.el.textContent = text;
+    const shown = Boolean(text);
+    if (label.shown === shown) return;
+    label.shown = shown;
+    label.el.setAttribute("visibility", shown ? "visible" : "hidden");
+  }
+  function placeMapLabels(left, right) {
+    const clipped = [];
+    if (state.route) for (const p of layout.pos.values()) { p.viewLo = p.lo; p.viewHi = p.hi; }
+    for (const label of layout.labels) {
+      const p = label.point;
+      const shown = p.x + p.radius > left && p.x - p.radius < right;
+      if (state.route && (!shown || p.lo < left + 2 || p.hi > right - 2)) {
+        // Free the clipped label's space while keeping its marker in the packed row.
+        p.viewLo = p.x - p.radius - 2; p.viewHi = p.x + p.radius + 2;
+        if (shown) { clipped.push(label); continue; }
+      }
+      setMapLabel(label, p.side, shown ? p.text : "");
+    }
+    // For a stop at either edge, use the free space on that row without moving its dot.
+    for (const label of clipped) {
+      const p = label.point, offset = p.radius + 5;
+      const roomLeft = p.x - offset - Math.max(left + 4, (p.prev?.viewHi ?? left) + 5);
+      const roomRight = Math.min(right - 4, (p.next?.viewLo ?? right) - 5) - p.x - offset;
+      const side = roomRight >= roomLeft ? 1 : -1;
+      const text = fitLabel(p.text, side === 1 ? roomRight : roomLeft, p.measure);
+      setMapLabel(label, side, text);
+      if (!text) continue;
+      const extent = offset + p.measure(text) + 2;
+      if (side === 1) p.viewHi = p.x + extent;
+      else p.viewLo = p.x - extent;
+    }
   }
   function updateOverview(animate = false) {
     if (!overview || !layout) return;
     updateCompute(animate === true);
     placeThresholdLabels();
-    const a = yearAtX(mapScroll.scrollLeft), b = yearAtX(mapScroll.scrollLeft + mapScroll.clientWidth);
+    const left = mapScroll.scrollLeft, right = left + mapScroll.clientWidth;
+    if (cmp) placeComputeLabels(left, right);
+    placeMapLabels(left, right);
+    for (const label of layout.axisLabels) {
+      const shown = label.x - label.extent >= left && label.x + label.extent <= right;
+      if (shown === label.shown) continue;
+      label.shown = shown;
+      label.el.setAttribute("visibility", shown ? "visible" : "hidden");
+    }
+    const a = yearAtX(left), b = yearAtX(right);
+    const first = Math.min(2026, Math.floor(a)), last = Math.min(2026, Math.floor(b));
     const ox = (y) => 12 + ((y - Y0) / (2027.1 - Y0)) * 976;
     const rect = $(".overview-window", overview);
     if (rect) { rect.setAttribute("x", ox(a)); rect.setAttribute("width", Math.max(4, ox(b) - ox(a))); }
@@ -764,9 +937,9 @@
         const start = layout.X(Number(range.min)), span = layout.X(Number(range.max)) - start;
         range.value = Math.round(yearAtX(start + span * mapScroll.scrollLeft / travel));
       }
-      range.setAttribute("aria-valuetext", `${range.value}; map shows ${Math.floor(a)} to ${Math.min(2026, Math.ceil(b))}`);
+      range.setAttribute("aria-valuetext", `${range.value}; map shows ${first === last ? first : `${first} to ${last}`}`);
     }
-    const label = $(".window-years", mounts.map); if (label) label.textContent = `Map window: ${Math.floor(a)}–${Math.min(2026, Math.ceil(b))}`;
+    const label = $(".window-years", mounts.map); if (label) label.textContent = `Map window: ${first === last ? first : `${first}–${last}`}`;
   }
   function jumpYear(year) {
     if (!layout) return;
@@ -784,21 +957,29 @@
     updateOverview(true);
   }
 
-  function workspaceInset() {
+  function visibleHeaderBottom() {
     const header = document.getElementById("quarto-header");
-    return 16 + (document.querySelector(".atlas-tabs")?.offsetHeight || 0) + (header && getComputedStyle(header).position === "fixed" ? header.offsetHeight : 0);
+    return header && getComputedStyle(header).position === "fixed" ? Math.max(0, header.getBoundingClientRect().bottom) : 0;
+  }
+  function workspaceInset() {
+    return 16 + (document.querySelector(".atlas-tabs")?.offsetHeight || 0) + visibleHeaderBottom();
   }
   function updateSwitchInset() {
-    const header = document.getElementById("quarto-header");
-    const bottom = header && getComputedStyle(header).position === "fixed" ? Math.max(0, header.getBoundingClientRect().bottom) : 0;
+    const bottom = visibleHeaderBottom();
     document.querySelector(".atlas-tabs")?.style.setProperty("--tabs-top", `${bottom}px`);
     mounts.map.style.setProperty("--workspace-top", `${bottom + (document.querySelector(".atlas-tabs")?.offsetHeight || 0)}px`);
   }
   function updateWorkspaceSticky() {
     const chart = $(".chart-column", mounts.map); if (!chart) return;
     updateSwitchInset();
-    chart.style.setProperty("--chart-top", `${Math.min(workspaceInset(), innerHeight - chart.offsetHeight - 16)}px`);
-    const profileDock = mounts.people && $(".people-profile-dock", mounts.people); if (profileDock) profileDock.style.setProperty("--profile-top", `${Math.min(workspaceInset(), innerHeight - profileDock.offsetHeight - 16)}px`);
+    const inset = workspaceInset(), map = $(".map", chart);
+    let top = Math.min(inset, innerHeight - chart.offsetHeight - 16);
+    // When the plot itself fits beside a card, keep its compute scale below the site and tab bars.
+    if (state.selected && !$(".compute-guide[open]", chart) && map.offsetHeight <= innerHeight - inset) {
+      top = Math.max(top, inset - map.offsetTop);
+    }
+    chart.style.setProperty("--chart-top", `${top}px`);
+    const profileDock = mounts.people && $(".people-profile-dock", mounts.people); if (profileDock) profileDock.style.setProperty("--profile-top", `${Math.min(inset, innerHeight - profileDock.offsetHeight - 16)}px`);
   }
   function updateChip() {
     const chip = $(".card-chip", mounts.map); if (!chip) return;
@@ -808,16 +989,48 @@
     chip.parentElement.classList.toggle("idle", !e && !state.profile);
     if (e) chip.textContent = `Read: ${e.label} ↓`;
   }
-  function revealReaderTarget(target) {
-    if (!target) return;
+  function readerInset(target) {
     const workspaceSwitch = target.closest('[data-atlas="map"]') && $(".workspace-switch", mounts.map);
     const switchHeight = workspaceSwitch && getComputedStyle(workspaceSwitch).display !== "none" ? workspaceSwitch.getBoundingClientRect().height : 0;
-    scrollTo({ top: scrollY + target.getBoundingClientRect().top - workspaceInset() - switchHeight, behavior: SMOOTH });
+    return workspaceInset() + switchHeight;
+  }
+  let readerReveal = null, revealTimer;
+  function cancelReaderReveal() {
+    clearTimeout(revealTimer);
+    readerReveal = null;
+  }
+  function settleReaderReveal() {
+    if (!readerReveal) return;
+    clearTimeout(revealTimer);
+    // Quarto can finish moving its header after the last scroll event.
+    revealTimer = setTimeout(() => {
+      const { target, top, inset } = readerReveal;
+      cancelReaderReveal();
+      if (!target.isConnected || !target.getClientRects().length || Math.abs(scrollY - top) > 2) return;
+      const adjustment = inset - readerInset(target);
+      if (Math.abs(adjustment) > 1) scrollBy({ top: adjustment, behavior: "instant" });
+    }, 220);
+  }
+  function revealReaderTarget(target, behavior = SMOOTH) {
+    cancelReaderReveal();
+    if (!target) return;
+    const inset = readerInset(target);
+    const max = document.scrollingElement.scrollHeight - innerHeight;
+    const top = Math.max(0, Math.min(max, scrollY + target.getBoundingClientRect().top - inset));
+    readerReveal = { target, top, inset };
+    scrollTo({ top, behavior });
+    settleReaderReveal();
   }
   function readSelected() {
-    const heading = $(".pane h3", mounts.map), target = $(".pane .head", mounts.map) || $(".pane-host", mounts.map);
+    const heading = $(".pane h3", mounts.map), target = $(".route-stepper", mounts.map) || $(".pane .head", mounts.map) || $(".pane-host", mounts.map);
     revealReaderTarget(target);
     if (heading) heading.focus({ preventScroll: true });
+  }
+  function revealMap() {
+    const heading = $(".chart-column", mounts.map);
+    scrollMapTo(state.selected, false); updateOverview();
+    revealReaderTarget(heading);
+    (mapSvg.querySelector(".node.sel") || mapScroll).focus({ preventScroll: true });
   }
   function updateDiagramHints() {
     mounts.map.querySelectorAll(".diagram-viewport").forEach((viewport) => {
@@ -837,18 +1050,19 @@
   }
 
   /* ---------- tooltip ---------- */
-  // The map is redrawn on selection; the event just clicked stays quiet until the pointer leaves it.
-  let tipMuted = null;
-  function showTip(ev, html) { if (!tip) return; if (matchMedia("(hover: none)").matches) { hideTip(); return; } tip.innerHTML = html; tip.hidden = false; moveTip(ev); }
+  let tipOwner = null;
+  function showTip(ev, html) { if (!tip) return; if (matchMedia("(hover: none)").matches) { hideTip(); return; } tipOwner = ev.currentTarget; tip.innerHTML = html; tip.hidden = false; moveTip(ev); }
   function moveTip(ev) { if (!tip) return; const r = ev.target && ev.target.getBoundingClientRect ? ev.target.getBoundingClientRect() : { left: 0, bottom: 0 }; const x = Number.isFinite(ev.clientX) ? ev.clientX : r.left, y = Number.isFinite(ev.clientY) ? ev.clientY : r.bottom; tip.style.left = Math.max(8, Math.min(x + 14, innerWidth - tip.offsetWidth - 8)) + "px"; tip.style.top = Math.max(8, Math.min(y + 14, innerHeight - tip.offsetHeight - 8)) + "px"; }
-  function hideTip() { if (tip) tip.hidden = true; }
+  function hideTip() { tipOwner = null; if (tip) tip.hidden = true; }
 
   /* ---------- reading pane ---------- */
   function renderPane() {
     const pane = $(".pane-host", mounts.map);
     if (!pane) return;
     const e = state.selected && byId.get(state.selected);
-    const sr = $(".sr-only", mounts.map); if (sr) sr.textContent = e ? `${e.title}, ${fmtDate(e)}` : "";
+    const announcement = $(".sr-only[aria-live]", mounts.map);
+    const label = e ? `${e.title}, ${fmtDate(e)}` : "";
+    if (announcement && announcement.textContent !== label) announcement.textContent = label;
     updateChip();
     if (!e) {
       state.connection = null; connectionHover = null; connectionFocus = null;
@@ -860,11 +1074,19 @@
     const dg = window.DIAGRAMS && window.DIAGRAMS.forEvent(e);
     // The card reads as a short note: problem, idea, consequence and limits are paragraphs, not labelled sections.
     const para = (t, cls = "") => t ? `<p${cls ? ` class="${cls}"` : ""}>${prose(t)}</p>` : "";
-    const routes = D.threads.filter((t) => t.event_ids.includes(e.id));
+    const route = state.route;
+    const routes = D.threads.filter((t) => t.id !== route?.id && t.event_ids.includes(e.id));
+    const sequence = stepSequence(), position = sequence.indexOf(e.id);
+    const navigation = (direction, label) => {
+      const target = position >= 0 && byId.get(sequence[position + direction]);
+      const title = target ? ` aria-label="${label}: ${esc(target.title)}" title="${esc(target.title)}"` : " disabled";
+      return `<button type="button" class="text-button" data-nav="${direction}"${title}>${direction < 0 ? "← " : ""}${label}${direction > 0 ? " →" : ""}</button>`;
+    };
+    const hasSources = Boolean(e.sources?.length);
     pane.innerHTML = `<article class="pane">
       <div class="head">
-        <div class="meta eyebrow"><span class="dot" style="background:${lc(e.lane)}"></span>${esc(laneTitle(e.lane))} · <span class="num">${esc(fmtDate(e))}</span>${e.kind ? " · " + esc(e.kind) : ""}<button type="button" class="text-button pane-close" data-act="deselect" title="Close (Esc)" aria-label="Close this event and show the whole map">Close</button></div>
-        <h3 tabindex="-1">${esc(e.title)}</h3>
+        <div class="meta eyebrow"><span class="dot" style="background:${lc(e.lane)}"></span>${esc(laneTitle(e.lane))} · <span class="num">${esc(fmtDate(e))}</span>${e.kind ? " · " + esc(e.kind) : ""}<span class="pane-actions">${hasSources ? '<button type="button" class="text-button pane-sources" data-act="show-sources">Sources ↓</button>' : ""}<button type="button" class="text-button pane-close" data-act="deselect" title="Close (Esc)" aria-label="Close this event and show the map">Close</button></span></div>
+        <h3 tabindex="-1"${route ? ' aria-describedby="atlas-route-question atlas-route-position"' : ""}>${esc(e.title)}</h3>
         ${(e.people || []).length || (e.orgs || []).length ? `<div class="people">${(e.people || []).map(personLink).join(", ")}${(e.people || []).length && (e.orgs || []).length ? " · " : ""}${(e.orgs || []).map(orgLink).join(", ")}</div>` : ""}
       </div>
       <section class="connection-detail" id="atlas-connection-detail" aria-labelledby="atlas-connection-title" hidden></section>
@@ -875,11 +1097,11 @@
         ${(e.terms || []).length ? `<div><div class="eyebrow">Terms</div><dl class="terms">${e.terms.map((t) => `<dt>${prose(t.term)}</dt><dd>${prose(t.def)}</dd>`).join("")}</dl></div>` : ""}
       </div>
       <div class="side">
-        ${(e.sources || []).length ? `<div class="reads"><div class="eyebrow">Read next</div>${e.developer_report ? '<p class="source-note">The main evidence is the developer\'s own report.</p>' : ""}${e.sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label || s.url)}</a>`).join("")}</div>` : ""}
+        ${hasSources ? `<div class="reads"><div class="eyebrow" id="atlas-event-sources" role="heading" aria-level="4" tabindex="-1">Sources</div>${e.developer_report ? '<p class="source-note">The main evidence is the developer\'s own report.</p>' : ""}${e.sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label || s.url)}</a>`).join("")}</div>` : ""}
         ${routes.length ? `<div class="reads"><div class="eyebrow">On the routes</div>${routes.map((t) => `<a href="#${esc(t.id)}" data-route="${esc(t.id)}">${esc(t.question || t.title)}</a>`).join("")}</div>` : ""}
         ${conns.length ? `<details class="conn-group"${conns.some((c) => c.key === state.connection) ? " open" : ""}><summary><span class="eyebrow">Connections</span><span class="conn-count num">${conns.length}</span></summary><ul class="conn">${conns.map((c) => { const o = byId.get(c.id); return `<li data-connection-row="${esc(c.key)}"><span class="rel">${esc(c.rel)}</span><span><a href="#${esc(c.id)}" data-ev="${esc(c.id)}">${esc(o.title)}</a> <span class="num" style="color:var(--muted)">${o.date_sort.slice(0, 4)}</span>${c.note ? `<span class="why">${prose(c.note)}</span>` : ""}<button type="button" class="text-button connection-explain" data-explain-connection="${esc(c.key)}" aria-expanded="${state.connection === c.key}" aria-controls="atlas-connection-detail" aria-label="Explain: ${esc(connectionLabel(c))}">Explain this connection</button></span></li>`; }).join("")}</ul></details>` : ""}
       </div>
-      <div class="foot"><span><button type="button" class="text-button" data-nav="-1">← Earlier</button> &nbsp; <button type="button" class="text-button" data-nav="1">Later →</button></span><button type="button" class="text-button" data-act="locate">Show on map ↑</button></div>
+      <div class="foot">${route ? "" : `<span>${navigation(-1, "Earlier")} &nbsp; ${navigation(1, "Later")}</span>`}<button type="button" class="text-button" data-act="locate">Show on map ↑</button></div>
     </article>`;
     fillMath(pane); renderConnectionDetail(); updateDiagramHints();
   }
@@ -893,14 +1115,33 @@
     const p = [...personById.values()].find((x) => x.name.toLowerCase() === baseName(name).toLowerCase());
     return p ? `<a href="#${profileHash(`person:${personId(p)}`)}" data-profile="person:${esc(personId(p))}" aria-controls="atlas-profile" aria-expanded="${state.profile === `person:${personId(p)}`}">${esc(name)}</a>` : esc(name);
   }
-  function snapshot() {
+  // Identify the reader's place by destination so it survives a rerender or a change in row order.
+  const returnLists = {
+    connection: [".conn-group", "data-ev"],
+    profile: [".profile-related", "data-ev-card"],
+    catalog: [".route-body", "data-route-entry"],
+    stops: [".route-stop-list", "data-route-stop"],
+  };
+  function returnLinkFor(trigger) {
+    if (!trigger) return null;
+    for (const [list, [selector, attribute]] of Object.entries(returnLists)) {
+      if (trigger.closest(selector) && trigger.hasAttribute(attribute)) {
+        return { list, event: trigger.getAttribute(attribute) };
+      }
+    }
+    return null;
+  }
+  function snapshot(trigger) {
     return { tab: state.tab, selected: state.selected, connection: state.connection, route: state.route && state.route.id, org: state.org && state.org.id,
       query: state.query, queryInput: state.queryInput, zoom: state.zoom, lanes: [...state.lanes], scrollLeft: state.tab === "map" && mapScroll ? mapScroll.scrollLeft : preservedMapScroll,
-      listScrollTop: $(".event-scroll-list", mounts.map)?.scrollTop || 0, era: state.era, profile: state.profile, profileDock: state.profileDock, affiliationIndex: state.affiliationIndex, routeShown: state.routeShown };
+      listScrollTop: $(".event-scroll-list", mounts.map)?.scrollTop || 0, era: state.era, profile: state.profile, profileDock: state.profileDock, affiliationIndex: state.affiliationIndex, routeShown: state.routeShown,
+      connectionsOpen: Boolean($(".conn-group", mounts.map)?.open), stepsOpen: Boolean($(".route-stop-list", mounts.map)?.open),
+      computeGuideOpen: Boolean($(".compute-guide", mounts.map)?.open),
+      profileScrollTop: profilePanel?.scrollTop || 0, returnLink: returnLinkFor(trigger) };
   }
-  function saveHistory(replace = false, preserveUrl = false) {
+  function saveHistory(replace = false, preserveUrl = false, trigger) {
     const url = preserveUrl ? location.href : `${location.pathname}${location.search}${state.tab === "people" && state.profile && state.profileDock === "people" ? "#" + profileHash(state.profile) : state.tab !== "map" ? "#" + tabIds[state.tab] : state.profile && state.profileDock === "timeline" ? "#" + profileHash(state.profile) : state.route ? "#" + state.route.id + (state.selected ? "/" + state.selected : "") : state.selected ? "#" + state.selected : "#the-map"}`;
-    const snap = snapshot();
+    const snap = snapshot(trigger);
     // A transition that changed nothing (the active tab clicked again, a second reset) would leave a Back step that does nothing.
     if (!replace && new URL(url, location.href).href === location.href && JSON.stringify(history.state?.atlas) === JSON.stringify(snap)) return;
     history[replace ? "replaceState" : "pushState"]({ ...(history.state || {}), atlas: snap }, "", url);
@@ -909,8 +1150,10 @@
     if (!byId.has(id)) return;
     // A card still open behind another tab is not the current view: opening it again from there gets its own history entry.
     const previous = state.tab === "map" ? state.selected : null;
-    if (opts.history !== false) saveHistory(true, true);
+    const desktopActivation = opts.history !== false && (opts.card || opts.mapActivation) && splitWorkspace.matches;
+    if (opts.history !== false) saveHistory(true, true, opts.trigger);
     setPanel("map");
+    if (desktopActivation) collapseComputeGuide();
     state.selected = id; state.focus = id; state.connection = null; connectionHover = null; connectionFocus = null; connectionTrigger = null;
     const e = byId.get(id);
     // Opening an event never picks an era by itself; an era the reader chose is dropped only when the event lies outside it.
@@ -927,22 +1170,28 @@
     if (hadFocus || opts.focus) { const n = mapSvg.querySelector(".node.sel"); if (n) n.focus({ preventScroll: true }); }
     if (opts.history !== false) saveHistory(previous === id || Boolean(opts.replace && previous));
     if (opts.card) readSelected();
+    else if (opts.mapActivation && desktopActivation) {
+      const heading = $(".pane h3", mounts.map);
+      const box = heading.getBoundingClientRect();
+      if (box.top < readerInset(heading) || box.bottom > innerHeight) revealReaderTarget($(".pane .head", mounts.map));
+    }
     else if (opts.reveal) mounts.map.scrollIntoView({ behavior: SMOOTH, block: "start" });
   }
-  const stepSequence = () => state.route ? routeAvailable() : matches().map((e) => e.id);
+  const stepSequence = () => state.route ? routeAvailable() : browseEvents().map((e) => e.id);
   function step(dir, fromId = state.selected || state.focus, opts = { focus: true }) {
     const seq = stepSequence();
     if (!seq.length) return;
     const index = seq.indexOf(fromId);
     const next = index < 0 ? (dir > 0 ? 0 : seq.length - 1) : index + dir;
-    if (next >= 0 && next < seq.length) select(seq[next], { ...opts, keepEra: Boolean(state.route) });
+    if (next >= 0 && next < seq.length) select(seq[next], { ...opts, keepEra: true });
   }
-  // Back to the unselected map: every event lit, no connection arc, no card in the reader column.
-  function clearSelection(focusMap = false) {
+  // Keep the current scope when leaving an event or connection.
+  function clearSelection(showMap = false) {
     if (!state.selected) return;
+    saveHistory(true, true);
     state.selected = null;
     renderMap(); renderPane(); saveHistory();
-    if (focusMap) mapSvg.querySelector('.node[tabindex="0"]')?.focus({ preventScroll: true });
+    if (showMap) revealMap();
   }
   // Returns true when the edit closed the open card; that step gets its own history entry so Back can reopen it.
   function reconcileSelection() {
@@ -950,10 +1199,16 @@
     return false;
   }
   function resetView() {
+    const resetFocused = document.activeElement.dataset.act === "clear";
+    saveHistory(true, true);
     state.selected = null; state.focus = null; state.connection = null; connectionHover = null; connectionFocus = null; state.route = null; state.org = null; state.query = ""; state.queryInput = "";
     state.era = null; if (state.profileDock === "timeline") { state.profile = null; state.affiliationIndex = null; renderProfile(); } state.zoom = 1; state.lanes = new Set(D.lanes.map((l) => l.id));
     syncControls(); renderMap(); renderPane();
     mapScroll.scrollLeft = layout.X(DEFAULT_START) - 30; updateOverview(); saveHistory();
+    if (resetFocused) {
+      revealReaderTarget($(".controls", mounts.map));
+      $("#atlas-search")?.focus({ preventScroll: true });
+    }
   }
 
   /* ---------- controls ---------- */
@@ -961,18 +1216,71 @@
     const c = $(".controls", mounts.map);
     c.innerHTML = `
       <input class="search" id="atlas-search" type="search" placeholder="Search events" aria-label="Search events" value="${esc(state.queryInput)}">
-      <div class="group" role="group" aria-label="Lanes">${D.lanes.map((l) => `<button class="atlas-btn" data-lane="${l.id}" aria-pressed="${state.lanes.has(l.id)}"><span class="dot" style="background:${lc(l.id)}"></span>${esc(l.short || l.title)}</button>`).join("")}</div>
+      <details class="lane-filter">
+        <summary class="atlas-btn">Lanes<span class="lane-filter-count" aria-hidden="true" hidden></span></summary>
+        <div class="group" role="group" aria-label="Lanes">${D.lanes.map((l) => `<button type="button" class="atlas-btn" data-lane="${l.id}" aria-pressed="${state.lanes.has(l.id)}"><span class="dot" style="background:${lc(l.id)}"></span>${esc(l.short || l.title)}</button>`).join("")}</div>
+      </details>
       <div class="group" role="group" aria-label="Zoom"><button class="atlas-btn" data-zoom="-1" aria-label="Zoom out">−</button><button class="atlas-btn" data-zoom="1" aria-label="Zoom in">+</button></div>
-      <button type="button" class="text-button reset-view" data-act="clear" style="visibility:hidden">Reset view</button>
+      <button type="button" class="text-button reset-view" data-act="clear" hidden>Reset view</button>
       `;
+    const laneFilter = $(".lane-filter", c), summary = $("summary", laneFilter);
+    const compactLanes = matchMedia("(max-width: 560px)");
+    const syncLaneDisclosure = () => {
+      const focused = document.activeElement;
+      laneFilter.open = !compactLanes.matches;
+      if (compactLanes.matches && laneFilter.contains(focused)) summary.focus({ preventScroll: true });
+      if (!compactLanes.matches && focused === summary) $("[data-lane]", laneFilter)?.focus({ preventScroll: true });
+    };
+    syncLaneDisclosure();
+    compactLanes.addEventListener("change", syncLaneDisclosure);
     syncControls();
     $("#atlas-search").addEventListener("input", (ev) => { state.queryInput = ev.target.value; state.query = state.queryInput.trim(); state.era = null; const closed = reconcileSelection(); syncControls(); renderMap(); renderPane(); saveHistory(!closed); });
   }
   function syncControls() {
     const q = $("#atlas-search"); if (q && q.value !== state.queryInput) q.value = state.queryInput;
     document.querySelectorAll("[data-lane]").forEach((b) => b.setAttribute("aria-pressed", state.lanes.has(b.dataset.lane)));
+    const laneCount = $(".lane-filter-count", mounts.map);
+    const totalLanes = D.lanes.length, visibleLanes = state.lanes.size;
+    laneCount.hidden = visibleLanes === totalLanes;
+    laneCount.textContent = `${visibleLanes}/${totalLanes}`;
+    laneCount.parentElement.setAttribute("aria-label", laneCount.hidden ? "Lanes" : `Lanes, ${visibleLanes} of ${totalLanes} visible`);
     // aria-disabled keeps the button focusable at a limit, so keyboard focus does not drop out of the toolbar.
     mounts.map?.querySelectorAll("[data-zoom]").forEach((b) => b.setAttribute("aria-disabled", String(Number(b.dataset.zoom) > 0 ? state.zoom >= ZOOM_MAX : state.zoom <= ZOOM_MIN)));
+  }
+
+  function collapseComputeGuide() {
+    // The expanded table can pull the sticky plot above the viewport while the reader is open.
+    const guide = $(".compute-guide[open]", mounts.map);
+    if (guide) guide.open = false;
+  }
+  function computeGuide(compute) {
+    if (!compute) return "";
+    // A model can be both a selected dot and a step on the running maximum.
+    const records = new Map();
+    for (const [points, series] of [[compute.points, "Selected model"], [compute.frontier_points, "Running maximum"]]) {
+      for (const point of points || []) {
+        const key = JSON.stringify([point.date, point.model, point.flop]);
+        if (!records.has(key)) records.set(key, { ...point, series: [] });
+        records.get(key).series.push(series);
+      }
+    }
+    const rows = [...records.values()].sort((a, b) => a.date.localeCompare(b.date) || a.model.localeCompare(b.model));
+    return `<details class="compute-guide">
+      <summary>Training compute · data and scale</summary>
+      <p>Dots mark selected models. The line steps up when a training run exceeds every earlier estimate in the November 2026 snapshot. The series excludes models with no estimate.</p>
+      <p>Each tick on the vertical axis is a power of ten. The range adjusts as you pan. Slashes on the time axis mark a change in the space given to each year.</p>
+      <div class="compute-table-scroll" role="region" aria-label="Training compute estimates" tabindex="0">
+        <table><caption class="sr-only">Documented training compute by publication date. Each row identifies its mark on the chart.</caption>
+        <thead><tr><th scope="col">Model</th><th scope="col">Publication date</th><th scope="col">Estimated FLOP</th></tr></thead>
+        <tbody>${rows.map(point => {
+          const [base, exponent] = point.flop.toExponential(2).split("e");
+          return `<tr><th scope="row">${esc(point.model)}<small>${point.series.join(" · ")}</small></th>
+            <td>${esc(point.date)}</td><td><span aria-hidden="true">${Number(base)} × 10<sup>${Number(exponent)}</sup></span><span class="sr-only">${Number(base)} times ten to the power ${Number(exponent)}</span><small>${esc(point.confidence || "")}</small></td></tr>`;
+        }).join("")}</tbody></table>
+      </div>
+      <p>Confidence labels come from Epoch AI and can reflect uncertainty in compute, parameter count or dataset size. H100 hours assume 40% of one H100 SXM GPU’s dense BF16 peak of 989 TFLOP/s.</p>
+      <p><a href="${esc(compute.source_url || "https://epoch.ai/data/ai-models")}" target="_blank" rel="noopener">Epoch AI model data</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>
+    </details>`;
   }
 
   function mountMap() {
@@ -981,10 +1289,11 @@
     m.innerHTML = `<div class="controls"></div><div class="context"></div><nav class="workspace-switch" aria-label="Timeline reading"><button type="button" class="text-button" data-act="locate">↑ Map</button><button type="button" class="card-chip" hidden></button></nav><div class="timeline-workspace"><section class="chart-column" aria-label="History map">
       <div class="era-nav" id="every-event-by-era"></div><div class="navigator"><span class="window-years sr-only"></span><svg class="overview" viewBox="0 0 1000 52" preserveAspectRatio="none" role="img" aria-label="Whole timeline and current map window"></svg><div class="overview-axis" aria-hidden="true">${[1960, 1980, 2000, 2020].filter((y) => y >= Y0).map((y) => `<span style="left:${1.2 + (y - Y0) / (2027.1 - Y0) * 97.6}%">${y}</span>`).join("")}</div><div class="overview-range"><label for="atlas-year" class="sr-only">Jump to year</label><input id="atlas-year" type="range" min="${Math.ceil(Y0)}" max="2026" step="1" value="2017"></div></div>
       <div class="map"><div class="map-labels"></div><div class="map-scroll" tabindex="0" aria-label="Timeline, scroll sideways"><svg role="group" aria-label="Timeline of AI in four lanes. Use the left and right arrow keys to move between events."></svg></div></div>
-      ${D.compute ? `<p class="map-credit">Compute estimates: <a href="${esc(D.compute.source_url || "https://epoch.ai/data/ai-models")}" target="_blank" rel="noopener">Epoch AI</a>, CC BY 4.0. H100 time assumes 40% of the H100 SXM dense BF16 peak of 989 TFLOP/s; real runs reach roughly 30–45% (Llama 3.1 405B: 3.8×10<sup>25</sup> FLOP in 30.84M H100 hours, about 35%).</p>` : ""}</section><section class="reader-column" aria-label="Event browser and selected event"><div class="search-results"></div><div class="profile-dock" hidden></div><div class="pane-host"></div></section></div><div class="tip" id="atlas-preview" role="tooltip" hidden></div><div class="sr-only" aria-live="polite"></div>`;
+      ${computeGuide(D.compute)}</section><section class="reader-column" aria-label="Event browser and selected event"><div class="search-results"></div><div class="profile-dock" hidden></div><div class="pane-host"></div></section></div><div class="tip" id="atlas-preview" role="tooltip" hidden></div><div class="sr-only" aria-live="polite"></div>`;
     $(".card-chip", m).addEventListener("click", readSelected);
-    let chipRaf = 0; addEventListener("scroll", () => { if (!chipRaf) chipRaf = requestAnimationFrame(() => { chipRaf = 0; updateChip(); updateSwitchInset(); }); }, { passive: true });
-    document.getElementById("quarto-header")?.addEventListener("transitionend", updateSwitchInset);
+    let chipRaf = 0; addEventListener("scroll", () => { if (!chipRaf) chipRaf = requestAnimationFrame(() => { chipRaf = 0; updateChip(); updateSwitchInset(); settleReaderReveal(); }); }, { passive: true });
+    document.getElementById("quarto-header")?.addEventListener("transitionend", updateWorkspaceSticky);
+    for (const input of ["wheel", "pointerdown", "keydown"]) addEventListener(input, cancelReaderReveal, { passive: true, capture: true });
     mapSvg = $(".map svg", m); overview = $(".overview", m); mapScroll = $(".map-scroll", m); labelsCol = $(".map-labels", m); tip = $(".tip", m);
     renderControls();
     overview.addEventListener("pointerdown", (ev) => { if (ev.button !== 0) return; const r = overview.getBoundingClientRect(); jumpYear(Y0 + Math.max(0, Math.min(1, (ev.clientX - r.left - r.width * .012) / (r.width * .976))) * (2027.1 - Y0)); });
@@ -1042,7 +1351,7 @@
             if (f) rel = `${REL[f.type].toLowerCase()} the step above${f.note ? ": " + f.note : ""}`;
             else if (b) rel = `${REL_IN[b.type].toLowerCase()} the step above${b.note ? ": " + b.note : ""}`;
           }
-          return `<li><span class="yr">${e.date_sort.slice(0, 4)}</span><span class="rail"><i style="background:${lc(e.lane)}"></i></span><div class="st">${rel ? `<p class="rel">${prose(rel)}</p>` : ""}<a href="#${esc(id)}" data-ev-reveal="${esc(id)}">${esc(e.title)}</a>${routeStepText(e)}</div></li>`;
+          return `<li><span class="yr">${e.date_sort.slice(0, 4)}</span><span class="rail"><i style="background:${lc(e.lane)}"></i></span><div class="st">${rel ? `<p class="rel">${prose(rel)}</p>` : ""}<a href="#${esc(t.id)}/${esc(id)}" data-route="${esc(t.id)}" data-route-entry="${esc(id)}">${esc(e.title)}</a>${routeStepText(e)}</div></li>`;
         }).join("")}</ol>
       </div></div>`;
   }
@@ -1060,33 +1369,150 @@
     if (/openai|anthropic|deepmind|google|baidu|xai|meta|superintelligence|keen/i.test(org)) return "lab";
     return "other";
   }
-  // Chart labels are 11px in the page's sans face (atlas.css .people-chart .lb); measure them rather than guess.
+  // Chart labels are 12px in the page's sans face (atlas.css .people-chart .lb); measure them rather than guess.
   let labelCtx = null;
   function measureLabel(text) {
-    if (!labelCtx) { labelCtx = document.createElement("canvas").getContext("2d"); if (labelCtx) labelCtx.font = `11px ${getComputedStyle(mounts.people || document.body).getPropertyValue("--sans").trim() || "sans-serif"}`; }
+    if (!labelCtx) { labelCtx = document.createElement("canvas").getContext("2d"); if (labelCtx) labelCtx.font = `12px ${getComputedStyle(mounts.people || document.body).getPropertyValue("--sans").trim() || "sans-serif"}`; }
     return labelCtx ? labelCtx.measureText(text).width : text.length * 5.9;
   }
   function shortenLabel(text, room) {
     if (measureLabel(text) <= room) return text;
-    let n = text.length - 1;
-    while (n >= 3 && measureLabel(`${text.slice(0, n).trimEnd()}…`) > room) n--;
-    return n >= 3 ? `${text.slice(0, n).trimEnd()}…` : "";
+    let first = 3, last = text.length - 1, visible = "";
+    while (first <= last) {
+      const length = (first + last) >> 1, shortened = `${text.slice(0, length).trimEnd()}…`;
+      if (measureLabel(shortened) <= room) { visible = shortened; first = length + 1; }
+      else last = length - 1;
+    }
+    return visible;
   }
+  function mountProfilePicker(picker) {
+    const search = $("input", picker), results = $(".profile-results", picker), status = $(".sr-only", picker);
+    const index = profileRecords.map((r) => ({
+      ...r, nameKey: normalizeSearch(r.name), matchText: normalizeSearch(r.indexText.join(" ")), curated: curatedProfileKeys.has(r.key),
+    }));
+    let previousQuery;
+    const showResults = () => {
+      const query = normalizeSearch(search.value.trim()), words = query.split(/\s+/).filter(Boolean);
+      if (query !== previousQuery) {
+        const rank = (r) => r.nameKey === query ? 0 : r.nameKey.startsWith(query) ? 1 : r.nameKey.includes(query) ? 2 : 3;
+        const list = index.filter((r) => words.length ? words.every((word) => r.matchText.includes(word)) : r.curated)
+          .sort((a, b) => rank(a) - rank(b) || Number(b.curated) - Number(a.curated) || a.name.localeCompare(b.name));
+        results.innerHTML = list.length ? list.map((r) => `<button type="button" class="profile-result" data-profile="${esc(r.key)}" aria-controls="atlas-profile"><span>${esc(r.name)}</span><small>${r.kind}</small></button>`).join("")
+          : '<p>No matching profiles.</p>';
+        previousQuery = query;
+      }
+      results.hidden = false;
+      status.textContent = `${results.querySelectorAll("button").length} matching profiles.`;
+    };
+    search.addEventListener("focus", showResults);
+    search.addEventListener("click", showResults);
+    search.addEventListener("input", showResults);
+    // Keep the results open until a mouse click reaches the selected button.
+    results.addEventListener("mousedown", (ev) => { if (ev.target.closest("button")) ev.preventDefault(); });
+    picker.addEventListener("focusout", (ev) => { if (!picker.contains(ev.relatedTarget)) results.hidden = true; });
+    picker.addEventListener("keydown", (ev) => {
+      if (ev.key === "Escape" && !results.hidden) {
+        ev.preventDefault(); ev.stopPropagation();
+        if (document.activeElement !== search) search.focus({ preventScroll: true });
+        results.hidden = true;
+      } else if ((ev.key === "Enter" || ev.key === "ArrowDown") && ev.target === search && !ev.isComposing) {
+        showResults();
+        const first = $("button", results);
+        if (first) { ev.preventDefault(); if (ev.key === "Enter") first.click(); else first.focus(); }
+      }
+    });
+  }
+
   function renderPeople() {
     const m = mounts.people;
-    if (!m) return;
-    if (!D.people.length && !D.orgs.length) { m.innerHTML = ""; return; }
-    const previousQuery = $("#atlas-org-search", m)?.value || "";
-    const pendingChoice = $("#atlas-profile-select", m)?.dataset.choice || "";
-    const chartScroll = $(".people-chart", m)?.scrollLeft || 0, searchFocused = document.activeElement === $("#atlas-org-search", m);
-    // On wide screens the profile column is always reserved, so opening or closing a profile never reflows the chart.
-    const split = innerWidth > 1050;
-    // A hidden panel measures 0 wide; size it from the map's mount, which shares the column, and redraw when the tab opens.
-    const mountWidth = m.clientWidth || mounts.map?.clientWidth || innerWidth; m.dataset.width = m.clientWidth ? String(m.clientWidth) : "";
-    const available = mountWidth - 25.6;
-    const chartWidth = split ? available - Math.max(368, available / 2.55) : mountWidth;
-    const A = 1995, NOW = 2026.85, NAME = 148, W = Math.round(innerWidth > 1050 ? chartWidth : Math.max(680, chartWidth)), BAR = 15, GAP = 4;
-    const px = (y) => NAME + ((Math.max(A, Math.min(NOW, y)) - A) / (NOW - A)) * (W - NAME - 46);
+    if (!m || (!D.people.length && !D.orgs.length)) return;
+    if (!$(".people-workspace", m)) {
+      m.innerHTML = `<div class="profile-picker"><label for="atlas-org-search">Find a person or organisation</label><input id="atlas-org-search" class="search" type="search" placeholder="Name, affiliation or research area" aria-controls="atlas-profile-results" autocomplete="off"><div id="atlas-profile-results" class="profile-results" role="group" aria-label="Matching profiles" hidden></div><span class="sr-only" role="status"></span></div><div class="people-workspace"><div class="people-chart-column"></div><div class="people-profile-dock"></div></div>`;
+      mountProfilePicker($(".profile-picker", m));
+      const dock = $(".people-profile-dock", m);
+      new IntersectionObserver(() => updateProfileSheetVisibility(m, dock)).observe(m);
+      // Reuse the inspector when it is docked beside a map card.
+      profilePanel = document.createElement("section"); profilePanel.className = "profile-panel";
+    }
+    renderProfile();
+  }
+
+  function updateProfileSheetVisibility(people, dock) {
+    if (!dock.classList.contains("is-sheet")) return;
+    const box = people.getBoundingClientRect();
+    // Observer entries can lag a tab switch. Use the current geometry before focusing the profile.
+    dock.classList.toggle("offscreen", state.tab !== "people" || box.bottom <= 0 || box.top >= innerHeight);
+  }
+
+  let peopleChartFocus, peopleChartWidth = 0;
+  function bindPeopleChart(chart) {
+    const controls = [...chart.querySelectorAll("[data-chart-row]")];
+    const rows = new Map();
+    controls.forEach((control) => {
+      const row = control.dataset.chartRow;
+      if (!rows.has(row)) rows.set(row, []);
+      rows.get(row).push(control);
+    });
+    const setFocus = (control) => {
+      if (!control) return;
+      for (const item of controls) item.tabIndex = item === control ? 0 : -1;
+      peopleChartFocus = { profile: control.dataset.profile, affiliation: control.dataset.affiliation };
+    };
+    const previous = controls.find((c) => c.dataset.profile === peopleChartFocus?.profile && c.dataset.affiliation === peopleChartFocus?.affiliation);
+    setFocus(previous || controls[0]);
+    chart.addEventListener("focusin", (ev) => { if (ev.target.dataset.chartRow != null) setFocus(ev.target); });
+    chart.addEventListener("keydown", (ev) => {
+      const row = ev.target.dataset.chartRow, items = rows.get(row);
+      if (!items || !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(ev.key)) return;
+      ev.preventDefault();
+      const next = ev.key === "ArrowUp" || ev.key === "ArrowDown"
+        ? rows.get(String(Number(row) + (ev.key === "ArrowUp" ? -1 : 1)))?.[0]
+        : items[items.indexOf(ev.target) + (ev.key === "ArrowLeft" ? -1 : 1)];
+      if (!next) return;
+      if (next.dataset.affiliation != null) {
+        const scroller = $(".people-scroll", chart).getBoundingClientRect(), target = next.querySelector(".role-bar").getBoundingClientRect();
+        if (target.left < scroller.left || target.right > scroller.right) $(".people-scroll", chart).scrollLeft += (target.left + target.right - scroller.left - scroller.right) / 2;
+      }
+      next.focus();
+    });
+    return previous;
+  }
+
+  function keepAffiliationLabelsVisible(scroller, initialLeft) {
+    const labels = [...scroller.querySelectorAll(".lb:not(.out)")].map((label) => {
+      const bar = $(".role-bar", label.parentElement), x = Number(label.getAttribute("x"));
+      return { label, x, end: Number(bar.getAttribute("x")) + Number(bar.getAttribute("width")), text: label.textContent, width: measureLabel(label.textContent) };
+    });
+    const update = (left) => {
+      const right = left + scroller.clientWidth;
+      for (const { label, x, end, text, width } of labels) {
+        if (end <= left || x >= right) continue;
+        const start = Math.max(x, left + 5), room = Math.min(end, right) - start - 4;
+        label.setAttribute("x", start);
+        const visible = room >= width ? text : shortenLabel(text, room);
+        if (label.textContent !== visible) label.textContent = visible;
+      }
+    };
+    let frame;
+    scroller.addEventListener("scroll", () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => { frame = null; update(scroller.scrollLeft); });
+    }, { passive: true });
+    update(initialLeft);
+  }
+
+  function renderPeopleChart() {
+    const m = mounts.people, column = $(".people-chart-column", m), width = column.clientWidth;
+    if (!width || !D.people.length || (width === peopleChartWidth && String(m.clientWidth) === m.dataset.width)) return;
+    peopleChartWidth = width; m.dataset.width = String(m.clientWidth);
+    const oldChart = $(".people-chart", column), oldScroll = $(".people-scroll", column);
+    const chartHadFocus = oldChart?.contains(document.activeElement);
+    const previousScroll = oldScroll?.scrollLeft || 0;
+    const atRecent = !oldScroll || oldScroll.scrollWidth - oldScroll.clientWidth - previousScroll < 2;
+    const compact = matchMedia("(max-width: 560px)").matches, touch = matchMedia("(pointer: coarse)").matches;
+    const namesWidth = compact ? Math.round(Math.min(112, width * .32)) : 146;
+    const A = 1995, NOW = 2026.85, START = 17, W = Math.max(570, width - namesWidth), BAR = touch ? 18 : 16, GAP = touch ? 6 : 4;
+    const px = (y) => START + ((Math.max(A, Math.min(NOW, y)) - A) / (NOW - A)) * (W - START - 30);
     const span = (a) => { const f = yearOfStr(a.from || A); let t = a.to ? yearOfStr(a.to) : NOW; if (a.to && /^\d{4}\??$/.test(String(a.to))) t += 1; if (!isFinite(t)) t = NOW; return [isFinite(f) ? f : A, Math.max(t, f + 0.25)]; };
     const people = D.people.map((p) => {
       const roles = (p.affiliations || []).map((a, index) => ({ ...a, index, s: span(a) })).sort((a, b) => a.s[0] - b.s[0]);
@@ -1094,15 +1520,16 @@
       roles.forEach((r) => { let k = ends.findIndex((e) => e <= r.s[0] + 0.01); if (k < 0) { k = ends.length; ends.push(0); } ends[k] = r.s[1]; r.track = k; });
       return { ...p, roles, tracks: Math.max(1, ends.length), first: roles.length ? roles[0].s[0] : 2100 };
     }).sort((a, b) => a.first - b.first);
-    let y = 30; const rows = people.map((p) => { const top = y; y += p.tracks * (BAR + GAP) + 9; return top; });
+    let y = 30;
+    const rows = people.map((p) => { const top = y; y += Math.max(compact || touch ? 44 : 29, p.tracks * (BAR + GAP) + 9); return { top, height: y - top }; });
     const H = y + 4;
-    let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Researcher affiliations, 1995 to 2026. Select a name or affiliation to open its profile."><defs><pattern id="atlas-kind-hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="4" style="fill:var(--ink-2);fill-opacity:.06"/><line x1="0" y1="0" x2="0" y2="4" style="stroke:var(--ink-2);stroke-opacity:.5;stroke-width:1.2"/></pattern></defs>`;
-    for (let yr = 2000; yr <= 2025; yr += 5) svg += `<line x1="${px(yr)}" x2="${px(yr)}" y1="20" y2="${H}" class="gl"/><text x="${px(yr)}" y="13" text-anchor="middle" class="yr">${yr}</text>`;
-    svg += `<line x1="${px(NOW)}" x2="${px(NOW)}" y1="20" y2="${H}" class="now"/><text x="${px(NOW)}" y="13" text-anchor="middle" class="yr">now</text>`;
-    people.forEach((p, i) => {
-      const top = rows[i], h = p.tracks * (BAR + GAP) - GAP;
-      if (i) svg += `<line x1="0" x2="${W}" y1="${top - 5}" y2="${top - 5}" class="sep"/>`;
-      svg += `<text x="0" y="${top + 11.5}" class="nm" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" aria-label="Open profile: ${esc(p.name)}">${esc(p.name)}</text>`;
+    let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Affiliation periods"><defs><pattern id="atlas-kind-hatch" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="4" style="fill:var(--ink-2);fill-opacity:.06"/><line x1="0" y1="0" x2="0" y2="4" style="stroke:var(--ink-2);stroke-opacity:.5;stroke-width:1.2"/></pattern><pattern id="atlas-kind-dots" width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".75" style="fill:var(--ink-2);fill-opacity:.55"/></pattern></defs>`;
+    for (let yr = A; yr <= 2025 && px(NOW) - px(yr) >= 38; yr += 5) svg += `<line x1="${px(yr)}" x2="${px(yr)}" y1="20" y2="${H}" class="gl"/><text x="${px(yr)}" y="13" text-anchor="middle" class="yr">${yr}</text>`;
+    svg += `<line x1="${px(NOW)}" x2="${px(NOW)}" y1="20" y2="${H}" class="now"/><text x="${px(NOW)}" y="13" text-anchor="middle" class="yr">2026</text>`;
+    const names = people.map((p, i) => `<button type="button" class="nm" data-profile="person:${esc(personId(p))}" data-chart-row="${i}" aria-label="Open profile for ${esc(p.name)}" style="top:${rows[i].top - 5}px;height:${rows[i].height}px">${esc(p.name)}</button>`).join("");
+    people.forEach((p, row) => {
+      const { top } = rows[row];
+      if (row) svg += `<line x1="0" x2="${W}" y1="${top - 5}" y2="${top - 5}" class="sep"/>`;
       const byTrack = {};
       p.roles.forEach((r) => {
         r.x1 = px(r.s[0]); r.x2 = px(r.s[1]); r.open = !r.to; r.end = r.x2 + (r.open ? 3.5 : 0); r.barW = Math.max(3, r.x2 - r.x1 - 1.5);
@@ -1115,7 +1542,7 @@
       // track is free, else shortened into the widest free gap. The full name stays in the title and aria-label.
       Object.values(byTrack).forEach((track) => {
         const occupied = track.map((r) => (r.box = [r.x1, r.end]));
-        const free = (a, b) => a >= NAME + 2 && b <= W - 2 && occupied.every(([l, rr]) => b + 3 <= l || a - 3 >= rr);
+        const free = (a, b) => a >= START + 2 && b <= px(NOW) - 2 && occupied.every(([l, rr]) => b + 3 <= l || a - 3 >= rr);
         const place = (r, label) => { r.label = label; if (label.out) occupied.push([label.a, label.b]); };
         track.forEach((r) => { if (r.textW + 10 <= r.barW) place(r, { text: r.name, x: r.x1 + 5 }); });
         // Open-ended bars can only take a label on their left, so they claim space first.
@@ -1125,8 +1552,8 @@
           if (free(r.x1 - 4 - w, r.x1 - 4)) return place(r, { text: r.name, x: r.x1 - 4, anchor: "end", out: true, a: r.x1 - 4 - w, b: r.x1 - 4 });
           // Bars on a track touch end to start, so neighbours are told apart by side, not by a coordinate margin.
           const others = occupied.filter((o) => o !== r.box), mid = (r.x1 + r.end) / 2;
-          const rightEdge = r.open ? r.x2 + 4 : Math.min(W - 2, ...others.filter(([l, rr]) => l + rr > 2 * mid).map(([l]) => l - 3));
-          const leftEdge = Math.max(NAME + 2, ...others.filter(([l, rr]) => l + rr < 2 * mid).map(([, rr]) => rr + 3));
+          const rightEdge = r.open ? r.x2 + 4 : Math.min(px(NOW) - 2, ...others.filter(([l, rr]) => l + rr > 2 * mid).map(([l]) => l - 3));
+          const leftEdge = Math.max(START + 2, ...others.filter(([l, rr]) => l + rr < 2 * mid).map(([, rr]) => rr + 3));
           const slots = [{ room: r.barW - 9, x: r.x1 + 5 }, { room: rightEdge - (r.x2 + 4), x: r.x2 + 4, out: true }, { room: r.x1 - 4 - leftEdge, x: r.x1 - 4, anchor: "end", out: true }].sort((s1, s2) => s2.room - s1.room);
           const text = shortenLabel(r.name, slots[0].room);
           if (text) { const tw = measureLabel(text), s = slots[0]; place(r, { ...s, text, a: s.anchor ? s.x - tw : s.x, b: s.anchor ? s.x : s.x + tw }); }
@@ -1137,36 +1564,28 @@
         // Hit areas stop halfway to the neighbouring bars, so a click always selects the bar under the pointer.
         const track = byTrack[r.track], i = track.indexOf(r), prev = track[i - 1], next = track[i + 1], mid = (x1 + r.end) / 2;
         const hitL = Math.max(Math.min(x1 - 4, mid - 8), prev ? (prev.end + x1) / 2 : -Infinity), hitR = Math.min(Math.max(r.end + 4, mid + 8), next ? (r.end + next.x1) / 2 : Infinity);
-        svg += `<g class="role${r.uncertain ? " unsure" : ""}" tabindex="0" role="button" data-profile="person:${esc(personId(p))}" data-affiliation="${r.index}" data-org-key="${esc(orgKeyFor(r.org) || "")}" aria-label="${esc(p.name)} at ${esc(r.org)}, ${esc(roleDate(r.from) || "start unknown")} to ${esc(roleDate(r.to) || "present")}${r.uncertain ? ", dates uncertain" : ""}. Open affiliation details."><rect class="role-hit" x="${hitL}" y="${by - GAP / 2}" width="${Math.max(1, hitR - hitL)}" height="${BAR + GAP}"/><rect class="role-bar k-${tone}" x="${x1}" y="${by}" width="${r.barW}" height="${BAR}" rx="2.5"/>`;
+        svg += `<g class="role${r.uncertain ? " unsure" : ""}" tabindex="-1" role="button" data-chart-row="${row}" data-profile="person:${esc(personId(p))}" data-affiliation="${r.index}" data-org-key="${esc(orgKeyFor(r.org) || "")}" aria-label="${esc(p.name)} at ${esc(r.org)}, ${esc(roleDate(r.from) || "start unknown")} to ${esc(roleDate(r.to) || "present")}${r.uncertain ? ", dates uncertain" : ""}. Open affiliation details."><rect class="role-hit" x="${hitL}" y="${by - GAP / 2}" width="${Math.max(1, hitR - hitL)}" height="${BAR + GAP}"/><rect class="role-bar k-${tone}" x="${x1}" y="${by}" width="${r.barW}" height="${BAR}" rx="2.5"/>`;
         if (open) svg += `<path d="M${x2 - 1.5},${by} l5,${BAR / 2} l-5,${BAR / 2}" class="tip-arrow"/>`;
         if (r.clipped) svg += `<path d="M${x1 + 1.5},${by} l-5,${BAR / 2} l5,${BAR / 2}" class="tip-arrow"/>`;
-        if (r.label) svg += `<text x="${r.label.x}" y="${by + 11}"${r.label.anchor ? ` text-anchor="${r.label.anchor}"` : ""} class="lb${r.label.out ? " out" : ""}">${esc(r.label.text)}</text>`;
+        if (r.label) svg += `<text aria-hidden="true" x="${r.label.x}" y="${by + 11}"${r.label.anchor ? ` text-anchor="${r.label.anchor}"` : ""} class="lb${r.label.out ? " out" : ""}">${esc(r.label.text)}</text>`;
         svg += `</g>`;
       });
     });
     svg += `</svg>`;
-    const kinds = [["lab", "Lab"], ["nonprofit", "Nonprofit research"], ["academic", "Academic"], ["government", "Government"], ["other", "Other"]];
-    m.innerHTML = `<div class="profile-picker"><label for="atlas-org-search">Find a person or organisation</label><input id="atlas-org-search" type="search" placeholder="Name, affiliation or research area" aria-controls="atlas-profile-select"><span id="atlas-org-count" aria-live="polite"></span><div class="profile-choice"><select id="atlas-profile-select" aria-label="Choose a person or organisation"></select><button type="button" class="atlas-btn" data-act="open-profile-choice">Open profile</button></div></div><div class="people-workspace${split ? " has-profile" : ""}"><div>${people.length ? `<div class="people-chart">${svg}</div><div class="legend">${kinds.map(([t, n]) => `<span><i class="k-${t}"></i>${n}</span>`).join("")}</div>` : ""}</div><div class="people-profile-dock"></div></div>`;
-    // Reuse the single inspector even when it is docked outside this mount.
-    profilePanel ||= document.createElement("section"); profilePanel.className = "profile-panel"; profilePanel.setAttribute("aria-label", "Selected profile");
-    const filterProfiles = () => {
-      const words = $("#atlas-org-search", m).value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-      const list = (words.length ? allProfileRecords : profileRecords).filter((r) => words.every((w) => r.text.toLowerCase().includes(w)));
-      const curated = new Set(profileRecords.map((r) => r.key));
-      const select = $("#atlas-profile-select", m);
-      select.innerHTML = list.length ? '<option value="">Choose a profile…</option>' + ["Person", "Organisation"].map((kind) => `<optgroup label="${kind === "Person" ? "People" : "Organisations"}">${list.filter((r) => r.kind === kind).sort((a, b) => Number(curated.has(b.key)) - Number(curated.has(a.key)) || a.name.localeCompare(b.name)).map((r) => `<option value="${esc(r.key)}">${esc(r.name)}</option>`).join("")}</optgroup>`).join("") : '<option value="">No matching profiles</option>';
-      // The picker shows the open profile, or the reader's unopened choice; with neither it shows its prompt, not a stale name.
-      const choice = select.dataset.choice || state.profile || "";
-      select.value = list.some((r) => r.key === choice) ? choice : "";
-      select.disabled = !list.length; $("[data-act=\"open-profile-choice\"]", m).disabled = !list.length;
-      $("#atlas-org-count", m).textContent = `${list.length} profile${list.length === 1 ? "" : "s"}`;
-    };
-    $("#atlas-profile-select", m).dataset.choice = pendingChoice;
-    $("#atlas-profile-select", m).addEventListener("change", (ev) => { ev.target.dataset.choice = ev.target.value; });
-    $("#atlas-org-search", m).value = previousQuery;
-    $("#atlas-org-search", m).addEventListener("input", filterProfiles); filterProfiles(); renderProfile();
-    const chart = $(".people-chart", m); if (chart) chart.scrollLeft = chartScroll;
-    if (searchFocused) $("#atlas-org-search", m).focus({ preventScroll: true });
+    const kinds = [["lab", "Lab"], ["nonprofit", "Nonprofit research"], ["academic", "Academic"], ["government", "Government"], ["other", "Other"], ["uncertain", "Dates uncertain"]];
+    column.innerHTML = `<div class="people-chart-head"><h3 id="atlas-people-heading">Researcher affiliations</h3><div class="people-range" role="group" aria-label="Years in view" hidden><button type="button" class="text-button" data-years="earlier" aria-label="Show earlier years" aria-controls="atlas-people-years">← Earlier</button><button type="button" class="text-button" data-years="recent" aria-label="Show recent years" aria-controls="atlas-people-years">Recent →</button></div></div><div class="legend" aria-label="Affiliation chart legend">${kinds.map(([t, n]) => `<span><i class="k-${t}" aria-hidden="true"></i>${n}</span>`).join("")}</div><p id="atlas-people-keys" class="sr-only">Use the up and down arrow keys to move between researchers and the left and right arrow keys for their affiliations.</p><div class="people-chart" role="group" aria-labelledby="atlas-people-heading" aria-describedby="atlas-people-keys" style="--name-width:${namesWidth}px"><div class="people-names">${names}</div><div class="people-scroll" id="atlas-people-years" tabindex="-1">${svg}</div></div>`;
+    const chart = $(".people-chart", column), scroller = $(".people-scroll", column), range = $(".people-range", column);
+    const previous = bindPeopleChart(chart);
+    if (chartHadFocus) previous?.focus({ preventScroll: true });
+    const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+    range.hidden = maxScroll < 2;
+    range.addEventListener("click", (ev) => {
+      const button = ev.target.closest("[data-years]");
+      if (button) scroller.scrollTo({ left: button.dataset.years === "recent" ? maxScroll : 0, behavior: SMOOTH });
+    });
+    const initialLeft = atRecent ? maxScroll : Math.min(maxScroll, previousScroll);
+    scroller.scrollLeft = initialLeft;
+    if (maxScroll > 0) keepAffiliationLabelsVisible(scroller, initialLeft);
   }
 
   let profilePanel, profileTrigger = null;
@@ -1194,14 +1613,13 @@
     const timelineDock = mounts.map && $(".profile-dock", mounts.map), peopleDock = $(".people-profile-dock", mounts.people);
     const record = profileRecord(state.profile), active = Boolean(record);
     const workspace = $(".people-workspace", mounts.people);
-    if (workspace && workspace.classList.contains("has-profile") !== innerWidth > 1050) { renderPeople(); return; }
     const dock = active && state.profileDock === "timeline" && timelineDock ? timelineDock : peopleDock;
-    // The dock stays visible beside the chart on wide screens; on narrow ones it shows only when there is something to say,
-    // including the note that the profile is open beside the event card.
-    peopleDock.hidden = !(active || innerWidth > 1050);
-    // Below the split width the profile opens as a sheet over the chart instead of below all its rows, so nothing scrolls away.
     const sheet = active && dock === peopleDock && innerWidth <= 1050;
+    workspace.classList.toggle("has-profile", active && dock === peopleDock && !sheet);
+    peopleDock.hidden = !active || dock !== peopleDock;
+    renderPeopleChart();
     peopleDock.classList.toggle("is-sheet", sheet); workspace?.classList.toggle("sheet-open", sheet);
+    updateProfileSheetVisibility(mounts.people, peopleDock);
     dock.appendChild(profilePanel); if (timelineDock) {
       timelineDock.hidden = dock !== timelineDock || !active;
       timelineDock.querySelector(".profile-return")?.remove();
@@ -1215,8 +1633,8 @@
     if (dock !== peopleDock) peopleDock.innerHTML = "";
     else peopleDock.querySelector(":scope > .profile-placeholder")?.remove();
     document.querySelectorAll("[data-profile]").forEach((n) => {
-      const selected = n.dataset.profile === state.profile;
-      n.classList.toggle("profile-selected", selected && (n.dataset.affiliation == null || Number(n.dataset.affiliation) === state.affiliationIndex));
+      const selected = n.dataset.profile === state.profile && (n.dataset.affiliation == null || Number(n.dataset.affiliation) === state.affiliationIndex);
+      n.classList.toggle("profile-selected", selected);
       n.setAttribute("aria-expanded", String(selected)); n.setAttribute("aria-controls", "atlas-profile");
     });
     // An open organisation lights every affiliation bar that opens it.
@@ -1229,17 +1647,20 @@
       profilePanel.style.setProperty("--profile-max", `${Math.max(160, Math.min(innerHeight - workspaceInset() - 16, bottom - workspaceInset()))}px`);
     }
     const body = isPerson ? `${!record.known_for && !(record.affiliations || []).length ? '<p class="profile-kind">Related work in this atlas</p>' : ""}${record.known_for ? `<p>${esc(record.known_for)}</p>` : ""}${(record.affiliations || []).length ? '<h4>Affiliations</h4>' : ""}<ul class="profile-affiliations">${(record.affiliations || []).map((a, i) => `<li${state.affiliationIndex === i ? ' class="current"' : ""}>${orgLink(a.org)}<span class="num">${esc(roleDates(a))}</span></li>`).join("")}</ul>${relatedEvents([...(record.key_event_ids || []), ...D.events.filter((e) => (e.people || []).some((name) => name.toLowerCase() === record.name.toLowerCase())).map((e) => e.id)])}${profileSources(record.sources)}` : `<p class="profile-kind">${esc(record.kind || "Organisation")}${record.founded ? ` · Founded ${esc(roleDate(record.founded))}` : record.activity_since ? ` · Active since ${esc(record.activity_since)}` : ""}</p>${record.founded_context ? `<p class="date-context">${esc(record.founded_context)}</p>` : ""}${(record.founders || []).length ? `<p class="profile-founders">Founders: ${record.founders.map(personLink).join(", ")}</p>` : ""}${record.historical_role ? `<p>${esc(record.historical_role)}</p>` : ""}${(record.research_focus || []).length ? `<p class="profile-focus">Research: ${record.research_focus.map(esc).join(", ")}.</p>` : ""}${record.status_as_of_2026_11 ? `<p class="now">As of November 2026: ${esc(record.status_as_of_2026_11)}</p>` : ""}${(record.affiliations || []).length ? `<h4>People in this atlas</h4><ul class="profile-affiliations">${[...record.affiliations].sort((a, b) => (yearOfStr(a.from) || 9999) - (yearOfStr(b.from) || 9999) || a.person.localeCompare(b.person)).map((a) => { const role = (String(a.org).match(/\(([^)]*)\)\s*$/) || [])[1]; return `<li>${personLink(a.person)}${role ? ` <span class="profile-role">${esc(role)}</span>` : ""}<span class="num">${esc(roleDates(a))}</span></li>`; }).join("")}</ul>` : ""}${relatedEvents(record.key_event_ids || [])}${(record.key_event_ids || []).length ? `<button type="button" class="text-button" data-org="${esc(record.id)}">Show related events on the map →</button>` : ""}${profileSources(record.sources)}`;
-    profilePanel.innerHTML = `<div class="profile-head"><div><span class="eyebrow">${isPerson ? "Person" : "Organisation"}</span><h3 id="atlas-profile-title" tabindex="-1">${esc(record.name)}</h3></div><button type="button" class="profile-close" data-act="close-profile" aria-label="Close profile">×</button></div><div class="profile-body">${body}</div>`;
+    const affiliation = isPerson && record.affiliations?.[state.affiliationIndex];
+    const affiliationSummary = affiliation ? `<p class="profile-kind profile-affiliation-summary">${orgLink(affiliation.org)} · ${esc(roleDates(affiliation))}</p>` : "";
+    profilePanel.innerHTML = `<div class="profile-head"><div><span class="eyebrow">${isPerson ? "Person" : "Organisation"}</span><h3 id="atlas-profile-title" tabindex="-1">${esc(record.name)}</h3></div><button type="button" class="text-button profile-close" data-act="close-profile" aria-label="Close profile">Close</button></div><div class="profile-body">${affiliationSummary}${body}</div>`;
     profilePanel.setAttribute("aria-labelledby", "atlas-profile-title"); updateWorkspaceSticky();
   }
   function openProfile(key, options = {}) {
     if (!profileRecord(key)) return;
     if (options.history !== false) saveHistory(true, true);
-    // The same profile in another dock (beside a card instead of the chart) is a new view and gets its own history entry.
-    const same = state.profile === key && state.profileDock === (options.dock || "people"), pageY = scrollY, fromTab = state.tab;
-    const picker = $("#atlas-profile-select", mounts.people); if (picker) { picker.dataset.choice = key; picker.value = [...picker.options].some((o) => o.value === key) ? key : ""; }
-    state.profile = key; state.affiliationIndex = options.affiliationIndex == null ? null : Number(options.affiliationIndex);
-    state.profileDock = options.dock || "people"; setPanel(state.profileDock === "people" ? "people" : "map"); if (options.trigger && !options.trigger.closest(".profile-panel")) profileTrigger = options.trigger;
+    // Preserve the previous view when the dock or selected affiliation changes.
+    const affiliation = options.affiliationIndex == null ? null : Number(options.affiliationIndex);
+    const same = state.profile === key && state.profileDock === (options.dock || "people") && state.affiliationIndex === affiliation, pageY = scrollY, fromTab = state.tab;
+    state.profile = key; state.affiliationIndex = affiliation;
+    state.profileDock = options.dock || "people"; setPanel(state.profileDock === "people" ? "people" : "map");
+    if (!options.trigger || !options.trigger.closest(".profile-panel")) profileTrigger = options.trigger || null;
     // Only the panel and the selection marks change; rebuilding the chart here moved bars under the pointer and reset its scroll.
     renderProfile();
     profilePanel.scrollTop = 0; hideTip();
@@ -1252,8 +1673,6 @@
       const heading = $("h3", profilePanel), box = profilePanel.getBoundingClientRect();
       if (sheet) {
         if (fromTab !== "people") revealReaderTarget(document.getElementById(tabIds.people));
-        // A bar low on the screen moves up just enough to stay visible above the sheet.
-        else if (options.trigger?.closest(".people-chart")) { const below = options.trigger.getBoundingClientRect().bottom - profilePanel.getBoundingClientRect().top + 16; if (below > 0) scrollBy({ top: below, behavior: SMOOTH }); }
       }
       else if (!(inPeople && box.top < innerHeight && box.bottom > workspaceInset())) revealReaderTarget(profilePanel);
       if (options.focus !== false) heading.focus({ preventScroll: true });
@@ -1263,22 +1682,24 @@
     if (!state.profile) return;
     const pageY = scrollY, returnToEvent = state.profileDock === "timeline" && state.selected, preserveChart = state.profileDock === "people";
     state.profile = null; state.affiliationIndex = null;
-    const picker = $("#atlas-profile-select", mounts.people); if (picker) { picker.dataset.choice = ""; picker.value = ""; }
     renderProfile();
     hideTip();
     if (options.history !== false) saveHistory();
     if (options.focus !== false) {
-      const trigger = profileTrigger && profileTrigger.isConnected ? profileTrigger : profileTrigger?.dataset.profile ? [...mounts.people.querySelectorAll("[data-profile]")].find(n => n.dataset.profile === profileTrigger.dataset.profile && n.dataset.affiliation === profileTrigger.dataset.affiliation) : null;
-      if (returnToEvent) {
-        revealReaderTarget($(".pane .head", mounts.map));
-        (trigger || $(".pane h3", mounts.map))?.focus({ preventScroll: true });
-      } else (trigger || $("#atlas-profile-select", mounts.people))?.focus({ preventScroll: true });
+      const source = preserveChart ? mounts.people : $(".pane-host", mounts.map);
+      let trigger = source?.contains(profileTrigger) && !profileTrigger.closest("[hidden]") ? profileTrigger : null;
+      if (!trigger && preserveChart && profileTrigger?.hasAttribute("data-chart-row")) {
+        trigger = [...source.querySelectorAll(".people-chart [data-profile]")].find(n => n.dataset.profile === profileTrigger.dataset.profile && n.dataset.affiliation === profileTrigger.dataset.affiliation);
+      }
+      if (returnToEvent) revealReaderTarget($(".pane .head", mounts.map));
+      const fallback = preserveChart ? $("#atlas-org-search", mounts.people) : $(".pane h3", mounts.map) || $("#atlas-search", mounts.map);
+      (trigger || fallback)?.focus({ preventScroll: true });
     }
     if (preserveChart) scrollTo({ top: pageY, behavior: "auto" });
     hideTip();
   }
   function previewProfile(trigger, ev) {
-    if (!trigger || !trigger.closest(".atlas")) return;
+    if (!trigger || !trigger.closest(".atlas") || trigger.closest(".profile-results")) return;
     showTip(ev, profilePreview(trigger.dataset.profile, trigger.dataset.affiliation)); trigger.setAttribute("aria-describedby", "atlas-preview");
   }
 
@@ -1291,7 +1712,8 @@
   /* ---------- events ---------- */
   document.addEventListener("click", (ev) => {
     const t = ev.target.closest("[data-ev],[data-ev-reveal],[data-ev-card],[data-org],[data-route],[data-route-show],[data-route-stop],[data-route-step],.connection-hit,[data-explain-connection],[data-lane],[data-nav],[data-zoom],[data-act],[data-profile],[data-era]");
-    if (!t || !t.closest(".atlas")) return;
+    const isStartLink = t?.hasAttribute("data-route") && t.closest(".atlas-start");
+    if (!t || (!t.closest(".atlas") && !isStartLink)) return;
     if (t.tagName === "A" && (ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || t.target === "_blank")) return;
     if (t.tagName === "A") ev.preventDefault();
     const d = t.dataset;
@@ -1299,14 +1721,17 @@
     else if (d.routeStop || d.routeStep) {
       const available = routeAvailable(), index = available.indexOf(state.selected), next = d.routeStop || available[index < 0 ? 0 : index + Number(d.routeStep)];
       if (!available.includes(next)) return;
-      select(next, { keepEra: true });
-      const control = d.routeStep ? mounts.map.querySelector(`[data-route-step="${d.routeStep}"]:not(:disabled)`) : [...mounts.map.querySelectorAll(".route-stops [data-route-stop]")].find((n) => n.dataset.routeStop === next);
-      (control || $(".pane h3", mounts.map))?.focus({ preventScroll: true });
+      if (d.routeStop && d.routeStop === state.selected) {
+        t.closest(".route-stop-list").open = false;
+        readSelected();
+        return;
+      }
+      select(next, { keepEra: true, card: true, trigger: t });
     }
     else if (d.profile) openProfile(d.profile, { trigger: t, affiliationIndex: d.affiliation, dock: t.closest('[data-atlas="map"]') ? "timeline" : "people" });
     else if (d.era != null) browseEra(d.era === "all" ? null : Number(d.era));
     // A people-tab profile stays open when one of its events opens on the map, so the tab shows it again on return.
-    else if (d.ev || d.evReveal || d.evCard) select(d.ev || d.evReveal || d.evCard, { card: true });
+    else if (d.ev || d.evReveal || d.evCard) select(d.ev || d.evReveal || d.evCard, { card: true, trigger: t });
     else if (d.nav) step(Number(d.nav), state.selected, { card: true });
     else if (d.lane) {
       state.lanes.has(d.lane) ? state.lanes.delete(d.lane) : state.lanes.add(d.lane);
@@ -1323,11 +1748,11 @@
       if (matchMedia("(max-width: 860px)").matches || rect.top < workspaceInset() || rect.bottom > innerHeight) {
         revealReaderTarget($(".route-body", mounts.routes));
         heading.focus({ preventScroll: true });
-      }
+      } else $(`[data-route-show="${CSS.escape(d.routeShow)}"]`, mounts.routes)?.focus({ preventScroll: true });
     }
     else if (d.route) {
       const route = D.threads.find((x) => x.id === d.route); if (!route) return;
-      traceRoute(route);
+      traceRoute(route, { stop: d.routeEntry, read: Boolean(isStartLink || d.routeEntry), trigger: t });
     } else if (d.org) {
       const org = orgById.get(d.org); if (!org) return;
       saveHistory(true, true); setPanel("map"); state.org = org; state.route = null; state.query = ""; state.queryInput = ""; state.selected = null; state.era = null; state.profile = null; renderProfile();
@@ -1335,33 +1760,41 @@
       syncControls(); renderMap(); renderPane(); const first = matches()[0]; if (first) scrollMapTo(first.id, false); updateOverview(); saveHistory();
       $(".context", mounts.map).scrollIntoView({ behavior: SMOOTH, block: "start" });
     } else if (d.act === "leave-route") {
-      saveHistory(true, true); state.route = null;
+      saveHistory(true, true, t); state.route = null;
       syncControls(); renderMap(); renderPane(); saveHistory();
-      $(".pane h3", mounts.map)?.focus({ preventScroll: true });
-    } else if (d.act === "close-connection") closeConnection();
-    else if (d.act === "open-profile-choice") { const picker = $("#atlas-profile-select", mounts.people); if (picker && picker.value) openProfile(picker.value, { trigger: t, dock: "people" }); }
+      if (state.selected) readSelected();
+      else {
+        const heading = $(".browser-heading h3", mounts.map);
+        revealReaderTarget(heading);
+        heading?.focus({ preventScroll: true });
+      }
+    } else if (d.act === "restore-route" && state.route) traceRoute(state.route, { read: true, trigger: t });
+    else if (d.act === "close-connection") closeConnection();
     else if (d.act === "close-profile" || d.act === "return-event") closeProfile();
     else if (d.act === "clear") resetView();
     else if (d.act === "deselect") clearSelection(true);
-    else if (d.act === "locate") {
-      scrollMapTo(state.selected, false); updateOverview();
-      $(".chart-column", mounts.map).scrollIntoView({ behavior: SMOOTH, block: "start" });
-      const node = mapSvg.querySelector(".node.sel"); if (node) node.focus({ preventScroll: true });
+    else if (d.act === "locate") revealMap();
+    else if (d.act === "show-sources") {
+      const heading = $("#atlas-event-sources", mounts.map);
+      revealReaderTarget(heading);
+      heading?.focus({ preventScroll: true });
     }
   });
-  // A route lights its events on the map and opens its first stop. From a link it scrolls to the map; from the URL it only sets state.
+  // A route lights its events on the map and opens its first stop, or the stop linked from the URL.
   function traceRoute(route, opts = {}) {
-    if (opts.history !== false) saveHistory(true, true);
+    if (opts.history !== false) saveHistory(true, true, opts.trigger);
     state.route = route; state.org = null; state.query = ""; state.queryInput = ""; state.selected = null; state.connection = null; connectionHover = null; connectionFocus = null; state.focus = route.event_ids[0]; state.era = null;
+    if (state.routeShown !== route.id) { state.routeShown = route.id; renderRoutes(); }
     if (state.profile && state.profileDock === "timeline") { state.profile = null; state.affiliationIndex = null; renderProfile(); }
     route.event_ids.forEach((id) => { const e = byId.get(id); if (e) state.lanes.add(e.lane); });
-    const first = routeAvailable()[0];
-    if (first) select(first, { history: false, keepEra: true });
+    const available = routeAvailable();
+    const stop = available.includes(opts.stop) ? opts.stop : available[0];
+    if (stop && opts.read && opts.history !== false && splitWorkspace.matches) collapseComputeGuide();
+    if (stop) select(stop, { history: false, keepEra: true });
     else { syncControls(); renderMap(); renderPane(); }
     updateOverview(); if (opts.history !== false) saveHistory();
-    if (opts.scroll === false) return;
-    $(".controls", mounts.map).scrollIntoView({ behavior: SMOOTH, block: "start" });
-    const firstNode = mapSvg.querySelector('.node[tabindex="0"]'); if (firstNode) firstNode.focus({ preventScroll: true });
+    if (opts.read && stop) readSelected();
+    else revealMap();
     hideTip();
   }
   const connectionControl = (target) => target.closest(".connection-hit, [data-connection-row]");
@@ -1375,6 +1808,7 @@
   document.addEventListener("focusout", (ev) => { const trigger = ev.target.closest("[data-profile]"); if (trigger) { hideTip(); trigger.removeAttribute("aria-describedby"); } });
   document.addEventListener("keydown", (ev) => {
     if (ev.key === "Escape") {
+      if (ev.defaultPrevented || !ev.target.closest(".atlas")) return;
       hideTip();
       // In a field with text, Escape first clears the field (the browser does this for search inputs) and nothing else. A slider always has a value, so it is exempt.
       if (/INPUT|TEXTAREA/.test(ev.target.tagName) && ev.target.type !== "range" && ev.target.value) return;
@@ -1392,27 +1826,26 @@
     const node = ev.target.closest(".node"), from = node ? node.dataset.eventId : state.selected || state.focus;
     // Arrow keys walk the map one event at a time; after the first open card they rewrite one history entry, so Back skips the walk.
     if (ev.key === "ArrowRight" || ev.key === "ArrowLeft") { ev.preventDefault(); step(ev.key === "ArrowRight" ? 1 : -1, from, { focus: true, replace: true }); }
-    if (ev.key === "Home" || ev.key === "End") { const seq = stepSequence(); if (seq.length) { ev.preventDefault(); select(seq[ev.key === "Home" ? 0 : seq.length - 1], { focus: true, keepEra: Boolean(state.route), replace: true }); } }
+    if (ev.key === "Home" || ev.key === "End") { const seq = stepSequence(); if (seq.length) { ev.preventDefault(); select(seq[ev.key === "Home" ? 0 : seq.length - 1], { focus: true, keepEra: true, replace: true }); } }
   });
 
   mountMap(); renderRoutes(); renderPeople(); renderIndex();
   function fromHash() {
     let id; try { id = decodeURIComponent(location.hash.slice(1)); } catch (_) { return; }
     const section = Object.keys(tabIds).find(k => tabIds[k] === id);
-    if (section) { setPanel(section); return; }
+    if (section) { setPanel(section); revealReaderTarget(document.getElementById(id)); return; }
     const [routeId, stop] = id.split("/");
     const route = D.threads.find((t) => t.id === routeId);
     if (route) {
       // "#thread-id" starts the route (again); "#thread-id/event-id" opens that stop of it.
-      if (state.route !== route || (!stop && state.selected !== routeAvailable()[0])) traceRoute(route, { history: false, scroll: false });
-      if (stop && route.event_ids.includes(stop) && state.selected !== stop) select(stop, { history: false, keepEra: true, card: true });
+      traceRoute(route, { history: false, read: true, stop });
       return;
     }
     const profile = profileFromHash(id);
-    if (profile && profileRecord(profile) && state.profile !== profile) openProfile(profile, { history: false, focus: false, reveal: true, dock: "people" });
-    else if (byId.has(id) && (id !== state.selected || (state.profile && state.profileDock === "timeline") || state.tab !== "map")) select(id, { history: false, card: true });
+    if (profile && profileRecord(profile)) openProfile(profile, { history: false, focus: false, reveal: true, dock: "people" });
+    else if (byId.has(id)) select(id, { history: false, card: true });
   }
-  function restoreSnapshot(saved) {
+  function restoreSnapshot(saved, fromHistory = false) {
     if (!saved) return false;
     state.selected = byId.has(saved.selected) ? saved.selected : null; state.focus = state.selected;
     const connection = connectionByKey.get(saved.connection);
@@ -1422,19 +1855,57 @@
     state.lanes = new Set(saved.lanes || D.lanes.map((l) => l.id));
     state.era = Number.isInteger(saved.era) && D.eras[saved.era] ? saved.era : null;
     state.profile = profileRecord(saved.profile) ? saved.profile : null; state.profileDock = saved.profileDock || "people"; state.affiliationIndex = saved.affiliationIndex == null ? null : saved.affiliationIndex;
+    profileTrigger = null;
     state.routeShown = saved.routeShown || state.routeShown;
     preservedMapScroll = saved.scrollLeft || 0;
     setPanel(saved.tab || (state.profile && state.profileDock === "people" ? "people" : "map"));
     preservedMapScroll = saved.scrollLeft || 0;
-    const picker = $("#atlas-profile-select", mounts.people); if (picker) { picker.dataset.choice = ""; picker.value = [...picker.options].some((o) => o.value === state.profile) ? state.profile : ""; }
     syncControls(); renderMap(); renderPane(); renderProfile(); renderRoutes(); mapScroll.scrollLeft = saved.scrollLeft || 0; updateOverview();
     const list = $(".event-scroll-list", mounts.map); if (list) list.scrollTop = saved.listScrollTop || 0;
+    const connections = $(".conn-group", mounts.map), steps = $(".route-stop-list", mounts.map);
+    if (connections && saved.connectionsOpen != null) connections.open = saved.connectionsOpen;
+    if (steps && saved.stepsOpen != null) steps.open = saved.stepsOpen;
+    const guide = $(".compute-guide", mounts.map);
+    if (guide && saved.computeGuideOpen != null) guide.open = saved.computeGuideOpen;
+    if (state.profile && profilePanel) profilePanel.scrollTop = saved.profileScrollTop || 0;
+    if (fromHistory) restoreReadingPosition(saved);
     return true;
   }
-  // Back and Forward fire popstate and then hashchange; once the snapshot is restored, the hash has nothing left to do.
-  let restoredHash = null;
-  addEventListener("popstate", (ev) => { restoredHash = restoreSnapshot(ev.state && ev.state.atlas) ? location.hash : (fromHash(), null); });
-  addEventListener("hashchange", () => { if (restoredHash === location.hash) { restoredHash = null; return; } restoredHash = null; fromHash(); saveHistory(true, true); });
+  function restoreReadingPosition(saved) {
+    const link = saved.returnLink;
+    const list = link && Object.hasOwn(returnLists, link.list) && returnLists[link.list];
+    const origin = list && $(`${list[0]} [${list[1]}="${CSS.escape(link.event)}"]`);
+    const heading = saved.tab === "map" && saved.route && $(".pane h3", mounts.map);
+    const target = origin || heading;
+    if (!target) return;
+    // The browser restores its fragment position and focus after popstate.
+    const previousFocus = document.activeElement;
+    requestAnimationFrame(() => {
+      const focus = document.activeElement;
+      if (!target.isConnected || (focus !== previousFocus && focus !== document.body && focus !== document.getElementById(tabIds[saved.tab]))) return;
+      target.focus({ preventScroll: true });
+      const box = target.getBoundingClientRect();
+      if (box.top < readerInset(target) - 2 || box.bottom > innerHeight) {
+        if (origin) {
+          target.scrollIntoView({ block: "nearest", behavior: "instant" });
+          if (target.getBoundingClientRect().top < readerInset(target)) revealReaderTarget(target, "instant");
+        } else {
+          revealReaderTarget($(".route-stepper", mounts.map) || target, "instant");
+        }
+      }
+    });
+  }
+  // A fragment navigation may fire both events. Apply the saved entry or parse its URL once.
+  let appliedHash = null;
+  function applyHash() { fromHash(); saveHistory(true, true); }
+  addEventListener("popstate", (ev) => {
+    if (!restoreSnapshot(ev.state?.atlas, true)) applyHash();
+    appliedHash = location.hash;
+  });
+  addEventListener("hashchange", () => {
+    if (appliedHash !== location.hash) applyHash();
+    appliedHash = null;
+  });
   // MathJax loads after this script: once it is ready, redraw the parts that show formulas.
   addEventListener("atlas-math-ready", () => {
     document.head.appendChild(MathJax.svgStylesheet());
@@ -1443,8 +1914,5 @@
     if (inPane) $(".pane h3", mounts.map)?.focus({ preventScroll: true });
   });
   setPanel("map");
-  const restoredOnLoad = restoreSnapshot(history.state && history.state.atlas);
-  fromHash(); saveHistory(true, true);
-  // A fresh load of "#thread-id" has no scroll position to restore, so bring the route's map into view.
-  if (!restoredOnLoad && state.route && state.tab === "map" && location.hash.slice(1) === state.route.id) $(".controls", mounts.map).scrollIntoView({ block: "start" });
+  if (!restoreSnapshot(history.state?.atlas)) applyHash();
 })();

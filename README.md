@@ -41,6 +41,12 @@ The Projects page opens the presentation at `/piramid-observatory/`. Before rend
 
 To update the presentation, set `revision` in `scripts/build-observatory.sh` to the full published commit SHA and run `quarto render`. The blog tracks the build instruction. Generated assets are published with the rendered site in `gh-pages`.
 
+## AI Research Atlas
+
+The [Atlas](https://sergeisoly.github.io/projects/ai-research-atlas/) traces the history of AI safety across four timelines. A reading route connects a question to dated events, diagrams and primary sources. The [project directory](projects/ai-research-atlas/) contains the page, public dataset and browser code.
+
+Run `node --test tests/atlas-links.test.cjs` to check the links between the introductory questions, routes, event cards and profiles. Run `quarto preview` to try the map and its keyboard controls on the site. The older `/posts/ai-research-atlas/` address forwards bookmarks to the project, including their selected event.
+
 ## Add an entry
 
 Create `posts/<descriptive-slug>/index.qmd`:
