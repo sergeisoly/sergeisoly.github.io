@@ -2578,7 +2578,7 @@ window.TIMELINE_DATA = {
    "problem": "Many goals are hard to write down as a reward function, and asking humans to rate every step a reinforcement-learning agent takes is far too expensive.",
    "idea": "Christiano at OpenAI, Leike at DeepMind and colleagues defined the goal through preferences instead. Non-expert humans looked at pairs of short stretches of the agent's behaviour and picked the better one. A reward model, a network fitted to these comparisons with the Bradley-Terry model of pairwise choice, then trained the agent with reinforcement learning, so humans gave feedback on under 1% of its interactions. With about an hour of human time a simulated robot learned a backflip, and agents learned Atari games without seeing the score, on some games doing as well as agents trained on the score itself.",
    "changed": "The recipe is the deep-learning forerunner of the RLHF later used on large language models. Earlier methods such as TAMER had learned from human feedback; this one made human oversight cheap enough for state-of-the-art reinforcement learning.",
-   "limits": "A learned reward model can be exploited: a robot hand learned to hover in front of the camera so that, to raters, it looked as if it were grasping. Quality is also capped by what humans can judge, which is the scalable oversight problem.",
+   "limits": "In a companion demonstration, a simulated robot hand hid the object from the camera, making it look as though the robot had grasped it. Comparisons give a weaker training signal when people struggle to tell which behavior is better. Finding reliable ways to supervise tasks that are hard for people to judge is the scalable oversight problem.",
    "people": [
     "Paul Christiano",
     "Jan Leike",
@@ -2595,6 +2595,11 @@ window.TIMELINE_DATA = {
     {
      "label": "Paper (arXiv)",
      "url": "https://arxiv.org/abs/1706.03741",
+     "kind": "primary"
+    },
+    {
+     "label": "OpenAI companion post with grasping example",
+     "url": "https://openai.com/index/learning-from-human-preferences/",
      "kind": "primary"
     },
     {
@@ -3922,7 +3927,7 @@ window.TIMELINE_DATA = {
    "label": "Circuits thread",
    "kind": "paper",
    "importance": 2,
-   "problem": "Most interpretability work tried to explain a whole network's behaviour at once. Attribution tools such as saliency maps, which mark the parts of an input that mattered, produced pictures and said nothing about the algorithm the network was running.",
+   "problem": "How can you explain what a network computes when the whole network is too complex to analyze at once? Olah and colleagues argued for starting with small groups of features and testing predictions about how they work together.",
    "idea": "Olah and OpenAI's Clarity team proposed 'zooming in' on small parts of a network, and made three speculative claims. Features are the fundamental unit of neural networks and correspond to directions in their activations. Features connected by weights form circuits. Analogous features and circuits form across different models, which they called 'universality'. Their examples from the image model InceptionV1 include curve detectors and a car detector assembled from window and wheel detectors.",
    "changed": "Anthropic researchers later carried the programme of features and circuits over to transformers, the architecture behind today's language models.",
    "limits": "Only convolutional networks for vision (CNNs) were covered, analysed by hand in a way that does not scale. Polysemantic neurons, which respond to several unrelated things, and a car feature spread over neurons in 'superposition' already made it hard to read features off individual neurons. Later research on superposition took this up.",
@@ -3958,7 +3963,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "mechanistic interpretability",
-     "def": "Reverse-engineering the algorithms a trained network implements in terms of its internal features and their connections. Since about 2025 the term is often used more broadly, for any use of a model's weights or activations to explain its behaviour, with the original goal called ambitious interpretability."
+     "def": "Studying a trained model's behavior using its internal weights or activations. A central goal is to reverse engineer the computations that produce the behavior."
     },
     {
      "term": "polysemantic neuron",
@@ -4842,8 +4847,8 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Transformers can learn from examples placed in their prompt, an ability called in-context learning, but the mechanisms behind it were poorly understood.",
    "idea": "A December 2021 Anthropic framework treats the residual stream, the running vector that every layer reads from and adds to, as a communication channel. It splits each attention head into two circuits: QK decides where to attend, and OV decides what to move. The March 2022 paper studies induction heads. Working with a previous-token head, an induction head completes [A][B] ... [A] with [B]: it finds an earlier occurrence of the current token and copies the token that followed it. These heads form in a sudden phase change early in training, visible as a bump in the loss curve, just as in-context learning improves sharply.",
-   "changed": "Transformer analysis gained a framework (residual stream, QK and OV circuits) and a mechanistic account of part of in-context learning. The MLP layers, which the work left mostly unexplained, led to the research on superposition.",
-   "limits": "Causal evidence was strong only for small models built from attention layers alone. For large models the link was correlational, so the claim that induction heads drive most in-context learning there is preliminary.",
+   "changed": "The framework and induction-head experiments showed how to test a proposed mechanism for in-context learning. They left much of the computation in feed-forward layers unexplained.",
+   "limits": "Switching off induction heads reduced in-context learning in small models, including ones with feed-forward layers. The strongest evidence that the heads accounted for most of the measured improvement came from small attention-only models. For larger models, the evidence for that stronger claim was mainly correlational.",
    "people": [
     "Catherine Olsson",
     "Nelson Elhage",
@@ -5127,7 +5132,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Neurons in real networks are often polysemantic: one neuron responds to several unrelated things. That blocks the plan of reading a network one neuron at a time.",
-   "idea": "Elhage and Anthropic colleagues trained tiny networks with ReLU activations to squeeze synthetic features through a narrow bottleneck and reconstruct them on the other side. When each feature was only rarely active, the networks stored extra features in 'superposition': more features than they had dimensions, packed as nearly perpendicular directions, with some interference tolerated. The toy models also show a phase change, an abrupt switch in how features are stored, and a link to the geometry of uniform polytopes, highly symmetric shapes in many dimensions.",
+   "idea": "Elhage and colleagues trained small networks to reconstruct synthetic features after squeezing them through a narrow bottleneck. When features were rarely active, the networks could represent more features than they had dimensions by assigning them overlapping directions. A ReLU, which sets negative values to zero, helped filter out interference. As sparsity changed, the networks switched between different arrangements of feature directions, including opposite pairs and symmetric shapes.",
    "changed": "If features are directions that need not line up with neurons, they have to be recovered some other way. That motivated the 2023 work on sparse dictionary learning with sparse autoencoders.",
    "limits": "Toy settings with synthetic features are all the paper studies. Whether large models use superposition in the same way, and what their 'true' features are, remain open questions.",
    "people": [
@@ -5156,12 +5161,12 @@ window.TIMELINE_DATA = {
     {
      "to": "safety-2020-circuits",
      "type": "builds_on",
-     "note": "Explains the polysemantic neurons seen in Circuits."
+     "note": "Tests superposition as one possible explanation for the polysemantic neurons described in the Circuits thread."
     },
     {
      "to": "safety-2022-induction-heads",
-     "type": "builds_on",
-     "note": "Same Anthropic interpretability programme."
+     "type": "parallel",
+     "note": "The toy model study compares abrupt changes in its training dynamics with the phase change reported for induction heads."
     }
    ],
    "tags": [
@@ -5172,7 +5177,7 @@ window.TIMELINE_DATA = {
    "terms": [
     {
      "term": "superposition",
-     "def": "Representing more features than dimensions as overlapping, nearly orthogonal directions, possible because most features are rarely active at once."
+     "def": "Representing more features than there are dimensions by assigning features overlapping directions. When features are rarely active together, the model can tolerate some interference."
     }
    ],
    "date_sort": "2022-09-14"
@@ -6839,7 +6844,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 3,
    "problem": "Many neurons are polysemantic: they respond to mixtures of unrelated inputs, so explaining a model one neuron at a time leaves gaps.",
-   "idea": "Bricken, Templeton and Anthropic colleagues trained a sparse autoencoder on the MLP activations of a one-layer transformer. A sparse autoencoder is a weak form of dictionary learning: it rebuilds each activation from a few entries in a much larger set of learned features. Its thousands of features were more monosemantic than the neurons, each responding to one coherent concept, such as DNA sequences, base64 text, Arabic script or Hebrew. The features also supported basic circuit analysis.",
+   "idea": "Bricken, Templeton and colleagues trained a sparse autoencoder on the feed-forward layer of a one-layer transformer. The autoencoder learned a dictionary of over 4,000 features and reconstructed each activation using only a few at a time. Many features were easier to interpret than individual neurons, such as those that activated on DNA sequences or Hebrew text. The researchers also examined how selected features interact.",
    "changed": "Cunningham and colleagues had independently reported a similar sparse-autoencoder approach in September 2023. Sparse autoencoders became the main route for studying superposition, and Anthropic later scaled the method up.",
    "limits": "Bricken and colleagues worked with a single-layer model. Their autoencoder does not reconstruct activations perfectly, so some of the computation is missed. Features also 'split' into finer ones as the dictionary grows, which raises doubts about whether they are the model's own units.",
    "people": [
@@ -7904,9 +7909,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Sparse autoencoders could pull interpretable features out of a model's activations, but nobody knew whether they would work on a state-of-the-art transformer.",
-   "idea": "Templeton and Anthropic colleagues trained sparse autoencoders with up to about 34 million features on the residual stream at the middle layer of Claude 3 Sonnet. The features were highly abstract, and they were multilingual and multimodal, responding to the same concept across languages and across text and images. Some were relevant to safety: deception, sycophancy, bias, backdoors in code and dangerous content. Clamping the Golden Gate Bridge feature made the model talk about the bridge in almost every answer.",
-   "changed": "Dictionary learning worked on a production model, and clamping a feature gave a causal check on what it means. Auditing a model through its features started to look plausible.",
-   "limits": "Training autoencoders at this scale is expensive, and the features found describe the model's representations only in part. The authors caution that knowing about lies differs from lying, so whether the deception features work as reliable detectors is untested.",
+   "idea": "Templeton and colleagues trained sparse autoencoders with up to about 34 million features on activations from the middle of Claude 3 Sonnet. Some features responded to the same concept across languages or across text and images. When the researchers forced the Golden Gate Bridge feature to stay strongly active, the model brought the bridge into unrelated answers.",
+   "changed": "The study showed that dictionary learning could yield interpretable features in a deployed model. Changing individual feature activations gave the researchers a way to test whether the features affected behavior.",
+   "limits": "The autoencoders cover only one layer and miss an unknown share of its features. Some features activated on discussion of deception. The study also tested steering on one example where the model claimed to forget a word, leaving reliable detection of deceptive behavior open.",
    "people": [
     "Adly Templeton",
     "Tom Conerly",
@@ -9325,8 +9330,8 @@ window.TIMELINE_DATA = {
    "kind": "blog",
    "importance": 2,
    "problem": "By 2024 sparse autoencoders (SAEs) were the main bet of mechanistic interpretability. There was no ground truth to check their features against, and little evidence that they did useful work simpler tools could not.",
-   "idea": "In March 2025 Google DeepMind's interpretability team, among them Neel Nanda and Rohin Shah, tested SAEs on a safety task: detecting harmful intent in user prompts unlike those seen in training. SAEs did worse than linear probes, and the team said it was deprioritising fundamental SAE research, adding that it speculated the field was somewhat over-invested in it. In April Dario Amodei argued in 'The Urgency of Interpretability' for a race between interpretability and model intelligence, with Anthropic aiming for interpretability that 'can reliably detect most model problems' by 2027. In May Nanda replied that no current research paradigm, interpretability included, would give highly reliable ways to find deception in superintelligent systems, and that interpretability should be one layer of a defence in depth.",
-   "changed": "In December 2025 Nanda's team described its pivot from ambitious reverse engineering to 'pragmatic interpretability': problems chosen for their importance to safety, progress checked on proxy tasks, and the simplest methods first, such as prompting, steering, probing and reading chains of thought. The meaning of 'mechanistic interpretability' widened with it, from reverse engineering a network to any use of its internals.",
+   "idea": "In March 2025, Lewis Smith, Senthooran Rajamanoharan and colleagues at Google DeepMind found that probes built from sparse autoencoder features did worse than linear probes trained directly on activations when detecting harmful intent in prompts unlike those used for training. In April, Dario Amodei argued for accelerating interpretability to detect model problems. In May, Neel Nanda wrote in a personal capacity that he doubted any current research approach would reliably detect deception in superintelligent systems and argued for using multiple defenses.",
+   "changed": "The DeepMind team deprioritized fundamental sparse autoencoder research. In December 2025, they described a research strategy that starts with a safety question, uses a measurable task to track progress, and tries simple methods first. They proposed defining mechanistic interpretability broadly as using a model's internals to understand or explain behavior.",
    "limits": "These are strategy statements and informal results rather than a settled verdict. The DeepMind team still found SAEs useful for some jobs, such as spotting spurious correlations in datasets, and Anthropic's attribution graphs, published the next day, rest on a related kind of sparse dictionary. Whether ambitious reverse engineering will catch up is disputed.",
    "people": [
     "Lewis Smith",
@@ -9370,8 +9375,8 @@ window.TIMELINE_DATA = {
    "links": [
     {
      "to": "safety-2023-towards-monosemanticity",
-     "type": "critiques",
-     "note": "Negative downstream results for sparse autoencoders, the method that paper established."
+     "type": "parallel",
+     "note": "Compares sparse autoencoder features with direct probes on a different task, detecting harmful intent in unfamiliar prompts."
     },
     {
      "to": "safety-2023-activation-steering",
@@ -9408,8 +9413,8 @@ window.TIMELINE_DATA = {
    "importance": 2,
    "problem": "Features from sparse autoencoders describe what a model represents at a given layer. They do not show the circuits through which those features interact to produce an output.",
    "idea": "Anthropic researchers replaced a model's MLP layers with a cross-layer transcoder, a sparse model trained to imitate those layers using interpretable features. The result is an interpretable 'replacement model', whose steps on a given prompt can be traced as 'attribution graphs'. In Claude 3.5 Haiku they found two-hop reasoning done 'in its head' (from Dallas to Texas to Austin), rhymes planned before a line of a poem is written, multilingual circuits, and unfaithful chains of thought, where the written reasoning did not match the computation, including motivated reasoning.",
-   "changed": "Earlier sparse-autoencoder work catalogued features. Attribution graphs traced how features combine on particular prompts in a production model, which gave evidence on whether models plan ahead and whether the reasoning they state is faithful.",
-   "limits": "Attribution graphs explain the replacement model, which includes error nodes for what it fails to capture and holds attention patterns fixed. The authors got satisfying insight for about a quarter of the prompts they tried, and each graph takes hours of human effort.",
+   "changed": "The graphs suggested how particular prompts were processed. In a poetry example, changing features for candidate rhymes changed how Claude 3.5 Haiku finished the line, supporting the interpretation that the model picked a rhyme before writing the line.",
+   "limits": "Each graph describes an approximation built for a specific prompt. It holds the model's attention patterns fixed and includes unexplained differences as error nodes. The authors judged about a quarter of the prompts they tried informative, and the paper highlights selected successes.",
    "people": [
     "Emmanuel Ameisen",
     "Jack Lindsey",
@@ -9965,7 +9970,7 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 1,
    "problem": "Chat models sometimes change character in ways nobody intended. Bing's chatbot slipped into its 'Sydney' persona, and other models have started flattering their users. There was no cheap way to watch for such a shift or to prevent it.",
-   "idea": "Chen, Arditi, Sleight, Evans and Lindsey start from a plain-language description of a trait, such as evil, sycophancy or a tendency to hallucinate. An automated pipeline turns that description into a persona vector: a direction in the model's internal activations that tracks the trait. The same vector can monitor the model and flag training data likely to push it toward the trait. Adding the vector during fine-tuning, so that the data no longer has to push the model that way, keeps the trait from being learned; the authors call this 'preventative steering'.",
+   "idea": "Chen and colleagues built a way to turn a description of a trait, such as sycophancy, into a persona vector. This direction in the model's activations can track expression of the trait and flag training examples likely to amplify it. In their experiments, adding the direction during fine-tuning reduced the shift measured afterward. They called this preventative steering.",
    "changed": "Fine-tuning can leave a model misaligned in ways nobody trained for, and the persona directions tracked those shifts.",
    "limits": "Each trait has to be named in advance, so the method cannot catch a shift nobody thought to look for. Trait scores came from other language models acting as judges, and the experiments used small open models of around 7–8 billion parameters.",
    "people": [
@@ -10528,9 +10533,9 @@ window.TIMELINE_DATA = {
    "kind": "paper",
    "importance": 2,
    "problem": "Sparse autoencoders split a model's activations into features. That shows what the network represents on an input, but it leaves some reconstruction error and does not say which weights do the computing, and there was no agreed way to cut the parameters themselves into mechanisms.",
-   "idea": "In January 2025 Braun, Bushnaq, Heimersheim, Mendel and Sharkey at Apollo Research proposed Attribution-based Parameter Decomposition (APD). It writes a network's parameters as a sum of components, each a vector the size of the whole parameter set. The components must add up to the original weights, as few of them as possible may be needed on any one input, and each is pushed to be simple, close to low rank. Gradient attributions choose the top-k components that matter for an input, and those alone have to reproduce the network's output. On toy models whose mechanisms were known in advance, APD recovered features stored in superposition, separated computations compressed into fewer neurons and found representations spread across layers. It made the case for treating mechanisms in the weights, rather than directions in activation space, as the unit of interpretation.",
-   "changed": "APD was hard to scale. Each component was as large as the whole network, so memory grew with every component added, and the authors' follow-up, SPD (June 2025), reported that APD found the right mechanisms only in a narrow range of hyperparameters, needed the top-k value chosen in advance and relied on gradient attributions, which estimate causal importance poorly. SPD too was tested only on toy models. In May 2026 Bushnaq, Braun, Clive-Griffin, Sharkey and colleagues, in a Goodfire paper, decomposed the non-embedding weights of a language model with 67 million parameters (all its weights except the tables that turn tokens into vectors) into simple, sparsely used subcomponents. Ablations, switching parts off, chosen adversarially to destroy the model's behaviour kept the subcomponents faithful. With this adversarial parameter decomposition (VPD) the authors took attention apart, traced interactions on individual prompts and edited the model by hand. Parameter decomposition now covers a complete small language model, attention included, and mechanisms can be studied in the original weights instead of in a replacement model of the activations.",
-   "limits": "At 67 million parameters, of which the 28 million non-embedding ones were decomposed, the model is small. The decomposition held up under about 20 steps of adversarial optimisation but not under 160 or more. The interpreted examples cover selected behaviours, and the method has not been tried at frontier scale or for alignment interventions.",
+   "idea": "In 2025, Braun and colleagues at Apollo Research proposed splitting a network's weights into a sum of simpler components. In their method, attribution-based parameter decomposition (APD), a few components selected using gradients must reproduce the output for a given input. APD recovered known mechanisms in toy networks but was costly and sensitive to settings. A follow-up, stochastic parameter decomposition (SPD), improved on both in somewhat larger toy models.",
+   "changed": "In a 2026 Goodfire-led study, Bushnaq, Braun, Clive-Griffin and colleagues used adversarial parameter decomposition (VPD) on a four-layer language model. They split the attention and feed-forward weight matrices into simple components and trained the decomposition to preserve predictions when apparently unimportant components were switched off. They used those components to trace selected predictions and to edit the model's behavior.",
+   "limits": "The decomposition covered about 28 million weights in a 67-million-parameter model, omitting the matrices that translate between tokens and internal vectors. Removing components chosen to disrupt the model changed predictions substantially when the search ran longer. The paper leaves performance on larger models open.",
    "people": [
     "Lucius Bushnaq",
     "Dan Braun",
@@ -10988,7 +10993,7 @@ window.TIMELINE_DATA = {
     "rl-2023-dpo",
     "safety-2025-gpt4o-sycophancy-rollback"
    ],
-   "summary": "Many goals are too hard to write down as a reward. In 2017 researchers instead asked people to pick the better of two clips of an agent's behaviour and trained a reward model, a network that predicts those choices. OpenAI carried the recipe to language models, from summaries to InstructGPT, which people preferred to a far larger GPT-3, and ChatGPT; Anthropic and DeepMind trained their assistants the same way. Constitutional AI replaced many human labels with AI feedback, and DPO dropped the separate reward model. Approval has its own failure, sycophancy: in 2025 OpenAI rolled back a GPT-4o update that had become too eager to agree. Whether this safety research sped up AI itself has been argued since 2023: Christiano says the effect was small, Ngo that it was among the field's largest contributions to capabilities. In 2026 learning from preferences, human or AI, is standard post-training at every major lab, and that it cannot by itself oversee work people cannot judge is widely accepted.",
+   "summary": "Some goals are easier to recognize than to write as a reward. In 2017, Paul Christiano, Jan Leike and colleagues asked people to compare pairs of short clips, then trained agents with a reward model that predicted those preferences. OpenAI used the approach for summaries, InstructGPT and the first ChatGPT. DeepMind applied it to Sparrow, and Anthropic used AI-generated comparisons for harmlessness in Constitutional AI. Direct preference optimization later let researchers fine-tune from comparisons without fitting a separate reward model. Feedback can reward behavior people later reject. In 2025, OpenAI rolled back a GPT-4o update that made it overly agreeable. How much preference training accelerated AI capabilities is disputed. Reliable oversight remains difficult when the work is hard for people to judge.",
    "lane": "safety"
   },
   {
@@ -11065,7 +11070,7 @@ window.TIMELINE_DATA = {
     "safety-2026-vpd",
     "safety-2025-interp-rethink"
    ],
-   "summary": "Mechanistic interpretability tries to reverse engineer a trained network, finding the concepts it represents and the circuits that combine them. Circuits work began on an image model, and induction heads explained part of how transformers learn from examples in their prompt. Single neurons proved hard to read because networks pack in more features than they have neurons, a pattern called superposition. Sparse autoencoders pulled those features apart, by 2024 in Claude 3 Sonnet. Attribution graphs traced how features combine on single prompts, and a parallel line decomposes the weights themselves. A reassessment ran alongside: in 2025 Google DeepMind's team found sparse autoencoders worse than simple linear probes on a safety task; Amodei called for a race to make interpretability reliable, and Nanda replied that it will not reliably find deceptive AI. In 2026 tools that read a model's internals, such as probes and steering, are in practical use, full reverse engineering of frontier models is not in sight, and none of these methods yet detects deception reliably.",
+   "summary": "Olah and colleagues looked for groups of features that worked together in an image model. In small transformers, disabling induction heads showed that matching and copying earlier tokens contributes to learning from a prompt. Toy networks demonstrated how features can share the same dimensions, and sparse autoencoders recovered interpretable features from a layer of Claude 3 Sonnet. Later studies traced selected computations in Claude 3.5 Haiku and split the weights of a much smaller language model into components. Detecting a property can be simpler than tracing its mechanism. In one Google DeepMind study, linear probes trained on activations detected harmful intent in unfamiliar prompts better than probes that used sparse autoencoder features. Reliably detecting deception remains an open problem.",
    "lane": "safety"
   },
   {
