@@ -21,7 +21,7 @@ listing:
 
 <h3 class="listing-title"><a href="/interesearch/">Some Studies of Language Model Weight Edits</a></h3>
 
-Two studies of language-model weight edits: selectively weakening one language and reusing learned repairs for new fine-tunes trained on data from the same distribution.
+How much does an edit that weakens German also hurt Dutch? Two studies in a small language model measure the spillover and test whether a repair learned for one fine-tune can help another.
 
 <p class="entry-topics">interpretability · model editing</p>
 
