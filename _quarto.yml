@@ -2,7 +2,9 @@ project:
   type: website
   output-dir: _site
   pre-render: sh scripts/build-observatory.sh
-  post-render: python3 scripts/prune-empty-drafts.py
+  post-render:
+    - python3 scripts/prune-empty-drafts.py
+    - python3 scripts/add-observatory-analytics.py
   resources:
     - robots.txt
     - /posts/ai-research-atlas/index.html
@@ -42,10 +44,7 @@ website:
 
 format:
   html:
-    include-in-header:
-      text: |
-        <script data-goatcounter="https://sergeisoly.goatcounter.com/count"
-                async src="https://gc.zgo.at/count.js" data-external="1"></script>
+    include-in-header: _includes/goatcounter.html
     theme: cosmo
     html-math-method: plain
     css: styles.css
